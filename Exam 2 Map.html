@@ -364,7 +364,9 @@
 
 <script src="data/info-topics.js?v=202610021900"></script>
 <script src="data/concept-nodes.js?v=202610022200"></script>
-<script src="data/basics.js?v=202610100300"></script>
+<script src="data/node-topics.js?v=202610110100"></script>
+<script src="weak.js?v=202610110100"></script>
+<script src="data/basics.js?v=202610110100"></script>
 <script src="data/concept-keys.js?v=202610022200"></script>
 <script src="data/notes-short/22.js?v=202610021900"></script>
 <script src="data/notes-short/23.js?v=202610021900"></script>
@@ -395,22 +397,7 @@
   var EXAM_Q = { '22': 5, '24': 8, '25': 5, '27': 3, '28': 5, '29': 6, '30': 8, '34': 20 };
 
   // Which notes topics each Concept Map breakdown belongs to.
-  var NODE_TOPICS = {
-    promo: [['22', /smoking cessation/i]], packyr: [['22', /questions to ask/i]], 'resp-age': [['22', /overview/i], ['22', /questions to ask/i]],
-    asthma: [['24', /^asthma/i]], copd: [['24', /^COPD/i]], pna: [['25', /^pneumonia/i]],
-    'cv-age': [['27', /overview/i], ['27', /physical exam/i]],
-    'ecg-r': [['28', /recording the rhythm/i], ['28', /nine-step/i], ['28', /conduction system/i]],
-    'ecg-a': [['28', /^the rhythms/i], ['28', /atrial dysrhythmias/i], ['28', /sinus dysrhythmias/i]],
-    hf: [['29', /overview/i], ['29', /types, staging/i], ['29', /assessing heart failure/i], ['29', /afterload and preload/i], ['29', /contractility/i], ['29', /devices, surgery/i], ['29', /drug classes/i]],
-    htn: [['30', /hypertension — mechanisms/i], ['27', /blood pressure regulation/i]],
-    pad: [['30', /peripheral arterial/i], ['30', /revascularization/i], ['30', /arteriosclerosis/i]],
-    dvt: [['30', /^VTE/i], ['30', /venous thromboembolism/i]],
-    labs: [['33', /head-to-toe/i], ['33', /overview/i], ['34', /overview/i]],
-    anemia: [['34', /anemias — cause to cue/i], ['34', /anemias — cause by cause/i]],
-    sickle: [['34', /sickle/i]],
-    osa: [['23', /sleep apnea/i]], uaw: [['23', /overview/i], ['23', /obstruction|epistaxis/i], ['23', /laryngectomy|head and neck/i]],
-    clot: [['33', /hemostasis/i], ['30', /^VTE/i]], leuk: [['34', /^leukemia/i], ['34', /white cell cancers/i], ['34', /stem cell/i]]
-  };
+  var NODE_TOPICS = window.NODE_TOPICS;
 
   var byId = {}; TOPICS.forEach(function (t) { byId[t.id] = t; });
   var nodeById = {}; NODES.forEach(function (n) { nodeById[n.id] = n; });
@@ -1036,19 +1023,7 @@
     }, Promise.resolve());
     return drugsLoaded;
   }
-  function weakPlan() {
-    var S = null; try { S = JSON.parse(localStorage.getItem('e2-mastery-v3') || 'null'); } catch (e) {}
-    if (!S || !S.report) return null;
-    // Only the last test: no cumulative mastery, so earlier tests and the old pre-test don't add topics.
-    var R = S.report, stat = {};
-    (R.recs || []).forEach(function (r) { (r.topics || []).forEach(function (t) {
-      var x = stat[t] || (stat[t] = { n: 0, miss: 0, loss: 0, recs: [] }); x.n++;
-      if (r.e < 1) { x.miss++; x.loss += 1 - r.e; x.recs.push(r); }
-    }); });
-    var rank = Object.keys(stat).filter(function (t) { return stat[t].miss && byId[t]; })
-      .sort(function (a, b) { return stat[b].loss - stat[a].loss || stat[b].miss - stat[a].miss; });
-    return { R: R, stat: stat, rank: rank };
-  }
+  function weakPlan() { return window.E2Weak.plan(function (t) { return !!byId[t]; }); }
   function lines(t) { return esc(t == null ? '' : t); }
   function drugHtml(id) {
     var D = window.DRUG_DATA || { drugs: [] }, d = D.drugs.filter(function (x) { return x.id === id; })[0];
@@ -1074,7 +1049,7 @@
     var when = new Date(R.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
     var h = '<div class="wk-head"><div class="kicker">From Mastery test ' + esc(R.no) + ' · ' + esc(when) + ' · ' + esc(R.pct) + '%</div><h1>Your weak areas, in full</h1>' +
       '<p class="lead">Only this test — nothing from earlier tests or the pre-test. For each topic you missed or guessed: what you missed, the notes in full, why it works, the breakdowns and the drugs. Just scroll.</p>' +
-      '<p style="margin:10px 0 0"><button class="pill" data-weak-close>← Back to the map</button> <a class="pill" href="Exam 2 Mastery Loop.dc.html">Mastery test →</a></p></div>';
+      '<p style="margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px"><a class="pill on" href="Exam 2 Mastery Loop.dc.html#redo">Redo my misses →</a> <a class="pill gold" href="Exam 2 Practice.html">Practice these topics →</a> <button class="pill" data-weak-close>← Back to the map</button></p></div>';
     if (!plan.rank.length) { bdMode = saveBd; quiz = saveQuiz; return h + '<p class="lead">No weak topics in your last test. Nice work.</p>'; }
     h += '<nav class="glass wk-toc" style="padding:12px">' + plan.rank.map(function (t, i) { return '<a href="#weak-' + t + '">' + (i + 1) + '. ' + esc(byId[t].title) + '</a>'; }).join('') + '</nav>';
     if ((R.looked || []).length && window.E2Say) {
@@ -1137,7 +1112,7 @@
   window.addEventListener('storage', function (e) { if (e.key === 'e2-focus' || e.key === 'e2-focus-saved') refresh(); });
 })();
 </script>
-<script src="nav.js?v=202610100300"></script>
-<script src="say.js?v=202610100300"></script>
+<script src="nav.js?v=202610110100"></script>
+<script src="say.js?v=202610110100"></script>
 </body>
 </html>

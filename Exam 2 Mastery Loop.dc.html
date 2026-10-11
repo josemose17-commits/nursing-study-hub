@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610100300"></script>
-<script src="./say.js?v=202610100300"></script>
+<script src="./nav.js?v=202610110100"></script>
+<script src="./say.js?v=202610110100"></script>
 </head>
 <body>
 <x-dc>
@@ -61,7 +61,7 @@
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
 <script src="data/glossary.js?v=202610022100"></script>
-<script src="data/extra-questions.js?v=202610100300"></script>
+<script src="data/extra-questions.js?v=202610110100"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
 <script src="data/explain/24.js?v=202610040900"></script>
@@ -85,7 +85,7 @@
 
   <div style="display:flex;flex-direction:column;gap:4px;">
     <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent);">Exam 2 · Mastery test</div>
-    <div style="font-family:var(--font-heading);font-weight:500;font-size:26px;line-height:1.15;">One adaptive test that follows your mistakes</div>
+    <div style="font-family:var(--font-heading);font-weight:500;font-size:26px;line-height:1.15;">{{ title }}</div>
   </div>
 
   <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
@@ -139,8 +139,27 @@
 
           <sc-if value="{{ rp.hasStudy }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:10px;">
-              <a class="btn btn-primary" href="Exam 2 Map.html#weak" style="align-self:flex-start;text-decoration:none;">Read all my weak areas in full →</a>
-              <div style="font-size:12.5px;color:var(--color-neutral-400);margin-top:-4px;">One page, nothing to tap open, only from this test: what you missed, the notes in full, why it works, the breakdowns and the drugs, for every topic you missed.</div>
+              <div style="display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:12px;background:var(--color-surface);border:1px solid var(--color-accent-700);">
+                <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-300);">Work on what you missed</div>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;">
+                  <button class="btn btn-primary" onClick="{{ redo }}">{{ redoLabel }}</button>
+                  <a class="btn btn-secondary" href="Exam 2 Practice.html" style="text-decoration:none;">Practice my weak topics →</a>
+                  <a class="btn btn-ghost" href="Exam 2 Map.html#weak" style="text-decoration:none;">Read it all in full</a>
+                </div>
+                <div style="font-size:12.5px;color:var(--color-neutral-400);"><b style="font-weight:500;color:var(--color-neutral-200);">Redo</b> asks each question you missed again, then a new one on the same point, until you get it right twice in a row. <b style="font-weight:500;color:var(--color-neutral-200);">Practice</b> has you build the chains, fill in the notes and match it up for the topics you missed. Only this test counts.</div>
+                <sc-if value="{{ hasPractice }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:1px solid var(--color-neutral-800);">
+                    <div style="font-size:14px;color:var(--color-neutral-100);">{{ pr.line }}</div>
+                    <sc-if value="{{ pr.hasShaky }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size:12.5px;color:var(--color-neutral-400);">Still shaky:</div>
+                      <sc-for list="{{ pr.shaky }}" as="k" hint-placeholder-count="2">
+                        <div style="font-size:13px;color:var(--color-neutral-200);padding-left:10px;border-left:2px solid var(--color-accent-700);">{{ k.t }}</div>
+                      </sc-for>
+                      <div><button class="btn btn-secondary" onClick="{{ pr.again }}">{{ pr.againLabel }}</button></div>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </div>
               <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-300);">What to study next — in this order</div>
               <sc-for list="{{ rp.study }}" as="s" hint-placeholder-count="3">
                 <div style="display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:12px;background:var(--color-surface);border:1px solid {{ s.bd }};">
@@ -879,7 +898,12 @@ class Component extends DCLogic {
       if (!S) S = this.migrate();
       S = Object.assign(this.blank(), S || {});
       if (S.test && !S.test.items.every(p => this.byId[p.id])) S.test = null;
-      this.setState({ ready: true, S });
+      // Exam 2 Mastery Loop.dc.html#redo (from the Map's weak areas or the Practice page) opens a redo round.
+      this.setState({ ready: true, S }, () => {
+        if (location.hash !== '#redo') return;
+        history.replaceState(null, '', location.pathname + location.search);
+        if (S.test && S.test.redo) this.upd(S => { S.phase = 'test'; }); else this.startRedo();
+      });
       return true;
     };
     if (!tryLoad()) this._poll = setInterval(() => { if (tryLoad()) clearInterval(this._poll); }, 150);
@@ -1146,6 +1170,21 @@ class Component extends DCLogic {
     this.setState({ draft: '' }); window.scrollTo(0, 0);
   }
 
+  // Redo my misses: each question missed on the last test again, then a new question on the same point.
+  // A point is fixed after two right answers in a row (a guess counts half, so it doesn't count).
+  startRedo(ids) {
+    const S0 = this.state.S;
+    const list = (ids || ((S0.report || {}).recs || []).filter(r => r.e < 1).sort((a, b) => a.e - b.e).map(r => r.id)).filter(id => this.byId[id]);
+    if (!list.length) return;
+    if (S0.test && !window.confirm('Discard the test in progress and start a redo round?')) return;
+    this.upd(S => {
+      const T = { no: S.testNo || 0, redo: list, from: (S.report || {}).no, len: list.length, base: 0, items: [], resp: {}, scores: {}, checked: {}, conf: {}, why: {}, follow: {}, depth: {}, revealed: {}, queue: [], followN: 0, focus: 'Redo', at: Date.now(), root: {}, fix: {}, tries: {} };
+      const P = this.nextItem(S, T); if (P) T.items.push(P);
+      S.test = T; S.phase = 'test';
+    });
+    this.setState({ draft: '' }); window.scrollTo(0, 0);
+  }
+
   nextItem(S, T) {
     const done = T.items.filter(p => T.checked[p.id]).length;
     const due = T.queue.findIndex(f => f.due <= done);
@@ -1210,6 +1249,7 @@ class Component extends DCLogic {
   }
 
   pickBase(S, T) {
+    if (T.redo) { const it = this.byId[T.redo[T.base]]; if (!it) return null; const P = this.present(it); T.root[P.id] = it.id; return P; }
     if (this.guideMode) { const P = this.pickGuide(S, T); if (P) return P; }
     const used = new Set(T.items.map(p => p.id));
     const asked = {}; T.items.forEach(p => ((this.byId[p.id] || {}).topics || []).forEach(t => { asked[t] = (asked[t] || 0) + 1; }));
@@ -1256,7 +1296,7 @@ class Component extends DCLogic {
     const used = new Set(T.items.map(p => p.id)), W = new Set(f.words);
     let near = this.pool.filter(x => !used.has(x.id) && x.id !== f.from && (x.topics.some(t => f.topics.includes(t)) || (x.drugs || []).some(d => f.drugs.includes(d.id))));
     if (this.guideMode && ((this.byId[f.from] || {}).guide || []).length) { const g = near.filter(x => x.guide.length); if (g.length) near = g; }
-    if (!near.length) return null;
+    if (!near.length) { if (f.root && (T.fix[f.root] || 0) >= 1) T.fix[f.root] = 2; return null; }
     const scoreOf = x => {
       const L = S.log[x.id] || {};
       return overlap(W, x.words) * (f.wrong ? 2.5 : 1) + ((x.drugs || []).some(d => f.drugs.includes(d.id)) ? 4 : 0) + (x.fmt !== f.fmt ? 1.5 : 0)
@@ -1264,7 +1304,8 @@ class Component extends DCLogic {
     };
     const best = near.map(x => [x, scoreOf(x)]).sort((a, b) => b[1] - a[1])[0][0];
     const P = this.present(best);
-    T.follow[P.id] = f.wrong ? (f.sure ? 'Follow-up · you were sure but missed it' : 'Follow-up on what you missed') : 'Follow-up · you were guessing';
+    T.follow[P.id] = f.root ? (f.wrong ? 'Same point, new question · you missed it' : 'Same point, new question') : f.wrong ? (f.sure ? 'Follow-up · you were sure but missed it' : 'Follow-up on what you missed') : 'Follow-up · you were guessing';
+    if (f.root) T.root[P.id] = f.root;
     T.depth[P.id] = f.depth; T.followN++;
     return P;
   }
@@ -1298,6 +1339,14 @@ class Component extends DCLogic {
     const T = S.test, it = this.byId[P.id] || {}, e = eff(T, P.id);
     this.learn(S, it, e);
     const L = S.log[P.id] || (S.log[P.id] = { seen: 0 }); L.seen++; L.lastTest = T.no; L.last = e;
+    if (T.redo) {
+      const r = T.root[P.id] || P.id, done = T.items.filter(p => T.checked[p.id]).length;
+      T.root[P.id] = r; T.tries[r] = (T.tries[r] || 0) + 1;
+      T.fix[r] = e >= 1 ? (T.fix[r] || 0) + 1 : 0;
+      // Right: a new question on the point after one other question. Missed: it comes back after three.
+      if (T.fix[r] < 2 && T.tries[r] < 6) { const f = this.makeFollow(S, T, P, 0); f.root = r; f.due = done + (e >= 1 ? 1 : 3); T.queue.push(f); }
+      return;
+    }
     const cap = Math.ceil(T.len * 0.6), depth = T.depth[P.id] || 0;
     // Ch 23 and 33 are not on the study guide: a miss there gets no follow-ups, so they stay a few questions.
     const offGuide = this.guideMode && !(it.guide || []).length && (P.ch === '23' || P.ch === '33');
@@ -1317,6 +1366,14 @@ class Component extends DCLogic {
   finish() {
     const T0 = this.state.S.test; if (!T0) return;
     if (!T0.items.some(p => T0.checked[p.id])) { this.upd(S => { S.test = null; S.phase = 'home'; }); return; }
+    if (T0.redo) {
+      this.upd(S => {
+        const T = S.test, shaky = T.redo.filter(r => (T.fix[r] || 0) < 2);
+        S.practice = { at: Date.now(), from: T.from, total: T.redo.length, fixed: T.redo.length - shaky.length, n: T.items.filter(p => T.checked[p.id]).length, shaky };
+        S.test = null; S.phase = 'home';
+      });
+      window.scrollTo(0, 0); return;
+    }
     this.upd(S => {
       const T = S.test, done = T.items.filter(p => T.checked[p.id]);
       const byCh = {}; let raw = 0;
@@ -1362,7 +1419,8 @@ class Component extends DCLogic {
     const S = this.state.S, ready = this.state.ready && S;
     const A = 'var(--color-accent)', N = 'var(--color-neutral-700)';
     const v = { loading: !ready, isHome: !!ready && (S.phase !== 'test' || !S.test), isTest: !!ready && S.phase === 'test' && !!S.test };
-    if (!ready) return Object.assign(v, { q: {}, fb: {}, rp: {}, dots: [], lenOpts: [], history: [], studyMap: [], nodeMap: [], legend: [], confOpts: [], howItWorks: [] });
+    v.title = v.isTest && S.test.redo ? 'Redo my misses — until each one sticks' : 'One adaptive test that follows your mistakes';
+    if (!ready) return Object.assign(v, { q: {}, fb: {}, rp: {}, pr: { shaky: [] }, dots: [], lenOpts: [], history: [], studyMap: [], nodeMap: [], legend: [], confOpts: [], howItWorks: [] });
     v.goHome = () => this.upd(S => { S.phase = 'home'; });
     v.start = () => this.startTest(); v.check = () => this.check(); v.next = () => this.next(); v.finish = () => this.finish();
     v.resume = () => this.upd(S => { S.phase = 'test'; });
@@ -1377,7 +1435,7 @@ class Component extends DCLogic {
     v.focusNote = this.focusEmpty ? 'Your focus on the map has too few questions yet, so this test uses everything.' : fl === 'Everything' ? 'Every test covers all ' + GUIDE_N + ' Exam 2 study-guide items, in the exam’s chapter mix.' : 'Following your focus — ' + fl + '.';
     v.focusLink = fl === 'Everything' ? 'Pick topics on the map' : 'Change on the map';
     v.canResume = !!S.test;
-    v.resumeLabel = S.test ? 'Resume test — question ' + S.test.items.length : '';
+    v.resumeLabel = S.test ? (S.test.redo ? 'Resume the redo round' : 'Resume test — question ' + S.test.items.length) : '';
     v.startLabel = (S.test ? 'Start a new ' : 'Start a ') + len + '-question test';
     const weak = Object.keys(S.mastery.topics).filter(t => this.byTopic[t] && S.mastery.topics[t].m != null).sort((a, b) => S.mastery.topics[a].m - S.mastery.topics[b].m).slice(0, 3).filter(t => S.mastery.topics[t].m < 0.85);
     v.leanNote = weak.length ? 'Leans toward your weakest: ' + weak.map(t => this.topicTitle(t)).join(' · ') : 'Your first test samples every topic; later tests lean toward what you miss.';
@@ -1406,7 +1464,7 @@ class Component extends DCLogic {
     v.nodeMap = NODES.map(n => chip((M.nodes[n[0]] || {}).m, n[1], 'Exam 2 Map.html#n-' + n[0], 'Open the breakdown'));
     const R = S.report;
     v.hasReport = !!R; v.noReport = !R;
-    v.rp = {};
+    v.rp = {}; v.pr = { shaky: [] }; v.hasPractice = false;
     if (R) {
       const recs = R.recs || [], missed = recs.filter(r => r.e < 1);
       const prev = S.history.length > 1 ? S.history[S.history.length - 2] : null;
@@ -1426,6 +1484,16 @@ class Component extends DCLogic {
           .concat(drugs.filter(d => this.drugById[d]).map(d => ({ label: 'Drug card: ' + this.drugById[d].n, href: 'Exam 2 Drug Cards.dc.html#drug-' + d })));
         return { n: i + 1, title: this.topicTitle(t) + ' · Ch ' + t.slice(0, 2), stat: s.miss + ' of ' + s.n + ' missed or guessed', gap: gaps.length ? 'Mostly: ' + gaps.join('; ') + '.' : '', hasGap: gaps.length > 0, rules, links, bd: i === 0 ? 'var(--color-accent-500)' : 'var(--color-neutral-800)' };
       });
+      v.redo = () => this.startRedo(); v.redoLabel = 'Redo my ' + missed.length + ' miss' + (missed.length === 1 ? '' : 'es') + ' →';
+      const Pr = S.practice;
+      v.hasPractice = !!(Pr && Pr.from === R.no);
+      if (v.hasPractice) {
+        const recOf = id => recs.find(r => r.id === id) || {};
+        v.pr = { line: 'Last redo round: fixed ' + Pr.fixed + ' of ' + Pr.total + ' (' + Pr.n + ' questions).' + (Pr.shaky.length ? '' : ' Every miss fixed — take a new test to check it holds.'),
+          hasShaky: Pr.shaky.length > 0,
+          shaky: Pr.shaky.map(id => { const r = recOf(id); return { t: this.topicTitle((r.topics || [])[0] || '') + ' — ' + qt(r.q || '') }; }),
+          again: () => this.startRedo(Pr.shaky), againLabel: 'Redo the ' + Pr.shaky.length + ' shaky one' + (Pr.shaky.length === 1 ? '' : 's') + ' →' };
+      }
       const verdict = R.pct >= 90 ? 'Exam-ready on what this test covered.' : R.pct >= 75 ? 'Close — tighten the topics below.' : 'The topics below are where the points are.';
       v.rp = {
         when: 'Test ' + R.no + ' · ' + new Date(R.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
@@ -1449,6 +1517,11 @@ class Component extends DCLogic {
       v.qNum = T.items.length;
       v.progLabel = Math.min(T.base, T.len) + ' of ' + T.len + ' · ' + T.followN + ' follow-up' + (T.followN === 1 ? '' : 's') + (T.queue.length ? ' · ' + T.queue.length + ' coming' : '');
       v.progW = Math.round(100 * Math.min(1, doneN / Math.max(1, T.len + T.followN + T.queue.length))) + '%';
+      if (T.redo) {
+        const fixedN = T.redo.filter(r => (T.fix[r] || 0) >= 2).length;
+        v.progLabel = 'Redo · ' + fixedN + ' of ' + T.redo.length + ' fixed' + (T.queue.length ? ' · ' + T.queue.length + ' coming back' : '');
+        v.progW = Math.round(100 * fixedN / T.redo.length) + '%';
+      }
       const isRecall = P.kind === 'recall';
       const hidden = !ck && !isRecall && rf && (P.kind === 'single' || P.kind === 'sata') && !T.revealed[P.id] && R == null;
       v.checked = ck; v.askConf = !ck && !isRecall; v.showCheck = !ck && !isRecall;
@@ -1498,6 +1571,11 @@ class Component extends DCLogic {
           hasFollow: queued > 0, follow: queued > 1 ? 'You were sure and missed it, so two follow-ups on this point are coming — the first in two questions.' : 'A follow-up on ' + (full ? 'this topic' : 'exactly what you missed') + ' is coming in two questions — a different question, not this one again.',
           full: !isRecall
         };
+        if (T.redo) {
+          const fx = T.fix[T.root[P.id] || P.id] || 0;
+          fbBase.hasFollow = true;
+          fbBase.follow = fx >= 2 ? 'Fixed — right twice in a row.' : queued ? (full && !guess ? 'Right. A new question on this point comes next — get it right again to fix it.' : 'This point comes back in a few questions, as a new question.') : 'Moving on — this point stays on your shaky list to redo later.';
+        }
         if (isRecall) v.fb = fbBase;
         else {
           const X = this.fresh(P), bd = breakdown(X, R), terms = termsFor(P);
@@ -1512,7 +1590,7 @@ class Component extends DCLogic {
           });
         }
         const more = T.base < T.len || T.queue.length > 0;
-        v.nextLabel = more ? 'Next question' : 'Finish — see report';
+        v.nextLabel = more ? 'Next question' : T.redo ? 'Finish the round' : 'Finish — see report';
       }
       v.dots = T.items.map((p, i) => { const c = T.checked[p.id], e = eff(T, p.id); const isCur = i === T.items.length - 1; return { n: i + 1, label: 'Q' + (i + 1) + (T.follow[p.id] ? ' · follow-up' : '') + (c ? ' · ' + Math.round(e * 100) + '%' : ''), bd: isCur ? A : (T.follow[p.id] ? 'var(--color-accent-700)' : N), bg: !c ? 'transparent' : e >= 1 ? 'var(--color-neutral-700)' : 'var(--color-accent-800)', fg: !c ? 'var(--color-neutral-400)' : e >= 1 ? 'var(--color-neutral-100)' : 'var(--color-accent-100)' }; });
     }

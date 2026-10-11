@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610110100"></script>
-<script src="./say.js?v=202610110100"></script>
+<script src="./nav.js?v=202610120100"></script>
+<script src="./say.js?v=202610120100"></script>
 </head>
 <body>
 <x-dc>
@@ -61,7 +61,7 @@
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
 <script src="data/glossary.js?v=202610022100"></script>
-<script src="data/extra-questions.js?v=202610110100"></script>
+<script src="data/extra-questions.js?v=202610120100"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
 <script src="data/explain/24.js?v=202610040900"></script>
@@ -143,10 +143,9 @@
                 <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-300);">Work on what you missed</div>
                 <div style="display:flex;flex-wrap:wrap;gap:10px;">
                   <button class="btn btn-primary" onClick="{{ redo }}">{{ redoLabel }}</button>
-                  <a class="btn btn-secondary" href="Exam 2 Practice.html" style="text-decoration:none;">Practice my weak topics →</a>
                   <a class="btn btn-ghost" href="Exam 2 Map.html#weak" style="text-decoration:none;">Read it all in full</a>
                 </div>
-                <div style="font-size:12.5px;color:var(--color-neutral-400);"><b style="font-weight:500;color:var(--color-neutral-200);">Redo</b> asks each question you missed again, then a new one on the same point, until you get it right twice in a row. <b style="font-weight:500;color:var(--color-neutral-200);">Practice</b> has you build the chains, fill in the notes and match it up for the topics you missed. Only this test counts.</div>
+                <div style="font-size:12.5px;color:var(--color-neutral-400);">10 at a time, worst first. Get one right and it’s fixed; miss it and a new question on that point comes back two questions later. Only this test counts.</div>
                 <sc-if value="{{ hasPractice }}" hint-placeholder-val="{{ false }}">
                   <div style="display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:1px solid var(--color-neutral-800);">
                     <div style="font-size:14px;color:var(--color-neutral-100);">{{ pr.line }}</div>
@@ -155,7 +154,7 @@
                       <sc-for list="{{ pr.shaky }}" as="k" hint-placeholder-count="2">
                         <div style="font-size:13px;color:var(--color-neutral-200);padding-left:10px;border-left:2px solid var(--color-accent-700);">{{ k.t }}</div>
                       </sc-for>
-                      <div><button class="btn btn-secondary" onClick="{{ pr.again }}">{{ pr.againLabel }}</button></div>
+                      <sc-if value="{{ pr.showAgain }}" hint-placeholder-val="{{ false }}"><div><button class="btn btn-secondary" onClick="{{ pr.again }}">{{ pr.againLabel }}</button></div></sc-if>
                     </sc-if>
                   </div>
                 </sc-if>
@@ -443,6 +442,17 @@
           <div style="font-size:17px;color:{{ fb.fg }};">{{ fb.title }}</div>
           <sc-if value="{{ fb.hasFollow }}" hint-placeholder-val="{{ false }}">
             <div style="font-size:13.5px;color:var(--color-accent-100);padding:8px 12px;border-radius:8px;background:var(--color-accent-900);border:1px solid var(--color-accent-700);">{{ fb.follow }}</div>
+          </sc-if>
+          <sc-if value="{{ fb.quick }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <sc-if value="{{ fb.quickRule }}" hint-placeholder-val="{{ true }}">
+                <div class="fbsec fbrule" style="border-top:0;padding-top:0;"><div class="fbh">Rule to carry into the exam</div><div class="fbt">{{ fb.rule0 }}</div></div>
+              </sc-if>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                <button class="btn btn-primary" onClick="{{ next }}">{{ nextLabel }}</button>
+                <button class="btn btn-ghost" onClick="{{ fb.toggleMore }}">{{ fb.moreLabel }}</button>
+              </div>
+            </div>
           </sc-if>
           <sc-if value="{{ fb.full }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:14px;">
@@ -831,6 +841,7 @@ function termsFor(P) {
 // ---------- Mastery test: one adaptive test, follow-ups on misses, a report and a study map ----------
 const STORE = 'e2-mastery-v3', OLD_STORE = 'e2-mastery-loop-v2';
 const LENS = [20, 40, 60];
+const REDO_N = 10; // misses per redo round
 const FMT_LABEL = { ngn: 'NGN', trad: 'Traditional', drug: 'Drug question', myth: 'Myth check', recall: 'Active recall' };
 // The mix a test aims for, so every format keeps coming up.
 const MIX = { ngn: 0.30, trad: 0.28, drug: 0.22, myth: 0.08, recall: 0.12 };
@@ -899,11 +910,8 @@ class Component extends DCLogic {
       S = Object.assign(this.blank(), S || {});
       if (S.test && !S.test.items.every(p => this.byId[p.id])) S.test = null;
       // Exam 2 Mastery Loop.dc.html#redo (from the Map's weak areas or the Practice page) opens a redo round.
-      this.setState({ ready: true, S }, () => {
-        if (location.hash !== '#redo') return;
-        history.replaceState(null, '', location.pathname + location.search);
-        if (S.test && S.test.redo) this.upd(S => { S.phase = 'test'; }); else this.startRedo();
-      });
+      this.setState({ ready: true, S }, () => this.onHash());
+      window.addEventListener('hashchange', () => this.onHash());
       return true;
     };
     if (!tryLoad()) this._poll = setInterval(() => { if (tryLoad()) clearInterval(this._poll); }, 150);
@@ -1170,19 +1178,37 @@ class Component extends DCLogic {
     this.setState({ draft: '' }); window.scrollTo(0, 0);
   }
 
-  // Redo my misses: each question missed on the last test again, then a new question on the same point.
-  // A point is fixed after two right answers in a row (a guess counts half, so it doesn't count).
-  startRedo(ids) {
-    const S0 = this.state.S;
-    const list = (ids || ((S0.report || {}).recs || []).filter(r => r.e < 1).sort((a, b) => a.e - b.e).map(r => r.id)).filter(id => this.byId[id]);
-    if (!list.length) return;
-    if (S0.test && !window.confirm('Discard the test in progress and start a redo round?')) return;
+  // Redo my misses: the questions missed on the last test, 10 at a time, worst first.
+  // Right (and not a guess) = fixed. Missed = a new question on the same point two questions later, up to three tries.
+  // kind: 'next' carries on with the misses not tried yet, 'shaky' redoes the ones still shaky, 'all' starts over.
+  redoState() {
+    const S = this.state.S, R = S.report; if (!R) return null;
+    const all = (R.recs || []).filter(r => r.e < 1).sort((a, b) => a.e - b.e).map(r => r.id).filter(id => this.byId[id]);
+    const P = S.practice && S.practice.from === R.no && Array.isArray(S.practice.rest) ? S.practice : null;
+    return { R, all, P, rest: P ? P.rest.filter(id => this.byId[id]) : all, shaky: P ? P.shaky.filter(id => this.byId[id]) : [], fixed: P ? P.fixed : [] };
+  }
+  onHash() {
+    if (location.hash !== '#redo' || !this.state.ready) return;
+    history.replaceState(null, '', location.pathname + location.search);
+    const S = this.state.S;
+    if (S.test && S.test.redo) this.upd(S => { S.phase = 'test'; }); else this.startRedo();
+  }
+  startRedo(kind) {
+    const st = this.redoState(); if (!st) return;
+    if (!kind) kind = st.rest.length ? 'next' : st.shaky.length ? 'shaky' : 'all';
+    const src = kind === 'shaky' ? st.shaky : kind === 'next' ? st.rest : st.all;
+    if (!src.length) return;
+    const round = src.slice(0, REDO_N);
+    const keep = kind === 'all' ? { fixed: [], shaky: [], rest: st.all.filter(id => !round.includes(id)) }
+      : kind === 'next' ? { fixed: st.fixed, shaky: st.shaky, rest: src.slice(REDO_N) }
+      : { fixed: st.fixed, shaky: src.slice(REDO_N), rest: st.rest };
+    if (this.state.S.test && !window.confirm('Discard the test in progress and start a redo round?')) return;
     this.upd(S => {
-      const T = { no: S.testNo || 0, redo: list, from: (S.report || {}).no, len: list.length, base: 0, items: [], resp: {}, scores: {}, checked: {}, conf: {}, why: {}, follow: {}, depth: {}, revealed: {}, queue: [], followN: 0, focus: 'Redo', at: Date.now(), root: {}, fix: {}, tries: {} };
+      const T = { no: S.testNo || 0, redo: round, keep, from: st.R.no, len: round.length, base: 0, items: [], resp: {}, scores: {}, checked: {}, conf: {}, why: {}, follow: {}, depth: {}, revealed: {}, queue: [], followN: 0, focus: 'Redo', at: Date.now(), root: {}, fix: {}, tries: {} };
       const P = this.nextItem(S, T); if (P) T.items.push(P);
       S.test = T; S.phase = 'test';
     });
-    this.setState({ draft: '' }); window.scrollTo(0, 0);
+    this.setState({ draft: '', more: false }); window.scrollTo(0, 0);
   }
 
   nextItem(S, T) {
@@ -1296,7 +1322,7 @@ class Component extends DCLogic {
     const used = new Set(T.items.map(p => p.id)), W = new Set(f.words);
     let near = this.pool.filter(x => !used.has(x.id) && x.id !== f.from && (x.topics.some(t => f.topics.includes(t)) || (x.drugs || []).some(d => f.drugs.includes(d.id))));
     if (this.guideMode && ((this.byId[f.from] || {}).guide || []).length) { const g = near.filter(x => x.guide.length); if (g.length) near = g; }
-    if (!near.length) { if (f.root && (T.fix[f.root] || 0) >= 1) T.fix[f.root] = 2; return null; }
+    if (!near.length) return null;
     const scoreOf = x => {
       const L = S.log[x.id] || {};
       return overlap(W, x.words) * (f.wrong ? 2.5 : 1) + ((x.drugs || []).some(d => f.drugs.includes(d.id)) ? 4 : 0) + (x.fmt !== f.fmt ? 1.5 : 0)
@@ -1317,8 +1343,9 @@ class Component extends DCLogic {
 
   check() {
     const S = this.state.S, P = this.cur(); if (!P || P.kind === 'recall') return;
-    if (!answered(P, S.test.resp[P.id]) || !S.test.conf[P.id] || S.test.checked[P.id]) return;
+    if (!answered(P, S.test.resp[P.id]) || (!S.test.conf[P.id] && !S.test.redo) || S.test.checked[P.id]) return;
     this.upd(S => {
+      if (S.test.redo && !S.test.conf[P.id]) S.test.conf[P.id] = 'sure';
       const T = S.test, sc = score(P, T.resp[P.id]);
       T.scores[P.id] = sc; T.checked[P.id] = true;
       if (sc < 1) T.why[P.id] = inferWhy(this.fresh(P), T.resp[P.id], this.byId[P.id]).map(x => x.k);
@@ -1342,9 +1369,9 @@ class Component extends DCLogic {
     if (T.redo) {
       const r = T.root[P.id] || P.id, done = T.items.filter(p => T.checked[p.id]).length;
       T.root[P.id] = r; T.tries[r] = (T.tries[r] || 0) + 1;
-      T.fix[r] = e >= 1 ? (T.fix[r] || 0) + 1 : 0;
-      // Right: a new question on the point after one other question. Missed: it comes back after three.
-      if (T.fix[r] < 2 && T.tries[r] < 6) { const f = this.makeFollow(S, T, P, 0); f.root = r; f.due = done + (e >= 1 ? 1 : 3); T.queue.push(f); }
+      // Right = fixed. Missed: a new question on the same point two questions later, up to three tries.
+      T.fix[r] = e >= 1 ? 2 : 0;
+      if (e < 1 && T.tries[r] < 3) { const f = this.makeFollow(S, T, P, 0); f.root = r; f.due = done + 2; T.queue.push(f); }
       return;
     }
     const cap = Math.ceil(T.len * 0.6), depth = T.depth[P.id] || 0;
@@ -1359,7 +1386,7 @@ class Component extends DCLogic {
     const P = this.cur(); if (!P || !this.state.S.test.checked[P.id]) return;
     let done = false;
     this.upd(S => { const N = this.nextItem(S, S.test); if (N) S.test.items.push(N); else done = true; });
-    this.setState({ draft: '' });
+    this.setState({ draft: '', more: false });
     if (done) this.finish(); else window.scrollTo(0, 0);
   }
 
@@ -1368,8 +1395,11 @@ class Component extends DCLogic {
     if (!T0.items.some(p => T0.checked[p.id])) { this.upd(S => { S.test = null; S.phase = 'home'; }); return; }
     if (T0.redo) {
       this.upd(S => {
-        const T = S.test, shaky = T.redo.filter(r => (T.fix[r] || 0) < 2);
-        S.practice = { at: Date.now(), from: T.from, total: T.redo.length, fixed: T.redo.length - shaky.length, n: T.items.filter(p => T.checked[p.id]).length, shaky };
+        const T = S.test, k = T.keep || { fixed: [], shaky: [], rest: [] };
+        const fixedNow = T.redo.filter(r => (T.fix[r] || 0) >= 2), shakyNow = T.redo.filter(r => !fixedNow.includes(r));
+        const uniq = a => a.filter((x, i) => a.indexOf(x) === i);
+        S.practice = { at: Date.now(), from: T.from, fixed: uniq(k.fixed.concat(fixedNow)), shaky: uniq(k.shaky.concat(shakyNow)).filter(r => !fixedNow.includes(r)), rest: k.rest,
+          last: { fixed: fixedNow.length, total: T.redo.length, n: T.items.filter(p => T.checked[p.id]).length } };
         S.test = null; S.phase = 'home';
       });
       window.scrollTo(0, 0); return;
@@ -1484,15 +1514,20 @@ class Component extends DCLogic {
           .concat(drugs.filter(d => this.drugById[d]).map(d => ({ label: 'Drug card: ' + this.drugById[d].n, href: 'Exam 2 Drug Cards.dc.html#drug-' + d })));
         return { n: i + 1, title: this.topicTitle(t) + ' · Ch ' + t.slice(0, 2), stat: s.miss + ' of ' + s.n + ' missed or guessed', gap: gaps.length ? 'Mostly: ' + gaps.join('; ') + '.' : '', hasGap: gaps.length > 0, rules, links, bd: i === 0 ? 'var(--color-accent-500)' : 'var(--color-neutral-800)' };
       });
-      v.redo = () => this.startRedo(); v.redoLabel = 'Redo my ' + missed.length + ' miss' + (missed.length === 1 ? '' : 'es') + ' →';
-      const Pr = S.practice;
-      v.hasPractice = !!(Pr && Pr.from === R.no);
-      if (v.hasPractice) {
-        const recOf = id => recs.find(r => r.id === id) || {};
-        v.pr = { line: 'Last redo round: fixed ' + Pr.fixed + ' of ' + Pr.total + ' (' + Pr.n + ' questions).' + (Pr.shaky.length ? '' : ' Every miss fixed — take a new test to check it holds.'),
-          hasShaky: Pr.shaky.length > 0,
-          shaky: Pr.shaky.map(id => { const r = recOf(id); return { t: this.topicTitle((r.topics || [])[0] || '') + ' — ' + qt(r.q || '') }; }),
-          again: () => this.startRedo(Pr.shaky), againLabel: 'Redo the ' + Pr.shaky.length + ' shaky one' + (Pr.shaky.length === 1 ? '' : 's') + ' →' };
+      const st = this.redoState() || { all: [], rest: [], shaky: [], fixed: [], P: null };
+      const nNext = Math.min(REDO_N, st.rest.length), nShaky = Math.min(REDO_N, st.shaky.length), plural = n => n === 1 ? '' : 'es';
+      v.redo = () => this.startRedo();
+      v.redoLabel = !st.P ? (st.all.length > REDO_N ? 'Redo my misses — first ' + REDO_N + ' of ' + st.all.length + ' →' : 'Redo my ' + st.all.length + ' miss' + plural(st.all.length) + ' →')
+        : st.rest.length ? 'Redo the next ' + nNext + ' miss' + plural(nNext) + ' →' : st.shaky.length ? 'Redo ' + nShaky + ' shaky one' + (nShaky === 1 ? '' : 's') + ' →' : 'Redo all ' + st.all.length + ' again →';
+      v.hasPractice = !!st.P;
+      if (st.P) {
+        const recOf = id => recs.find(r => r.id === id) || {}, L = st.P.last || {};
+        v.pr = { line: 'Fixed ' + st.fixed.length + ' of ' + st.all.length + ' misses' + (st.rest.length ? ' · ' + st.rest.length + ' not tried yet' : '') + (st.shaky.length ? ' · ' + st.shaky.length + ' still shaky' : '') + '.' +
+            (L.total ? ' Last round: ' + L.fixed + ' of ' + L.total + ' fixed in ' + L.n + ' questions.' : '') + (!st.rest.length && !st.shaky.length ? ' Every miss fixed — take a new test to check it holds.' : ''),
+          hasShaky: st.shaky.length > 0,
+          shaky: st.shaky.map(id => { const r = recOf(id); return { t: this.topicTitle((r.topics || [])[0] || '') + ' — ' + qt(r.q || '') }; }),
+          again: () => this.startRedo('shaky'), againLabel: 'Redo ' + nShaky + ' shaky one' + (nShaky === 1 ? '' : 's') + ' →',
+          showAgain: st.rest.length > 0 && st.shaky.length > 0 };
       }
       const verdict = R.pct >= 90 ? 'Exam-ready on what this test covered.' : R.pct >= 75 ? 'Close — tighten the topics below.' : 'The topics below are where the points are.';
       v.rp = {
@@ -1525,8 +1560,8 @@ class Component extends DCLogic {
       const isRecall = P.kind === 'recall';
       const hidden = !ck && !isRecall && rf && (P.kind === 'single' || P.kind === 'sata') && !T.revealed[P.id] && R == null;
       v.checked = ck; v.askConf = !ck && !isRecall; v.showCheck = !ck && !isRecall;
-      v.cantCheck = !answered(P, R) || !T.conf[P.id];
-      v.checkLabel = !answered(P, R) ? 'Check answer' : !T.conf[P.id] ? 'Pick: know it or guessing' : 'Check answer';
+      v.cantCheck = !answered(P, R) || (!T.conf[P.id] && !T.redo);
+      v.checkLabel = !answered(P, R) || T.redo ? 'Check answer' : !T.conf[P.id] ? 'Pick: know it or guessing' : 'Check answer';
       v.confOpts = [['sure', 'I know this'], ['guess', 'I’m guessing']].map(([k, label]) => { const on = T.conf[P.id] === k; return { label, bg: on ? 'var(--color-accent-900)' : 'transparent', bd: on ? A : N, onClick: () => this.setConf(k) }; });
       const mark = (sel, multi, isC) => {
         if (!ck) return { bg: sel ? 'var(--color-accent-900)' : 'transparent', bd: sel ? A : N, mr: multi ? '4px' : '50%', mf: sel ? A : 'transparent' };
@@ -1572,9 +1607,13 @@ class Component extends DCLogic {
           full: !isRecall
         };
         if (T.redo) {
-          const fx = T.fix[T.root[P.id] || P.id] || 0;
+          const fx = T.fix[T.root[P.id] || P.id] || 0, more = !!this.state.more;
           fbBase.hasFollow = true;
-          fbBase.follow = fx >= 2 ? 'Fixed — right twice in a row.' : queued ? (full && !guess ? 'Right. A new question on this point comes next — get it right again to fix it.' : 'This point comes back in a few questions, as a new question.') : 'Moving on — this point stays on your shaky list to redo later.';
+          fbBase.follow = fx >= 2 ? 'Fixed.' : queued ? 'This point comes back in two questions, as a new question.' : 'Moving on — this one goes on your shaky list.';
+          fbBase.quick = !isRecall; fbBase.full = !isRecall && more;
+          fbBase.quickRule = !more && !!P.rule; fbBase.rule0 = P.rule || '';
+          fbBase.moreLabel = more ? 'Hide the explanation' : 'Why? Full explanation';
+          fbBase.toggleMore = () => this.setState({ more: !more });
         }
         if (isRecall) v.fb = fbBase;
         else {

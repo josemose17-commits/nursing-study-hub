@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610120200"></script>
-<script src="./say.js?v=202610120200"></script>
+<script src="./nav.js?v=202610120300"></script>
+<script src="./say.js?v=202610120300"></script>
 </head>
 <body>
 <x-dc>
@@ -61,7 +61,7 @@
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
 <script src="data/glossary.js?v=202610022100"></script>
-<script src="data/extra-questions.js?v=202610120200"></script>
+<script src="data/extra-questions.js?v=202610120300"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
 <script src="data/explain/24.js?v=202610040900"></script>
@@ -121,6 +121,15 @@
           <button class="btn btn-primary" onClick="{{ start }}">{{ startLabel }}</button>
           <span style="font-size:12.5px;color:var(--color-neutral-400);">{{ leanNote }}</span>
         </div>
+        <details style="font-size:13px;color:var(--color-neutral-300);border-top:1px solid var(--color-neutral-800);padding-top:12px;">
+          <summary style="cursor:pointer;color:var(--color-accent-300);">Drill one study-guide item — every subtopic of it, nothing else</summary>
+          <div style="font-size:12.5px;color:var(--color-neutral-400);margin:8px 0;">A whole test on one item (like ECG analysis), rotating through all of its subtopics. Uses the length above, or fewer if the item has fewer questions.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <sc-for list="{{ drillOpts }}" as="d" hint-placeholder-count="3">
+              <button onClick="{{ d.onClick }}" style="padding:6px 12px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px;color:var(--color-text);background:transparent;border:1px solid var(--color-neutral-700);text-align:left;">{{ d.label }}</button>
+            </sc-for>
+          </div>
+        </details>
       </div>
 
       <sc-if value="{{ hasReport }}" hint-placeholder-val="{{ false }}">
@@ -581,6 +590,55 @@ const GUIDE = {
          ['Leukemia', /leukemi|neutropen|\bANC\b|platelet|bleeding precaution|thrombocytopen|filgrastim|blast cells?|bone marrow|tumor lysis|chemotherapy/i]]
 };
 const GUIDE_N = Object.keys(GUIDE).reduce((a, c) => a + GUIDE[c].length, 0);
+const guideName = k => { const [c, i] = k.split(':'); return (GUIDE[c] || [])[+i] ? GUIDE[c][+i][0] : k; };
+// The subtopics inside each study-guide item (keyed chapter:item), so a test spreads an item's questions
+// across them and rotates to the ones you've seen least. A question can sit in more than one.
+const GUIDE_SUB = {
+  '22:0': [['Smoking & quitting', /smok|cessation|nicotine|5 As|bupropion|varenicline|cigar/i], ['Vaping & hookah', /\bvap|e-cig|hookah|EVALI/i],
+           ['Vaccines', /vaccin|immuniz|flu shot|pneumococcal/i], ['Work & environmental exposure', /occupation|asbestos|exposure|radon|I PREPARE|respirator|dust|pollution/i]],
+  '22:1': [['Pack-year math', /pack/i]],
+  '22:2': [['Chest wall & lung structure', /AP diameter|anteroposterior|kyphosis|chest wall|elastic|recoil|alveol|expansion/i], ['Cough, cilia & aspiration', /cough|cilia|aspirat/i],
+           ['Oxygen & breathing drive', /PaO|oxygen|hypox|hypercap|CO₂|sedat|drive/i], ['Atypical signs of illness', /confus|no fever|fever|atypical|delayed diagnosis|pneumonia/i]],
+  '24:0': [['Triggers & what happens', /trigger|inflamm|bronchospasm|hyperrespons|allerg|eosinophil/i], ['Recognizing an attack', /wheez|silent chest|status asthmaticus|accessory|retraction|distress|attack/i],
+           ['Peak flow & PFTs', /peak flow|PEF|FEV|spirometr|PFT/i], ['Rescue inhaler (SABA)', /albuterol|SABA|rescue/i],
+           ['Controller meds', /ICS|inhaled corticosteroid|LABA|montelukast|leukotriene|omalizumab|fluticasone|salmeterol|budesonide/i], ['Inhaler technique & action plan', /inhaler|spacer|\bMDI\b|metered|rinse|action plan|technique/i]],
+  '24:1': [['Emphysema vs bronchitis', /emphysema|bronchitis|air trapping|barrel|elastic/i], ['Oxygen & CO₂ retention', /88–92|CO₂ retain|retainer|hypercap|oxygen|O₂/i],
+           ['Breathing & positioning', /pursed|diaphragm|tripod|position|lean/i], ['COPD meds', /tiotropium|ipratropium|bronchodilat|steroid|roflumilast|theophylline|albuterol/i],
+           ['Exacerbation & cor pulmonale', /exacerbat|cor pulmonale|right-sided|infection|sputum/i], ['Nutrition & energy', /calori|nutrition|weight|meal|energy|fatigue/i]],
+  '25:0': [['Risk & aspiration', /aspirat|risk|swallow|head of (the )?bed|HOB|older/i], ['Recognizing pneumonia', /crackles|consolidat|fever|confus|dull|egophony|tactile/i],
+           ['Cultures, x-ray & labs', /culture|x-ray|CXR|WBC|lab/i], ['Antibiotics', /antibiotic|ceftriaxone|azithro|levoflox|vancomycin/i],
+           ['Prevention & recovery', /incentive spirometr|vaccin|turn|ambulat|oral care|cough and deep|deep breath/i], ['Sepsis & complications', /sepsis|lactate|hypotens|empyema|deteriorat|rapid response/i]],
+  '27:0': [['Stiff arteries & systolic BP', /systolic|pulse pressure|stiff|arter/i], ['Baroreceptors & orthostatic BP', /orthostatic|baroreceptor|dizz|stand/i],
+           ['Conduction & heart rate', /SA node|PR interval|brady|conduction|heart rate|maximum/i], ['Less reserve: exercise & fluids', /exercise|warm-up|reserve|fluid|crackles|walking/i],
+           ['Heart sounds & valves', /\bS4\b|murmur|valve/i]],
+  '28:0': [['ECG paper & timing', /small box|large box|0\.04|0\.20|25 mm|paper/i], ['Leads, electrodes & telemetry', /electrode|\blead|telemetry|monitor technician/i],
+           ['Artifact & alarms', /artifact|alarm|toothbrush|loose/i]],
+  '28:1': [['Heart rate & regularity', /6-second|six-second|\b300\b|1500|calculat|regularit|irregularly irregular|rate is/i], ['Waves & intervals', /P wave|PR interval|QRS|\bQT|ST (segment|elevation|depression)|T wave/i],
+           ['Sinus brady & tachy', /sinus (brady|tachy)|bradycardia|tachycardia|athlete/i], ['A-fib & flutter', /fibrillation|flutter|\bAF\b/i], ['SVT', /\bSVT\b|supraventricular|vagal/i],
+           ['PVCs', /\bPVC|premature ventricular|premature complex|bigeminy|trigeminy|couplet/i], ['VT, VF & asystole', /\bVT\b|ventricular tachy|\bVF\b|ventricular fib|asystole|\bPEA\b|pulseless/i],
+           ['Heart blocks', /heart block|first-degree|second-degree|third-degree|AV block|Mobitz|Wenckebach/i], ['Cardioversion vs defibrillation', /cardioversion|defibrillat|\bAED\b|shock/i],
+           ['Pacemakers', /pacemaker|pacing|capture/i], ['Antidysrhythmic drugs', /amiodarone|adenosine|digoxin|atropine|diltiazem|metoprolol|lidocaine|magnesium|epinephrine|antidysrhythmic/i]],
+  '29:0': [['Left vs right signs', /left|right|JVD|crackles|edema|hepatomegaly/i], ['Types & what the body does', /HFrEF|HFpEF|ejection|systolic|diastolic|compensat|RAAS|stage/i],
+           ['BNP & tests', /BNP|echo|ejection fraction|x-ray/i], ['HF drugs', /ACE|ARB|ARNI|sacubitril|beta blocker|carvedilol|metoprolol|diuretic|furosemide|digoxin|spironolactone|lisinopril/i],
+           ['Daily weights, sodium & fluid', /daily weight|weigh|kg|lb|sodium|fluid restrict/i], ['Acute pulmonary edema', /pink|frothy|pulmonary edema|high Fowler|orthopnea|PND/i]],
+  '30:0': [['BP categories', /stage|categor|elevated|normal is|130|140/i], ['Measuring BP', /cuff|both arms|white-coat|measure|reading/i],
+           ['Lifestyle', /DASH|sodium|alcohol|exercise|walk|weight|potassium-rich/i], ['BP drugs', /ACE|ARB|thiazide|calcium channel|CCB|beta blocker|lisinopril|amlodipine|losartan|hydrochlorothiazide|metoprolol|diltiazem/i],
+           ['Hypertensive crisis', /crisis|emergency|urgency|25%|MAP/i], ['Target-organ damage', /stroke|kidney|retina|target|silent|feel fine/i]],
+  '30:1': [['Assessing PAD', /claudication|pulse|ABI|ankle-brachial|pallor|rubor|hair|cool|capillary/i], ['Arterial vs venous', /venous|arterial ulcer|compare/i],
+           ['Positioning & walking', /dangl|elevat|walk|exercise|position|cross/i], ['Acute arterial occlusion', /6 Ps|acute|occlusion|pulseless|paresthesia|sudden/i],
+           ['Bypass & graft care', /bypass|graft|revascular|stent|angioplasty/i], ['PAD drugs', /cilostazol|clopidogrel|aspirin|statin|antiplatelet/i]],
+  '30:2': [['Risk & prevention', /Virchow|immobil|SCD|compression|ambulat|prophyla|risk/i], ['Recognizing DVT', /calf|swelling|warmth|Homans|D-dimer|ultrasound|unilateral/i],
+           ['Pulmonary embolism', /pulmonary embol|\bPE\b|sudden dyspnea|pleuritic/i], ['Heparin, aPTT & HIT', /heparin|aPTT|\bHIT\b|protamine|argatroban/i],
+           ['Warfarin & INR', /warfarin|\bINR\b|vitamin K/i], ['Enoxaparin & DOACs', /apixaban|rivaroxaban|DOAC|enoxaparin|LMWH|dabigatran/i], ['Bleeding precautions', /bleed|toothbrush|razor|bruis/i]],
+  '34:0': [['CBC normals', /\bHgb\b|hemoglobin|hematocrit|\bHct\b|\bWBC\b|platelet|\bRBC\b|CBC/i], ['MCV: small vs large cells', /MCV|microcytic|macrocytic|normocytic/i],
+           ['Iron studies', /ferritin|TIBC|serum iron|transferrin/i], ['Retics & hemolysis', /reticulocyte|bilirubin|LDH|hemoly/i], ['ANC & neutropenia', /\bANC\b|neutrophil|neutropen/i]],
+  '34:1': [['Why cells sickle (triggers)', /HbS|sickl|trigger|dehydrat|cold|hypox|altitude|infection/i], ['Pain crisis care', /pain|opioid|PCA|fluids|crisis|warm/i],
+           ['Acute chest & complications', /acute chest|stroke|priapism|splen|organ/i], ['Teaching & prevention', /hydrat|avoid|vaccin|folic|hydroxyurea|teach|education/i]],
+  '34:2': [['Iron deficiency', /iron deficien|spoon|pica|blood loss|GI bleed|ferrous|iron/i], ['B₁₂ & pernicious', /B₁₂|B12|pernicious|intrinsic factor|cobalamin|neuro|beefy/i],
+           ['Folate', /folic|folate/i], ['Giving iron', /vitamin C|Z-track|straw|dark stool|black stool|empty stomach|constipat/i], ['Signs & activity', /fatigue|pallor|tachycard|activity|fall|dyspnea/i]],
+  '34:3': [['Infection risk (neutropenia)', /neutropen|infection|fever|\bANC\b|precaution|flowers|crowd/i], ['Bleeding risk (low platelets)', /platelet|bleed|thrombocytopen|petechiae/i],
+           ['Types & what happens', /\bALL\b|\bAML\b|\bCLL\b|\bCML\b|blast|marrow|leukemi/i], ['Treatment & complications', /chemo|tumor lysis|transplant|filgrastim|stem cell/i]]
+};
 // Ch 33 questions that test ch 34 study-guide topics (lab interpretation, neutropenia, bleeding risk).
 const CH33_FOR_34 = /ANC calculation|Lab interpretation|Neutropenic|Bleeding precautions|Prioritize clients|Compare|Select all that apply/;
 const REASONS = [
@@ -1020,6 +1078,10 @@ class Component extends DCLogic {
     });
 
     pool.forEach(x => { x.guide = []; (x.chs || [x.ch]).forEach(c => (GUIDE[c] || []).forEach((g, i) => { if (g[1].test(x.txt || '')) x.guide.push(c + ':' + i); })); });
+    // Subtopics come from what a question actually asks — stem, right answer(s), rule — not from its wrong options.
+    const coreTxt = x => !x.bank ? (x.txt || '') : [x.t, x.q, (x.o || []).filter((o, i) => (Array.isArray(x.a) ? x.a : [x.a]).includes(i)).join(' '), x.rule0, x.phys0,
+      x.rows ? x.rows.map(r => r.t).join(' ') : '', x.parts ? JSON.stringify(x.parts) : '', x.cond ? JSON.stringify([x.cond, x.act, x.mon]) : ''].join(' ');
+    pool.forEach(x => { const c = coreTxt(x); x.sub = []; x.guide.forEach(k => (GUIDE_SUB[k] || []).forEach((g, i) => { if (g[1].test(c)) x.sub.push(k + '/' + i); })); });
     this.byId = {}; pool.forEach(x => { this.byId[x.id] = x; });
     const F = window.E2Focus, on = !!(F && F.active()), ids = on ? F.ids() : [];
     this.pool = on ? pool.filter(x => x.topics.some(t => ids.includes(t))) : pool;
@@ -1029,7 +1091,8 @@ class Component extends DCLogic {
     this.byTopic = {}; this.pool.forEach(x => x.topics.forEach(t => { (this.byTopic[t] = this.byTopic[t] || []).push(x); }));
     this.counts = {}; this.pool.forEach(x => { this.counts[x.fmt] = (this.counts[x.fmt] || 0) + 1; });
     this.guideMode = this.focusLabel === 'Everything';
-    this.byGuide = {}; this.pool.forEach(x => x.guide.forEach(k => { (this.byGuide[k] = this.byGuide[k] || []).push(x); }));
+    this.byGuide = {}; pool.forEach(x => x.guide.forEach(k => { (this.byGuide[k] = this.byGuide[k] || []).push(x); }));
+    const subs = new Set(); pool.forEach(x => (x.sub || []).forEach(s => subs.add(s))); this.subTotal = subs.size;
   }
 
   // ---------- Building a question to show ----------
@@ -1158,12 +1221,14 @@ class Component extends DCLogic {
   }
 
   // ---------- Running a test ----------
-  startTest() {
+  // drill: a study-guide item key (chapter:item) — the whole test on that item, rotating through its subtopics.
+  startTest(drill) {
     const S = this.state.S;
     if (S.test && !window.confirm('Discard the test in progress and start a new one?')) return;
     this.upd(S => {
       S.testNo = (S.testNo || 0) + 1;
-      const T = { no: S.testNo, len: S.settings.len || 40, base: 0, items: [], resp: {}, scores: {}, checked: {}, conf: {}, why: {}, follow: {}, depth: {}, revealed: {}, queue: [], followN: 0, focus: this.focusLabel, at: Date.now() };
+      const T = { no: S.testNo, drill: drill || null, len: drill ? Math.min(S.settings.len || 40, (this.byGuide[drill] || []).length) : S.settings.len || 40, base: 0, items: [], resp: {}, scores: {}, checked: {}, conf: {}, why: {}, follow: {}, depth: {}, revealed: {}, queue: [], followN: 0, focus: this.focusLabel, at: Date.now() };
+      if (drill) T.focus = 'Drill · ' + guideName(drill);
       const P = this.nextItem(S, T); if (P) T.items.push(P);
       S.test = T; S.phase = 'test';
     });
@@ -1248,12 +1313,21 @@ class Component extends DCLogic {
     return { left, offAt: off ? 3 + Math.floor(Math.random() * (len - 6)) : -1, offCh: (S.testNo || 0) % 2 ? '23' : '33' };
   }
   pickGuide(S, T) {
-    if (!T.plan) T.plan = this.guidePlan(S, T.len);
+    if (!T.plan) T.plan = T.drill ? { left: { [T.drill]: T.len }, offAt: -1, offCh: '23' } : this.guidePlan(S, T.len);
     const plan = T.plan, used = new Set(T.items.map(p => p.id)), best = items => items.map(x => [x, this.itemScore(S, T, x)]).sort((a, b) => b[1] - a[1])[0][0];
     if (T.base === plan.offAt) {
       const items = this.pool.filter(x => x.ch === plan.offCh && x.bank && !used.has(x.id));
       if (items.length) return this.present(best(items));
     }
+    // Within an item: a subtopic this test hasn't asked yet first, then the one you've seen least across tests.
+    const subSeen = {}; Object.keys(S.log).forEach(id => { const x = this.byId[id], L = S.log[id]; if (x && L.seen) (x.sub || []).forEach(s => { subSeen[s] = (subSeen[s] || 0) + L.seen; }); });
+    const askedSub = new Set(); T.items.forEach(p => ((this.byId[p.id] || {}).sub || []).forEach(s => askedSub.add(s)));
+    const subScore = (x, k) => {
+      const ss = (x.sub || []).filter(s => s.indexOf(k + '/') === 0);
+      if (!ss.length) return (GUIDE_SUB[k] || []).length > 1 ? -1.5 : 0;
+      const fresh = ss.filter(s => !askedSub.has(s));
+      return (fresh.length ? 2.5 : -1) + Math.max(...(fresh.length ? fresh : ss).map(s => 2 / (1 + (subSeen[s] || 0))));
+    };
     const recent = new Set(T.items.slice(-2).map(p => p.gk).filter(Boolean));
     const keys = Object.keys(plan.left).filter(k => plan.left[k] > 0 && this.byGuide[k].some(x => !used.has(x.id)));
     if (!keys.length) return null;
@@ -1261,14 +1335,14 @@ class Component extends DCLogic {
     let r = Math.random() * w.reduce((a, x) => a + x[1], 0), k = w[0][0];
     for (const [kk, ww] of w) { r -= ww; if (r <= 0) { k = kk; break; } }
     plan.left[k]--;
-    const P = this.present(best(this.byGuide[k].filter(x => !used.has(x.id))));
+    const P = this.present(this.byGuide[k].filter(x => !used.has(x.id)).map(x => [x, this.itemScore(S, T, x) + subScore(x, k)]).sort((a, b) => b[1] - a[1])[0][0]);
     P.ch = k.split(':')[0]; P.gk = k;
     return P;
   }
 
   pickBase(S, T) {
     if (T.redo) { const it = this.byId[T.redo[T.base]]; if (!it) return null; const P = this.present(it); T.root[P.id] = it.id; return P; }
-    if (this.guideMode) { const P = this.pickGuide(S, T); if (P) return P; }
+    if (this.guideMode || T.drill) { const P = this.pickGuide(S, T); if (P) return P; }
     const used = new Set(T.items.map(p => p.id));
     const asked = {}; T.items.forEach(p => ((this.byId[p.id] || {}).topics || []).forEach(t => { asked[t] = (asked[t] || 0) + 1; }));
     const recent = new Set(); T.items.slice(-2).forEach(p => ((this.byId[p.id] || {}).topics || []).forEach(t => recent.add(t)));
@@ -1314,6 +1388,7 @@ class Component extends DCLogic {
     const used = new Set(T.items.map(p => p.id)), W = new Set(f.words);
     let near = this.pool.filter(x => !used.has(x.id) && x.id !== f.from && (x.topics.some(t => f.topics.includes(t)) || (x.drugs || []).some(d => f.drugs.includes(d.id))));
     if (this.guideMode && ((this.byId[f.from] || {}).guide || []).length) { const g = near.filter(x => x.guide.length); if (g.length) near = g; }
+    if (T.drill) { const d = near.filter(x => x.guide.includes(T.drill)); if (d.length) near = d; }
     if (!near.length) return null;
     const scoreOf = x => {
       const L = S.log[x.id] || {};
@@ -1403,8 +1478,9 @@ class Component extends DCLogic {
       let ws = 0, wt = 0; Object.keys(byCh).forEach(ch => { if (BP[ch]) { ws += BP[ch] * byCh[ch].s / byCh[ch].n; wt += BP[ch]; } });
       const pct = wt ? Math.round(100 * ws / wt) : Math.round(100 * raw / done.length);
       const looked = [...new Set([].concat(...Object.values(T.looked || {})))];
-      const cov = new Set(); done.forEach(p => ((this.byId[p.id] || {}).guide || []).forEach(k => cov.add(k)));
-      S.report = { at: Date.now(), no: T.no, n: done.length, base: T.base, follows: done.filter(p => T.follow[p.id]).length, pct, raw: Math.round(100 * raw / done.length), focus: T.focus, looked, guide: T.plan ? cov.size : null, recs: done.map(P => this.record(T, P)) };
+      const cov = new Set(), covSub = new Set(); done.forEach(p => { const x = this.byId[p.id] || {}; (x.guide || []).forEach(k => cov.add(k)); (x.sub || []).forEach(s => { if (!T.drill || s.indexOf(T.drill + '/') === 0) covSub.add(s); }); });
+      const subsOf = T.drill ? new Set((this.byGuide[T.drill] || []).flatMap(x => (x.sub || []).filter(s => s.indexOf(T.drill + '/') === 0))).size : this.subTotal;
+      S.report = { at: Date.now(), no: T.no, n: done.length, base: T.base, follows: done.filter(p => T.follow[p.id]).length, pct, raw: Math.round(100 * raw / done.length), focus: T.focus, looked, guide: T.plan ? cov.size : null, drill: T.drill ? guideName(T.drill) : null, subs: T.plan ? covSub.size : null, subsOf, recs: done.map(P => this.record(T, P)) };
       S.history.push({ at: Date.now(), pct, n: done.length });
       S.test = null; S.phase = 'home';
     });
@@ -1441,8 +1517,8 @@ class Component extends DCLogic {
     const S = this.state.S, ready = this.state.ready && S;
     const A = 'var(--color-accent)', N = 'var(--color-neutral-700)';
     const v = { loading: !ready, isHome: !!ready && (S.phase !== 'test' || !S.test), isTest: !!ready && S.phase === 'test' && !!S.test };
-    v.title = v.isTest && S.test.redo ? 'Redo my misses — until each one sticks' : 'One adaptive test that follows your mistakes';
-    if (!ready) return Object.assign(v, { q: {}, fb: {}, rp: {}, pr: { shaky: [] }, dots: [], lenOpts: [], history: [], studyMap: [], nodeMap: [], legend: [], confOpts: [], howItWorks: [] });
+    v.title = v.isTest && S.test.redo ? 'Redo my misses — until each one sticks' : v.isTest && S.test.drill ? 'Drill: ' + guideName(S.test.drill) : 'One adaptive test that follows your mistakes';
+    if (!ready) return Object.assign(v, { q: {}, fb: {}, rp: {}, pr: { shaky: [] }, drillOpts: [], dots: [], lenOpts: [], history: [], studyMap: [], nodeMap: [], legend: [], confOpts: [], howItWorks: [] });
     v.goHome = () => this.upd(S => { S.phase = 'home'; });
     v.start = () => this.startTest(); v.check = () => this.check(); v.next = () => this.next(); v.finish = () => this.finish();
     v.resume = () => this.upd(S => { S.phase = 'test'; });
@@ -1459,6 +1535,8 @@ class Component extends DCLogic {
     v.canResume = !!S.test;
     v.resumeLabel = S.test ? (S.test.redo ? 'Resume the redo round' : 'Resume test — question ' + S.test.items.length) : '';
     v.startLabel = (S.test ? 'Start a new ' : 'Start a ') + len + '-question test';
+    v.drillOpts = Object.keys(GUIDE).flatMap(ch => GUIDE[ch].map((g, i) => ({ k: ch + ':' + i, g })).filter(o => (this.byGuide[o.k] || []).length).map(o => ({
+      label: 'Ch ' + ch + ' · ' + o.g[0] + ' · ' + Math.min(len, this.byGuide[o.k].length) + ' Qs', onClick: () => this.startTest(o.k) })));
     const weak = Object.keys(S.mastery.topics).filter(t => this.byTopic[t] && S.mastery.topics[t].m != null).sort((a, b) => S.mastery.topics[a].m - S.mastery.topics[b].m).slice(0, 3).filter(t => S.mastery.topics[t].m < 0.85);
     v.leanNote = weak.length ? 'Leans toward your weakest: ' + weak.map(t => this.topicTitle(t)).join(' · ') : 'Your first test samples every topic; later tests lean toward what you miss.';
     v.howItWorks = [
@@ -1524,7 +1602,7 @@ class Component extends DCLogic {
       const verdict = R.pct >= 90 ? 'Exam-ready on what this test covered.' : R.pct >= 75 ? 'Close — tighten the topics below.' : 'The topics below are where the points are.';
       v.rp = {
         when: 'Test ' + R.no + ' · ' + new Date(R.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
-        pct: R.pct, sub: 'exam-weighted · ' + R.raw + '% raw · ' + R.n + ' questions (' + R.follows + ' follow-ups)' + (R.guide != null ? ' · covered ' + R.guide + ' of ' + GUIDE_N + ' study-guide items' : ''),
+        pct: R.pct, sub: 'exam-weighted · ' + R.raw + '% raw · ' + R.n + ' questions (' + R.follows + ' follow-ups)' + (R.drill ? ' · drill: ' + R.drill + ', ' + R.subs + ' of ' + R.subsOf + ' subtopics' : R.guide != null ? ' · covered ' + R.guide + ' of ' + GUIDE_N + ' study-guide items' + (R.subs != null ? ', ' + R.subs + ' of ' + R.subsOf + ' subtopics' : '') : ''),
         verdict, detail: (prev ? (R.pct - prev.pct >= 0 ? '+' : '') + (R.pct - prev.pct) + ' points vs your last test. ' : '') + (missed.length ? missed.length + ' to work on — study them in the order below, then take the test again. It will lean toward these.' : 'Nothing missed or guessed — take another test to confirm it holds.'),
         study, hasStudy: study.length > 0,
         problems: missed.slice().sort((a, b) => a.e - b.e).slice(0, this.state.allProblems ? 999 : 5).map(r => ({ topic: this.topicTitle(r.topics[0]) + ' · Ch ' + r.ch, fmt: FMT_LABEL[r.fmt] || '', scoreLabel: r.sc >= 1 ? 'Right, but guessed' : r.sc > 0 ? 'Partly right — ' + Math.round(r.sc * 100) + '%' : 'Missed', q: r.q, your: r.your, correct: r.correct, gap: (r.why || []).map(k => RLABEL[k]).join('; '), hasGap: (r.why || []).length > 0, rule: r.rule, hasRule: !!r.rule })),

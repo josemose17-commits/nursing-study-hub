@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610120300"></script>
-<script src="./say.js?v=202610120300"></script>
+<script src="./nav.js?v=202610120400"></script>
+<script src="./say.js?v=202610120400"></script>
 </head>
 <body>
 <x-dc>
@@ -61,7 +61,7 @@
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
 <script src="data/glossary.js?v=202610022100"></script>
-<script src="data/extra-questions.js?v=202610120300"></script>
+<script src="data/extra-questions.js?v=202610120400"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
 <script src="data/explain/24.js?v=202610040900"></script>
@@ -423,12 +423,33 @@
                   <div style="display:flex;flex-direction:column;gap:2px;"><div class="fbh" style="color:var(--color-accent-300);">{{ a.h }}</div><div style="font-size:15px;color:var(--color-neutral-100);">{{ a.v }}</div></div>
                 </sc-for>
                 <sc-if value="{{ q.needRate }}" hint-placeholder-val="{{ true }}">
-                  <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:10px;border-top:1px solid var(--color-neutral-800);">
-                    <span style="font-size:14px;">How did your answer compare?</span>
-                    <sc-for list="{{ q.rates }}" as="r" hint-placeholder-count="3">
-                      <button class="btn btn-secondary" onClick="{{ r.onClick }}">{{ r.label }}</button>
+                  <div style="display:flex;flex-direction:column;gap:10px;padding-top:10px;border-top:1px solid var(--color-neutral-800);">
+                    <sc-if value="{{ q.hasLastMiss }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size:13px;color:var(--color-accent-100);padding:8px 12px;border-radius:8px;background:var(--color-accent-900);border:1px solid var(--color-accent-700);">{{ q.lastMiss }}</div>
+                    </sc-if>
+                    <div style="font-size:14px;">Tap what you missed <span style="font-size:12.5px;color:var(--color-neutral-400);">— leave them untapped if you got it</span></div>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                      <sc-for list="{{ q.points }}" as="pt" hint-placeholder-count="3">
+                        <button onClick="{{ pt.onClick }}" style="display:flex;gap:10px;align-items:flex-start;text-align:left;padding:9px 12px;border-radius:8px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--color-text);background:{{ pt.bg }};border:1px solid {{ pt.bd }};"><span style="flex:none;width:16px;height:16px;margin-top:3px;border-radius:4px;border:1.5px solid {{ pt.bd }};background:{{ pt.fill }};"></span><span>{{ pt.t }}</span></button>
+                      </sc-for>
+                    </div>
+                    <textarea value="{{ q.missNote }}" onInput="{{ q.onMissNote }}" placeholder="Anything else you missed or mixed up? Put it in your own words (optional)." rows="2" style="font:inherit;font-size:14.5px;padding:10px 12px;border-radius:8px;background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-neutral-700);resize:vertical;"></textarea>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                      <button class="btn btn-primary" onClick="{{ q.doneRecall }}">{{ q.doneLabel }}</button>
+                      <button class="btn btn-ghost" onClick="{{ q.missAll }}">I missed all of it</button>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ q.hasMissedList }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:4px;padding-top:10px;border-top:1px solid var(--color-neutral-800);">
+                    <div class="fbh" style="color:var(--color-accent-300);">You missed</div>
+                    <sc-for list="{{ q.missedList }}" as="mm" hint-placeholder-count="2">
+                      <div style="font-size:14.5px;color:var(--color-neutral-100);padding-left:10px;border-left:2px solid var(--color-accent-500);">{{ mm.t }}</div>
                     </sc-for>
                   </div>
+                </sc-if>
+                <sc-if value="{{ q.hasMissedNote }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:14px;color:var(--color-neutral-200);"><span class="fbh" style="color:var(--color-accent-300);">In your words</span><br>{{ q.missedNoteText }}</div>
                 </sc-if>
               </div>
             </sc-if>
@@ -769,6 +790,15 @@ const MECH_STEM = /\bwhy\b|mechanism|explain|because|complete the statement/i;
 const DRUG_OPT = /\b(mg|mcg|dose|medication|drug|PRN|IV push|inhaler)\b|olol\b|pril\b|sartan\b|dipine\b|heparin|warfarin|enoxaparin|digoxin|furosemide|nitro|albuterol|steroid|aspirin|apixaban|rivaroxaban|adenosine|atropine|amiodarone|epinephrine|naloxone|protamine|vitamin K|epoetin|filgrastim|isoniazid|rifampin|oseltamivir|theophylline|iron/i;
 const firstSentences = (t, n) => { const m = String(t || '').match(/.+?[.!?](?=\s|$)/g); return m ? m.slice(0, n || 2).join(' ').replace(/\s+/g, ' ').trim() : String(t || ''); };
 const why = c => firstSentences(clean(c.r), 2);
+// A recall card's answer split into the points you could miss: at semicolons, sentence ends, chain arrows and
+// dashes, and a list of three or more at its commas — never inside parentheses.
+const recallPoints = ans => {
+  const split = (src, at) => { const out = []; let depth = 0, cur = ''; for (let i = 0; i < src.length; i++) { const ch = src[i]; if (ch === '(') depth++; else if (ch === ')') depth = Math.max(0, depth - 1); const n = depth === 0 ? at(src, i) : 0; if (n) { out.push(cur); cur = ''; i += n - 1; continue; } cur += ch; } out.push(cur); return out; };
+  const stop = (s, i) => s[i] === ';' ? 1 : s.slice(i, i + 3) === ' → ' || s.slice(i, i + 3) === ' — ' ? 3
+    : s[i] === '.' && s[i + 1] === ' ' && /[A-Za-z]/.test(s[i + 2] || '') && !/(e\.g|i\.e|vs|approx)$/i.test(s.slice(Math.max(0, i - 6), i)) ? 2 : 0;
+  return split(String(ans || ''), stop).flatMap(p => { const c = split(p, (s, i) => s[i] === ',' ? 1 : 0); return c.length >= 3 ? c : [p]; })
+    .map(x => x.trim().replace(/^(and|or)\s+/i, '').replace(/^[,:;.\s—]+|[,;.\s]+$/g, '')).filter(x => x.length > 1);
+};
 const qt = t => { t = String(t).replace(/^[“"]|[”"]$/g, ''); return '“' + (t.length > 70 ? t.slice(0, 67).replace(/\s+\S*$/, '') + '…' : t) + '”'; };
 const SKILL_KEY = { 'Drugs & mechanisms': 'drug', 'Pathophysiology': 'mech', 'Priority & safety': 'prio', 'Recognizing cues': 'cue' };
 function inferWhy(P, R, b) {
@@ -946,7 +976,7 @@ const MCOL = {
 const eff = (T, id) => (T.scores[id] || 0) * (T.conf[id] === 'guess' ? 0.5 : 1);
 
 class Component extends DCLogic {
-  state = { ready: false, S: null, draft: '' };
+  state = { ready: false, S: null, draft: '', missNote: '' };
 
   componentDidMount() {
     const t0 = Date.now();
@@ -1232,7 +1262,7 @@ class Component extends DCLogic {
       const P = this.nextItem(S, T); if (P) T.items.push(P);
       S.test = T; S.phase = 'test';
     });
-    this.setState({ draft: '' }); window.scrollTo(0, 0);
+    this.setState({ draft: '', missNote: '' }); window.scrollTo(0, 0);
   }
 
   // Redo my misses: the questions missed on the last test, 10 at a time, worst first.
@@ -1265,7 +1295,7 @@ class Component extends DCLogic {
       const P = this.nextItem(S, T); if (P) T.items.push(P);
       S.test = T; S.phase = 'test';
     });
-    this.setState({ draft: '' }); window.scrollTo(0, 0);
+    this.setState({ draft: '', missNote: '' }); window.scrollTo(0, 0);
   }
 
   nextItem(S, T) {
@@ -1371,7 +1401,7 @@ class Component extends DCLogic {
     else if (P.kind === 'matrix') X.rows.forEach(r => { if (R[r.k] !== r.a) add(r); });
     else if (P.kind === 'cloze') X.segs.forEach(sg => { if (sg.opts) { const o = sg.opts.find(o => o.k === R[sg.blank]); if (!(o && o.c)) parts.push(sg.opts.find(o => o.c).t + ' ' + (sg.r || '')); } });
     else if (P.kind === 'bow') X.groups.forEach(g => { const r = R[g.g]; g.choices.forEach(c => { const s = r == null ? false : g.multi ? !!r[c.k] : c.k === r; if (s !== c.c) add(c); }); });
-    else if (P.kind === 'recall') parts.push(P.q + ' ' + P.ans);
+    else if (P.kind === 'recall') parts.push(R.pts && (R.pts.length || R.note) ? R.pts.join(' ') + ' ' + (R.note || '') : P.q + ' ' + P.ans);
     return parts.join(' ') + ' ' + (X.rule || '');
   }
 
@@ -1419,6 +1449,26 @@ class Component extends DCLogic {
       this.afterAnswer(S, P);
     });
   }
+  // Recall: tap the points of the answer you missed (and add your own words), then Done.
+  toggleMiss(i) {
+    const P = this.cur(); if (!P) return;
+    this.upd(S => { const T = S.test; if (T.checked[P.id]) return; T.missed = T.missed || {}; const a = T.missed[P.id] || (T.missed[P.id] = []); const j = a.indexOf(i); if (j < 0) a.push(i); else a.splice(j, 1); });
+  }
+  doneRecall(all) {
+    const P = this.cur(); if (!P || P.kind !== 'recall') return;
+    const pts = recallPoints(P.ans), note = (this.state.missNote || '').trim(), typed = (this.state.draft || '').trim();
+    this.upd(S => {
+      const T = S.test; if (T.checked[P.id]) return;
+      const idx = all ? pts.map((p, i) => i) : ((T.missed || {})[P.id] || []).slice().sort((a, b) => a - b);
+      let lv = pts.length ? (pts.length - idx.length) / pts.length : (idx.length ? 0 : 1);
+      if (note && lv >= 1) lv = 0.5;
+      T.scores[P.id] = Math.round(lv * 100) / 100; T.checked[P.id] = true; T.conf[P.id] = 'sure';
+      T.resp[P.id] = { pts: idx.map(i => pts[i]), note, typed };
+      if (lv < 1) T.why[P.id] = ['fact'];
+      this.afterAnswer(S, P);
+    });
+    this.setState({ missNote: '' });
+  }
   rateRecall(level) {
     const P = this.cur(); if (!P || P.kind !== 'recall') return;
     this.upd(S => {
@@ -1453,7 +1503,7 @@ class Component extends DCLogic {
     const P = this.cur(); if (!P || !this.state.S.test.checked[P.id]) return;
     let done = false;
     this.upd(S => { const N = this.nextItem(S, S.test); if (N) S.test.items.push(N); else done = true; });
-    this.setState({ draft: '' });
+    this.setState({ draft: '', missNote: '' });
     if (done) this.finish(); else window.scrollTo(0, 0);
   }
 
@@ -1490,10 +1540,11 @@ class Component extends DCLogic {
     const it = this.byId[P.id] || {}, e = eff(T, P.id);
     const r = { id: P.id, ch: P.ch, fmt: it.fmt, topics: it.topics || [], nodes: it.nodes || [], drugs: (it.drugs || []).map(d => d.id), e, sc: T.scores[P.id] || 0, conf: T.conf[P.id] };
     if (e >= 1) return r;
-    const X = this.fresh(P);
+    const X = this.fresh(P), RR = P.kind === 'recall' ? (T.resp[P.id] || {}) : {};
+    if (RR.pts && (RR.pts.length || RR.note)) r.missed = RR.pts.concat(RR.note ? [RR.note] : []);
     return Object.assign(r, {
       q: P.kind === 'recall' ? P.q : it.bank && it.kind === 'cloze' ? cardFront(it).stem : P.q,
-      your: P.kind === 'recall' ? ['Didn’t know', 'Partly'][T.scores[P.id] ? 1 : 0] : yourText(P, T.resp[P.id]),
+      your: P.kind === 'recall' ? (RR.typed || (RR.pts ? 'Answered out loud' : ['Didn’t know', 'Partly'][T.scores[P.id] ? 1 : 0])) : yourText(P, T.resp[P.id]),
       correct: P.kind === 'recall' ? P.ans : correctText(P), rule: X.rule || '', why: T.why[P.id] || []
     });
   }
@@ -1605,7 +1656,7 @@ class Component extends DCLogic {
         pct: R.pct, sub: 'exam-weighted · ' + R.raw + '% raw · ' + R.n + ' questions (' + R.follows + ' follow-ups)' + (R.drill ? ' · drill: ' + R.drill + ', ' + R.subs + ' of ' + R.subsOf + ' subtopics' : R.guide != null ? ' · covered ' + R.guide + ' of ' + GUIDE_N + ' study-guide items' + (R.subs != null ? ', ' + R.subs + ' of ' + R.subsOf + ' subtopics' : '') : ''),
         verdict, detail: (prev ? (R.pct - prev.pct >= 0 ? '+' : '') + (R.pct - prev.pct) + ' points vs your last test. ' : '') + (missed.length ? missed.length + ' to work on — study them in the order below, then take the test again. It will lean toward these.' : 'Nothing missed or guessed — take another test to confirm it holds.'),
         study, hasStudy: study.length > 0,
-        problems: missed.slice().sort((a, b) => a.e - b.e).slice(0, this.state.allProblems ? 999 : 5).map(r => ({ topic: this.topicTitle(r.topics[0]) + ' · Ch ' + r.ch, fmt: FMT_LABEL[r.fmt] || '', scoreLabel: r.sc >= 1 ? 'Right, but guessed' : r.sc > 0 ? 'Partly right — ' + Math.round(r.sc * 100) + '%' : 'Missed', q: r.q, your: r.your, correct: r.correct, gap: (r.why || []).map(k => RLABEL[k]).join('; '), hasGap: (r.why || []).length > 0, rule: r.rule, hasRule: !!r.rule })),
+        problems: missed.slice().sort((a, b) => a.e - b.e).slice(0, this.state.allProblems ? 999 : 5).map(r => ({ topic: this.topicTitle(r.topics[0]) + ' · Ch ' + r.ch, fmt: FMT_LABEL[r.fmt] || '', scoreLabel: r.sc >= 1 ? 'Right, but guessed' : r.sc > 0 ? 'Partly right — ' + Math.round(r.sc * 100) + '%' : 'Missed', q: r.q, your: r.your, correct: r.correct, gap: (r.missed || []).length ? 'You missed: ' + r.missed.join('; ') : (r.why || []).map(k => RLABEL[k]).join('; '), hasGap: (r.why || []).length > 0 || (r.missed || []).length > 0, rule: r.rule, hasRule: !!r.rule })),
         hasProblems: missed.length > 0, problemCount: missed.length,
         looked: (R.looked || []).map(w => { const m = (window.E2Say && window.E2Say.meaning(w)) || {}; return { term: w, full: m.full || '', def: m.def || '', hasFull: !!m.full }; }),
         hasLooked: (R.looked || []).length > 0,
@@ -1664,7 +1715,15 @@ class Component extends DCLogic {
         q.recallHidden = !shown; q.recallShown = shown; q.needRate = !ck;
         q.showAnswer = () => this.upd(S => { S.test.revealed[P.id] = true; });
         q.answer = [['Answer', P.ans], ['Why', P.why], ['Nursing move', P.move], ['Trap', P.trap]].filter(x => x[1]).map(([h, v]) => ({ h, v }));
-        q.rates = [['Got it all', 1], ['Partly', 0.5], ['Didn’t know it', 0]].map(([label, lv]) => ({ label, onClick: () => this.rateRecall(lv) }));
+        const pts = recallPoints(P.ans), miss = (T.missed || {})[P.id] || [], RR = T.resp[P.id] || {}, note = (this.state.missNote || '').trim();
+        q.points = pts.map((t, i) => { const on = miss.includes(i); return { t, bg: on ? 'var(--color-accent-900)' : 'transparent', bd: on ? A : N, fill: on ? A : 'transparent', onClick: () => this.toggleMiss(i) }; });
+        q.missNote = this.state.missNote || ''; q.onMissNote = e => this.setState({ missNote: e.target.value });
+        q.doneLabel = miss.length ? 'Done — I missed ' + miss.length + ' of ' + pts.length : note ? 'Done — I missed something' : 'I got it all';
+        q.doneRecall = () => this.doneRecall(); q.missAll = () => this.doneRecall(true);
+        const lastRec = T.redo && S.report ? (S.report.recs || []).find(r => r.id === P.id && (r.missed || []).length) : null;
+        q.hasLastMiss = !!lastRec; q.lastMiss = lastRec ? 'Last time you missed: ' + lastRec.missed.join('; ') : '';
+        q.missedList = (RR.pts || []).map(t => ({ t })); q.missedNoteText = RR.note || '';
+        q.hasMissedList = ck && q.missedList.length > 0; q.hasMissedNote = ck && !!RR.note;
       }
       v.q = q;
       if (ck) {

@@ -364,9 +364,9 @@
 
 <script src="data/info-topics.js?v=202610021900"></script>
 <script src="data/concept-nodes.js?v=202610022200"></script>
-<script src="data/node-topics.js?v=202610120300"></script>
-<script src="weak.js?v=202610120300"></script>
-<script src="data/basics.js?v=202610120300"></script>
+<script src="data/node-topics.js?v=202610120400"></script>
+<script src="weak.js?v=202610120400"></script>
+<script src="data/basics.js?v=202610120400"></script>
 <script src="data/concept-keys.js?v=202610022200"></script>
 <script src="data/notes-short/22.js?v=202610021900"></script>
 <script src="data/notes-short/23.js?v=202610021900"></script>
@@ -1068,7 +1068,7 @@
         h += '<div class="wk-sec">What you missed</div>' + st.recs.map(function (r) {
           var why = (r.why || []).map(function (k) { return REASON[k] || k; }).join(' · ');
           return '<div class="wk-miss"><div class="q">' + esc(r.q || '') + '</div><span>You</span><span class="yours">' + esc(r.your || '') + '</span><span>Correct</span><span class="ok">' + esc(r.correct || '') + '</span>' +
-            (why ? '<span>Why missed</span><span>' + esc(why) + '</span>' : '') + (r.rule ? '<span>Rule</span><span class="rule">' + esc(r.rule) + '</span>' : '') + '</div>';
+            ((r.missed || []).length ? '<span>You missed</span><span>' + esc(r.missed.join('; ')) + '</span>' : why ? '<span>Why missed</span><span>' + esc(why) + '</span>' : '') + (r.rule ? '<span>Rule</span><span class="rule">' + esc(r.rule) + '</span>' : '') + '</div>';
         }).join('');
       }
       h += '<div class="wk-sec">The notes, in full</div>' + picturesHtml(picsFor(tid, nodesFor[tid])) + '<div class="notes">' + t.html + '</div>';
@@ -1112,7 +1112,7 @@
   window.addEventListener('storage', function (e) { if (e.key === 'e2-focus' || e.key === 'e2-focus-saved') refresh(); });
 })();
 </script>
-<script src="nav.js?v=202610120300"></script>
-<script src="say.js?v=202610120300"></script>
+<script src="nav.js?v=202610120400"></script>
+<script src="say.js?v=202610120400"></script>
 </body>
 </html>

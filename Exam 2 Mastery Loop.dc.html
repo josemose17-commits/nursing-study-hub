@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610130100"></script>
-<script src="./say.js?v=202610130100"></script>
+<script src="./nav.js?v=202610130200"></script>
+<script src="./say.js?v=202610130200"></script>
 </head>
 <body>
 <x-dc>
@@ -61,7 +61,7 @@
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
 <script src="data/glossary.js?v=202610022100"></script>
-<script src="data/extra-questions.js?v=202610130100"></script>
+<script src="data/extra-questions.js?v=202610130200"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
 <script src="data/explain/24.js?v=202610040900"></script>
@@ -1287,7 +1287,8 @@ class Component extends DCLogic {
   // kind: 'next' carries on with the misses not tried yet, 'shaky' redoes the ones still shaky, 'all' starts over.
   redoState() {
     const S = this.state.S, R = S.report; if (!R) return null;
-    const all = (R.recs || []).filter(r => r.e < 1).sort((a, b) => a.e - b.e).map(r => r.id).filter(id => this.byId[id]);
+    const onGuide = id => !this.guideMode || (this.byId[id].guide || []).length || this.byId[id].bank && OFF_GUIDE_PICKS[this.byId[id].ch];
+    const all = (R.recs || []).filter(r => r.e < 1).sort((a, b) => a.e - b.e).map(r => r.id).filter(id => this.byId[id] && onGuide(id));
     const P = S.practice && S.practice.from === R.no && Array.isArray(S.practice.rest) ? S.practice : null;
     return { R, all, P, rest: P ? P.rest.filter(id => this.byId[id]) : all, shaky: P ? P.shaky.filter(id => this.byId[id]) : [], fixed: P ? P.fixed : [] };
   }
@@ -1389,7 +1390,11 @@ class Component extends DCLogic {
 
   pickBase(S, T) {
     if (T.redo) { const it = this.byId[T.redo[T.base]]; if (!it) return null; const P = this.present(it); T.root[P.id] = it.id; return P; }
-    if (this.guideMode || T.drill) { const P = this.pickGuide(S, T); if (P) return P; }
+    if (this.guideMode || T.drill) {
+      const P = this.pickGuide(S, T); if (P) return P;
+      const used = new Set(T.items.map(p => p.id)), left = this.pool.filter(x => x.guide.length && !used.has(x.id) && (!T.drill || x.guide.includes(T.drill)));
+      return left.length ? this.present(left.map(x => [x, this.itemScore(S, T, x)]).sort((a, b) => b[1] - a[1])[0][0]) : null;
+    }
     const used = new Set(T.items.map(p => p.id));
     const asked = {}; T.items.forEach(p => ((this.byId[p.id] || {}).topics || []).forEach(t => { asked[t] = (asked[t] || 0) + 1; }));
     const recent = new Set(); T.items.slice(-2).forEach(p => ((this.byId[p.id] || {}).topics || []).forEach(t => recent.add(t)));
@@ -1434,7 +1439,8 @@ class Component extends DCLogic {
   pickFollow(S, T, f) {
     const used = new Set(T.items.map(p => p.id)), W = new Set(f.words);
     let near = this.pool.filter(x => !used.has(x.id) && x.id !== f.from && (x.topics.some(t => f.topics.includes(t)) || (x.drugs || []).some(d => f.drugs.includes(d.id))));
-    if (this.guideMode && ((this.byId[f.from] || {}).guide || []).length) { const g = near.filter(x => x.guide.length); if (g.length) near = g; }
+    // On the study guide, follow-ups stay on it — never a fallback to off-guide chapter content.
+    if ((this.guideMode || T.redo) && ((this.byId[f.from] || {}).guide || []).length) near = near.filter(x => x.guide.length);
     if (T.drill) { const d = near.filter(x => x.guide.includes(T.drill)); if (d.length) near = d; }
     if (!near.length) return null;
     const scoreOf = x => {

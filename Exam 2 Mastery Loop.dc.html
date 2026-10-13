@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610130200"></script>
-<script src="./say.js?v=202610130200"></script>
+<script src="./nav.js?v=202610130300"></script>
+<script src="./say.js?v=202610130300"></script>
 </head>
 <body>
 <x-dc>
@@ -61,7 +61,7 @@
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
 <script src="data/glossary.js?v=202610022100"></script>
-<script src="data/extra-questions.js?v=202610130200"></script>
+<script src="data/extra-questions.js?v=202610130300"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
 <script src="data/explain/24.js?v=202610040900"></script>
@@ -1131,10 +1131,16 @@ class Component extends DCLogic {
     pool.forEach(x => { const c = coreTxt(x); x.sub = []; x.guide.forEach(k => (GUIDE_SUB[k] || []).forEach((g, i) => { if (g[1].test(c)) x.sub.push(k + '/' + i); })); });
     this.byId = {}; pool.forEach(x => { this.byId[x.id] = x; });
     const F = window.E2Focus, on = !!(F && F.active()), ids = on ? F.ids() : [];
-    this.pool = on ? pool.filter(x => x.topics.some(t => ids.includes(t))) : pool;
-    this.focusEmpty = on && this.pool.length < 10;
+    // A map focus that is the study-guide set runs the study-guide test itself (all 17 items, nothing off the guide).
+    const sg = F && F.studyGuideIds ? F.studyGuideIds() : [];
+    const guideSet = on && sg.length > 0 && sg.every(id => ids.includes(id)) && ids.every(id => sg.includes(id));
+    const onlyGuide = on && ids.every(id => sg.includes(id));
+    // A question filed under a chapter overview only because nothing else matched is not about that overview.
+    const ovFallback = x => { if (x.topics.length !== 1) return false; const ov = window.INFO_TOPICS.find(t => t.id === x.topics[0]); if (!ov || ov.kind !== 'overview') return false; const kw = F.keywordsFor(ov); return !!kw && !kw.test(x.txt || ''); };
+    this.pool = !on || guideSet ? pool : pool.filter(x => x.topics.some(t => ids.includes(t)) && !ovFallback(x) && (!onlyGuide || x.guide.length || (x.bank && OFF_GUIDE_PICKS[x.ch])));
+    this.focusEmpty = on && !guideSet && this.pool.length < 10;
     if (this.focusEmpty) this.pool = pool;
-    this.focusLabel = on && !this.focusEmpty ? F.label() : 'Everything';
+    this.focusLabel = on && !this.focusEmpty && !guideSet ? F.label() : 'Everything';
     this.byTopic = {}; this.pool.forEach(x => x.topics.forEach(t => { (this.byTopic[t] = this.byTopic[t] || []).push(x); }));
     this.counts = {}; this.pool.forEach(x => { this.counts[x.fmt] = (this.counts[x.fmt] || 0) + 1; });
     this.guideMode = this.focusLabel === 'Everything';

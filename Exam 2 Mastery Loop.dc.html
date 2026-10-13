@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610120400"></script>
-<script src="./say.js?v=202610120400"></script>
+<script src="./nav.js?v=202610130100"></script>
+<script src="./say.js?v=202610130100"></script>
 </head>
 <body>
 <x-dc>
@@ -61,7 +61,7 @@
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
 <script src="data/glossary.js?v=202610022100"></script>
-<script src="data/extra-questions.js?v=202610120400"></script>
+<script src="data/extra-questions.js?v=202610130100"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
 <script src="data/explain/24.js?v=202610040900"></script>
@@ -594,11 +594,11 @@ const SKILLS = ['Drugs & mechanisms', 'Pathophysiology', 'Priority & safety', 'R
 const GUIDE = {
   '22': [['Health promotion & maintenance', /smok|cigar|nicotine|\bvap(e|es|ing)\b|e-cigarette|hookah|cessation|vaccin|immuniz|health promotion|prevent|occupational|asbestos|radon|air pollution|secondhand|I PREPARE|5 As/i],
          ['Calculating pack-years', /pack[- ]?years?|packs? (a|per) day/i],
-         ['Age-related respiratory changes', /older adult|aging|age-related|elderly|\b(6[5-9]|[7-9]\d)-year-old/i]],
+         ['Age-related respiratory changes', /older adult|\baging\b|age-related|elderly|\b(6[5-9]|[7-9]\d)-year-old/i]],
   '24': [['Asthma', /asthma|albuterol|SABA|peak flow|silent chest|status asthmaticus|montelukast|omalizumab|leukotriene|inhaled corticosteroid|spacer|metered-dose|\bMDI\b/i],
          ['COPD', /COPD|emphysema|chronic bronchitis|pursed|barrel|88–92|tiotropium|cor pulmonale|roflumilast|theophylline/i]],
   '25': [['Pneumonia', /pneumonia|consolidat|infiltrat|aspiration|incentive spirometr|sputum culture|blood cultures?/i]],
-  '27': [['Cardiovascular changes with aging', /older adult|aging|age-related|elderly|orthostatic|\b(6[5-9]|[7-9]\d)-year-old/i]],
+  '27': [['Cardiovascular changes with \baging\b', /older adult|\baging\b|age-related|elderly|orthostatic|\b(6[5-9]|[7-9]\d)-year-old/i]],
   '28': [['ECG recording', /\b(3|5|12)-lead|five-lead|electrode|artifact|telemetry|lead placement|small box|large box|ECG paper|25 mm|monitor technician|alarm/i],
          ['ECG analysis', /P wave|QRS|PR interval|\bQT|ST segment|ST elevation|rhythm|sinus|fibrillation|flutter|tachycardia|bradycardia|heart block|\bSVT\b|asystole|\bPVC|torsades|cardioversion|defibrillat|pacemaker|pacing|adenosine|amiodarone|atropine|digoxin/i]],
   '29': [['Heart failure', /heart failure|\bHF\b|HFrEF|HFpEF|BNP|daily weight|pulmonary edema|orthopnea|furosemide|digoxin|frothy|ejection fraction|sacubitril|ARNI|spironolactone|\bS3\b|preload|afterload/i]],
@@ -611,6 +611,17 @@ const GUIDE = {
          ['Leukemia', /leukemi|neutropen|\bANC\b|platelet|bleeding precaution|thrombocytopen|filgrastim|blast cells?|bone marrow|tumor lysis|chemotherapy/i]]
 };
 const GUIDE_N = Object.keys(GUIDE).reduce((a, c) => a + GUIDE[c].length, 0);
+// Chapter content that is NOT on the study guide: a question about it never counts toward a study-guide item,
+// unless what it asks is also plainly about that item ([off-guide words, on-guide words]).
+const GUIDE_OFF = {
+  '22': [/thoracentesis|bronchoscop|\bABG\b|oximet|capnograph|breath sounds|auscultat|opioid/i, /smok|pack|vap|vaccin|older adult|\baging\b|age-related|\b[6-9]\d-year/i],
+  '24': [/chest tube|lung cancer|cystic fibrosis|\bCF\b|pulmonary arterial|\bPAH\b|\bIPF\b|epoprostenol|superior vena cava/i, /asthma|COPD|emphysema|bronchitis/i],
+  '25': [/influenza|oseltamivir|tubercul|\bTB\b|isoniazid|rifampin|COVID|anthrax|peritonsillar|histoplasm|fungal|sinusitis|droplet|airborne|N95/i, /pneumonia/i],
+  '27': [/catheteriz|stress test|troponin|chest pain|delegat|contrast/i, /older|\baging\b|age-related|\b[6-9]\d-year|orthostatic|baroreceptor/i],
+  '29': [/angina|\bMI\b|myocardial infarction|STEMI|nitroglycerin|endocard|pericard|tamponade|valve|morphine|cardiomyopathy/i, /heart failure|\bHF\b|HFrEF|HFpEF|BNP|pulmonary edema/i],
+  '30': [/aneurysm|dissection|\bAAA\b|varicose|Raynaud|Buerger|lipid|cholesterol/i, /hypertens|\bPAD\b|peripheral arter|claudication|DVT|deep vein|VTE|thromb/i],
+  '34': [/transfus|PRBC|blood bank|hemophilia|\bITP\b|\bDIC\b|lymphoma|myeloma|polycythemia|thalassemia|stem cell transplant/i, /anemi|sickle|leukemi|iron|B₁₂|B12|folate|folic|MCV|ferritin|reticulocyte/i]
+};
 const guideName = k => { const [c, i] = k.split(':'); return (GUIDE[c] || [])[+i] ? GUIDE[c][+i][0] : k; };
 // The subtopics inside each study-guide item (keyed chapter:item), so a test spreads an item's questions
 // across them and rotates to the ones you've seen least. A question can sit in more than one.
@@ -1107,10 +1118,16 @@ class Component extends DCLogic {
       });
     });
 
-    pool.forEach(x => { x.guide = []; (x.chs || [x.ch]).forEach(c => (GUIDE[c] || []).forEach((g, i) => { if (g[1].test(x.txt || '')) x.guide.push(c + ':' + i); })); });
-    // Subtopics come from what a question actually asks — stem, right answer(s), rule — not from its wrong options.
+    // Subtopics and the off-guide check use what a question actually asks — stem, right answer(s), rule — not its wrong options.
     const coreTxt = x => !x.bank ? (x.txt || '') : [x.t, x.q, (x.o || []).filter((o, i) => (Array.isArray(x.a) ? x.a : [x.a]).includes(i)).join(' '), x.rule0, x.phys0,
       x.rows ? x.rows.map(r => r.t).join(' ') : '', x.parts ? JSON.stringify(x.parts) : '', x.cond ? JSON.stringify([x.cond, x.act, x.mon]) : ''].join(' ');
+    pool.forEach(x => {
+      const c = coreTxt(x); x.guide = [];
+      (x.chs || [x.ch]).forEach(ch => (GUIDE[ch] || []).forEach((g, i) => {
+        const off = GUIDE_OFF[ch];
+        if (g[1].test(x.txt || '') && !(off && off[0].test(c) && !off[1].test(c))) x.guide.push(ch + ':' + i);
+      }));
+    });
     pool.forEach(x => { const c = coreTxt(x); x.sub = []; x.guide.forEach(k => (GUIDE_SUB[k] || []).forEach((g, i) => { if (g[1].test(c)) x.sub.push(k + '/' + i); })); });
     this.byId = {}; pool.forEach(x => { this.byId[x.id] = x; });
     const F = window.E2Focus, on = !!(F && F.active()), ids = on ? F.ids() : [];

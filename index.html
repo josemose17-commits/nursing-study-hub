@@ -62,8 +62,13 @@
 
   <div class="glass more" id="sync">
     <b style="display:block;font-weight:500;font-size:16px;color:var(--color-text)">Move your progress to another device</b>
-    <p style="margin:6px 0 10px">Progress is saved in each browser. Make a link here, send it to yourself (text, email, notes), and open it on the other device — it asks first, then loads your tests, repair deck and focus topics there. Do it again whenever you switch.</p>
-    <button class="btn btn-primary" id="sync-btn" type="button">Copy my progress link</button>
+    <p style="margin:6px 0 10px">Progress is saved in each browser. <b style="font-weight:500;color:var(--color-text)">Save progress file</b> here, send the file to yourself (AirDrop, email, Messages, Google Drive), then on the other device tap <b style="font-weight:500;color:var(--color-text)">Open progress file</b> and pick it. It asks first, then loads your tests, redo progress and focus topics. Do it again whenever you switch.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <button class="btn btn-primary" id="file-save" type="button">Save progress file</button>
+      <label class="btn btn-secondary" style="cursor:pointer">Open progress file<input id="file-open" type="file" accept=".json,application/json" style="display:none"></label>
+      <button class="btn btn-ghost" id="sync-btn" type="button">Copy link instead</button>
+    </div>
+    <p style="margin:8px 0 0;font-size:12.5px;color:var(--color-neutral-400)">The link only works while your progress is small — messaging apps cut long links off. The file always works.</p>
     <p id="sync-msg" style="margin:8px 0 0;font-size:13px;color:var(--color-accent-200)" aria-live="polite"></p>
   </div>
 </main>
@@ -87,8 +92,8 @@
   if (status) document.getElementById('mastery-status').textContent = status;
 })();
 </script>
-<script src="nav.js?v=202610130300"></script>
-<script src="say.js?v=202610130300"></script>
+<script src="nav.js?v=202610140100"></script>
+<script src="say.js?v=202610140100"></script>
 <script>
 (function () {
   // The link is built when the page loads, so a tap can share or copy it right away (phones only allow that inside the tap).
@@ -101,6 +106,26 @@
     if (navigator.share) { navigator.share({ title: 'My Exam 2 progress', url: url }).then(function () { done('Shared.'); }, function (e) { if (!e || e.name !== 'AbortError') fallback(); }); return; }
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { done('Link copied.'); }, fallback);
     else fallback();
+  });
+  // Progress file: share it on a phone (AirDrop, Messages, email…), download it on a computer.
+  var save = document.getElementById('file-save'), open = document.getElementById('file-open');
+  save.addEventListener('click', function () {
+    if (!window.E2Sync) return;
+    var f = window.E2Sync.makeFile();
+    if (navigator.canShare && navigator.canShare({ files: [f] })) {
+      navigator.share({ files: [f], title: 'My Exam 2 progress' }).then(function () { msg.textContent = 'Shared. On the other device, open this page and tap “Open progress file”.'; }, function (e) { if (e && e.name === 'AbortError') return; download(f); });
+    } else download(f);
+  });
+  function download(f) {
+    var a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = f.name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    msg.textContent = 'Saved “' + f.name + '”. Send it to your other device, open this page there and tap “Open progress file”.';
+  }
+  open.addEventListener('change', function () {
+    var f = open.files && open.files[0]; if (!f || !window.E2Sync) return;
+    window.E2Sync.readFile(f).then(function (ok) { if (ok) location.reload(); else msg.textContent = 'Nothing changed.'; },
+      function () { msg.textContent = 'That file isn’t a progress file from this site.'; });
+    open.value = '';
   });
 })();
 </script>

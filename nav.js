@@ -62,7 +62,7 @@
     return p.then(function (b) { return JSON.parse(new TextDecoder().decode(b)); });
   }
   function describe(snap) {
-    var M = null; try { M = JSON.parse(snap.d['e2-mastery-loop-v2'] || 'null'); } catch (e) {}
+    var M = null; try { M = JSON.parse(snap.d['e2-mastery-v3'] || snap.d['e2-mastery-loop-v2'] || 'null'); } catch (e) {}
     var bits = [];
     if (M && M.history && M.history.length) bits.push(M.history.length + ' test' + (M.history.length > 1 ? 's' : '') + ' taken, last ' + M.history[M.history.length - 1].pct + '%');
     if (M && M.deck && M.deck.length) bits.push(M.deck.length + ' repair cards left');
@@ -70,19 +70,26 @@
     if (snap.d['e2-focus']) bits.push('your focus topics');
     return (bits.length ? bits.join(', ') : 'your saved settings') + ' — saved ' + new Date(snap.at).toLocaleString();
   }
-  window.E2Sync = { makeLink: makeLink };
+  // Loading a snapshot (from a link or a progress file): ask first, then replace this device's progress.
+  function apply(snap) {
+    if (!snap || !snap.d) throw new Error('empty');
+    if (!window.confirm('Load this progress?\n\n' + describe(snap) + '\n\nThis replaces the progress saved on this device.')) return false;
+    var old = []; for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (SYNC.test(k)) old.push(k); }
+    old.forEach(function (k) { localStorage.removeItem(k); });
+    Object.keys(snap.d).forEach(function (k) { if (SYNC.test(k)) localStorage.setItem(k, snap.d[k]); });
+    return true;
+  }
+  // A progress file has no length limit, unlike a link (messaging apps cut long links).
+  function makeFile() { return new File([JSON.stringify(snapshot())], 'exam2-progress-' + new Date().toISOString().slice(0, 10) + '.json', { type: 'application/json' }); }
+  function readFile(file) { return file.text().then(function (t) { return apply(JSON.parse(t)); }); }
+  window.E2Sync = { makeLink: makeLink, makeFile: makeFile, readFile: readFile };
   function importFromHash() {
   var hm = /#e2sync=([A-Za-z0-9_-]+)/.exec(location.hash);
   if (hm) {
     var clear = function () { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} };
     readLink(hm[1]).then(function (snap) {
-      if (!snap || !snap.d) throw new Error('empty');
-      if (!window.confirm('Load progress from the link?\n\n' + describe(snap) + '\n\nThis replaces the progress saved on this device.')) { clear(); return; }
-      var old = []; for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (SYNC.test(k)) old.push(k); }
-      old.forEach(function (k) { localStorage.removeItem(k); });
-      Object.keys(snap.d).forEach(function (k) { if (SYNC.test(k)) localStorage.setItem(k, snap.d[k]); });
-      clear(); location.reload();
-    }).catch(function () { clear(); window.alert('That progress link is incomplete or damaged. Copy it again from the other device.'); });
+      var ok = apply(snap); clear(); if (ok) location.reload();
+    }).catch(function () { clear(); window.alert('That progress link is incomplete — long links get cut off when they are sent. Use “Save progress file” on the other device instead, then “Open progress file” here.'); });
   }
   }
   importFromHash();
@@ -92,7 +99,7 @@
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610130300';
+  var BUILD = '202610140100';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     fetch(root + 'version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {

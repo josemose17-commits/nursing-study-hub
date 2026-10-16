@@ -777,4 +777,5 @@ const D = [
 const hasC = new Set(window.DRUG_DATA.classes.map(x => x.id)), hasD = new Set(window.DRUG_DATA.drugs.map(x => x.id));
 window.DRUG_DATA.classes = window.DRUG_DATA.classes.concat(C.filter(x => !hasC.has(x.id)));
 window.DRUG_DATA.drugs = window.DRUG_DATA.drugs.concat(D.filter(x => !hasD.has(x.id)));
+window.DRUG_DATA_PARTS = (window.DRUG_DATA_PARTS || 0) + 1;
 })();

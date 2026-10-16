@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610162300"></script>
-<script src="./say.js?v=202610162300"></script>
+<script src="./nav.js?v=202610170000"></script>
+<script src="./say.js?v=202610170000"></script>
 </head>
 <body>
 <x-dc>
@@ -78,7 +78,7 @@
 <script src="data/explain/drug-whys.js?v=202610040900"></script>
 <script src="data/explain/drug-more.js?v=202610040900"></script>
 <script src="data/topic-index.js?v=202610022200"></script>
-<script src="focus.js?v=202610162300"></script>
+<script src="focus.js?v=202610170000"></script>
 </helmet>
 <div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:15px;line-height:1.55;">
 <div style="max-width:860px;padding:28px 20px 64px;display:flex;flex-direction:column;gap:22px;">
@@ -222,6 +222,7 @@
                 </div>
               </div>
             </sc-for>
+            <sc-if value="{{ hasNodes }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:6px;padding:10px 0;border-top:1px solid var(--color-neutral-800);">
               <div style="font-size:13px;"><b style="font-weight:500;">Concept nodes</b> <span style="color:var(--color-neutral-500);font-size:12px;">organ → molecule breakdowns</span></div>
               <div style="display:flex;flex-wrap:wrap;gap:6px;">
@@ -230,6 +231,7 @@
                 </sc-for>
               </div>
             </div>
+            </sc-if>
           </div>
 
           <sc-if value="{{ rp.hasProblems }}" hint-placeholder-val="{{ true }}">
@@ -563,6 +565,8 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+// ---------- Exam config: everything specific to this exam, from here to “End of the exam config”. ----------
+// tools/build_e3_mastery.js builds Exam 3 Mastery Loop.dc.html from this page with Exam 3's block (tools/e3-mastery-cfg.js) in its place.
 // Chapters 23 and 33 are not on the study guide (0 exam questions): they are tested so nothing
 // blindsides you, but they carry no weight in the exam-weighted score.
 const CHS = ['22', '23', '24', '25', '27', '28', '29', '30', '33', '34'];
@@ -673,6 +677,47 @@ const GUIDE_SUB = {
 };
 // Ch 33 questions that test ch 34 study-guide topics (lab interpretation, neutropenia, bleeding risk).
 const CH33_FOR_34 = /ANC calculation|Lab interpretation|Neutropenic|Bleeding precautions|Prioritize clients|Compare|Select all that apply/;
+// Off-guide chapters (taking turns): one high-yield question in 40- and 60-question tests, and no follow-ups on a miss.
+const OFF_CHS = ['33', '23'];
+const STORE = 'e2-mastery-v3', OLD_STORE = 'e2-mastery-loop-v2';
+const CH_TITLE = { '22': 'Respiratory assessment', '23': 'Upper airway (not on the guide)', '24': 'Lower respiratory problems', '25': 'Respiratory infections', '27': 'Cardiac assessment', '28': 'ECG & dysrhythmias', '29': 'Heart failure & cardiac problems', '30': 'Vascular problems', '33': 'Hematologic assessment (not on the guide)', '34': 'Hematologic problems' };
+// Concept Map nodes (study-guide topics, then mechanisms) and the words that tie a question to each.
+const NODES = [
+  ['promo', 'Health promotion', '22', /smok|vaccin|prevent|cessation|nicotine|exposure|health promotion/i],
+  ['packyr', 'Pack-years', '22', /pack[- ]?year|packs? (a|per) day/i],
+  ['resp-age', 'Respiratory aging', '22', /older|aging|age-related|elderly|\b[6-9]\d-year-old/i],
+  ['asthma', 'Asthma', '24', /asthma|albuterol|SABA|peak flow|status asthmaticus|silent chest|montelukast|omalizumab/i],
+  ['copd', 'COPD', '24', /COPD|emphysema|bronchitis|pursed|barrel|tiotropium|88–92|cor pulmonale|roflumilast/i],
+  ['pna', 'Pneumonia', '25', /pneumonia|consolidat|aspiration|incentive spirometr|sputum/i],
+  ['cv-age', 'CV aging', '27', /older|aging|age-related|orthostatic|elderly/i],
+  ['ecg-r', 'ECG recording', '28', /\blead|electrode|artifact|telemetry|12-lead|monitor/i],
+  ['ecg-a', 'ECG analysis', '28', /P wave|QRS|PR interval|\bQT|ST segment|rhythm|sinus|fibrillation|flutter|tachycardia|heart block|asystole|PVC|SVT|torsades/i],
+  ['hf', 'Heart failure', '29', /heart failure|\bHF\b|BNP|daily weight|pulmonary edema|orthopnea|frothy|digoxin|furosemide/i],
+  ['htn', 'Hypertension', '30', /hypertens|blood pressure|DASH|crisis/i],
+  ['pad', 'PAD', '30', /\bPAD\b|peripheral arter|claudication|arterial|\bABI\b|pedal|bypass|cilostazol/i],
+  ['dvt', 'DVT', '30', /\bDVT\b|deep vein|\bVTE\b|heparin|warfarin|enoxaparin|apixaban|embol|anticoag|\bHIT\b|\bINR\b|aPTT/i],
+  ['labs', 'Lab interpretation', '34', /\bCBC\b|\bMCV\b|ferritin|reticulocyte|\bHgb\b|hemoglobin|\bANC\b|\blab|\bWBC\b/i],
+  ['anemia', 'Anemias', '34', /anemi|iron|B₁₂|B12|pernicious|folic|folate|ferrous/i],
+  ['sickle', 'Sickle cell', '34', /sickle|vaso-occlusive|acute chest|hydroxyurea/i],
+  ['leuk', 'Leukemia', '34', /leukemi|neutropen|\bANC\b|bleeding precaution|filgrastim|chemotherapy/i],
+  ['osa', 'Sleep apnea', '23', /apnea|CPAP|\bOSA\b|snor/i],
+  ['uaw', 'Upper airway', '23', /epistaxis|nosebleed|stridor|airway obstruct|laryng|tracheostom|nasal/i],
+  ['beta', 'β receptors', '', /\bbeta|β|-olol\b|olol\b|albuterol|salmeterol/i],
+  ['calcium', 'Calcium & smooth muscle', '', /calcium channel|diltiazem|amlodipine|verapamil|nifedipine/i],
+  ['alpha', 'α₁ receptors', '', /\balpha|α₁|α1|vasoconstrict/i],
+  ['musc', 'Muscarinic (vagus)', '', /atropine|ipratropium|tiotropium|vagal|vagus|muscarinic|anticholinergic/i],
+  ['raas', 'RAAS', '', /\bACE\b|\bARB\b|angiotensin|aldosterone|renin|lisinopril|losartan|spironolactone|sacubitril/i],
+  ['potassium', 'Diuretics & K⁺', '', /potassium|K⁺|hypokal|hyperkal|diuretic|furosemide|hydrochlorothiazide|spironolactone/i],
+  ['clot', 'Platelets vs clotting', '', /platelet|\bclot|heparin|warfarin|aspirin|clopidogrel|thrombo|coagul|\bINR\b|aPTT|fibrin/i],
+  ['o2', 'O₂ & hemoglobin', '', /SpO|oxygen|hemoglobin|hypox|\bABG\b|PaO/i]
+];
+// Stem words that mark a fact or lab-value question, and words that mark a drug, for working out why a question was missed.
+const FACT_STEM = /\blabs?\b|\blevel\b|value|calculat|\bANC\b|\bINR\b|aPTT|\bABG\b|\bpH\b|normal|interpret|pack-year|\bMCV\b|troponin|reticulocyte/i;
+const DRUG_OPT = /\b(mg|mcg|dose|medication|drug|PRN|IV push|inhaler)\b|olol\b|pril\b|sartan\b|dipine\b|heparin|warfarin|enoxaparin|digoxin|furosemide|nitro|albuterol|steroid|aspirin|apixaban|rivaroxaban|adenosine|atropine|amiodarone|epinephrine|naloxone|protamine|vitamin K|epoetin|filgrastim|isoniazid|rifampin|oseltamivir|theophylline|iron/i;
+// Drug classes named in a question (it then counts as a drugs-and-mechanisms question).
+const CLASS_RE = /beta[- ]?blocker|calcium channel|ACE inhibitor|\bARB\b|diuretic|anticoag|heparin|warfarin|nitro|digoxin|bronchodilat|inhaler|corticosteroid|antibiotic|statin|iron supplement|-olol|-pril|-sartan/i;
+const DRUG_PARTS = 3; // drug data files that must load before the test can start
+// ---------- End of the exam config ----------
 const REASONS = [
   ['words', 'Didn’t know what a word means', -1],
   ['drug', 'Didn’t know the drug — name, class or action', 0],
@@ -794,11 +839,9 @@ function wrongNotes(P, R) {
 // rationales and cues. Returns up to two reason keys (from REASONS), each with a line that explains it.
 const NEG_STEM = /(statement|teaching)[^?]*(follow-?up|reinforce|further teaching|needs? (more )?teaching)|further (teaching|education)|\bunsafe\b|\bexcept\b|\bleast\b|contraindicat/i;
 const PRIO_STEM = /priorit|\bfirst\b(?!-line)|which client|most important|\bbest\b|\binitial\b/i;
-const FACT_STEM = /\blabs?\b|\blevel\b|value|calculat|\bANC\b|\bINR\b|aPTT|\bABG\b|\bpH\b|normal|interpret|pack-year|\bMCV\b|troponin|reticulocyte/i;
 const CUE_STEM = /finding|indicat|suggest|consistent with|require|report|follow-?up|expected|concern|signs?\b|deteriorat|worsening|trend|distinguish|typical/i;
 const ACT_STEM = /action|intervention|appropriate|teach|instruction|response|\bdo\b|\bcare\b|prescription|antidote|administer/i;
 const MECH_STEM = /\bwhy\b|mechanism|explain|because|complete the statement/i;
-const DRUG_OPT = /\b(mg|mcg|dose|medication|drug|PRN|IV push|inhaler)\b|olol\b|pril\b|sartan\b|dipine\b|heparin|warfarin|enoxaparin|digoxin|furosemide|nitro|albuterol|steroid|aspirin|apixaban|rivaroxaban|adenosine|atropine|amiodarone|epinephrine|naloxone|protamine|vitamin K|epoetin|filgrastim|isoniazid|rifampin|oseltamivir|theophylline|iron/i;
 const firstSentences = (t, n) => { const m = String(t || '').match(/.+?[.!?](?=\s|$)/g); return m ? m.slice(0, n || 2).join(' ').replace(/\s+/g, ' ').trim() : String(t || ''); };
 const why = c => firstSentences(clean(c.r), 2);
 // A recall card's answer split into the points you could miss: at semicolons, sentence ends, chain arrows and
@@ -930,43 +973,11 @@ function termsFor(P) {
 }
 
 // ---------- Mastery test: one adaptive test, follow-ups on misses, a report and a study map ----------
-const STORE = 'e2-mastery-v3', OLD_STORE = 'e2-mastery-loop-v2';
 const LENS = [20, 40, 60];
 const REDO_N = 10; // misses per redo round
 const FMT_LABEL = { ngn: 'NGN', trad: 'Traditional', drug: 'Drug question', myth: 'Myth check', recall: 'Active recall' };
 // The mix a test aims for, so every format keeps coming up.
 const MIX = { ngn: 0.30, trad: 0.28, drug: 0.22, myth: 0.08, recall: 0.12 };
-const CH_TITLE = { '22': 'Respiratory assessment', '23': 'Upper airway (not on the guide)', '24': 'Lower respiratory problems', '25': 'Respiratory infections', '27': 'Cardiac assessment', '28': 'ECG & dysrhythmias', '29': 'Heart failure & cardiac problems', '30': 'Vascular problems', '33': 'Hematologic assessment (not on the guide)', '34': 'Hematologic problems' };
-// Concept Map nodes (study-guide topics, then mechanisms) and the words that tie a question to each.
-const NODES = [
-  ['promo', 'Health promotion', '22', /smok|vaccin|prevent|cessation|nicotine|exposure|health promotion/i],
-  ['packyr', 'Pack-years', '22', /pack[- ]?year|packs? (a|per) day/i],
-  ['resp-age', 'Respiratory aging', '22', /older|aging|age-related|elderly|\b[6-9]\d-year-old/i],
-  ['asthma', 'Asthma', '24', /asthma|albuterol|SABA|peak flow|status asthmaticus|silent chest|montelukast|omalizumab/i],
-  ['copd', 'COPD', '24', /COPD|emphysema|bronchitis|pursed|barrel|tiotropium|88–92|cor pulmonale|roflumilast/i],
-  ['pna', 'Pneumonia', '25', /pneumonia|consolidat|aspiration|incentive spirometr|sputum/i],
-  ['cv-age', 'CV aging', '27', /older|aging|age-related|orthostatic|elderly/i],
-  ['ecg-r', 'ECG recording', '28', /\blead|electrode|artifact|telemetry|12-lead|monitor/i],
-  ['ecg-a', 'ECG analysis', '28', /P wave|QRS|PR interval|\bQT|ST segment|rhythm|sinus|fibrillation|flutter|tachycardia|heart block|asystole|PVC|SVT|torsades/i],
-  ['hf', 'Heart failure', '29', /heart failure|\bHF\b|BNP|daily weight|pulmonary edema|orthopnea|frothy|digoxin|furosemide/i],
-  ['htn', 'Hypertension', '30', /hypertens|blood pressure|DASH|crisis/i],
-  ['pad', 'PAD', '30', /\bPAD\b|peripheral arter|claudication|arterial|\bABI\b|pedal|bypass|cilostazol/i],
-  ['dvt', 'DVT', '30', /\bDVT\b|deep vein|\bVTE\b|heparin|warfarin|enoxaparin|apixaban|embol|anticoag|\bHIT\b|\bINR\b|aPTT/i],
-  ['labs', 'Lab interpretation', '34', /\bCBC\b|\bMCV\b|ferritin|reticulocyte|\bHgb\b|hemoglobin|\bANC\b|\blab|\bWBC\b/i],
-  ['anemia', 'Anemias', '34', /anemi|iron|B₁₂|B12|pernicious|folic|folate|ferrous/i],
-  ['sickle', 'Sickle cell', '34', /sickle|vaso-occlusive|acute chest|hydroxyurea/i],
-  ['leuk', 'Leukemia', '34', /leukemi|neutropen|\bANC\b|bleeding precaution|filgrastim|chemotherapy/i],
-  ['osa', 'Sleep apnea', '23', /apnea|CPAP|\bOSA\b|snor/i],
-  ['uaw', 'Upper airway', '23', /epistaxis|nosebleed|stridor|airway obstruct|laryng|tracheostom|nasal/i],
-  ['beta', 'β receptors', '', /\bbeta|β|-olol\b|olol\b|albuterol|salmeterol/i],
-  ['calcium', 'Calcium & smooth muscle', '', /calcium channel|diltiazem|amlodipine|verapamil|nifedipine/i],
-  ['alpha', 'α₁ receptors', '', /\balpha|α₁|α1|vasoconstrict/i],
-  ['musc', 'Muscarinic (vagus)', '', /atropine|ipratropium|tiotropium|vagal|vagus|muscarinic|anticholinergic/i],
-  ['raas', 'RAAS', '', /\bACE\b|\bARB\b|angiotensin|aldosterone|renin|lisinopril|losartan|spironolactone|sacubitril/i],
-  ['potassium', 'Diuretics & K⁺', '', /potassium|K⁺|hypokal|hyperkal|diuretic|furosemide|hydrochlorothiazide|spironolactone/i],
-  ['clot', 'Platelets vs clotting', '', /platelet|\bclot|heparin|warfarin|aspirin|clopidogrel|thrombo|coagul|\bINR\b|aPTT|fibrin/i],
-  ['o2', 'O₂ & hemoglobin', '', /SpO|oxygen|hemoglobin|hypox|\bABG\b|PaO/i]
-];
 const NODE_NAME = {}; NODES.forEach(n => { NODE_NAME[n[0]] = n[1]; });
 // Words too common to tell two drug facts apart.
 const DSTOP = new Set('iv im po mg ml of to in on or by as at be is it if no an up do so per the and for with per order check risk client may can from not take give use used when that this than are its into lower raise more less dose doses daily drug drugs effect effects sign signs level levels low high both each other only'.split(' '));
@@ -993,7 +1004,7 @@ class Component extends DCLogic {
     const t0 = Date.now();
     const tryLoad = () => {
       if (!CHS.every(c => (window.EXPLAIN_CH || {})[c]) && Date.now() - t0 < 5000) return false;
-      if (!window.NGN_EXTRA || !window.RECALL_EXTRA || !window.DRUG_DATA || (window.DRUG_DATA_PARTS || 0) < 3 || !window.GLOSSARY || !window.EXTRA_Q || !window.INFO_TOPICS || !window.E2Focus) return false;
+      if (!window.NGN_EXTRA || !window.RECALL_EXTRA || !window.DRUG_DATA || (window.DRUG_DATA_PARTS || 0) < DRUG_PARTS || !window.GLOSSARY || !window.EXTRA_Q || !window.INFO_TOPICS || !window.E2Focus) return false;
       if (!CHS.every(c => window.NGN_EXTRA[c] || window.RECALL_EXTRA[c])) return false;
       this.build();
       let S = null; try { S = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) {}
@@ -1056,7 +1067,7 @@ class Component extends DCLogic {
       return y;
     };
     const push = (x, id, ch, src) => bank.push(Object.assign(explain(x, id), { id, ch, src, rule0: x.rule || '', phys0: x.phys || '', bank: true }));
-    const to34 = (x, src) => CH33_FOR_34.test(x.t || '') && (src === 'n' || /anemi|reticulocyte|ANC|neutropen/i.test(JSON.stringify(x)));
+    const to34 = (x, src) => !!CH33_FOR_34 && CH33_FOR_34.test(x.t || '') && (src === 'n' || /anemi|reticulocyte|ANC|neutropen/i.test(JSON.stringify(x)));
     const skip = (ch, x, src) => (ch === '33' && to34(x, src)) || (OFF_GUIDE_PICKS[ch] && OFF_GUIDE_PICKS[ch].indexOf(x.t) < 0);
     CHS.forEach(ch => {
       (window.NGN_EXTRA[ch] || []).forEach((x, i) => skip(ch, x, 'n') || push(x, ch + '|n|' + i, ch, x.f));
@@ -1074,7 +1085,6 @@ class Component extends DCLogic {
       const names = [d.n, d.g].concat(String(d.b || '').split(/[,/;()]/)).map(s => String(s || '').trim()).filter(s => s.length >= 5);
       return names.length ? { d, re: new RegExp('\\b(' + [...new Set(names)].map(esc).join('|') + ')\\b', 'i') } : null;
     }).filter(Boolean);
-    const classRe = /beta[- ]?blocker|calcium channel|ACE inhibitor|\bARB\b|diuretic|anticoag|heparin|warfarin|nitro|digoxin|bronchodilat|inhaler|corticosteroid|antibiotic|statin|iron supplement|-olol|-pril|-sartan/i;
     bank.forEach(b => {
       const txt = [b.t, b.q, JSON.stringify(b.o || b.rows || b.parts || [b.cond, b.act, b.mon]), b.rule0, b.phys0].join(' ');
       b.txt = txt; b.words = words(b.t + ' ' + b.q + ' ' + b.rule0 + ' ' + b.phys0 + ' ' + JSON.stringify(b.o || b.rows || b.parts || ''));
@@ -1082,7 +1092,7 @@ class Component extends DCLogic {
       b.kind = ['sata', 'matrix', 'order', 'bow', 'cloze'].includes(k) ? k : (Array.isArray(b.a) && b.a.length > 1 ? 'sata' : 'single');
       b.fmt = b.id.indexOf('|n|') > 0 ? 'ngn' : 'trad';
       b.drugs = drugRe.filter(x => x.re.test(txt)).map(x => x.d);
-      b.skill = (b.drugs.length || classRe.test(txt)) ? SKILLS[0]
+      b.skill = (b.drugs.length || CLASS_RE.test(txt)) ? SKILLS[0]
         : (b.kind === 'order' || b.kind === 'bow' || /priorit|first|immediate|best action|which client|sees? first|unsafe|report/i.test(b.q)) ? SKILLS[2]
         : (b.kind === 'cloze' || b.kind === 'matrix' || /\bwhy\b|mechanism|because|caus|explain/i.test(b.q)) ? SKILLS[1] : SKILLS[3];
       b.topics = this.topicsFor(txt, b.ch); b.nodes = this.nodesFor(txt, b.ch);
@@ -1230,7 +1240,10 @@ class Component extends DCLogic {
       case 'rescue': {
         if (!ok(d.rescue) || !ANTIDOTE.test(d.rescue)) return null;
         const w = draw(o => ANTIDOTE.test(o.rescue || '') ? o.rescue : '', tok(d.rescue), 3); if (!w) return null;
-        return mk(pickOne(['Toxicity or overdose of ' + N + ' is suspected. What is the antidote or rescue?', 'Which treatment reverses or rescues ' + N + ' toxicity?']),
+        // Epinephrine with no overdose named is the rescue for anaphylaxis, so the stem describes the reaction, not an overdose.
+        const ana = /epinephrine/i.test(d.rescue) && !/overdose|toxicity/i.test(d.rescue);
+        return mk(ana ? 'A client receiving ' + N + ' suddenly develops hives, wheezing and a falling blood pressure. What is the rescue?'
+          : pickOne(['Toxicity or overdose of ' + N + ' is suspected. What is the antidote or rescue?', 'Which treatment reverses or rescues ' + N + ' toxicity?']),
           d.rescue, d.emerg && ok(d.emerg) ? 'Watch for: ' + d.emerg : '', w, o => 'That is the rescue for ' + o.n + '.', 'Do you know the reversal before you ever need it?');
       }
     }
@@ -1349,9 +1362,9 @@ class Component extends DCLogic {
   }
   // A test's plan: chapters get their exam share (BP), every study-guide item gets at least one question,
   // and a chapter's extra questions go to its weakest items. 40- and 60-question tests add one
-  // high-yield question from Ch 23 or 33 (not on the guide), taking turns.
+  // high-yield question from an off-guide chapter (OFF_CHS: Ch 23 or 33), taking turns.
   guidePlan(S, len) {
-    const off = len >= 40 ? 1 : 0, n = len - off, chs = Object.keys(GUIDE), q = {}, left = {};
+    const off = len >= 40 && OFF_CHS.length ? 1 : 0, n = len - off, chs = Object.keys(GUIDE), q = {}, left = {};
     chs.forEach(c => { q[c] = GUIDE[c].length; });
     for (let k = GUIDE_N; k < n; k++) {
       const gap = c => BP[c] * n / 60 - q[c];
@@ -1364,10 +1377,10 @@ class Component extends DCLogic {
         left[keys.map(k => [k, this.guideNeed(S, k) / (left[k] + 0.5) + Math.random() * 0.3]).sort((a, b) => b[1] - a[1])[0][0]]++;
       }
     });
-    return { left, offAt: off ? 3 + Math.floor(Math.random() * (len - 6)) : -1, offCh: (S.testNo || 0) % 2 ? '23' : '33' };
+    return { left, offAt: off ? 3 + Math.floor(Math.random() * (len - 6)) : -1, offCh: OFF_CHS[(S.testNo || 0) % Math.max(1, OFF_CHS.length)] };
   }
   pickGuide(S, T) {
-    if (!T.plan) T.plan = T.drill ? { left: { [T.drill]: T.len }, offAt: -1, offCh: '23' } : this.guidePlan(S, T.len);
+    if (!T.plan) T.plan = T.drill ? { left: { [T.drill]: T.len }, offAt: -1, offCh: OFF_CHS[0] } : this.guidePlan(S, T.len);
     const plan = T.plan, used = new Set(T.items.map(p => p.id)), best = items => items.map(x => [x, this.itemScore(S, T, x)]).sort((a, b) => b[1] - a[1])[0][0];
     if (T.base === plan.offAt) {
       const items = this.pool.filter(x => x.ch === plan.offCh && x.bank && !used.has(x.id));
@@ -1521,8 +1534,8 @@ class Component extends DCLogic {
       return;
     }
     const cap = Math.ceil(T.len * 0.6), depth = T.depth[P.id] || 0;
-    // Ch 23 and 33 are not on the study guide: a miss there gets no follow-ups, so they stay a few questions.
-    const offGuide = this.guideMode && !(it.guide || []).length && (P.ch === '23' || P.ch === '33');
+    // Off-guide chapters (Ch 23 and 33): a miss there gets no follow-ups, so they stay a few questions.
+    const offGuide = this.guideMode && !(it.guide || []).length && OFF_CHS.includes(P.ch);
     if (e < 1 && depth < 2 && !offGuide && T.followN + T.queue.length < cap) {
       T.queue.push(this.makeFollow(S, T, P, 0));
       if ((T.scores[P.id] || 0) === 0 && T.conf[P.id] === 'sure' && P.kind !== 'recall') T.queue.push(this.makeFollow(S, T, P, 2));
@@ -1641,7 +1654,7 @@ class Component extends DCLogic {
       return { title: ch + ' · ' + CH_TITLE[ch], note: ms.length ? Math.round(100 * ms.reduce((a, b) => a + b, 0) / ms.length) + '% across ' + ms.length + ' tested topic' + (ms.length > 1 ? 's' : '') : 'not tested yet',
         chips: tops.map(t => chip((M.topics[t.id] || {}).m, this.shortTitle(t), 'Exam 2 Map.html#' + t.id, t.title + ' — open on the Map')).sort((a, b) => order[a.lvl] - order[b.lvl]) };
     });
-    v.nodeMap = NODES.map(n => chip((M.nodes[n[0]] || {}).m, n[1], 'Exam 2 Map.html#n-' + n[0], 'Open the breakdown'));
+    v.nodeMap = NODES.map(n => chip((M.nodes[n[0]] || {}).m, n[1], 'Exam 2 Map.html#n-' + n[0], 'Open the breakdown')); v.hasNodes = NODES.length > 0;
     const R = S.report;
     v.hasReport = !!R; v.noReport = !R;
     v.rp = {}; v.pr = { shaky: [] }; v.hasPractice = false;

@@ -8,7 +8,7 @@ Study pages for Exam 2 (chapters 22, 24, 25, 27, 28, 29, 30, 34) and Exam 3 (cha
 - The Exam 3 notes are written as data in `data/e3/src/<chapter>.js` (each block: a label, the full text, and its Quick bullets) and built with `node tools/build_e3_notes.js` into `data/e3/info-topics.js`, `topic-index.js` and `notes-short.js` in the same shape as Exam 2's. The build also checks that every Why it works line (`data/e3/basics.js`) quotes the notes exactly. Rebuild after any edit to a source file.
 - `data/e3/focus-rules.js` sets `window.FOCUS_CFG` before `focus.js`: Exam 3's own focus keys, topic keyword rules and (once the professor's study guide arrives) its study-guide topics.
 - `nav.js` takes the exam from the page's file name ("Exam 3 …"), or on Home and the reference sheet from the exam used last (`hub-exam`). `HAS` lists which pages each exam has so far; a missing one gets no tab.
-- Still to come for Exam 3: chapters 45–49, drug cards, the Mastery test, breakdowns, and the study-guide layer (`GUIDE`/`BP`) once the study guide is in.
+- Still to come for Exam 3: Why it works cards (`data/e3/basics.js`), drug cards, the Mastery test, breakdowns, and the study-guide layer (`GUIDE`/`BP`) once the study guide is in.
 
 | Page | What it does |
 | --- | --- |

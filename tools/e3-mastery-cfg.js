@@ -156,8 +156,39 @@ const CH33_FOR_34 = null;
 const OFF_CHS = [];
 const STORE = 'e3-mastery-v3', OLD_STORE = 'e3-mastery-loop-v2';
 const CH_TITLE = { '45': 'GI assessment', '46': 'Mouth & esophagus', '47': 'Stomach conditions', '48': 'Noninflammatory bowel conditions', '49': 'Inflammatory bowel conditions', '53': 'Endocrine assessment', '55': 'Thyroid & parathyroid', '56': 'Diabetes' };
-// Concept Map nodes (organ → molecule breakdowns) and the words that tie a question to each. Added with the Exam 3 breakdowns.
-const NODES = [];
+// Organ → molecule breakdowns (data/e3/nodes-*.js): the topic breakdowns, then the mechanisms, and the words that tie a
+// question to each. A topic breakdown only matches questions from its own chapter; a mechanism matches any chapter.
+const NODES = [
+  ['abd-exam', 'Abdominal exam & GI labs', '45', /inspect|auscultat|palpat|percuss|bowel sounds|bruit|pulsat|rigid|guarding|\bALT\b|\bAST\b|bilirubin|ammonia|albumin|amylase|lipase|alkaline phosphatase|occult|guaiac|\bFIT\b|FOBT|\bCEA\b|aging|older adult/i],
+  ['scopes', 'Scopes, sedation & bowel prep', '45', /\bEGD\b|ERCP|colonoscop|sigmoidoscop|capsule|endoscop|sedation|midazolam|gag reflex|bowel prep|contrast|\bCT\b/i],
+  ['stomatitis', 'Stomatitis & oral cancer', '46', /stomatitis|mucositis|candid|thrush|mouth care|oral care|lidocaine|leukoplakia|erythroplakia|oral cancer|glossectomy|xerostomia|salivary/i],
+  ['gerd', 'GERD, hiatal hernia & the esophagus', '46', /GERD|reflux|heartburn|\bLES\b|lower esophageal|Barrett|hiatal|fundoplication|esophag|dysphagia|caustic|drain cleaner/i],
+  ['pud', 'Gastritis & peptic ulcer', '47', /gastritis|peptic|ulcer|H\. pylori|Helicobacter|NSAID|sucralfate|misoprostol|bismuth|urea breath|triple therapy/i],
+  ['ugib', 'Upper GI bleeding & gastric surgery', '47', /hematemesis|melena|coffee[- ]ground|bleed|hemorrhag|perforat|gastrectomy|dumping|gastric cancer|pyloric/i],
+  ['ibs-hernia', 'IBS, hernias & hemorrhoids', '48', /irritable bowel|\bIBS\b|alosetron|linaclotide|lubiprostone|hernia|hemorrhoid|truss|sitz/i],
+  ['crc', 'Colorectal cancer & colostomy', '48', /colorectal|colon cancer|polyp|\bFAP\b|Lynch|colostomy|stoma|ostomy|pouch|abdominoperineal|fluorouracil|bevacizumab/i],
+  ['obstruction', 'Bowel obstruction & the NG tube', '48', /obstruct|ileus|adhesion|volvulus|strangulat|\bNG\b|nasogastric|suction|alvimopan|Kehr|Cullen|trauma/i],
+  ['acute-abd', 'Appendicitis, peritonitis & gastroenteritis', '49', /appendic|McBurney|periton|rebound|gastroenteritis|norovirus|dehydrat|oral rehydration/i],
+  ['ibd', 'Ulcerative colitis & Crohn’s disease', '49', /ulcerative colitis|\bUC\b|Crohn|\bIBD\b|fistula|ileostomy|J-pouch|toxic megacolon|sulfasalazine|mesalamine|infliximab|adalimumab|natalizumab|vedolizumab/i],
+  ['divert', 'Diverticular disease, celiac & parasites', '49', /diverticul|celiac|gluten|Giardia|amebi|parasit|paromomycin/i],
+  ['endo-axis', 'Glands, feedback & endocrine tests', '53', /feedback|hypothalam|pituitar|adrenal|cortisol|aldosterone|\bADH\b|24-hour urine|stimulation|suppression|endocrine/i],
+  ['hypothyroid', 'Hypothyroidism & myxedema coma', '55', /hypothyroid|myxedema|Hashimoto|levothyroxine|cold intoleran/i],
+  ['hyperthyroid', 'Hyperthyroidism, thyroidectomy & storm', '55', /hyperthyroid|Graves|thyroid storm|thyroidectomy|methimazole|propylthiouracil|\bPTU\b|SSKI|radioactive iodine|exophthalm/i],
+  ['pth', 'Parathyroid & calcium', '55', /parathyroid|\bPTH\b|calcium|tetany|Chvostek|Trousseau|cinacalcet|calcitriol/i],
+  ['dm-dx', 'Diabetes: types & diagnosis', '56', /type 1|type 2|A1C|fasting|OGTT|screen|prediabetes|\bCGM\b|meter|polyuria/i],
+  ['dm-rx', 'Insulin & diabetes drugs', '56', /lispro|aspart|glargine|\bNPH\b|degludec|regular insulin|insulin (pen|pump|injection)|metformin|glipizide|sulfonylurea|SGLT2|empagliflozin|GLP-1|semaglutide|pioglitazone|acarbose|pramlintide|inject/i],
+  ['dm-acute', 'Lows, DKA & HHS', '56', /hypoglyc|15-15|glucagon|D50|\bDKA\b|ketoacidosis|Kussmaul|\bHHS\b|hyperosmolar|sick day/i],
+  ['dm-chronic', 'Diabetes complications & foot care', '56', /retinopathy|nephropathy|neuropathy|foot|feet|monofilament|albumin|kidney|exercise|carbohydrate|surgery|\bNPO\b/i],
+  ['acid', 'Acid & the proton pump', '', /proton pump|\bPPI\b|omeprazole|pantoprazole|famotidine|\bH2\b|histamine|antacid|acid secretion|gastrin|prostaglandin|misoprostol|sucralfate/i],
+  ['motility', 'Peristalsis & gut nerves', '', /peristalsis|motility|ileus|opioid|metoclopramide|alvimopan|alosetron|serotonin|5-HT|bowel sounds|gastroparesis/i],
+  ['fluids', 'Water follows solute', '', /dehydrat|third[- ]spac|osmotic|osmolar|hypovolem|fluid (shift|loss|volume|replacement)|oral rehydration|daily weight|dumping|bowel prep|polyuria/i],
+  ['k-acidbase', 'Potassium & acid–base', '', /potassium|K⁺|hypokal|hyperkal|alkalosis|acidosis|bicarbonate|HCO₃|anion gap|\bpH\b|magnesium/i],
+  ['inflammation', 'Inflammation, TNF & the barrier', '', /inflamm|\bTNF\b|infliximab|adalimumab|vedolizumab|natalizumab|steroid|prednisone|budesonide|azathioprine|mesalamine|sulfasalazine|5-ASA|\bCRP\b|\bESR\b|cytokine|sepsis/i],
+  ['microbes', 'Gut microbes & infection', '', /H\. pylori|Helicobacter|difficile|Candida|thrush|nystatin|clotrimazole|norovirus|Giardia|amebi|parasit|metronidazole|antibiotic|E\. coli|Shigella|hand ?hygiene|hand ?wash/i],
+  ['insulin', 'Insulin, glucagon & glucose', '', /insulin|glucagon|hypoglyc|ketone|\bDKA\b|beta cell|sulfonylurea|glipizide|GLP-1|metformin/i],
+  ['thyroid', 'Thyroid hormone & metabolic rate', '', /thyroid|\bT[34]\b|T₃|T₄|\bTSH\b|levothyroxine|methimazole|propylthiouracil|\bPTU\b|iodine|SSKI|Graves|Hashimoto|myxedema/i],
+  ['calcium', 'Calcium, PTH & nerve excitability', '', /calcium|\bPTH\b|parathyroid|tetany|Chvostek|Trousseau|calcitriol|vitamin D|cinacalcet|phosph/i]
+];
 // Stem words that mark a fact or lab-value question, and words that mark a drug, for working out why a question was missed.
 const FACT_STEM = /\blabs?\b|\blevel\b|value|calculat|normal|interpret|\bA1C\b|glucose|\bTSH\b|\bT[34]\b|calcium|potassium|sodium|amylase|lipase|\bALT\b|\bAST\b|bilirubin|ammonia|albumin|ketone|osmolar|\bpH\b|bicarbonate|anion gap|\bWBC\b|hemoglobin|\bCEA\b/i;
 const DRUG_OPT = /\b(mg|mcg|units?|dose|medication|drug|PRN|IV push|tablets?|injection)\b|insulin|metformin|glipizide|glyburide|repaglinide|glucagon|dextrose|levothyroxine|methimazole|propylthiouracil|\bPTU\b|iodine|propranolol|calcium gluconate|calcitriol|cinacalcet|prazole\b|tidine\b|antacid|sucralfate|misoprostol|bismuth|metoclopramide|loperamide|laxative|psyllium|docusate|mesalamine|sulfasalazine|prednisone|budesonide|azathioprine|infliximab|adalimumab|metronidazole|ciprofloxacin|amoxicillin|clarithromycin|nystatin|octreotide|semaglutide|empagliflozin|pioglitazone|sitagliptin|acarbose|midazolam/i;

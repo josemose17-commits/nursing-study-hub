@@ -642,7 +642,7 @@
   function drugHtml(id) {
     var D = window.DRUG_DATA || { drugs: [] }, d = D.drugs.filter(function (x) { return x.id === id; })[0];
     if (!d) return '';
-    var X = (window.DRUG_EXPLAIN || {})[id] || {}, W = (window.DRUG_WHY || {}), MORE = (window.DRUG_MORE || {})[id] || {};
+    var X = (window.DRUG_EXPLAIN || {})[id] || d, W = (window.DRUG_WHY || {}), MORE = (window.DRUG_MORE || {})[id] || {};
     var row = function (k, v) { return v && v !== 'None.' ? '<dt>' + k + '</dt><dd>' + v + '</dd>' : ''; };
     var se = function (list) { return (list || []).length ? '<ul>' + list.map(function (x) { return '<li><b>' + esc(x[0]) + '</b> — ' + esc(x[1]) + '</li>'; }).join('') + '</ul>' : ''; };
     return '<div class="wk-drug"><h3>' + esc(d.n) + (d.b ? ' <span style="font-weight:400;color:var(--color-neutral-400);font-size:14px">(' + esc(d.b) + ')</span>' : '') + '</h3><div class="cls">' + esc(d.c || '') + '</div><dl>' +

@@ -7,7 +7,7 @@
   var em = /^Exam (\d+) /.exec(here), EXAM = em ? em[1] : '';
   try { if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = localStorage.getItem('hub-exam') || ''; } catch (e) {}
   // Pages each exam has so far; a missing one gets no tab.
-  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Map'] };
+  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Map', 'Drugs'] };
   if (!HAS[EXAM]) EXAM = '2';
   var TABS = [
     ['index.html', 'Home', 'M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z'],
@@ -109,7 +109,7 @@
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610162200';
+  var BUILD = '202610162300';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     fetch(root + 'version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {

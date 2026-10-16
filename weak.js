@@ -2,8 +2,9 @@
 // Shared by the Map's "weak areas" page and the Practice page. Ranked by how much was lost on each topic.
 (function () {
   window.E2Weak = {
-    plan: function (has) {
-      var S = null; try { S = JSON.parse(localStorage.getItem('e2-mastery-v3') || 'null'); } catch (e) {}
+    // store: the exam's Mastery store (Exam 2: e2-mastery-v3, Exam 3: e3-mastery-v3).
+    plan: function (has, store) {
+      var S = null; try { S = JSON.parse(localStorage.getItem(store || 'e2-mastery-v3') || 'null'); } catch (e) {}
       if (!S || !S.report) return null;
       var R = S.report, stat = {};
       (R.recs || []).forEach(function (r) { (r.topics || []).forEach(function (t) {

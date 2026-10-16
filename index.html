@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#04160e">
-<title>Exam 2 Study Hub</title>
+<title>NRS 114 Study Hub</title>
 <link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610022000">
 <style>
   main { max-width: 920px; padding: clamp(20px, 4vw, 44px) 16px 24px; display: flex; flex-direction: column; gap: 18px; }
@@ -29,26 +29,38 @@
   .more a { color: var(--color-accent-300); }
   .more ul { margin: 6px 0 0; padding-left: 18px; }
   .more li { margin-bottom: 4px; }
+  .switch { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); align-self: flex-start; }
+  .switch button { font: inherit; font-size: 14px; color: var(--color-neutral-300); background: transparent; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+  .switch button[aria-pressed="true"] { background: var(--color-accent); color: #04160e; font-weight: 600; }
+  .exam { display: flex; flex-direction: column; gap: 18px; }
+  .exam[hidden] { display: none; }
+  .tile.soon { opacity: .55; pointer-events: none; }
 </style>
 </head>
 <body>
 <main>
+  <div class="switch" role="group" aria-label="Which exam">
+    <button type="button" data-exam="2" aria-pressed="true">Exam 2</button>
+    <button type="button" data-exam="3" aria-pressed="false">Exam 3</button>
+  </div>
+
+  <section class="exam" data-exam="2">
   <div>
     <div class="kicker">NRS 114 · Med-Surg 1 · Exam 2</div>
     <h1>Oxygen in, blood around.</h1>
   </div>
   <p class="lead">Chapters 22, 24, 25, 27, 28, 29, 30 and 34 — the real exam is 60 questions, a third of them hematology. Learn on the map, then let the mastery test find what is still weak and point you to it. When your professor gives the exam topics, pick them on the map and everything else follows.</p>
 
-  <div class="glass next" id="next">
-    <div><b id="next-title">Start here</b><span id="next-body">Study on the map, then take the diagnostic pre-test.</span></div>
-    <a class="btn btn-primary go" id="next-go" href="Exam 2 Map.html">Open the map</a>
+  <div class="glass next">
+    <div><b data-next="title">Start here</b><span data-next="body">Study on the map, then take the diagnostic pre-test.</span></div>
+    <a class="btn btn-primary go" data-next="go" href="Exam 2 Map.html">Open the map</a>
   </div>
 
   <div class="tiles">
-    <a class="glass tile" href="Exam 2 Map.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v4M12 8 6 13M12 8l6 5M6 13v3M18 13v3M4 16h4v4H4zM16 16h4v4h-4zM10 2h4v4h-4z"/></svg><span class="step">1 · Learn</span><b>Exam map</b><p>All the content as one map — notes, organ → molecule breakdowns, every word defined. Pick your focus topics here.</p><em id="focus-status"></em></a>
+    <a class="glass tile" href="Exam 2 Map.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v4M12 8 6 13M12 8l6 5M6 13v3M18 13v3M4 16h4v4H4zM16 16h4v4h-4zM10 2h4v4h-4z"/></svg><span class="step">1 · Learn</span><b>Exam map</b><p>All the content as one map — notes, organ → molecule breakdowns, every word defined. Pick your focus topics here.</p><em data-next="focus"></em></a>
     <a class="glass tile" href="Exam 2 Drug Cards.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7"/></svg><span class="step">1 · Learn</span><b>Drug cards</b><p>Every drug by system and class, with the why behind each effect.</p></a>
     <a class="glass tile" href="Reference Sheet.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg><span class="step">Background</span><b>Reference sheet</b><p>What your med-surg book assumes you know from earlier courses. Starts with therapeutic communication.</p></a>
-    <a class="glass tile wide" href="Exam 2 Mastery Loop.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg><span class="step">2 · Prove it</span><b>Mastery test</b><p>One adaptive test: NCLEX + NGN, follow-ups on what you miss, then a study plan.</p><em id="mastery-status"></em></a>
+    <a class="glass tile wide" href="Exam 2 Mastery Loop.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg><span class="step">2 · Prove it</span><b>Mastery test</b><p>One adaptive test: NCLEX + NGN, follow-ups on what you miss, then a study plan.</p><em data-next="status"></em></a>
   </div>
 
   <div class="glass more">
@@ -59,6 +71,26 @@
       <li><a href="notes/Exam 2 Audio Notes.txt">Audio notes</a> · <a href="notes/NRS 114 Exam 2 Study Guide.docx">Study guide</a></li>
     </ul>
   </div>
+  </section>
+
+  <section class="exam" data-exam="3" hidden>
+  <div>
+    <div class="kicker">NRS 114 · Med-Surg 1 · Exam 3</div>
+    <h1>Food in, hormones in balance.</h1>
+  </div>
+  <p class="lead">Chapters 45–49 (the GI tract, from mouth to colon) and 53, 55 and 56 (the endocrine glands, the thyroid and parathyroids, and diabetes). The notes come from your med-surg book; the Why it works cards use your A&amp;P, chemistry, microbiology, pharmacology and psychology books to explain them. When your professor gives the Exam 3 study guide, pick its topics on the map.</p>
+  <p class="lead" style="font-size:14px;color:var(--color-accent-200)">On the map now: chapters 53, 55 and 56. Still being added: the GI chapters (45–49), Exam 3 drug cards and the Exam 3 Mastery test.</p>
+
+  <div class="glass next">
+    <div><b data-next="title">Start here</b><span data-next="body">Read the chapters on the map.</span></div>
+    <a class="btn btn-primary go" data-next="go" href="Exam 3 Map.html">Open the map</a>
+  </div>
+
+  <div class="tiles">
+    <a class="glass tile" href="Exam 3 Map.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v4M12 8 6 13M12 8l6 5M6 13v3M18 13v3M4 16h4v4H4zM16 16h4v4h-4zM10 2h4v4h-4z"/></svg><span class="step">1 · Learn</span><b>Exam map</b><p>All eight chapters as one map — notes with a Quick version, Why it works from your other books, every word defined.</p><em data-next="focus"></em></a>
+    <a class="glass tile" href="Reference Sheet.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg><span class="step">Background</span><b>Reference sheet</b><p>What your med-surg book assumes you know from earlier courses.</p></a>
+  </div>
+  </section>
 
   <div class="glass more" id="sync">
     <b style="display:block;font-weight:500;font-size:16px;color:var(--color-text)">Move your progress to another device</b>
@@ -73,27 +105,46 @@
   </div>
 </main>
 <script>
-// "Pick up where you left off": reads the progress the study pages save.
+// "Pick up where you left off": each exam's card reads the progress its study pages save.
 (function () {
   function read(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
-  var M = read('e2-mastery-v3');
-  var title = 'Start here', body = 'Study on the map, then take a mastery test — it finds what is weak and tells you what to study.', label = 'Open the map', href = 'Exam 2 Map.html', status = '';
-  var focus = read('e2-focus');
-  if (focus && focus.ids && focus.ids.length) document.getElementById('focus-status').textContent = 'Focus: ' + focus.name + ' · ' + focus.ids.length + ' topics';
-  if (M && M.test) { title = 'Finish your test'; body = 'You stopped at question ' + M.test.items.length + '.'; label = 'Resume'; href = 'Exam 2 Mastery Loop.dc.html'; status = 'Test in progress'; }
-  else if (M && M.report) {
-    var R = M.report, miss = (R.recs || []).filter(function (r) { return r.e < 1; }).length;
-    title = 'Last test: ' + R.pct + '%'; body = miss ? miss + ' things to work on — your report says what to study first, then retest.' : 'Nothing missed — take another test to confirm it holds.';
-    label = 'See your report'; href = 'Exam 2 Mastery Loop.dc.html'; status = 'Last: ' + R.pct + '%';
+  ['2', '3'].forEach(function (ex) {
+    var sec = document.querySelector('.exam[data-exam="' + ex + '"]'), q = function (n) { return sec.querySelector('[data-next="' + n + '"]'); };
+    var M = read('e' + ex + '-mastery-v3'), map = 'Exam ' + ex + ' Map.html', mastery = 'Exam ' + ex + ' Mastery Loop.dc.html';
+    var title = 'Start here', body = 'Study on the map, then take a mastery test — it finds what is weak and tells you what to study.', label = 'Open the map', href = map, status = '';
+    if (ex === '3') body = 'Read the chapters on the map. Use Quick for the short version, and Why it works when a line doesn\u2019t make sense yet.';
+    var focus = read('e' + ex + '-focus');
+    if (focus && focus.ids && focus.ids.length && q('focus')) q('focus').textContent = 'Focus: ' + focus.name + ' · ' + focus.ids.length + ' topics';
+    if (M && M.test) { title = 'Finish your test'; body = 'You stopped at question ' + M.test.items.length + '.'; label = 'Resume'; href = mastery; status = 'Test in progress'; }
+    else if (M && M.report) {
+      var R = M.report, miss = (R.recs || []).filter(function (r) { return r.e < 1; }).length;
+      title = 'Last test: ' + R.pct + '%'; body = miss ? miss + ' things to work on — your report says what to study first, then retest.' : 'Nothing missed — take another test to confirm it holds.';
+      label = 'See your report'; href = mastery; status = 'Last: ' + R.pct + '%';
+    }
+    q('title').textContent = title; q('body').textContent = body;
+    var go = q('go'); go.textContent = label; go.href = href;
+    if (status && q('status')) q('status').textContent = status;
+  });
+  // Exam 2 / Exam 3 switch: opens on the exam studied last.
+  var cur = '2'; try { cur = localStorage.getItem('hub-exam') || '2'; } catch (e) {}
+  function show(ex) {
+    if (!document.querySelector('.exam[data-exam="' + ex + '"]')) ex = '2';
+    document.querySelectorAll('.exam').forEach(function (s) { s.hidden = s.dataset.exam !== ex; });
+    document.querySelectorAll('.switch button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.exam === ex ? 'true' : 'false'); });
+    document.title = 'NRS 114 · Exam ' + ex;
   }
-  document.getElementById('next-title').textContent = title;
-  document.getElementById('next-body').textContent = body;
-  var go = document.getElementById('next-go'); go.textContent = label; go.href = href;
-  if (status) document.getElementById('mastery-status').textContent = status;
+  show(cur);
+  document.querySelector('.switch').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-exam]'); if (!b) return;
+    try { localStorage.setItem('hub-exam', b.dataset.exam); } catch (x) {}
+    show(b.dataset.exam);
+    // The tab bar follows the exam picked here.
+    location.reload();
+  });
 })();
 </script>
-<script src="nav.js?v=202610140100"></script>
-<script src="say.js?v=202610140100"></script>
+<script src="nav.js?v=202610161600"></script>
+<script src="say.js?v=202610161600"></script>
 <script>
 (function () {
   // The link is built when the page loads, so a tap can share or copy it right away (phones only allow that inside the tap).
@@ -103,7 +154,7 @@
   function fallback() { window.prompt('Copy this link:', url); done('Link ready.'); }
   btn.addEventListener('click', function () {
     if (!url) { msg.textContent = 'Still preparing the link — tap again in a second.'; return; }
-    if (navigator.share) { navigator.share({ title: 'My Exam 2 progress', url: url }).then(function () { done('Shared.'); }, function (e) { if (!e || e.name !== 'AbortError') fallback(); }); return; }
+    if (navigator.share) { navigator.share({ title: 'My NRS 114 progress', url: url }).then(function () { done('Shared.'); }, function (e) { if (!e || e.name !== 'AbortError') fallback(); }); return; }
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { done('Link copied.'); }, fallback);
     else fallback();
   });
@@ -113,7 +164,7 @@
     if (!window.E2Sync) return;
     var f = window.E2Sync.makeFile();
     if (navigator.canShare && navigator.canShare({ files: [f] })) {
-      navigator.share({ files: [f], title: 'My Exam 2 progress' }).then(function () { msg.textContent = 'Shared. On the other device, open this page and tap “Open progress file”.'; }, function (e) { if (e && e.name === 'AbortError') return; download(f); });
+      navigator.share({ files: [f], title: 'My NRS 114 progress' }).then(function () { msg.textContent = 'Shared. On the other device, open this page and tap “Open progress file”.'; }, function (e) { if (e && e.name === 'AbortError') return; download(f); });
     } else download(f);
   });
   function download(f) {

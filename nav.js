@@ -1,14 +1,22 @@
 // Floating glass tab bar linking the study pages. Re-attaches itself if a
 // page re-renders its body, and marks the current page.
 (function () {
+  var here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html');
+  // The Map, Drugs and Mastery tabs open the exam this page belongs to ("Exam 3 Map.html" → Exam 3);
+  // on Home and the reference sheet, the exam visited last.
+  var em = /^Exam (\d+) /.exec(here), EXAM = em ? em[1] : '';
+  try { if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = localStorage.getItem('hub-exam') || ''; } catch (e) {}
+  // Pages each exam has so far; a missing one gets no tab.
+  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Map'] };
+  if (!HAS[EXAM]) EXAM = '2';
   var TABS = [
     ['index.html', 'Home', 'M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z'],
-    ['Exam 2 Map.html', 'Map', 'M6 6h.01M18 6h.01M12 18h.01M6 6l6 12 6-12M6 6h12'],
-    ['Exam 2 Drug Cards.dc.html', 'Drugs', 'M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7'],
-    ['Exam 2 Mastery Loop.dc.html', 'Mastery', 'M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5'],
+    ['Exam ' + EXAM + ' Map.html', 'Map', 'M6 6h.01M18 6h.01M12 18h.01M6 6l6 12 6-12M6 6h12'],
+    ['Exam ' + EXAM + ' Drug Cards.dc.html', 'Drugs', 'M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7'],
+    ['Exam ' + EXAM + ' Mastery Loop.dc.html', 'Mastery', 'M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5'],
     ['Reference Sheet.html', 'Ref', 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5']
-  ];
-  var here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html');
+  ].filter(function (t) { return !/^Exam /.test(t[0]) || HAS[EXAM].indexOf(t[1]) >= 0; });
+  window.E2Hub = { exam: EXAM };
   var root = location.pathname.indexOf('/offline/') >= 0 ? '../' : '';
   function build() {
     // Six tabs: let each keep its label's width so the names don't run together on a phone.
@@ -38,10 +46,10 @@
   if (document.readyState === 'complete') setTimeout(prefetch, 1500); else window.addEventListener('load', function () { setTimeout(prefetch, 1500); });
   new MutationObserver(attach).observe(document.documentElement, { childList: true, subtree: true });
 
-  // Moving progress between devices: everything this site saves (keys starting e2- / exam2-) is packed into a link.
+  // Moving progress between devices: everything this site saves (keys starting e2- / e3- / exam2-) is packed into a link.
   // Opening the link on another device asks first, then replaces that device's progress. The data rides in the
   // part of the address after #, which browsers never send to the server.
-  var SYNC = /^(e2-|exam2-|map-noembed$)/;
+  var SYNC = /^(e2-|e3-|exam2-|map-noembed$)/;
   function b64(bytes) { var s = ''; for (var i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
   function unb64(t) { t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; var s = atob(t), out = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) out[i] = s.charCodeAt(i); return out; }
   function pipe(bytes, stream) { return new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer().then(function (b) { return new Uint8Array(b); }); }
@@ -62,12 +70,14 @@
     return p.then(function (b) { return JSON.parse(new TextDecoder().decode(b)); });
   }
   function describe(snap) {
-    var M = null; try { M = JSON.parse(snap.d['e2-mastery-v3'] || snap.d['e2-mastery-loop-v2'] || 'null'); } catch (e) {}
     var bits = [];
-    if (M && M.history && M.history.length) bits.push(M.history.length + ' test' + (M.history.length > 1 ? 's' : '') + ' taken, last ' + M.history[M.history.length - 1].pct + '%');
-    if (M && M.deck && M.deck.length) bits.push(M.deck.length + ' repair cards left');
-    if (M && M.test) bits.push('a test in progress');
-    if (snap.d['e2-focus']) bits.push('your focus topics');
+    [['2', snap.d['e2-mastery-v3'] || snap.d['e2-mastery-loop-v2']], ['3', snap.d['e3-mastery-v3']]].forEach(function (x) {
+      var M = null; try { M = JSON.parse(x[1] || 'null'); } catch (e) {}
+      if (M && M.history && M.history.length) bits.push('Exam ' + x[0] + ': ' + M.history.length + ' test' + (M.history.length > 1 ? 's' : '') + ' taken, last ' + M.history[M.history.length - 1].pct + '%');
+      if (M && M.deck && M.deck.length) bits.push(M.deck.length + ' repair cards left');
+      if (M && M.test) bits.push('an Exam ' + x[0] + ' test in progress');
+    });
+    if (snap.d['e2-focus'] || snap.d['e3-focus']) bits.push('your focus topics');
     return (bits.length ? bits.join(', ') : 'your saved settings') + ' — saved ' + new Date(snap.at).toLocaleString();
   }
   // Loading a snapshot (from a link or a progress file): ask first, then replace this device's progress.
@@ -80,7 +90,7 @@
     return true;
   }
   // A progress file has no length limit, unlike a link (messaging apps cut long links).
-  function makeFile() { return new File([JSON.stringify(snapshot())], 'exam2-progress-' + new Date().toISOString().slice(0, 10) + '.json', { type: 'application/json' }); }
+  function makeFile() { return new File([JSON.stringify(snapshot())], 'nrs114-progress-' + new Date().toISOString().slice(0, 10) + '.json', { type: 'application/json' }); }
   function readFile(file) { return file.text().then(function (t) { return apply(JSON.parse(t)); }); }
   window.E2Sync = { makeLink: makeLink, makeFile: makeFile, readFile: readFile };
   function importFromHash() {
@@ -99,7 +109,7 @@
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610140100';
+  var BUILD = '202610161600';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     fetch(root + 'version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {

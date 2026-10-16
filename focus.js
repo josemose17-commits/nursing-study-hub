@@ -2,12 +2,15 @@
 // Mastery Loop both read it, so one choice drives everything you study.
 // Stored in this browser as localStorage['e2-focus'] = { ids: [...], name }.
 // No focus (or an empty list) means everything.
+// Another exam's pages set window.FOCUS_CFG first (data/e3/focus-rules.js): its own storage keys, keyword rules
+// and study-guide topics, so each exam keeps its own focus.
 (function () {
-  var KEY = 'e2-focus', SAVED = 'e2-focus-saved';
+  var CFG = window.FOCUS_CFG || {};
+  var KEY = CFG.key || 'e2-focus', SAVED = CFG.saved || 'e2-focus-saved';
 
   // Which questions belong to a map topic: [chapter, topic-title test, keywords].
   // A topic with no keywords (most chapter overviews, nursing process) covers its whole chapter.
-  var RULES = [
+  var RULES = CFG.rules || [
     // Overviews whose study-guide content is narrow (aging, labs) get keywords too; other overviews mean the whole chapter.
     ['22', /overview/i, /older|aging|age-related|elastic recoil|kyphosis|cough reflex|chest wall|pack[- ]?year|smok/i],
     ['27', /overview/i, /older|aging|age-related|orthostatic|isolated systolic|S4|baroreceptor|stiff/i],
@@ -73,7 +76,7 @@
   ];
 
   // The professor's Exam 2 study guide, as map topics.
-  var STUDY_GUIDE = [
+  var STUDY_GUIDE = CFG.guide || [
     ['22', /overview/i], ['22', /smoking cessation/i], ['22', /questions to ask/i],
     ['24', /^asthma/i], ['24', /^COPD/i],
     ['25', /^pneumonia/i],
@@ -147,7 +150,9 @@
       var all = readSaved(); delete all[name];
       try { localStorage.setItem(SAVED, JSON.stringify(all)); } catch (e) {}
     },
-    label: function () { var v = E2Focus.get(); return v ? v.name + ' · ' + v.ids.length + ' topic' + (v.ids.length === 1 ? '' : 's') : 'Everything'; }
+    label: function () { var v = E2Focus.get(); return v ? v.name + ' · ' + v.ids.length + ' topic' + (v.ids.length === 1 ? '' : 's') : 'Everything'; },
+    // The localStorage keys this focus lives in (pages listen for changes to them).
+    storageKeys: [KEY, SAVED]
   };
   window.E2Focus = E2Focus;
 })();

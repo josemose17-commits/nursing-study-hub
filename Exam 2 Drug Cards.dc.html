@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610021900"></script>
-<script src="./nav.js?v=202610162200"></script>
-<script src="./say.js?v=202610162200"></script>
+<script src="./nav.js?v=202610162300"></script>
+<script src="./say.js?v=202610162300"></script>
 </head>
 <body>
 <x-dc>
@@ -59,7 +59,7 @@
     </div>
   </header>
 
-  <div style="position:sticky;top:0;z-index:30;background:var(--color-bg);border-bottom:1px solid var(--color-divider);padding:var(--space-3) clamp(14px,4vw,48px);display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center">
+  <div data-sticky-bar style="position:sticky;top:0;z-index:30;background:var(--color-bg);border-bottom:1px solid var(--color-divider);padding:var(--space-3) clamp(14px,4vw,48px);display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center">
     <input value="{{ query }}" onInput="{{ onQuery }}" placeholder="Find a drug, class or brand…" style="flex:1 1 220px;min-width:0;max-width:340px;font-family:var(--font-body);font-size:14.5px;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--color-neutral-700);background:var(--color-surface);color:var(--color-text)">
     <sc-for list="{{ sysTabs }}" as="t" hint-placeholder-count="5">
       <button class="ctl" onClick="{{ t.go }}" style="cursor:pointer;font-family:var(--font-heading);font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid {{ t.bc }};background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }}</button>
@@ -242,7 +242,7 @@ class Component extends DCLogic {
   jump(id) {
     const open = Object.assign({}, this.state.open, { [id]: true });
     this.setState({ open, query: '', sys: 'all' });
-    setTimeout(() => { const el = document.getElementById('drug-' + id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64 }); }, 60);
+    setTimeout(() => { const el = document.getElementById('drug-' + id); if (el) { const bar = document.querySelector('[data-sticky-bar]'); const off = (bar ? bar.getBoundingClientRect().height : 64) + 12; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off }); } }, 60);
   }
 
   renderVals() {

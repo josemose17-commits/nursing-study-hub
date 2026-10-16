@@ -9,7 +9,9 @@ Study pages for Exam 2 (chapters 22, 24, 25, 27, 28, 29, 30, 34) and Exam 3 (cha
 - `data/e3/focus-rules.js` sets `window.FOCUS_CFG` before `focus.js`: Exam 3's own focus keys, topic keyword rules and (once the professor's study guide arrives) its study-guide topics.
 - `nav.js` takes the exam from the page's file name ("Exam 3 …"), or on Home and the reference sheet from the exam used last (`hub-exam`). `HAS` lists which pages each exam has so far; a missing one gets no tab.
 - `data/e3/basics.js` holds Exam 3's Why it works cards: each one quotes a line from that topic's notes and explains it from the other books (A&P, Chemistry, Microbiology, Psychology, Sociology, Fundamentals of Nursing, Nursing Pharmacology). The build warns if a quoted line is no longer in the notes.
-- Still to come for Exam 3: drug cards, the Mastery test, breakdowns, and the study-guide layer (`GUIDE`/`BP`) once the study guide is in.
+- `Exam 3 Drug Cards.dc.html` — the Exam 2 drug-card page pointed at `data/e3/drugs-gi.js` (antacids, H2 blockers, PPIs, H. pylori regimens, mouth care, motility, IBS, antidiarrheals, IBD drugs, colorectal chemo, procedure drugs) and `data/e3/drugs-endo.js` (thyroid replacement and antithyroid drugs, calcium and vitamin D, cinacalcet, every diabetes pill class, the insulins, and the low-glucose rescue drugs). Each file appends its classes and drugs to `window.DRUG_DATA`, skipping any id already loaded. The plain-language steps, look-alikes and side-effect reasons sit directly on each drug, not in separate layers. The Exam 3 map also loads both files for its drug links.
+- `tools/build_words.js` reads both exams' drug files: a word that names an Exam 3 drug gets `drug3`, and `say.js` links it to the Exam 3 card when you are studying Exam 3 (or when only Exam 3 has that drug).
+- Still to come for Exam 3: the Mastery test, breakdowns, and the study-guide layer (`GUIDE`/`BP`) once the study guide is in.
 
 | Page | What it does |
 | --- | --- |

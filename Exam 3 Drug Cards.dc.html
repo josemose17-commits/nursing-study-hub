@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#04160e">
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<style>
+  /* Paint the dark theme and a spinner straight away, so the raw page never flashes while the page code loads. */
+  html { background: #04160e; }
+  x-dc { display: none !important; }
+  body:not(:has(#dc-root > *))::after { content: ""; position: fixed; left: 50%; top: 42%; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50%; border: 3px solid rgba(245, 196, 0, .22); border-top-color: #f5c400; animation: e2spin .8s linear infinite; }
+  @keyframes e2spin { to { transform: rotate(360deg); } }
+  #dc-root > * { animation: e2pagein .28s ease both; }
+  @keyframes e2pagein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
+</style>
+<script src="./support.js?v=202610021900"></script>
+<script src="./nav.js?v=202610162300"></script>
+<script src="./say.js?v=202610162300"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+  body { margin: 0; background: var(--color-bg); color: var(--color-text); }
+  a { color: var(--color-accent-300); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--color-accent-200); }
+  .ctl:hover { border-color: var(--color-accent-500) !important; }
+  .ctl:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .drow { grid-template-columns: minmax(130px, 190px) minmax(0, 1fr); }
+  @media (max-width: 560px) { .drow { grid-template-columns: minmax(0, 1fr); gap: 3px !important; } }
+</style>
+<script src="data/e3/drugs-gi.js?v=202610162300"></script>
+<script src="data/e3/drugs-endo.js?v=202610162300"></script>
+</helmet>
+
+<div style="background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:16px;line-height:1.55;min-height:100vh">
+
+  <header style="border-bottom:1px solid var(--color-divider);padding:clamp(20px,3.5vw,40px) clamp(14px,4vw,48px)">
+    <div style="font-family:var(--font-heading);font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--color-neutral-400);margin-bottom:10px">Exam 3 / Ch 45–56 / Drug cards</div>
+    <h1 style="margin:0;font-family:var(--font-heading);font-weight:500;font-size:clamp(28px,4.4vw,48px);line-height:1.04;letter-spacing:-0.01em;max-width:22ch;text-wrap:balance">Every drug in these chapters, with the reason behind every effect.</h1>
+    <p style="margin:var(--space-4) 0 0;max-width:80ch;color:var(--color-neutral-300);font-size:15.5px">Grouped by body system, then by class. Each class opens with a pattern card — learn the pattern once and every drug inside it becomes a short list of differences. Every side effect carries its physiological <b>Why</b>. The alphabetical index is at the bottom.</p>
+    <div style="margin-top:var(--space-4);border:1px solid var(--color-accent-700);background:var(--color-accent-900);border-radius:var(--radius-sm);padding:var(--space-3) var(--space-4);max-width:96ch;font-size:14.5px;color:var(--color-neutral-200)"><span style="font-family:var(--font-heading);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-300);margin-right:8px">Safety check</span>Timing values (onset, peak, half-life) are given only where they are clinically useful and reasonably consistent; they vary by formulation, route and reference. Where a card is flagged, for class, use your instructor’s tested standard; in clinical care, verify the current medication reference, provider order, and facility policy.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-4)">
+      <a class="ctl" href="Exam 3 Map.html" style="text-decoration:none;font-family:var(--font-heading);font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:7px 13px;border-radius:var(--radius-sm);border:1px solid var(--color-neutral-700);color:var(--color-neutral-300)">Map</a>
+      <a class="ctl" href="#index" style="text-decoration:none;font-family:var(--font-heading);font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:7px 13px;border-radius:var(--radius-sm);border:1px solid var(--color-accent-600);color:var(--color-accent-200)">A–Z index</a>
+    </div>
+  </header>
+
+  <div data-sticky-bar style="position:sticky;top:0;z-index:30;background:var(--color-bg);border-bottom:1px solid var(--color-divider);padding:var(--space-3) clamp(14px,4vw,48px);display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center">
+    <input value="{{ query }}" onInput="{{ onQuery }}" placeholder="Find a drug, class or brand…" style="flex:1 1 220px;min-width:0;max-width:340px;font-family:var(--font-body);font-size:14.5px;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--color-neutral-700);background:var(--color-surface);color:var(--color-text)">
+    <sc-for list="{{ sysTabs }}" as="t" hint-placeholder-count="5">
+      <button class="ctl" onClick="{{ t.go }}" style="cursor:pointer;font-family:var(--font-heading);font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid {{ t.bc }};background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }}</button>
+    </sc-for>
+    <span style="flex:1 1 10px"></span>
+    <button class="ctl" onClick="{{ toggleAll }}" style="cursor:pointer;font-family:var(--font-heading);font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--color-neutral-700);background:transparent;color:var(--color-neutral-300)">{{ allLabel }}</button>
+    <span style="font-size:13px;color:var(--color-neutral-500)">{{ countLabel }}</span>
+  </div>
+
+  <div style="padding:0 clamp(14px,4vw,48px) 100px;max-width:1180px">
+
+    <details style="margin-top:clamp(20px,3vw,32px);border:1px solid var(--color-divider);border-radius:var(--radius-sm);background:var(--color-surface);padding:var(--space-3) var(--space-4);max-width:96ch">
+      <summary style="cursor:pointer;font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent-300)">In the hospital: how a drug gets from the pharmacy to your patient</summary>
+      <div style="display:grid;gap:6px;margin-top:10px;font-size:15px;color:var(--color-neutral-200)">
+        <div><b style="color:var(--color-neutral-100)">Order → pharmacist → eMAR.</b> The provider orders it, a pharmacist checks it, and it appears on the electronic medication administration record with the time, dose and any hold parameters.</div>
+        <div><b style="color:var(--color-neutral-100)">Automated dispensing cabinet</b> (Pyxis, Omnicell). You log in with a fingerprint or badge, pick the patient, and only that drug’s drawer or pocket opens. Opioids and other controlled drugs need a count, and any unused part is wasted with a witness.</div>
+        <div><b style="color:var(--color-neutral-100)">Unit dose.</b> Each pill is sealed in its own labeled packet with a barcode. Leave it sealed until you are at the bedside.</div>
+        <div><b style="color:var(--color-neutral-100)">Barcode scanning.</b> Scan the patient’s wristband, then every medication. It catches the wrong patient, drug or dose, but it does not replace your own checks.</div>
+        <div><b style="color:var(--color-neutral-100)">IV bags and pumps.</b> Small “piggyback” bags (antibiotics, KCl) and continuous drips run on smart pumps with a drug library. High-alert drugs (heparin, insulin, opioids, potassium, magnesium, chemotherapy) need an independent double-check.</div>
+        <div><b style="color:var(--color-neutral-100)">Crash cart.</b> Prefilled emergency syringes (epinephrine, atropine, amiodarone, adenosine and others), sealed and checked daily.</div>
+        <div><b style="color:var(--color-neutral-100)">Refrigerator.</b> Insulin, epoetin, filgrastim, dornase, protamine, vaccines and some IV drugs live in the med-room fridge.</div>
+        <div><b style="color:var(--color-neutral-100)">Generic names on everything.</b> Hospitals stock generics, so the packet usually says “metoprolol tartrate”, not “Lopressor”. Learn both names. Pill color changes with the manufacturer, so never identify a pill by color alone; warfarin’s strength colors are the exception.</div>
+      </div>
+    </details>
+
+    <sc-for list="{{ systems }}" as="sys" hint-placeholder-count="2">
+      <section id="{{ sys.id }}" style="scroll-margin-top:70px;padding-top:clamp(28px,4vw,52px)">
+        <div style="border-top:2px solid var(--color-text);padding-top:var(--space-4);margin-bottom:var(--space-6)">
+          <div style="font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--color-neutral-400)">{{ sys.chapters }}</div>
+          <h2 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(26px,3.4vw,40px);line-height:1.04;margin:var(--space-2) 0 0">{{ sys.name }}</h2>
+        </div>
+
+        <sc-for list="{{ sys.classes }}" as="cl" hint-placeholder-count="2">
+          <div id="{{ cl.id }}" style="scroll-margin-top:70px;margin-bottom:var(--space-8)">
+            <div style="border:1px solid var(--color-accent-700);background:var(--color-accent-900);border-radius:var(--radius-sm);padding:clamp(14px,2.4vw,22px);display:grid;gap:var(--space-3)">
+              <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:baseline">
+                <span style="font-family:var(--font-heading);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent-300)">Class pattern</span>
+                <h3 style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:clamp(19px,2.2vw,24px)">{{ cl.name }}</h3>
+                <span style="font-size:13.5px;color:var(--color-neutral-400)">{{ cl.members }}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:var(--space-4);font-size:15px;color:var(--color-neutral-200)">
+                <div style="min-width:0"><div style="font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-neutral-400);margin-bottom:4px">Shared mechanism</div>{{ cl.mech }}</div>
+                <div style="min-width:0"><div style="font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-neutral-400);margin-bottom:4px">Shared serious risks</div>{{ cl.risks }}</div>
+                <div style="min-width:0"><div style="font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-neutral-400);margin-bottom:4px">Class-specific nursing assessment</div>{{ cl.assess }}</div>
+                <div style="min-width:0"><div style="font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-neutral-400);margin-bottom:4px">How to tell them apart</div>{{ cl.dist }}</div>
+              </div>
+              <div>
+                <div style="font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--color-neutral-400);margin-bottom:6px">Shared side effects — and why</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:6px var(--space-4)">
+                  <sc-for list="{{ cl.se }}" as="p" hint-placeholder-count="3">
+                    <div style="font-size:14.5px;color:var(--color-neutral-300);min-width:0"><b style="color:var(--color-neutral-100)">{{ p.e }}.</b> <span style="color:var(--color-accent-300)">Why:</span> {{ p.w }}</div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid;gap:var(--space-2);margin-top:var(--space-2)">
+              <sc-for list="{{ cl.drugs }}" as="d" hint-placeholder-count="2">
+                <div id="{{ d.anchor }}" style="scroll-margin-top:70px;border:1px solid var(--color-divider);border-left:3px solid {{ d.edge }};border-radius:var(--radius-sm);background:var(--color-surface)">
+                  <button class="ctl" onClick="{{ d.toggle }}" style="cursor:pointer;width:100%;text-align:left;background:transparent;border:0;color:inherit;padding:var(--space-3) var(--space-4);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-3);align-items:center">
+                    <span style="min-width:0">
+                      <span style="display:block;font-family:var(--font-heading);font-size:17px;font-weight:600;color:var(--color-neutral-100)">{{ d.name }}</span>
+                      <span style="display:block;font-size:13.5px;color:var(--color-neutral-400)">{{ d.sub }}</span>
+                    </span>
+                    <span style="font-family:var(--font-heading);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-300)">{{ d.chev }}</span>
+                  </button>
+                  <sc-if value="{{ d.open }}" hint-placeholder-val="{{ false }}">
+                    <div style="border-top:1px solid var(--color-divider);padding:var(--space-4);display:grid;gap:10px">
+                      <sc-for list="{{ d.sections }}" as="sec" hint-placeholder-count="4">
+                        <div style="display:grid;gap:8px">
+                          <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-300);padding-top:6px">{{ sec.title }}</div>
+                          <sc-for list="{{ sec.rows }}" as="r" hint-placeholder-count="3">
+                            <div class="drow" style="display:grid;gap:var(--space-3);align-items:start;padding-bottom:9px;border-bottom:1px solid var(--color-divider)">
+                              <span style="font-family:var(--font-heading);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:{{ r.kc }};padding-top:3px">{{ r.k }}</span>
+                              <div style="min-width:0;font-size:15px;color:var(--color-neutral-200)">
+                                <sc-if value="{{ r.isText }}" hint-placeholder-val="{{ true }}"><span>{{ r.v }}</span></sc-if>
+                                <sc-if value="{{ r.isSteps }}" hint-placeholder-val="{{ false }}">
+                                  <div style="display:grid;gap:2px;padding-left:12px;border-left:2px solid var(--color-accent-700)">
+                                    <sc-for list="{{ r.steps }}" as="st" hint-placeholder-count="3"><div style="color:var(--color-neutral-100)"><span style="color:var(--color-accent-400)">{{ st.arrow }}</span>{{ st.t }}</div></sc-for>
+                                  </div>
+                                </sc-if>
+                                <sc-if value="{{ r.isList }}" hint-placeholder-val="{{ false }}">
+                                  <div style="display:grid;gap:5px">
+                                    <sc-for list="{{ r.items }}" as="it" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:14px minmax(0,1fr);color:var(--color-neutral-100)"><span style="color:var(--color-accent-400)">•</span><span>{{ it.t }}</span></div></sc-for>
+                                  </div>
+                                </sc-if>
+                                <sc-if value="{{ r.isChips }}" hint-placeholder-val="{{ false }}">
+                                  <div style="display:flex;flex-wrap:wrap;gap:8px">
+                                    <sc-for list="{{ r.chips }}" as="ch" hint-placeholder-count="3">
+                                      <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 5px;border-radius:999px;border:1px solid var(--color-divider);font-size:13.5px;color:var(--color-neutral-100)"><i style="width:22px;height:13px;border-radius:7px;background:{{ ch.c }};border:1px solid rgba(0,0,0,.35)"></i>{{ ch.t }}</span>
+                                    </sc-for>
+                                  </div>
+                                </sc-if>
+                                <sc-if value="{{ r.isPics }}" hint-placeholder-val="{{ false }}">
+                                  <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:4px">
+                                    <sc-for list="{{ r.pics }}" as="pic" hint-placeholder-count="1">
+                                      <a href="{{ pic.source }}" target="_blank" rel="noopener" style="flex:0 0 auto;width:min(78%,260px);text-decoration:none;border:1px solid var(--color-divider);border-radius:10px;overflow:hidden;background:var(--color-bg)">
+                                        <img src="{{ pic.file }}" alt="{{ pic.caption }}" loading="lazy" onError="{{ pic.hide }}" style="display:block;width:100%;height:170px;object-fit:contain;background:#f6f3ea">
+                                        <span style="display:block;padding:7px 9px;font-size:13px;line-height:1.35;color:var(--color-neutral-100)">{{ pic.caption }}<small style="display:block;margin-top:2px;font-size:10.5px;color:var(--color-neutral-500)">{{ pic.credit }}</small></span>
+                                      </a>
+                                    </sc-for>
+                                  </div>
+                                </sc-if>
+                                <sc-if value="{{ r.isPairs }}" hint-placeholder-val="{{ false }}">
+                                  <div style="display:grid;gap:6px">
+                                    <sc-for list="{{ r.pairs }}" as="p" hint-placeholder-count="2">
+                                      <div><b style="color:var(--color-neutral-100)">{{ p.e }}.</b> <span style="color:var(--color-accent-300)">{{ p.lbl }}</span> {{ p.w }}</div>
+                                    </sc-for>
+                                  </div>
+                                </sc-if>
+                              </div>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+    </sc-for>
+
+    <section id="index" style="scroll-margin-top:70px;padding-top:clamp(28px,4vw,52px)">
+      <div style="border-top:2px solid var(--color-text);padding-top:var(--space-4);margin-bottom:var(--space-6)">
+        <div style="font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--color-neutral-400)">Find it fast</div>
+        <h2 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(26px,3.4vw,40px);line-height:1.04;margin:var(--space-2) 0 0">Alphabetical medication index</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:4px var(--space-4)">
+        <sc-for list="{{ index }}" as="x" hint-placeholder-count="12">
+          <button class="ctl" onClick="{{ x.go }}" style="cursor:pointer;text-align:left;background:transparent;border:1px solid transparent;border-radius:var(--radius-sm);padding:5px 8px;color:var(--color-neutral-200);font-family:var(--font-body);font-size:14.5px"><span style="color:var(--color-accent-200)">{{ x.name }}</span> <span style="color:var(--color-neutral-500);font-size:13px">{{ x.cls }}</span></button>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}">
+const SYS = [
+  { id: 'gi', name: 'Digestive', chapters: 'Chapters 45 · 46 · 47 · 48 · 49' },
+  { id: 'endo', name: 'Endocrine', chapters: 'Chapters 53 · 55 · 56' }
+];
+// An opened card reads top to bottom in the order you would think about the drug.
+const SECTIONS = [
+  ['What it is', [['c', 'Drug class'], ['g', 'Generic name'], ['b', 'Brand name (high-yield)'], ['p', 'Prototype medication'], ['ind', 'Used for'], ['fix', 'What body problem it fixes']]],
+  ['What it looks like — and in the hospital', [['pics', 'Pictures', 'pics'], ['brands', 'Brand names'], ['chips', 'Tablet colors by strength', 'chips'], ['look', 'What you’ll see', 'list'], ['hosp', 'In the hospital', 'list']]],
+  ['How it works — step by step', [['steps', 'Mechanism', 'steps'], ['plain', 'In plain words'], ['moa', 'Technical mechanism']]],
+  ['Before you give it — and why', [['checks', 'Check first', 'checks'], ['hold', 'Vital signs, labs, hold parameters'], ['stop', 'Hold and notify the provider', 'hold'], ['contra', 'Contraindications and precautions'], ['inter', 'Interactions (drug, food, lab)'], ['bbw', 'Black box / major warning']]],
+  ['What to watch for — and why', [['se', 'Common / expected side effects', 'pairs'], ['sae', 'Serious adverse effects', 'pairs'], ['mon', 'Monitor after giving'], ['work', 'Signs it is working'], ['emerg', 'Emergency action', 'emerg'], ['rescue', 'Antidote / reversal / rescue']]],
+  ['Giving it and teaching', [['route', 'Route(s) and administration'], ['pk', 'Onset, peak, duration, half-life'], ['teach', 'Patient teaching']]],
+  ['On the exam', [['nclex', 'NCLEX priority', 'strong'], ['trap', 'Common NCLEX trap'], ['anchor', 'Memory anchor'], ['cmp', 'Quick compare'], ['conn', 'Clinical connection'], ['flag', 'Safety check', 'flag']]]
+];
+const SAFETY = 'Safety check: for class, use your instructor’s tested standard; in clinical care, verify the current medication reference, provider order, and facility policy.';
+
+class Component extends DCLogic {
+  state = { query: '', sys: 'all', open: {}, all: false };
+
+  componentDidMount() {
+    let seen = -1, ticks = 0;
+    this._poll = setInterval(() => {
+      ticks++;
+      const n = (window.DRUG_DATA || { drugs: [] }).drugs.length;
+      if (n !== seen) { seen = n; this.forceUpdate(); }
+      if (ticks > 30 && n === seen || ticks > 80) { clearInterval(this._poll); this.forceUpdate(); this.openFromHash(); }
+    }, 100);
+    this._hash = () => this.openFromHash();
+    window.addEventListener('hashchange', this._hash);
+  }
+  // A link straight to one drug (from the mastery test report) opens its card.
+  openFromHash() {
+    const m = /^#drug-([a-z0-9]+)$/.exec(location.hash);
+    if (m && (window.DRUG_DATA || { drugs: [] }).drugs.some(d => d.id === m[1])) this.jump(m[1]);
+  }
+  componentWillUnmount() { if (this._poll) clearInterval(this._poll); window.removeEventListener('hashchange', this._hash); }
+
+  jump(id) {
+    const open = Object.assign({}, this.state.open, { [id]: true });
+    this.setState({ open, query: '', sys: 'all' });
+    setTimeout(() => { const el = document.getElementById('drug-' + id); if (el) { const bar = document.querySelector('[data-sticky-bar]'); const off = (bar ? bar.getBoundingClientRect().height : 64) + 12; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off }); } }, 60);
+  }
+
+  renderVals() {
+    const self = this;
+    const RAW = window.DRUG_DATA || { classes: [], drugs: [] };
+    const uniq = arr => { const s = new Set(); return arr.filter(x => !s.has(x.id) && s.add(x.id)); };
+    const D = { classes: uniq(RAW.classes), drugs: uniq(RAW.drugs) };
+    const q = this.state.query.trim().toLowerCase();
+    const hit = d => !q || [d.n, d.g, d.b, d.c, ((window.DRUG_LOOKS || {})[d.id] || {}).brands].join(' ').toLowerCase().indexOf(q) >= 0;
+    const colorFor = t => t === 'emerg' ? '#c97f78' : t === 'hold' ? '#c6a24a' : (t === 'strong' || t === 'flag' || t === 'steps' || t === 'checks') ? 'var(--color-accent-300)' : 'var(--color-neutral-500)';
+    let shown = 0;
+
+    const buildDrug = d0 => {
+      // Layer the broken-down explanations (data/explain/drugs-*.js) over the original card.
+      const d = Object.assign({}, d0, (window.DRUG_EXPLAIN || {})[d0.id] || {}, (window.DRUG_MORE || {})[d0.id] || {}, (window.DRUG_LOOKS || {})[d0.id] || {});
+      if (d.brands) d.b = '';
+      d.pics = (window.DRUG_PICS || []).filter(p => (p.drugs || []).indexOf(d.id) >= 0)
+        .map(p => ({ file: p.file, source: p.source, caption: p.caption, credit: p.credit + ' · ' + p.license + ' · tap for source', hide: e => { const a = e.target.closest('a'); if (a) a.style.display = 'none'; } }));
+      const WHY = window.DRUG_WHY || {};
+      const open = this.state.all || !!this.state.open[d.id];
+      const row = f => {
+        let v = d[f[0]];
+        if (f[0] === 'flag') { if (!v) return null; v = SAFETY + (v === true ? '' : ' ' + v); }
+        if (v === undefined || v === null || v === '' || v === '—' || (Array.isArray(v) && !v.length)) return null;
+        const kind = f[2], pairs = kind === 'pairs' || kind === 'checks', steps = kind === 'steps', list = kind === 'list', pics = kind === 'pics', chips = kind === 'chips';
+        return {
+          k: f[1], kc: colorFor(kind), isText: !pairs && !steps && !list && !pics && !chips, isPairs: pairs, isSteps: steps, isList: list, isPics: pics, isChips: chips,
+          v: pairs || steps || list || pics || chips ? '' : v, chips: chips ? v.map(x => ({ t: x[0] + ' · ' + x[1], c: x[2] })) : [],
+          items: list ? v.map(t => ({ t })) : [], pics: pics ? v : [],
+          pairs: pairs ? v.map((x, i) => ({ e: x[0], w: (kind === 'pairs' && WHY[d.id + '|' + f[0] + '|' + i]) || x[1], lbl: 'Why:' })) : [],
+          steps: steps ? v.map((t, i) => ({ t, arrow: i ? '↓ ' : '' })) : []
+        };
+      };
+      const sections = SECTIONS.map(([title, fields]) => ({ title, rows: fields.map(row).filter(Boolean) })).filter(sec => sec.rows.length);
+      return {
+        anchor: 'drug-' + d.id, name: d.n, sub: d.c + (d0.b ? ' · ' + d0.b : '') + ' · Ch ' + d.ch,
+        edge: d.hy ? 'var(--color-accent-500)' : 'transparent',
+        open, chev: open ? 'Close ▴' : 'Open ▾', sections,
+        toggle: () => self.setState(s => ({ open: Object.assign({}, s.open, { [d.id]: !s.open[d.id] }) }))
+      };
+    };
+
+    const systems = SYS.filter(s => this.state.sys === 'all' || this.state.sys === s.id).map(s => {
+      const classes = D.classes.filter(c => c.sys === s.id).map(c => {
+        const members = D.drugs.filter(d => d.k === c.id);
+        const vis = members.filter(hit);
+        shown += vis.length;
+        return {
+          id: 'class-' + c.id, name: c.name, mech: c.mech, risks: c.risks, assess: c.assess, dist: c.dist,
+          members: members.map(d => d.n).join(' · '),
+          se: (c.se || []).map((x, i) => ({ e: x[0], w: (window.DRUG_WHY || {})['class:' + c.id + '|' + i] || x[1] })),
+          drugs: vis.map(buildDrug), show: vis.length > 0 || (!q && members.length === 0)
+        };
+      }).filter(c => c.show);
+      return Object.assign({}, s, { classes });
+    }).filter(s => s.classes.length);
+
+    const index = D.drugs.slice().sort((a, b) => a.n.localeCompare(b.n)).map(d => ({ name: d.n, cls: d.c, go: () => self.jump(d.id) }));
+
+    const tab = (id, label) => {
+      const on = this.state.sys === id;
+      return { label, bc: on ? 'var(--color-accent-500)' : 'var(--color-neutral-800)', bg: on ? 'var(--color-accent-900)' : 'transparent', fg: on ? 'var(--color-accent-200)' : 'var(--color-neutral-300)', go: () => self.setState({ sys: id }) };
+    };
+
+    return {
+      query: this.state.query,
+      onQuery: e => this.setState({ query: e.target.value }),
+      sysTabs: [tab('all', 'All')].concat(SYS.map(s => tab(s.id, s.name.split(' ')[0]))),
+      toggleAll: () => this.setState({ all: !this.state.all }),
+      allLabel: this.state.all ? 'Collapse all' : 'Expand all',
+      countLabel: shown + ' of ' + D.drugs.length + ' drugs · ' + D.classes.length + ' classes',
+      systems, index
+    };
+  }
+}
+</script>
+</body>
+</html>

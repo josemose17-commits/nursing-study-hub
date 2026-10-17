@@ -255,7 +255,7 @@
   }
   function whyHtml(id) {
     var list = BASICS[id] || [];
-    return '<div class="whywrap"><p class="whyhint">The reason behind lines that are already in these notes, from your other books (A&amp;P, chemistry, microbiology, pharmacology, psychology, sociology and fundamentals of nursing). Nothing new to memorize: it is here so the notes make sense.</p>' +
+    return '<div class="whywrap"><p class="whyhint">The reason behind lines that are already in these notes, from your other books (' + esc(X.whyBooks || 'A&P, chemistry, microbiology, pharmacology, psychology, sociology and fundamentals of nursing') + '). Nothing new to memorize: it is here so the notes make sense.</p>' +
       list.map(function (e, i) {
         return '<div class="whycard"><div class="says"><span>In your notes</span>“' + esc(e.says) + '”</div><div class="because">' + esc(e.why) + '</div>' +
           '<div class="whyfoot"><span class="whysrc">' + esc(e.src) + '</span><button class="pill" data-jump="' + i + '">See it in the notes →</button></div></div>';

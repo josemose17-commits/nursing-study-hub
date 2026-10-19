@@ -26,6 +26,12 @@ Study pages for Exam 2 (chapters 22, 24, 25, 27, 28, 29, 30, 34) and Exam 3 (cha
 | `Exam 2 Concept Map.dc.html` | The older one-page concept map |
 | `Exam 2 Info.dc.html` | Source the map's topics are extracted from (`tools/extract_info_topics.py`); visiting it opens the map |
 
+## Content audit: is everything from the chapters here?
+
+- `node tools/audit.js e3` writes `audit/e3-coverage.md`. For each assigned chapter it sets out what the hub has in each area of the audit: normal function, assessment, conditions, diagnostics, management, complications, source features and accuracy. It also lists the numbered boxes and tables nothing in the hub cites, and the claims to settle with the book, with every place in the hub that states each one. Last come practice per map topic and reading time. It can't read the textbook, so every area stays *verify* until the chapter itself has been compared with the hub. Rerun it after any content change.
+- `audit/e3-record.js` is the hand-kept part: each area's status and notes, the claims to verify, and the corrections made. When a chapter has been checked against the book, set its `checked` date and each area's `status` (`covered`, `partial` or `missing`), note what each uncited box turned out to be, then rerun the audit.
+- A later exam built the way Exam 3 is (notes in `data/<exam>/src`, questions in `data/<exam>/q`) gets the same audit from its own record: `node tools/audit.js e4`.
+
 ## Focus: studying only what the professor lists
 
 On the map, tap **Pick topics** and choose the topics (or **Lists → Study guide topics**). That choice is saved as your focus, and:

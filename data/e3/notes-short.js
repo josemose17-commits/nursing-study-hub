@@ -399,7 +399,7 @@ Object.assign(window.NOTES_SHORT = window.NOTES_SHORT || {}, {"45-overview":{"In
 "Labs and imaging":["**Anemia**; **↓ folate + B12**; **↓ albumin**","**↑ CRP, ESR**","**Pyuria** → **bowel-bladder fistula**?","**↓ K⁺ + Mg²⁺**; x-ray, **MRE**"],
 "Psychosocial":["Assess **coping, support**","**Depression + anxiety** common"],
 "Mild to moderate":["Mild: **5-ASA** (mixed results)","Moderate–severe: **azathioprine, 6-mercaptopurine** → **serious infections**"],
-"Biologics":["**Infliximab, adalimumab, natalizumab, certolizumab** (anti-TNF)","**Not with cancer, heart disease, MS**","Equity: non-White patients get them **less often**"],
+"Biologics":["**Infliximab, adalimumab, certolizumab** → **anti-TNF**","Anti-TNF **not with cancer, heart disease, MS**","**Natalizumab** → keeps WBCs **out of tissue** (not anti-TNF)","Equity: non-White patients get them **less often**"],
 "Biologic teaching (Drug Alert)":["**Infliximab** in a **health care setting**","Subcut: self-injection; report **site redness/swelling**","**Avoid crowds**; report **any infection now** (cold, sore throat)"],
 "Natalizumab and PML":["**Natalizumab IV q4 weeks**","**PML** = deadly **brain** infection","**Infection-free** before dosing; report **cognitive, motor, sensory changes**","**Vedolizumab**: weeks 0, 2, 6, then q8 weeks"],
 "Steroids and antibiotics":["Steroids **mask infection** → **short term**","**Never stop abruptly** (adrenal insufficiency)","**Cipro + metronidazole** for **fistulas, abscesses**"],

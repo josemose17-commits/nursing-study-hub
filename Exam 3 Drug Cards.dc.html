@@ -16,7 +16,7 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610021900"></script>
-<script src="./nav.js?v=202610201400"></script>
+<script src="./nav.js?v=202610201500"></script>
 <script src="./say.js?v=202610171500"></script>
 </head>
 <body>
@@ -232,7 +232,13 @@ class Component extends DCLogic {
   }
   componentWillUnmount() { if (this._poll) clearInterval(this._poll); window.removeEventListener('hashchange', this._hash); }
 
+  // Which cards have been opened, for the study route: localStorage['e3-drugs-seen'] = { drugId: first-opened time }.
+  seen(id) {
+    try { const k = 'e3-drugs-seen', s = JSON.parse(localStorage.getItem(k) || '{}') || {}; if (!s[id]) { s[id] = Date.now(); localStorage.setItem(k, JSON.stringify(s)); } } catch (e) {}
+  }
+
   jump(id) {
+    this.seen(id);
     const open = Object.assign({}, this.state.open, { [id]: true });
     this.setState({ open, query: '', sys: 'all' });
     setTimeout(() => { const el = document.getElementById('drug-' + id); if (el) { const bar = document.querySelector('[data-sticky-bar]'); const off = (bar ? bar.getBoundingClientRect().height : 64) + 12; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off }); } }, 60);
@@ -274,7 +280,7 @@ class Component extends DCLogic {
         anchor: 'drug-' + d.id, name: d.n, sub: d.c + (d0.b ? ' · ' + d0.b : '') + ' · Ch ' + d.ch,
         edge: d.hy ? 'var(--color-accent-500)' : 'transparent',
         open, chev: open ? 'Close ▴' : 'Open ▾', sections,
-        toggle: () => self.setState(s => ({ open: Object.assign({}, s.open, { [d.id]: !s.open[d.id] }) }))
+        toggle: () => { if (!self.state.open[d.id]) self.seen(d.id); self.setState(s => ({ open: Object.assign({}, s.open, { [d.id]: !s.open[d.id] }) })); }
       };
     };
 

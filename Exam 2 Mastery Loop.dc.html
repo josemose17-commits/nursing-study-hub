@@ -16,7 +16,7 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610201400"></script>
+<script src="./nav.js?v=202610201500"></script>
 <script src="./say.js?v=202610171500"></script>
 </head>
 <body>
@@ -1573,7 +1573,8 @@ class Component extends DCLogic {
       const cov = new Set(), covSub = new Set(); done.forEach(p => { const x = this.byId[p.id] || {}; (x.guide || []).forEach(k => cov.add(k)); (x.sub || []).forEach(s => { if (!T.drill || s.indexOf(T.drill + '/') === 0) covSub.add(s); }); });
       const subsOf = T.drill ? new Set((this.byGuide[T.drill] || []).flatMap(x => (x.sub || []).filter(s => s.indexOf(T.drill + '/') === 0))).size : this.subTotal;
       S.report = { at: Date.now(), no: T.no, n: done.length, base: T.base, follows: done.filter(p => T.follow[p.id]).length, pct, raw: Math.round(100 * raw / done.length), focus: T.focus, looked, guide: T.plan ? cov.size : null, drill: T.drill ? guideName(T.drill) : null, subs: T.plan ? covSub.size : null, subsOf, recs: done.map(P => this.record(T, P)) };
-      S.history.push({ at: Date.now(), pct, n: done.length });
+      // Each test's chapters too ({ ch: [percent, answered] }), so the study route can tell which chapters a test covered.
+      S.history.push({ at: Date.now(), pct, n: done.length, len: T.len, focus: T.focus || '', ch: Object.keys(byCh).reduce((o, c) => { o[c] = [Math.round(100 * byCh[c].s / byCh[c].n), byCh[c].n]; return o; }, {}) });
       S.test = null; S.phase = 'home';
     });
     window.scrollTo(0, 0);

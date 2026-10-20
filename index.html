@@ -115,12 +115,20 @@
     var sec = document.querySelector('.exam[data-exam="' + ex + '"]'), q = function (n) { return sec.querySelector('[data-next="' + n + '"]'); };
     var M = read('e' + ex + '-mastery-v3'), map = 'Exam ' + ex + ' Map.html', mastery = 'Exam ' + ex + ' Mastery Loop.dc.html';
     var title = 'Start here', body = 'Study on the map, then take a mastery test — it finds what is weak and tells you what to study.', label = 'Open the map', href = map, status = '';
-    if (ex === '3') { body = 'Follow your study route: what to read and which test to take each day until the exam, with the reason for each.'; label = 'Open the route'; href = 'Exam 3 Route.html'; }
-    var route = ex === '3' ? read('e3-route') : null, nDone = route && route.done ? Object.keys(route.done).length : 0;
-    if (nDone && q('route')) q('route').textContent = nDone + ' route task' + (nDone > 1 ? 's' : '') + ' done';
+    if (ex === '3') { body = 'Follow your study route: what to read and which test to take each day until the exam, with the reason for each. It keeps track of what you do here.'; label = 'Open the route'; href = 'Exam 3 Route.html'; }
+    // The route saves a summary each time it opens (e3-route-sum): tasks done, today's tasks and how far ahead or behind.
+    var sum = ex === '3' ? read('e3-route-sum') : null, d = new Date(), today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    function hm(m) { m = Math.round(m); return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h' + (m % 60 ? ' ' + (m % 60) + ' min' : ''); }
+    var paceTxt = sum ? (sum.pace < 0 ? hm(-sum.pace) + ' behind plan' : sum.pace > 0 ? hm(sum.pace) + ' ahead of plan' : 'on track') : '';
+    if (sum && q('route')) q('route').textContent = sum.done + ' of ' + sum.total + ' tasks done · ' + paceTxt;
     var focus = read('e' + ex + '-focus');
     if (focus && focus.ids && focus.ids.length && q('focus')) q('focus').textContent = 'Focus: ' + focus.name + ' · ' + focus.ids.length + ' topics';
     if (M && M.test) { title = 'Finish your test'; body = 'You stopped at question ' + M.test.items.length + '.'; label = 'Resume'; href = mastery; status = 'Test in progress'; }
+    else if (sum) {
+      title = 'Today on your route';
+      body = (sum.day === today ? (sum.today ? sum.today + ' task' + (sum.today > 1 ? 's' : '') + ' left today, about ' + hm(sum.todayMin) : 'Today’s tasks are done') : 'Open it to see today’s tasks') + ' · ' + paceTxt + (M && M.report ? ' · last test ' + M.report.pct + '%' : '') + '.';
+      label = 'Open the route'; href = 'Exam 3 Route.html'; if (M && M.report) status = 'Last: ' + M.report.pct + '%';
+    }
     else if (M && M.report) {
       var R = M.report, miss = (R.recs || []).filter(function (r) { return r.e < 1; }).length;
       title = 'Last test: ' + R.pct + '%'; body = miss ? miss + ' things to work on — your report says what to study first, then retest.' : 'Nothing missed — take another test to confirm it holds.';
@@ -148,7 +156,7 @@
   });
 })();
 </script>
-<script src="nav.js?v=202610201400"></script>
+<script src="nav.js?v=202610201500"></script>
 <script src="say.js?v=202610171500"></script>
 <script>
 (function () {

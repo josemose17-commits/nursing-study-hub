@@ -17,7 +17,7 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610201400"></script>
+<script src="./nav.js?v=202610201500"></script>
 <script src="./say.js?v=202610171500"></script>
 </head>
 <body>
@@ -50,20 +50,20 @@
   .fbstep.next::before { content: "↓ "; color: var(--color-accent); }
   .fbrule .fbt { color: var(--color-accent-100); }
 </style>
-<script src="data/e3/q/45.js?v=202610201400"></script>
-<script src="data/e3/q/46.js?v=202610201400"></script>
-<script src="data/e3/q/47.js?v=202610201400"></script>
-<script src="data/e3/q/48.js?v=202610201400"></script>
-<script src="data/e3/q/49.js?v=202610201400"></script>
-<script src="data/e3/q/53.js?v=202610201400"></script>
-<script src="data/e3/q/55.js?v=202610201400"></script>
-<script src="data/e3/q/56.js?v=202610201400"></script>
-<script src="data/e3/drugs-gi.js?v=202610201400"></script>
-<script src="data/e3/drugs-endo.js?v=202610201400"></script>
-<script src="data/glossary.js?v=202610201400"></script>
-<script src="data/e3/glossary.js?v=202610201400"></script>
-<script src="data/e3/topic-index.js?v=202610201400"></script>
-<script src="data/e3/focus-rules.js?v=202610201400"></script>
+<script src="data/e3/q/45.js?v=202610201500"></script>
+<script src="data/e3/q/46.js?v=202610201500"></script>
+<script src="data/e3/q/47.js?v=202610201500"></script>
+<script src="data/e3/q/48.js?v=202610201500"></script>
+<script src="data/e3/q/49.js?v=202610201500"></script>
+<script src="data/e3/q/53.js?v=202610201500"></script>
+<script src="data/e3/q/55.js?v=202610201500"></script>
+<script src="data/e3/q/56.js?v=202610201500"></script>
+<script src="data/e3/drugs-gi.js?v=202610201500"></script>
+<script src="data/e3/drugs-endo.js?v=202610201500"></script>
+<script src="data/glossary.js?v=202610201500"></script>
+<script src="data/e3/glossary.js?v=202610201500"></script>
+<script src="data/e3/topic-index.js?v=202610201500"></script>
+<script src="data/e3/focus-rules.js?v=202610201500"></script>
 <script src="focus.js?v=202610171500"></script>
 </helmet>
 <div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:15px;line-height:1.55;">
@@ -1604,7 +1604,8 @@ class Component extends DCLogic {
       const cov = new Set(), covSub = new Set(); done.forEach(p => { const x = this.byId[p.id] || {}; (x.guide || []).forEach(k => cov.add(k)); (x.sub || []).forEach(s => { if (!T.drill || s.indexOf(T.drill + '/') === 0) covSub.add(s); }); });
       const subsOf = T.drill ? new Set((this.byGuide[T.drill] || []).flatMap(x => (x.sub || []).filter(s => s.indexOf(T.drill + '/') === 0))).size : this.subTotal;
       S.report = { at: Date.now(), no: T.no, n: done.length, base: T.base, follows: done.filter(p => T.follow[p.id]).length, pct, raw: Math.round(100 * raw / done.length), focus: T.focus, looked, guide: T.plan ? cov.size : null, drill: T.drill ? guideName(T.drill) : null, subs: T.plan ? covSub.size : null, subsOf, recs: done.map(P => this.record(T, P)) };
-      S.history.push({ at: Date.now(), pct, n: done.length });
+      // Each test's chapters too ({ ch: [percent, answered] }), so the study route can tell which chapters a test covered.
+      S.history.push({ at: Date.now(), pct, n: done.length, len: T.len, focus: T.focus || '', ch: Object.keys(byCh).reduce((o, c) => { o[c] = [Math.round(100 * byCh[c].s / byCh[c].n), byCh[c].n]; return o; }, {}) });
       S.test = null; S.phase = 'home';
     });
     window.scrollTo(0, 0);

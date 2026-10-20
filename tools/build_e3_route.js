@@ -30,6 +30,14 @@ const GAP = 2;                     // days between a chapter's first test and it
 // 2 practice exam 1 and its repair; 3 retests and drug cards; 4 Quick reviews; 5 practice exam 2 and its repair.
 // grp: tasks that are left out together (a practice exam's two halves and its repair).
 // after: the tasks it waits for, each 'id' (plus the task's gap in days) or ['id', days].
+// How the page reads what you have done, and when it changes the plan:
+//   readFull, readQuick — a topic counts as read once the map has had it open this share of its Full or Quick minutes;
+//   drugs — share of a chapter's cards opened; testMin, testShare — a finished test counts as a chapter's test with at least
+//   this many of its questions making up at least this share of the test; retestShare — a group's share of a retest;
+//   weak, strong — chapter scores below weak add a fix task, at or above strong shorten the retest to 20 questions;
+//   near — within this many days of the exam a retest needs only a 1-day gap; final — within this many days, anything
+//   unread is planned in Quick; reread — a fix re-reads its topics at this share of their Full minutes, plus redo minutes.
+const ADAPT = { readFull: 0.5, readQuick: 0.6, drugs: 0.75, testMin: 10, testShare: 0.3, retestShare: 0.6, weak: 70, strong: 85, near: 4, final: 2, reread: 0.6, fixRedo: 10, repairRedo: 30 };
 const WHY = {
   read: 'Read each topic in full. When a line doesn’t make sense, open its Why it works card.',
   drugs: 'This chapter’s drugs as cards: what each one is for, how it works and the nursing points. The test after it asks about them.',
@@ -38,7 +46,9 @@ const WHY = {
   exam: 'All eight chapters mixed, in the exam’s chapter mix (provisional until the study guide arrives). The button clears the focus. The report lists your weak areas.',
   repair: 'Fix what the last test found. Your weak areas on the map shows each missed question with its notes and Why it works cards; then Redo my misses on the Mastery page.',
   quick: 'In the last days, the bullet version of every topic. Turn on Quick on the map.',
-  morning: 'Nothing new on exam day. Read each chapter’s Act now and Emergency trigger boxes (in its overview) and the numbers strip, then stop.'
+  morning: 'Nothing new on exam day. Read each chapter’s Act now and Emergency trigger boxes (in its overview) and the numbers strip, then stop.',
+  fix: 'Your chapter test showed gaps. Before the retest, re-read the topics you missed most (the Mastery test keeps a score for every topic), then redo the misses on the Mastery page.',
+  fix2: 'The retest showed gaps that are still there. Re-read these topics once more before the practice exams.'
 };
 // ---------- End of the exam config ----------
 
@@ -58,9 +68,9 @@ const add = t => { tasks.push(Object.assign({ after: [], gap: 0, prio: 1 }, t));
 let prev = null;
 ORDER.forEach(([ch]) => {
   const C = chapters[ch];
-  C.topics.forEach(t => { prev = add({ id: 'read:' + t.id, kind: 'read', ch, label: t.title, min: up(t.full / PACE.read), quick: up(t.quick / PACE.quick), after: prev ? [prev] : [], href: 'Exam 3 Map.html#' + t.id }); });
+  C.topics.forEach(t => { prev = add({ id: 'read:' + t.id, kind: 'read', ch, topic: t.id, label: t.title, min: up(t.full / PACE.read), quick: up(t.quick / PACE.quick), after: prev ? [prev] : [], href: 'Exam 3 Map.html#' + t.id }); });
   const lastRead = prev, d = drugsOf(ch);
-  const drugs = d.length ? add({ id: 'drugs:' + ch, kind: 'drugs', ch, label: d.length + ' drug card' + (d.length > 1 ? 's' : ''), min: up(d.length * PACE.drug), after: [lastRead], href: 'Exam 3 Drug Cards.dc.html#drug-' + d[0].id, prio: 3 }) : null;
+  const drugs = d.length ? add({ id: 'drugs:' + ch, kind: 'drugs', ch, drugs: d.map(x => x.id), label: d.length + ' drug card' + (d.length > 1 ? 's' : ''), min: up(d.length * PACE.drug), after: [lastRead], href: 'Exam 3 Drug Cards.dc.html#drug-' + d[0].id, prio: 3 }) : null;
   const n = FIRST_TEST[ch] || 20;
   add({ id: 'test:' + ch, kind: 'test', ch, label: 'Chapter test, ' + n + ' questions', n, min: test(n), after: drugs ? [lastRead, drugs] : [lastRead], focus: C.topics.map(t => t.id), href: 'Exam 3 Mastery Loop.dc.html' });
 });
@@ -84,7 +94,8 @@ practice(2, [['exam:1b', 1]].concat(retests), 0, 5);   // a day after practice e
 add({ id: 'morning', kind: 'morning', ch: '', label: 'Exam morning: Act now, Emergency trigger and the numbers', min: EXAM_DAY_MIN, from: EXAM, href: 'Exam 3 Map.html#53-overview' });
 
 const route = {
-  exam: EXAM, start: START, hours: HOURS, examDayMin: EXAM_DAY_MIN, pace: PACE, gap: GAP, why: WHY,
+  exam: EXAM, start: START, hours: HOURS, examDayMin: EXAM_DAY_MIN, pace: PACE, gap: GAP, adapt: ADAPT, why: WHY,
+  retests: RETESTS.map(([key, name, chs, n]) => ({ id: 'retest:' + key, name, chs, n })),
   chapters: ORDER.map(([ch, why]) => ({ ch, title: chapters[ch].title, why, share: BP[ch] || 0, topics: chapters[ch].topics.length, questions: qOf(ch), drugs: drugsOf(ch).length })),
   tasks
 };

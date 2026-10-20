@@ -188,6 +188,25 @@
   }
   var OPEN_MS = 340;
   function isOpen() { return document.body.classList.contains('panel-open'); }
+
+  // Reading time per topic, for the study route: seconds with a topic's notes, Why it works or breakdown open and the
+  // page in view, split into Full (f) and Quick (q) and by day. Nothing counts after 2 minutes without a scroll, tap or key.
+  // Saved as localStorage[prefix + 'read'] = { topicId: { f, q, at, by: { 'yyyy-mm-dd': [f, q] } } }.
+  var READ_KEY = X.prefix + 'read', readLog = {}, readCur = null, readDirty = false, lastAct = Date.now();
+  try { readLog = JSON.parse(localStorage.getItem(READ_KEY) || '{}') || {}; } catch (e) {}
+  function dayKey() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function readSave() { if (!readDirty) return; readDirty = false; try { localStorage.setItem(READ_KEY, JSON.stringify(readLog)); } catch (e) {} }
+  function active() { lastAct = Date.now(); }
+  ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(function (ev) { document.addEventListener(ev, active, { passive: true }); });
+  document.addEventListener('scroll', active, { passive: true, capture: true });
+  setInterval(function () {
+    if (!readCur || document.hidden || !isOpen() || Date.now() - lastAct > 120000) return;
+    var r = readLog[readCur.id] || (readLog[readCur.id] = { f: 0, q: 0, by: {} }), k = dayKey(), b = r.by[k] || (r.by[k] = [0, 0]);
+    r[readCur.mode] += 5; b[readCur.mode === 'f' ? 0 : 1] += 5; r.at = Date.now(); readDirty = true;
+  }, 5000);
+  setInterval(readSave, 30000);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) readSave(); });
+  window.addEventListener('pagehide', readSave);
   function show(fromHistory) {
     var hash = '#' + (current.type === 'node' ? 'n-' : '') + current.id;
     if (!fromHistory) {
@@ -221,6 +240,7 @@
   }
   function close(fromHistory) {
     if (!isOpen()) return;
+    readCur = null; readSave();
     document.body.classList.remove('panel-open'); hidePop(); markJob++;
     if (fromHistory === true) return;
     try { if (history.state && history.state.panel) history.back(); else history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
@@ -298,6 +318,7 @@
     tabs.querySelectorAll('[data-tab]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.tab === tab); });
     hidePop(); body.scrollTop = 0; delay = delay || 0;
     var t = current.type === 'topic' ? byId[current.id] : null;
+    readCur = t && (tab === 'notes' || tab === 'why' || tab === 'breakdown') ? { id: t.id, mode: tab === 'notes' && (window.NOTES_SHORT || {})[t.id] && bdMode === 'quick' ? 'q' : 'f' } : null; active();
     var nodes = t ? (nodesFor[t.id] || []).map(function (n) { return nodeById[n]; }) : [nodeById[current.id]];
     if (tab === 'notes' && t) {
       var hasShort = !!(window.NOTES_SHORT || {})[t.id];
@@ -699,6 +720,7 @@
   var weakEl = document.getElementById('weak');
   function showWeak() {
     if (isOpen()) close(true);
+    try { localStorage.setItem(X.prefix + 'weak-seen', String(Date.now())); } catch (e) {}
     document.body.classList.add('weak-mode'); weakEl.hidden = false;
     weakEl.innerHTML = '<p class="lead">Loading your weak areas…</p>';
     loadDrugs().then(function () {

@@ -66,7 +66,7 @@ window.NGN_EXTRA['46'] = [
     rows: [{ t: 'The GE junction slides up into the chest and back with position', a: 0, r: 'Sliding. The junction itself moves up and down.' },
       { t: 'The fundus rolls up beside the esophagus while the GE junction stays put', a: 1, r: 'Paraesophageal (rolling).' },
       { t: 'The main problem is reflux, treated like GERD', a: 0, r: 'Sliding. With the junction displaced, the LES can’t hold acid back.' },
-      { t: 'Risk of volvulus, obstruction and strangulation', a: 1, r: 'Paraesophageal. The rolled-up stomach can twist and lose its blood supply — often surgery.' },
+      { t: 'Risk of volvulus, obstruction and strangulation', a: 1, r: 'Paraesophageal. The rolled-up stomach can twist and lose its blood supply. Medical care is favored when possible; surgery is for volvulus, bleeding, obstruction, strangulation or breathing trouble, or a high risk of them.' },
       { t: 'Feeling of fullness, breathlessness or suffocation after eating', a: 1, r: 'Paraesophageal. A stomach sitting in the chest crowds the lungs after a meal.' },
       { t: 'The most common type', a: 0, r: 'Sliding hernias are most common.' }],
     ask: 'Which hernia is mostly a reflux problem, and which can strangulate?', cues: ['Junction moves → sliding → reflux', 'Fundus rolls beside → paraesophageal → volvulus risk'],
@@ -95,7 +95,45 @@ window.NGN_EXTRA['46'] = [
       'Incorrect. Antacid relief points to reflux, not a tumor.'],
     ask: 'Which findings point past reflux to a tumor?', cues: ['Progressive dysphagia + weight loss = red flags', 'Long-standing untreated GERD → Barrett’s → adenocarcinoma'],
     phys: 'Chronic reflux → Barrett’s columnar cells → dysplasia → adenocarcinoma at the distal esophagus → the tumor narrows the lumen (solids stick first, then soft foods) → eating falls off (weight loss); the esophagus has no serosa, so it spreads early.',
-    rule: 'Progressive dysphagia with weight loss = needs EGD with biopsy. Esophageal cancer is silent early.' }
+    rule: 'Progressive dysphagia with weight loss = needs EGD with biopsy. Esophageal cancer is silent early.' },
+
+  { f: 'sata', t: 'Resting the injured esophagus', q: 'A client is hospitalized 2 days after a swallowed fish bone tore the esophagus. The airway is stable, and esophageal and gastric suction is in place. Which actions belong in the plan of care? Select all that apply.',
+    o: ['Keep the client NPO', 'Monitor the amount and color of drainage from the suction', 'Give total parenteral nutrition (TPN) as prescribed', 'Reassess pain and the continuing need for analgesics', 'Give broad-spectrum antibiotics as prescribed', 'Offer ice chips for comfort', 'Start clear liquids on day 3 once pain is controlled'], a: [0, 1, 2, 3, 4],
+    r: ['Correct. NPO keeps swallowed food and secretions from leaking through the tear into the mediastinum.',
+      'Correct. Esophageal and gastric suction drain secretions and rest the esophagus; track the amount and color, since bleeding is a possible complication.',
+      'Correct. TPN supplies the calories and protein needed for healing while nothing goes by mouth.',
+      'Correct. Pain changes as the injury heals; opioid and nonopioid analgesics are adjusted to need.',
+      'Correct. A tear lets organisms into the mediastinum; broad-spectrum antibiotics help prevent sepsis.',
+      'Incorrect. Ice melts into water that is swallowed and can leak through the tear. NPO means nothing by mouth.',
+      'Incorrect. The esophagus is rested for more than a week so the mucosa can begin to heal; controlled pain is not the signal to eat.'],
+    ask: 'What does a torn esophagus need while it heals?', cues: ['Tear → anything swallowed can leak into the mediastinum', 'Suction in place → esophageal rest', 'Day 2 → early in a rest of more than a week'],
+    phys: 'A perforation opens the esophagus to the mediastinum → swallowed saliva, food and fluid leak out carrying organisms → mediastinitis and sepsis → so the esophagus is rested (NPO, suction) while TPN feeds the healing tissue and antibiotics guard against infection.',
+    rule: 'Esophageal trauma: airway first; then NPO (no ice chips), esophageal and gastric suction, esophageal rest for more than a week, TPN, broad-spectrum antibiotics, analgesics; high-dose steroids after caustic burns to prevent strictures.' },
+
+  { f: 'matrix', t: 'After reflux procedures', q: 'For each discharge instruction, indicate the reflux procedure it follows.',
+    cols: ['Stretta procedure', 'Laparoscopic Nissen fundoplication (LNF)', 'LINX device'],
+    rows: [{ t: 'Clear liquids for 24 hours, then soft foods such as custard and applesauce', a: 0, r: 'Stretta. Radiofrequency energy is applied through an endoscope; clear liquids for a day, then a soft diet (Box 46.7).' },
+      { t: 'No NSAIDs or aspirin for 10 days', a: 0, r: 'Stretta. These drugs are avoided for 10 days while the treated tissue heals.' },
+      { t: 'No nasogastric tube for at least 1 month', a: 0, r: 'Stretta. A tube passed in the weeks after treatment could perforate the esophagus.' },
+      { t: 'Soft diet for about a week; avoid carbonated drinks, tough foods and raw vegetables', a: 1, r: 'LNF. The new wrap makes bulky food hard to swallow at first, and gas is hard to belch (Box 46.9).' },
+      { t: 'Remove the small dressings and shower 2 days after surgery; leave closure strips until day 10', a: 1, r: 'LNF. The laparoscopic incisions are small; strips stay on until day 10.' },
+      { t: 'No driving for a week, or while taking opioid pain medicine', a: 1, r: 'LNF. Surgery and opioids slow reaction time.' },
+      { t: 'Tell every health care provider about it before any MRI is scheduled', a: 2, r: 'LINX. The ring is made of magnets: older devices must never enter an MRI scanner, and newer MR Conditional ones only under set conditions.' }],
+    ask: 'Can you match each set of instructions to the procedure behind it?', cues: ['Endoscope + radiofrequency → Stretta', 'Fundus sutured around the esophagus → LNF', 'Ring of magnets → LINX'],
+    phys: 'Stretta delivers radiofrequency energy near the GE junction through an endoscope → the treated esophagus is fragile for weeks (no NG tube, no NSAIDs). LNF wraps the fundus around the lower esophagus → swallowing is tight at first (soft diet) through small incisions. LINX is a magnetic ring around the LES → magnets and MRI don’t mix.',
+    rule: 'Stretta: clear liquids 24 h, then soft; no NSAIDs or aspirin 10 days; keep taking the prescribed PPI, as liquids when possible; no NG tube 1 month. LNF: soft diet ~1 week, shower at 2 days, no driving 1 week. LINX: tell every provider; older devices, no MRI.' },
+
+  { f: 'sata', t: 'Who needs a closer look at the mouth', q: 'At a community screening event, the nurse reviews these histories. Which people are at high risk for an oral cavity disorder or oral cancer? Select all that apply.',
+    o: ['72-year-old with type 2 diabetes who takes six medications a day', '45-year-old with no dental insurance who has not seen a dentist in 8 years', '60-year-old man who smokes half a pack a day and drinks alcohol daily', '58-year-old who has worked around polycyclic aromatic hydrocarbons for 30 years', '30-year-old who brushes and flosses twice daily and drinks fluoridated water', '33-year-old who chews sugar-free gum and sees a dentist twice a year'], a: [0, 1, 2, 3],
+    r: ['Correct. Systemic disease such as diabetes raises the risk, and an older adult taking many drugs often has a dry mouth.',
+      'Correct. Limited access to oral health care lets problems go unchecked.',
+      'Correct. Tobacco and alcohol are major risks for oral disease and oral cancer.',
+      'Correct. Long industrial exposure to polycyclic aromatic hydrocarbons (PAH) raises the risk of oral and other cancers, more so with HPV.',
+      'Incorrect. Good hygiene and fluoride protect the mouth; too little fluoride is the risk.',
+      'Incorrect. Sugar-free gum and regular dental visits are protective.'],
+    ask: 'Which histories raise the risk for mouth disease or oral cancer?', cues: ['Systemic disease, older age, many drugs', 'No access to dental care', 'Tobacco, alcohol, PAH exposure'],
+    phys: 'The mouth is protected by saliva, intact mucosa and regular cleaning → diabetes and drying drugs weaken those defenses, missed dental care lets problems grow, and tobacco, alcohol and PAH chemicals damage the DNA of lining cells → infection, periodontal disease and oral cancer.',
+    rule: 'High risk for oral disorders: tobacco or alcohol, high-sugar diet, low fluoride, existing oral disease, poor access to dental care, systemic disease (diabetes, atherosclerosis, Alzheimer’s). Oral cancer adds sun on the lips, HPV, PAH exposure and periodontal disease with bone loss: screen them.' }
 ];
 
 window.RECALL_EXTRA['46'] = {
@@ -165,7 +203,31 @@ window.RECALL_EXTRA['46'] = {
       r: ['Correct. Water and frequent mouth care replace what the glands no longer make; saliva substitutes help after radiation ends.', 'Incorrect. Lemon-glycerin dries the mouth further.', 'Incorrect. Alcohol dries and stings.', 'Incorrect. The problem is too little saliva, not too much.'],
       ask: 'What is missing, and how is it replaced?', cues: ['Radiation → salivary glands damaged'],
       phys: 'Radiation damages salivary gland cells within 24 hours → little saliva → no washing, buffering or antibacterial proteins → decay, infection, and food that won’t form a bolus.',
-      rule: 'Xerostomia: frequent sips of water and mouth care before meals; saliva substitutes; avoid drying products.' }
+      rule: 'Xerostomia: frequent sips of water and mouth care before meals; saliva substitutes; avoid drying products.' },
+    { t: 'Chest pain after violent vomiting', q: 'A client has been vomiting forcefully for 2 days with gastroenteritis and now reports sudden severe chest pain and pain on swallowing. HR 118, RR 26, T 100.9°F (38.3°C). Which action should the nurse take?',
+      o: ['Keep the client NPO and report the findings to the provider immediately', 'Give a liquid antacid for the chest pain', 'Offer small sips of water to see how well the client swallows', 'Have the client lie flat and rest, then recheck vital signs in an hour'], a: [0],
+      r: ['Correct. Continuous severe vomiting can tear the esophagus; acid and organisms leaking into the mediastinum cause shock, respiratory failure or sepsis. Nothing by mouth, and the provider needs to know now (a chest CT looks for mediastinal air).', 'Incorrect. Anything swallowed can leak through a tear, and this is not simple reflux pain.', 'Incorrect. Testing the swallow sends water through a possible perforation.', 'Incorrect. Fever, tachycardia and tachypnea with new chest pain may be early sepsis; waiting an hour delays rescue.'],
+      ask: 'What can continuous severe vomiting do to the esophagus?', cues: ['Forceful vomiting → esophageal tear', 'Chest pain + painful swallowing + fever, HR 118, RR 26 → leak and early sepsis'],
+      phys: 'Repeated violent vomiting raises pressure inside the esophagus → the wall tears → gastric acid, saliva and bacteria enter the mediastinum → inflammation and infection (mediastinitis) → fever, tachycardia, tachypnea, then shock and sepsis.',
+      rule: 'Suspected esophageal perforation (severe vomiting, seizures, straining, instruments or tubes, foreign bodies): airway and breathing first, keep NPO, report at once; chest CT for mediastinal air; then suction, esophageal rest, TPN and antibiotics.' },
+    { t: 'Going home after LNF', q: 'A 70-year-old client is going home after a laparoscopic Nissen fundoplication. Which statement by the client shows a need for more teaching?',
+      o: ['“I’ll call the surgeon if my temperature goes above 101°F.”', '“I’ll eat soft foods for about a week and skip carbonated drinks.”', '“I won’t drive for a week, or while I’m taking the opioid pain pills.”', '“I can take off the small dressings and shower 2 days after surgery.”'], a: [0],
+      r: ['Correct; this needs teaching. Clients older than 65 should report a temperature above 100°F (37.8°C); the 101°F (38.3°C) threshold is for younger clients.', 'Incorrect; this is right. A soft diet for about a week, without carbonated drinks, tough foods or raw vegetables, protects the new wrap.', 'Incorrect; this is right. No driving for a week, and never while taking opioids.', 'Incorrect; this is right. Small dressings come off at 2 days; closure strips stay until day 10.'],
+      ask: 'Which instruction changes with the client’s age?', cues: ['Age 70 → lower fever threshold', 'LNF discharge teaching (Box 46.9)'],
+      phys: 'Aging blunts the immune and temperature response → an older adult with an infection may run only a low-grade fever → so the threshold for calling the surgeon drops from above 101°F to above 100°F after age 65.',
+      rule: 'After LNF: soft diet ~1 week; antireflux drugs ≥ 1 month; no driving 1 week or on opioids; walk, no heavy lifting; shower at 2 days, strips until day 10; report fever > 101°F (> 100°F if over 65), nausea, vomiting, bloating or pain; follow-up in 3–4 weeks.' },
+    { t: 'A “cold sore” that won’t heal', q: 'A 63-year-old landscaper says a raised, scabbed sore on the lower lip is “just a cold sore,” but it has been there for 5 weeks. Which response by the nurse is best?',
+      o: ['“A lip sore that hasn’t healed in 2 weeks needs to be checked. I’ll let the provider know today.”', '“Cold sores take longer to heal in people who work outdoors, so give it a few more weeks.”', '“Dab it with rubbing alcohol twice a day to dry it out.”', '“Brush gently so the sore doesn’t spread to your gums.”'], a: [0],
+      r: ['Correct. Any oral lesion not healed in 2 weeks needs assessment. A raised, scab-like lip lesion after years of sun suggests basal cell carcinoma (often removed by Mohs surgery); teach sun protection for the lips.', 'Incorrect. Waiting delays the diagnosis of a possible cancer.', 'Incorrect. Alcohol irritates the tissue and treats nothing.', 'Incorrect. Brushing doesn’t spread a cancer; the lesion itself needs evaluation.'],
+      ask: 'When does a “cold sore” stop being a cold sore?', cues: ['5 weeks without healing', 'Lip + years of sun → basal cell carcinoma'],
+      phys: 'Ultraviolet light damages the DNA of cells on the lips → damaged cells keep dividing → a raised, scab-like lesion that slowly becomes an ulcer with a pearly border (basal cell carcinoma); unlike a cold sore, it does not heal.',
+      rule: 'Lip or mouth lesion not healed in 2 weeks → report. Basal cell carcinoma: lips, sun-related, raised scab → ulcer with a pearly border; Mohs surgery; teach lip sun protection.' },
+    { t: 'Dry mouth from fluid loss', q: 'A client with nausea and vomiting from chemotherapy has dry, cracked lips and a dry, coated tongue. Today’s sodium is 151 mEq/L (136–145) and BUN 27 mg/dL (10–20), both higher than yesterday. Which action best protects the client’s oral mucosa?',
+      o: ['Request an order for IV fluids and give frequent, gentle mouth care', 'Provide an alcohol-based mouthwash after each episode of vomiting', 'Swab the mouth with lemon-glycerin swabs every 2 hours', 'Keep the client NPO until the sodium returns to normal'], a: [0],
+      r: ['Correct. Rising sodium and BUN show fluid loss; rehydrating restores saliva and moisture, and soft-brush care with saline rinses keeps the drying mucosa clean.', 'Incorrect. Alcohol dries and stings an already dry mouth.', 'Incorrect. Lemon-glycerin is acidic and drying.', 'Incorrect. Withholding fluids worsens the dehydration and the dryness.'],
+      ask: 'What do these lab trends say about the client’s fluid status, and what does that mean for the mouth?', cues: ['Na 151, BUN 27 and climbing → dehydration', 'Vomiting + chemotherapy → fragile, drying mucosa'],
+      phys: 'Vomiting loses water → the plasma concentrates (sodium and BUN climb) → less water is available for saliva → the mucosa dries and cracks, on top of a lining already thinned by chemotherapy → ulcers and infection follow unless fluids and mouth care are restored.',
+      rule: 'Protect the mouth: hydrate (IV fluids if needed), soft brush and saline or baking-soda rinses, inspect for lesions, check denture fit, swallow evaluation if swallowing hurts; never alcohol mouthwash or lemon-glycerin.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'LES relaxes → ___ → ___ → healing as ___ or ___ → ___.',
@@ -179,7 +241,7 @@ window.RECALL_EXTRA['46'] = {
       'Teaching is the nurse’s most important role in GERD.',
       'Extra pillows don’t count as raising the head of the bed.'],
     ['Compare and contrast', 1, 'Compare sliding and paraesophageal hiatal hernias.',
-      'Sliding (type I, most common): the GE junction slides up; reflux is the main problem; treated like GERD. Paraesophageal (II–IV): the fundus rolls up beside the esophagus; fullness and breathlessness after meals; risk of volvulus, obstruction and strangulation; often surgery.',
+      'Sliding (type I, most common): the GE junction slides up; reflux is the main problem; treated like GERD. Paraesophageal (II–IV): the fundus rolls up beside the esophagus; fullness and breathlessness after meals; risk of volvulus, obstruction and strangulation; medical care when possible, surgery if those complications occur or threaten.',
       'Where the GE junction sits decides whether reflux or strangulation is the danger.',
       'Barium swallow is the most specific test.',
       'Chest pain from either can mimic angina.'],
@@ -197,7 +259,17 @@ window.RECALL_EXTRA['46'] = {
       'Acids burn the surface (coagulation forms a crust that limits depth). Alkalis liquefy proteins and fats and keep burning deeper — they can perforate in about a minute. Both risk aspiration, bleeding and strictures.',
       'Coagulation vs liquefaction chemistry.',
       'Airway first; NPO; suction; esophageal rest; TPN.',
-      'Don’t try to neutralize a caustic.']
+      'Don’t try to neutralize a caustic.'],
+    ['Direct recall', 0, 'How is acute sialadenitis assessed and treated?',
+      'Assess: dryness, pain and facial swelling over the gland (usually parotid or submandibular), pus that can be massaged out, facial nerve (CN VII) function, fever and malaise; ask about head and neck radiation, drugs (phenothiazines, tetracyclines) and immune problems (HIV, Sjögren syndrome). Treat: hydration, moist heat, gentle massage along the gland, NSAIDs, antibiotics if infected, sialagogues to increase saliva.',
+      'Getting saliva flowing again keeps infection from climbing the ducts into the gland.',
+      'Prevent it with routine oral hygiene; an untreated abscess can spread to the neck and mediastinum.',
+      'The aim is more saliva, not a drier mouth or a rested gland: hydrate, heat, massage, sialagogues.'],
+    ['Direct recall', 1, 'Name the chapter’s health-equity and genetics points.',
+      'Oral cancer: white men have much higher HPV-related oropharyngeal cancer → advocate HPV vaccination and regular oral cancer screening for men; ask at-risk patients about any history of cancer (TP53 mutations). GERD: recognition and treatment lag for Hispanic and Latino Americans, worse with language barriers → professional medical translators (interpreters) for every English language learner; GERD also has a strong genetic link. Esophageal cancer: men have higher incidence and mortality regardless of race or ethnicity.',
+      'These points name who is missed or at higher risk, so screening and teaching reach them.',
+      'Advocate: HPV vaccine and screening for men; a professional interpreter every time.',
+      'HPV vaccination is not only for women: HPV also causes oropharyngeal cancer in men.']
   ],
   mc: [
     ['Two or three extra pillows are enough to stop night reflux.', 'Raise the head of the bed on blocks or sleep on a wedge.', 'Night reflux continues and damages the esophagus.', 'Pillows only bend the neck; blocks or a wedge tilt the whole esophagus above the stomach.'],
@@ -206,7 +278,8 @@ window.RECALL_EXTRA['46'] = {
     ['Viscous lidocaine only numbs pain, so it is safe before meals.', 'Viscous lidocaine also numbs the gag reflex and heat sensation — check swallowing and cool foods.', 'Burns and aspiration.', 'It blocks every sensory signal in the area, not just pain.'],
     ['A displaced NG tube after fundoplication should be pushed back in right away.', 'Never reinsert or reposition the NG tube after fundoplication — notify the surgeon.', 'The tip can perforate the fresh wrap.', 'The tube passes through freshly sutured tissue.'],
     ['Acid burns of the esophagus are worse than alkali burns.', 'Alkalis are more dangerous — they liquefy tissue and can perforate the esophagus within a minute.', 'Underestimating a drain-cleaner ingestion.', 'Acids form a protective crust; alkalis keep dissolving deeper.'],
-    ['Heartburn is how GERD shows up in older adults.', 'Older adults often have atypical GERD: dysphagia, anemia, anorexia, vomiting or cough.', 'GERD and its complications go unrecognized.', 'Aging blunts pain and adds other diseases that mask the classic picture.']
+    ['Heartburn is how GERD shows up in older adults.', 'Older adults often have atypical GERD: dysphagia, anemia, anorexia, vomiting or cough.', 'GERD and its complications go unrecognized.', 'Aging blunts pain and adds other diseases that mask the classic picture.'],
+    ['Ice chips are fine for a client who is NPO after an esophageal tear.', 'NPO after esophageal trauma means no oral intake at all, not even ice chips, while the esophagus rests for more than a week.', 'Melted ice is swallowed and leaks through the tear into the mediastinum.', 'Ice becomes water in the mouth; any swallowed fluid can pass through a perforation and spread infection.']
   ]
 };
 window.EXPLAIN_CARDS['46'] = { mc: Object.fromEntries(window.RECALL_EXTRA['46'].mc.map((x, i) => [i, { why: x[3] }])) };

@@ -196,7 +196,7 @@ const D = [
     moa: 'In acid it forms a viscous paste that binds to the ulcer base, shielding it from acid, pepsin and bile.', plain: 'Puts a bandage over the ulcer.',
     steps: ['Reaches the stomach on an empty stomach', 'Acid turns it into a sticky paste', 'The paste binds to the ulcer crater', 'The ulcer heals underneath'],
     pk: 'Local action; minimal absorption.', route: 'PO 1 h before and 2 h after meals and at bedtime; suspension or tablet (may dissolve in water).',
-    checks: [['Timing with food', 'food interferes with adhering to the mucosa'], ['Antacids and other drugs', 'separate by 30 min (antacids) and 2 h (other drugs)']],
+    checks: [['Timing with food', 'food interferes with adhering to the mucosa'], ['Antacids and other drugs', 'not within 30 min of antacids or other drugs (Table 47.1); drug references keep drugs it binds (quinolones, digoxin, warfarin, levothyroxine) 2 h apart']],
     hold: '—', stop: '—',
     contra: 'Caution in kidney failure (aluminum).', inter: 'Binds and reduces absorption of many drugs (quinolones, digoxin, warfarin, levothyroxine).',
     bbw: 'None.',

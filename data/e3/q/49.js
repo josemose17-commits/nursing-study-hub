@@ -13,7 +13,7 @@ window.NGN_EXTRA['49'] = [
       'Incorrect. LLQ pain with fever suggests diverticulitis.'],
     ask: 'Why does appendicitis pain move?', cues: ['Starts periumbilical → settles RLQ', 'McBurney point'],
     phys: 'Early distention of the blocked appendix is felt as vague visceral pain near the umbilicus → as inflammation reaches the parietal peritoneum next to it, the pain becomes sharp and localized at the McBurney point.',
-    rule: 'Appendicitis: pain first (periumbilical → McBurney point), then nausea and vomiting. Rebound tenderness and pain eased by flexing the right hip suggest perforation.' },
+    rule: 'Appendicitis: pain first (periumbilical → McBurney point), then nausea and vomiting. Pain that gets worse with coughing or moving and eases when the right hip or knees are flexed points to perforation and peritonitis; rebound tenderness (pain when pressure is released) may also be found.' },
 
   { f: 'matrix', t: 'Ulcerative colitis or Crohn’s?', q: 'For each feature, indicate whether it fits ulcerative colitis or Crohn’s disease.',
     cols: ['Ulcerative colitis', 'Crohn’s disease'],
@@ -120,7 +120,44 @@ window.NGN_EXTRA['49'] = [
       'Incorrect. Losses must be replaced, not restricted.'],
     ask: 'What does a high-output fistula take from the body?', cues: ['400 mL/day → fluid, electrolytes, protein, enzymes'],
     phys: 'Transmural inflammation tunnels to the skin → intestinal fluid rich in electrolytes and enzymes drains out → dehydration, hypokalemia and malnutrition → enzymes on the skin cause breakdown and infection.',
-    rule: 'Fistula: nutrition and fluid/electrolytes first (≥ 3000 kcal, I&O, daily weight), then skin (pouch > 100 mL/day, CWOCN), and watch for abscess and sepsis.' }
+    rule: 'Fistula: nutrition and fluid/electrolytes first (≥ 3000 kcal, I&O, daily weight), then skin (pouch > 100 mL/day, CWOCN), and watch for abscess and sepsis.' },
+
+  { f: 'exhibit', t: 'Has the appendix ruptured?', q: 'Review the nurse’s notes for a 19-year-old admitted with suspected appendicitis. Which findings suggest the appendix has perforated? Select all that apply.',
+    ex: [{ h: 'Nurse’s notes', lines: ['Yesterday 2200 — Cramping pain around the umbilicus, then nausea and one episode of vomiting; no appetite.', 'Today 0600 — Pain has moved to the right lower quadrant, 7/10. T 100.2°F (37.9°C), HR 92, BP 124/76.', 'Today 1000 — “The pain suddenly got a lot better about an hour ago.”', 'Today 1130 — Pain 9/10 across the whole abdomen; abdomen rigid; lies still with knees drawn up. T 102.4°F (39.1°C), HR 118, BP 98/58. WBC 23,000/mm³.'] }],
+    o: ['Pain that eased suddenly, then returned across the whole abdomen', 'A rigid abdomen with the client lying still, knees drawn up', 'Temperature 102.4°F with a heart rate of 118', 'WBC 23,000/mm³', 'Pain that began around the umbilicus and moved to the right lower quadrant', 'Nausea and vomiting that followed the pain', 'Loss of appetite'], a: [0, 1, 2, 3],
+    r: ['Correct. Rupture vents the pressure in the blocked appendix, so pain can ease for a while; then the spilled contents spread over the peritoneum and the pain becomes diffuse.',
+      'Correct. A rigid, boardlike abdomen and lying still with the knees flexed are signs of peritonitis.',
+      'Correct. Perforation brings a temperature over 101°F (38.3°C) and a rising pulse; the falling BP adds concern for sepsis and fluid shift.',
+      'Correct. Appendicitis usually runs 10,000–18,000; a WBC above 20,000 suggests perforation.',
+      'Incorrect. This is the classic course of appendicitis itself, not a sign of rupture.',
+      'Incorrect. Pain first, then nausea and vomiting, is the usual appendicitis sequence.',
+      'Incorrect. Anorexia is common in uncomplicated appendicitis.'],
+    ask: 'Which findings mark the change from an inflamed appendix to a perforated one?', cues: ['Pain suddenly better, then diffuse at 9/10', 'Rigid abdomen; T 102.4°F, HR 118, BP 98/58', 'WBC 23,000'],
+    phys: 'A fecalith blocks the lumen → pressure rises and blood flow to the wall falls → the wall gives way → the pressure is vented (brief relief) → bacteria spill over the peritoneum → diffuse pain, rigidity, fever, tachycardia → fluid shift and sepsis lower the BP.',
+    rule: 'Appendicitis → perforation: pain that eases and then becomes diffuse, a rigid abdomen, temperature > 101°F with a rising pulse, WBC > 20,000 → report now and prepare for surgery.' },
+
+  { f: 'sata', t: 'First hours after surgery for peritonitis', q: 'A client returns to the surgical unit after an exploratory laparotomy for peritonitis from a perforated diverticulum. The client has two abdominal drains, an NG tube to low suction and IV fluids. Which actions should the nurse include in the first postoperative hours? Select all that apply.',
+    o: ['Check level of consciousness, vital signs, respiratory status and intake and output at least hourly', 'Keep the client in a semi-Fowler position', 'Use sterile technique for any prescribed irrigation through the drains', 'Compare the irrigation fluid returned with the amount instilled', 'Report a change in wound drainage to the surgeon right away', 'Stop the IV fluids once the client is awake and alert', 'Switch the IV antibiotic to oral tablets once the client can swallow', 'Keep the client flat to protect the incision'], a: [0, 1, 2, 3, 4],
+    r: ['Correct. The Action Alert after abdominal surgery: LOC, VS, respiratory status and I&O at least hourly.',
+      'Correct. Gravity drains peritoneal contents into the lower abdomen, and the lungs expand more easily.',
+      'Correct. Strict asepsis lowers the chance of a new infection on top of peritonitis.',
+      'Correct. Irrigation fluid that stays in the abdomen causes distention and pain.',
+      'Correct. Wound drainage is documented, and changes are reported immediately.',
+      'Incorrect. The client is NPO with NG suction and is still shifting fluid into the abdomen, so IV replacement continues.',
+      'Incorrect. The client is NPO with an NG tube to suction; antibiotics stay IV.',
+      'Incorrect. Lying flat lets infected fluid move up under the diaphragm and limits breathing.'],
+    ask: 'What keeps a client safe in the first hours after peritonitis surgery?', cues: ['Laparotomy for peritonitis', 'Drains, NG to suction, IV fluids'],
+    phys: 'Infected peritoneum → leaky vessels keep shifting fluid out of the circulation → NG suction and NPO add losses → hypovolemia and septic shock stay possible → hourly checks catch them early; semi-Fowler keeps infected fluid low and eases breathing.',
+    rule: 'After peritonitis surgery: LOC, VS, respiratory status and I&O at least hourly; semi-Fowler; sterile drain care, irrigation in vs out; IV fluids and IV antibiotics continue; report drainage changes.' },
+
+  { f: 'cloze', t: 'Treating amebiasis', q: 'Complete the statement.',
+    parts: ['A client with amebic dysentery is treated with ', { o: ['metronidazole followed by paromomycin', 'loperamide alone', 'a gluten-free diet'], a: 0, r: 'An amebicide (metronidazole) treats the invading parasites; a luminal agent (paromomycin) follows.' },
+      '. The client can spread the infection ', { o: ['until the amebicides have killed the parasites', 'only while the diarrhea lasts', 'only during the first day of treatment'], a: 0, r: 'Transmission continues until drug therapy kills the parasites, not just until symptoms fade.' },
+      ', so ', { o: ['all household members and sexual partners need stool exams', 'only the client needs testing', 'the family should take antibiotics without testing'], a: 0, r: 'Several infections in one household are common, often from a shared water supply.' },
+      '. Cure is checked by ', { o: ['at least 3 stool exams 2–3 days apart, starting 2–4 weeks after treatment ends', 'one stool exam on the last day of treatment', 'a blood culture the next morning'], a: 0, r: 'Effectiveness is judged on several stool samples, starting weeks after therapy is completed.' }, '.'],
+    ask: 'How is amebiasis treated, and how do you know it is gone?', cues: ['Amebic dysentery → amebicide', 'Household and partners'],
+    phys: 'Entamoeba histolytica is swallowed → it invades and ulcerates the colon → it is passed in stool → it spreads fecal-oral to contacts → an amebicide kills the invaders and a luminal agent follows → repeated stool exams confirm cure.',
+    rule: 'Amebiasis: metronidazole, then paromomycin; contagious until the parasites are killed; stool exams for household members and partners; cure = 3 stools 2–3 days apart starting 2–4 weeks after therapy; handwashing is the best prevention.' }
 ];
 
 window.RECALL_EXTRA['49'] = {
@@ -214,7 +251,37 @@ window.RECALL_EXTRA['49'] = {
       r: ['Correct. Pale, gray, bluish or dark = poor blood supply → report at once.', 'Incorrect. Expected is pinkish to cherry red.', 'Incorrect. Doesn’t treat ischemia.', 'Incorrect. Waiting risks necrosis.'],
       ask: 'What does stoma color show?', cues: ['Ash gray stoma'],
       phys: 'The stoma is bowel with its own blood supply → if the mesentery is kinked or tight, perfusion falls → the mucosa turns pale, gray, blue or dark → necrosis.',
-      rule: 'Ileostomy: pinkish to cherry red is healthy; pale, ash gray, bluish or dark → surgeon now.' }
+      rule: 'Ileostomy: pinkish to cherry red is healthy; pale, ash gray, bluish or dark → surgeon now.' },
+    { t: 'Priority after a ruptured abscess', q: 'A client with diverticulitis had emergency surgery yesterday for a pelvic abscess that ruptured and caused peritonitis. The client is NPO with an NG tube to low suction. Which assessment is the nurse’s priority now?',
+      o: ['Fluid and electrolyte status', 'Return of bowel sounds', 'Appearance of the incision', 'Readiness for discharge teaching'], a: [0],
+      r: ['Correct. Fluid is shifting into the peritoneal cavity while NG suction and NPO status add losses, so hypovolemia, electrolyte imbalance and kidney injury are the immediate danger.', 'Incorrect. Bowel sounds are expected to stay quiet for a while after peritonitis surgery; they are not the first threat.', 'Incorrect. The wound is watched, but the fluid shift threatens perfusion first.', 'Incorrect. Teaching comes later, once the client is stable.'],
+      ask: 'What is the first threat to life after a ruptured abdominal infection?', cues: ['Ruptured abscess → peritonitis', 'NPO + NG suction'],
+      phys: 'Peritoneal inflammation → leaky vessels → fluid shifts into the abdomen (third spacing) → NG suction and NPO add losses → circulating volume and electrolytes fall → hypotension and acute kidney injury.',
+      rule: 'After a rupture or peritonitis surgery, the priority assessment is fluid and electrolyte status: I&O, daily weight, VS, electrolytes, BUN and creatinine.' },
+    { t: 'Before the first infliximab dose', q: 'A client with Crohn’s disease is scheduled for a first infusion of infliximab. Which findings in the client’s history should the nurse report to the provider before the infusion? Select all that apply.',
+      o: ['Heart failure', 'Breast cancer treated 4 years ago', 'Multiple sclerosis', 'A cold and sore throat that started 2 days ago', 'Lactose intolerance', 'Appendectomy at age 17'], a: [0, 1, 2, 3],
+      r: ['Correct. The textbook says these TNF-alpha blockers are not given to patients with a history of heart disease.', 'Correct. A history of cancer is on the same list.', 'Correct. So is multiple sclerosis. (The textbook places natalizumab in this same group, with the same cautions.)', 'Correct. Biologics suppress immunity; any infection, even a cold or sore throat, is reported right away.', 'Incorrect. Common in IBD and not a reason to hold the drug.', 'Incorrect. A past appendectomy doesn’t affect the drug.'],
+      ask: 'Which histories make a TNF-alpha blocker unsafe?', cues: ['Infliximab = anti-TNF biologic', 'Heart disease, cancer, MS; a current infection'],
+      phys: 'TNF-alpha drives the gut inflammation but is also part of the defense against infection → blocking it calms the bowel and lowers resistance to infection → the textbook adds that these drugs are not given with a history of cancer, heart disease or multiple sclerosis.',
+      rule: 'Anti-TNF biologics (infliximab, adalimumab, certolizumab pegol): not with a history of cancer, heart disease or MS; report any infection; avoid crowds. The textbook lists natalizumab with them.' },
+    { t: 'Ileostomy and food', q: 'A client with a new ileostomy is planning what to eat at a family barbecue. Which foods should the nurse advise the client to avoid or eat only with caution? Select all that apply.',
+      o: ['Corn on the cob', 'Coconut cream pie', 'Celery sticks with dip', 'Baked fish', 'Mashed potatoes', 'Plain yogurt'], a: [0, 1, 2],
+      r: ['Correct. Corn is high in cellulose, its skins can block the stoma, and it causes gas.', 'Correct. Coconut is a high-fiber food that can cause a blockage.', 'Correct. Celery is fibrous and gas-forming.', 'Incorrect. Soft, low-fiber protein is well tolerated.', 'Incorrect. Soft and low in fiber.', 'Incorrect. Usually well tolerated.'],
+      ask: 'Which foods can block a stoma or cause gas?', cues: ['New ileostomy', 'High-fiber, high-cellulose, gas-forming foods'],
+      phys: 'Small-bowel contents leave through a narrow stoma → stringy, high-cellulose foods are not broken down → they can bunch up and block the opening (cramps, distention, no output) → gas-forming foods add bloating.',
+      rule: 'Ileostomy diet: chew thoroughly; be cautious with high-fiber, high-cellulose and gas-forming foods (popcorn, coconut, corn, peas, vegetable skins, cabbage, celery, nuts).' },
+    { t: 'Celiac disease without diarrhea', q: 'A 32-year-old client with type 1 diabetes has iron deficiency anemia that has not improved with oral iron, osteoporosis on a bone scan, lactose intolerance and frequent migraines. Bowel movements are normal. Which condition should the nurse anticipate the provider will evaluate?',
+      o: ['Celiac disease', 'Diverticulosis', 'Ulcerative colitis', 'Norovirus gastroenteritis'], a: [0],
+      r: ['Correct. Celiac disease can show up with atypical symptoms in other body systems (Box 49.5), and other autoimmune diseases such as type 1 diabetes raise the risk. A screening blood test and endoscopy are used.', 'Incorrect. Usually silent and found in older adults on colonoscopy.', 'Incorrect. UC causes bloody diarrhea with tenesmus.', 'Incorrect. Norovirus brings a few days of vomiting and diarrhea.'],
+      ask: 'Can malabsorption show up outside the gut?', cues: ['Type 1 diabetes (autoimmune)', 'Anemia not fixed by oral iron, osteoporosis, lactose intolerance, migraines'],
+      phys: 'Gluten triggers an autoimmune attack on the small-intestine lining → the lining atrophies → iron, calcium and other nutrients are poorly absorbed → anemia and osteoporosis can appear even without diarrhea.',
+      rule: 'Celiac disease: classic GI symptoms or atypical ones (iron deficiency anemia, osteoporosis, lactose intolerance, migraines, depression); higher risk with type 1 diabetes and RA; blood test + endoscopy; a gluten-free diet is the only treatment.' },
+    { t: 'Hidden gluten', q: 'A client newly diagnosed with celiac disease asks where gluten can hide besides bread and pasta. Which items should the nurse teach the client to check? Select all that apply.',
+      o: ['Prescription and over-the-counter medicines', 'Lipstick and other cosmetics', 'Food additives such as thickeners in canned soups and sauces', 'Vitamin and mineral supplements', 'Plain fresh fruit', 'Plain rice'], a: [0, 1, 2, 3],
+      r: ['Correct. Drug fillers and coatings can contain gluten.', 'Correct. Cosmetics can contain gluten, and lip products are easily swallowed.', 'Correct. Additives and thickeners are common hidden sources.', 'Correct. Supplements are often needed in celiac disease, and they are products whose ingredients must be checked too.', 'Incorrect. Naturally gluten-free.', 'Incorrect. Naturally gluten-free.'],
+      ask: 'Where does gluten hide besides wheat foods?', cues: ['Celiac → strict gluten-free', 'Foods, additives, drugs, cosmetics'],
+      phys: 'Even small amounts of gluten restart the immune attack on the small-intestine lining → the lining stays damaged → malabsorption continues; it heals (in about 2 years) only when gluten is fully removed.',
+      rule: 'Celiac disease: a gluten-free diet is the only treatment; check foods, food additives, drugs and cosmetics for hidden gluten; vitamin and mineral supplements; a dietitian.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'Bacteria reach the peritoneum → ___ → walling off fails → ___ → ___ → septic shock.',
@@ -251,7 +318,12 @@ window.RECALL_EXTRA['49'] = {
       'Wash hands with soap ≥ 30 seconds, especially after a BM; personal glasses, dishes, utensils and toothpaste; clean bathrooms; no preparing food for others (food handlers check with public health); report symptoms lasting > 3 days.',
       'The organisms travel feces to mouth.',
       'Replace fluids with oral rehydration; IV if severe.',
-      'Shedding continues after symptoms stop.']
+      'Shedding continues after symptoms stop.'],
+    ['Medication-focused', 1, 'Biologics for Crohn’s disease: which ones block TNF-alpha, what history rules them out according to the textbook, and what is different about natalizumab?',
+      'Infliximab, adalimumab and certolizumab pegol block TNF-alpha; the textbook says they are not given with a history of cancer, heart disease or multiple sclerosis, and it lists natalizumab in the same group. Natalizumab actually keeps white cells from leaving the blood for the tissues: it is given IV every 4 weeks, the client must be free of all infections first, and new cognitive, motor or sensory changes (PML) are reported immediately. For every biologic: avoid crowds and report any infection, even a cold.',
+      'Blocking immune signals calms the bowel but weakens the defense against infection.',
+      'Check the history and screen for current infection before each dose; teach the signs to report.',
+      'An exam item that follows the textbook may list natalizumab with the TNF-alpha inhibitors and their cautions.']
   ],
   mc: [
     ['A heating pad helps the pain of appendicitis.', 'Never apply heat to the abdomen with suspected appendicitis.', 'More blood flow and swelling can rupture the appendix.', 'Heat increases circulation to an appendix already under pressure.'],
@@ -260,7 +332,8 @@ window.RECALL_EXTRA['49'] = {
     ['An ileostomy that stops draining needs a laxative.', 'Never give laxatives to a client with an ileostomy; no output with cramps → knee-chest, massage, hot tea, then call.', 'A food blockage gets pushed harder.', 'Loose stool is normal; no stool may mean a blockage.'],
     ['Sulfasalazine and mesalamine have the same side effects.', 'Sulfasalazine carries sulfapyridine (sulfa allergy, folic acid needed); mesalamine is 5-ASA alone and better tolerated.', 'A sulfa allergy is missed.', 'Sulfapyridine causes most of sulfasalazine’s side effects.'],
     ['Eating a little gluten now and then is fine with celiac disease.', 'A strict gluten-free diet — including hidden gluten in drugs and cosmetics — is the only treatment.', 'Inflammation, malabsorption and cancer risk continue.', 'Gluten is the trigger for the immune attack on the small-intestine lining.'],
-    ['Prednisone can be stopped as soon as a flare is over.', 'Steroids must be tapered; stopping suddenly can cause adrenal insufficiency.', 'Low cortisol can cause hypotension and shock.', 'Long-term steroids suppress the adrenal glands.']
+    ['Prednisone can be stopped as soon as a flare is over.', 'Steroids must be tapered; stopping suddenly can cause adrenal insufficiency.', 'Low cortisol can cause hypotension and shock.', 'Long-term steroids suppress the adrenal glands.'],
+    ['Once the diarrhea stops, amebiasis can no longer spread.', 'The client stays contagious until amebicides have killed the parasites; cure is confirmed by stool exams, and household members and sexual partners are tested too.', 'Family members and partners are infected or reinfected.', 'Parasites can still be passed in stool after symptoms fade; only drug therapy and negative stool exams end the risk.']
   ]
 };
 window.EXPLAIN_CARDS['49'] = { mc: Object.fromEntries(window.RECALL_EXTRA['49'].mc.map((x, i) => [i, { why: x[3] }])) };

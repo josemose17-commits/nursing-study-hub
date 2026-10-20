@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Exam 3 Route</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610022000">
+<style>
+  body { padding-bottom: 96px; }
+  main { max-width: 920px; margin: 0 auto; padding: clamp(20px, 4vw, 44px) 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-accent-300); }
+  h1 { font-size: clamp(30px, 6vw, 46px); margin: 4px 0 0; }
+  h2 { font-size: 18px; font-weight: 500; margin: 0; }
+  .lead { color: var(--color-neutral-300); max-width: 66ch; margin: 0; }
+  .glass { border-radius: var(--radius-lg); background: var(--color-surface); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--shadow-md); }
+  .bar { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; font-size: 14px; color: var(--color-neutral-300); }
+  .bar label { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+  .bar .status { flex: 1 1 100%; font-size: 13px; color: var(--color-neutral-400); }
+  .bar .status a, .note a, .prog a { color: var(--color-accent-300); }
+  select { font: inherit; color: var(--color-text); background: var(--color-neutral-900); border: 1px solid var(--color-divider); border-radius: 8px; padding: 3px 6px; }
+  input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--color-accent); flex: none; margin: 2px 0 0; }
+  .note { padding: 12px 16px; border: 1px solid var(--color-accent-700); background: var(--color-accent-900); border-radius: var(--radius-lg); font-size: 14px; color: var(--color-accent-100); }
+  .note b { color: var(--color-text); font-weight: 500; }
+  .note ul { margin: 6px 0 0; padding-left: 18px; }
+  .note .btn { margin-top: 8px; }
+  .prog { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: var(--color-neutral-300); }
+  .prog .stat { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+  .prog .stat b { color: var(--color-text); font-weight: 500; }
+  .pace-ok { color: var(--color-accent-2-300); } .pace-behind { color: #e3a29b; } .pace-ahead { color: var(--color-accent-2-300); }
+  .chs { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .chr { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 2px 10px; padding: 8px 10px; border-radius: 10px; background: var(--color-neutral-900); border: 1px solid var(--color-divider); }
+  .chr .n { grid-row: span 2; font-family: var(--font-heading); font-size: 18px; font-weight: 600; color: var(--color-accent-300); }
+  .chr .t { font-size: 13.5px; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .chr .s { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 12.5px; color: var(--color-neutral-400); }
+  .chr .s b { font-weight: 500; color: var(--color-neutral-200); }
+  .lvl-weak { color: #e3a29b !important; } .lvl-ok { color: var(--color-accent-200) !important; } .lvl-strong { color: var(--color-accent-2-300) !important; }
+  .meter { height: 4px; border-radius: 2px; background: var(--color-neutral-800); overflow: hidden; margin-top: 2px; }
+  .meter i { display: block; height: 100%; background: var(--color-accent); }
+  .day { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; border: 1px solid transparent; }
+  .day.today { border-color: var(--color-accent-700); }
+  .day > header { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
+  .day > header b { font-size: 18px; font-weight: 500; }
+  .day > header .tag { vertical-align: 2px; }
+  .day > header .load { margin-left: auto; font-size: 13px; color: var(--color-neutral-400); display: inline-flex; gap: 6px; align-items: center; }
+  .grp { display: flex; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 1px solid var(--color-divider); }
+  .grp:first-of-type { border-top: 0; padding-top: 0; }
+  .grp h3 { margin: 0; font-size: 15px; font-weight: 600; }
+  .grp h3 span { font-weight: 400; color: var(--color-neutral-400); }
+  .why { margin: 0; font-size: 13px; color: var(--color-neutral-400); max-width: 70ch; }
+  .row { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; }
+  .row label { display: flex; gap: 10px; align-items: flex-start; flex: 1; min-width: 0; cursor: pointer; }
+  .row .min { flex: none; font-size: 12.5px; color: var(--color-neutral-400); white-space: nowrap; padding-top: 2px; }
+  .row a.open { flex: none; font-size: 13px; color: var(--color-accent-300); text-decoration: none; padding-top: 1px; }
+  .row.done label > span { text-decoration: line-through; color: var(--color-neutral-500); }
+  .row .q { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-accent-2-300); margin-left: 6px; text-decoration: none; display: inline-block; }
+  .ev { margin: -2px 0 0 28px; font-size: 12.5px; color: var(--color-accent-2-300); }
+  .adapt { margin: 0 0 0 28px; font-size: 13px; color: var(--color-accent-200); }
+  .task { display: flex; flex-direction: column; gap: 6px; }
+  .task .how { margin: 0 0 0 28px; font-size: 13px; color: var(--color-neutral-300); }
+  .task .btn { align-self: flex-start; margin-left: 28px; font-size: 13.5px; padding: 6px 12px; }
+  .tops { margin: 0 0 0 28px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tops a { font-size: 12.5px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--color-divider); color: var(--color-text); text-decoration: none; background: var(--color-neutral-900); }
+  .free { font-size: 13px; color: var(--color-accent-2-300); }
+  .more { padding: 14px 18px; font-size: 14px; color: var(--color-neutral-300); }
+  .more summary { cursor: pointer; color: var(--color-text); font-weight: 500; font-size: 16px; }
+  .more ul { margin: 8px 0 0; padding-left: 18px; }
+  .more li { margin-bottom: 6px; }
+  .more a { color: var(--color-accent-300); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">NRS 114 · Exam 3 · Study route</div>
+    <h1>Your route to the exam.</h1>
+  </header>
+  <p class="lead" id="lead">Loading your route…</p>
+  <section class="glass prog" id="prog" aria-label="Your progress"></section>
+  <div class="glass bar" id="bar"></div>
+  <div id="warn"></div>
+  <div id="days" style="display:flex;flex-direction:column;gap:12px"></div>
+  <details class="glass more" id="left"></details>
+  <details class="glass more">
+    <summary>How this route works</summary>
+    <ul id="how"></ul>
+  </details>
+  <details class="glass more" id="donelist"></details>
+</main>
+<script src="data/e3/route.js?v=202610201500"></script>
+<script>
+// The study route. The tasks come from data/e3/route.js (tools/build_e3_route.js); this page decides, every time it opens:
+// - what is already done, from what you did elsewhere in the hub: reading time on the map (e3-read), drug cards opened
+//   (e3-drugs-seen), finished Mastery tests and their chapter scores and topic mastery (e3-mastery-v3), the weak-areas
+//   page (e3-weak-seen) — plus anything you check off yourself;
+// - what to add or change from your results: a fix task after a weak chapter test, shorter retests when you're strong,
+//   repairs that name your weakest topics;
+// - how to fit the rest into the days left: shorter gaps and Quick reading near the exam, and the least important
+//   tasks left out when the days are too short — always saying so.
+// Your own settings and checkmarks: localStorage['e3-route'] = { done, undone, hours, day, quick, snap }.
+(function () {
+  var R = window.E3_ROUTE, KEY = 'e3-route', FOCUS = 'e3-focus', MASTERY = 'Exam 3 Mastery Loop.dc.html';
+  if (!R) { document.getElementById('lead').textContent = 'The route didn’t load — reload the page.'; return; }
+  var A = R.adapt, P0 = R.pace;
+  function read(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
+  function write(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  var S;
+  function load() {
+    S = read(KEY) || {};
+    S.done = S.done || {}; S.undone = S.undone || {}; S.day = S.day || {}; S.snap = S.snap || {};
+    if (!(S.hours >= 0)) S.hours = R.hours;
+    if (S.quick === true) S.quick = 'on'; else if (S.quick !== 'on' && S.quick !== 'off') S.quick = 'auto';
+  }
+  function save() { write(KEY, { v: 2, done: S.done, undone: S.undone, hours: S.hours, day: S.day, quick: S.quick, snap: S.snap }); }
+  // Reading already on the map when a fix task appeared, so only re-reading after the test counts toward it.
+  var snapDirty = false;
+  function snapFor(G, t) {
+    var sn = S.snap[t.id] || (S.snap[t.id] = { s: {} });
+    t.topics.forEach(function (id) { if (sn.s[id] == null) { sn.s[id] = secs(G, id); snapDirty = true; } });
+    return sn.s;
+  }
+  load();
+
+  // Dates are local "yyyy-mm-dd" strings. ?today=2026-10-23 shows the route as it would look that day.
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function iso(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function parse(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2], 12); }
+  function addDays(s, n) { var d = parse(s); d.setDate(d.getDate() + n); return iso(d); }
+  function between(a, b) { return Math.round((parse(b) - parse(a)) / 864e5); }
+  function dayOf(ms) { return iso(new Date(ms)); }
+  var forced = /[?&]today=(\d{4}-\d\d-\d\d)/.exec(location.search), TODAY = forced ? forced[1] : iso(new Date());
+  var base = {}, chap = {}, byTopic = {};
+  R.tasks.forEach(function (t) { base[t.id] = t; if (t.kind === 'read') byTopic[t.topic] = t; });
+  R.chapters.forEach(function (c) { chap[c.ch] = c; });
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function hm(m) { m = Math.round(m); return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h' + (m % 60 ? ' ' + (m % 60) + ' min' : ''); }
+  function dayName(s) { return parse(s).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+  function short(s) { return parse(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+  function cap(d) { return d === R.exam ? R.examDayMin : Math.round(60 * (S.day[d] != null ? S.day[d] : S.hours)); }
+  function lvl(p) { return p >= A.strong ? 'strong' : p >= A.weak ? 'ok' : 'weak'; }
+
+  // ---------- What the hub knows you did ----------
+  function signals() {
+    var M = read('e3-mastery-v3') || {};
+    return {
+      read: read('e3-read') || {}, drugs: read('e3-drugs-seen') || {}, weakSeen: +(read('e3-weak-seen') || 0),
+      hist: (M.history || []).filter(function (h) { return h && h.at; }).sort(function (a, b) { return a.at - b.at; }),
+      topics: (M.mastery || {}).topics || {}, test: M.test || null, practice: M.practice || null
+    };
+  }
+  // Reading on the map: seconds (both modes, or only since a day) and how far a topic is toward counting as read.
+  function secs(G, id, since) {
+    var r = G.read[id]; if (!r) return 0;
+    if (!since) return (r.f || 0) + (r.q || 0);
+    var s = 0; Object.keys(r.by || {}).forEach(function (d) { if (d >= since) s += r.by[d][0] + r.by[d][1]; }); return s;
+  }
+  function readState(G, t) {
+    var r = G.read[t.topic] || {}, f = (r.f || 0) / (60 * t.min), q = (r.q || 0) / (60 * t.quick);
+    return { p: Math.min(1, Math.max(f, q)), done: f >= A.readFull || q >= A.readQuick, at: r.at || Date.now(), m: ((r.f || 0) + (r.q || 0)) / 60 };
+  }
+  // Finished tests that count as a chapter's test: enough of its questions, and a big enough share of the test.
+  function chapterTests(G) {
+    var out = {};
+    G.hist.forEach(function (h) {
+      Object.keys(h.ch || {}).forEach(function (c) {
+        var n = h.ch[c][1]; if (n >= A.testMin && n >= A.testShare * h.n) (out[c] = out[c] || []).push({ at: h.at, day: dayOf(h.at), pct: h.ch[c][0], n: n });
+      });
+    });
+    return out;
+  }
+  // Practice exams: finished Everything tests of 40 or more questions (and one in progress).
+  function practiceExams(G) { return G.hist.filter(function (h) { return h.focus === 'Everything' && h.n >= 40; }); }
+  // A group's retest: a later test where the group makes up most of the questions, or a second test of each of its chapters.
+  function groupRetest(G, chs, chT) {
+    var firsts = chs.map(function (c) { return (chT[c] || [])[0]; });
+    if (firsts.some(function (f) { return !f; })) return null;
+    var after = firsts.reduce(function (m, f) { return f.day > m ? f.day : m; }, '');
+    var hit = null;
+    G.hist.forEach(function (h) {
+      if (hit || dayOf(h.at) <= after || !h.ch) return;
+      var n = 0, s = 0, each = true;
+      chs.forEach(function (c) { var x = h.ch[c]; if (!x || x[1] < 3) each = false; else { n += x[1]; s += x[0] * x[1]; } });
+      if (each && n >= A.retestShare * h.n) hit = { day: dayOf(h.at), pct: Math.round(s / n), n: n };
+    });
+    if (hit) return hit;
+    var seconds = chs.map(function (c, i) { return (chT[c] || []).filter(function (x) { return x.day > firsts[i].day; })[0]; });
+    if (seconds.every(Boolean)) {
+      var n2 = 0, s2 = 0; seconds.forEach(function (x) { n2 += x.n; s2 += x.pct * x.n; });
+      return { day: seconds.reduce(function (m, x) { return x.day > m ? x.day : m; }, ''), pct: Math.round(s2 / n2), n: n2 };
+    }
+    return null;
+  }
+  function examNo(t) { var m = /^(?:exam|repair):(\d)/.exec(t.id); return m ? +m[1] : 0; }
+
+  // Which tasks are done, and how you did them.
+  function detect(G, tasks) {
+    var D = {}, chT = chapterTests(G), ex = practiceExams(G), T = G.test;
+    var running = T && T.focus === 'Everything' && (T.len || 0) >= 40 ? Object.keys(T.checked || {}).length : 0;
+    tasks.forEach(function (t) {
+      var k = t.kind, hit = null, i, x;
+      if (k === 'read') { var rs = readState(G, t); if (rs.done) hit = { day: dayOf(rs.at), how: 'Read on the map: ' + hm(rs.m) }; }
+      else if (k === 'drugs') {
+        var seen = t.drugs.filter(function (id) { return G.drugs[id]; });
+        if (seen.length >= Math.ceil(A.drugs * t.drugs.length)) hit = { day: dayOf(Math.max.apply(null, seen.map(function (id) { return G.drugs[id]; }))), how: seen.length + ' of ' + t.drugs.length + ' cards opened' };
+      } else if (k === 'test') {
+        x = (chT[t.ch] || [])[0];
+        if (x) hit = { day: x.day, pct: x.pct, how: 'Mastery test ' + short(x.day) + ': ' + x.pct + '% on ' + x.n + ' chapter ' + t.ch + ' questions' };
+      } else if (k === 'retest') {
+        x = groupRetest(G, String(t.ch).split(' '), chT);
+        if (x) hit = { day: x.day, pct: x.pct, how: 'Retested ' + short(x.day) + ': ' + x.pct + '% on ' + x.n + ' questions' };
+      } else if (k === 'exam') {
+        i = examNo(t); x = ex[i - 1];
+        if (x) hit = { day: dayOf(x.at), pct: x.pct, how: 'Practice exam ' + short(dayOf(x.at)) + ': ' + x.pct + '% on ' + x.n + ' questions' };
+        else if (t.part === 1 && ex.length === i - 1 && running >= 30) hit = { day: TODAY, how: running + ' questions answered so far' };
+      } else if (k === 'repair') {
+        i = examNo(t); x = ex[i - 1];
+        if (x && G.practice && G.practice.at > x.at) hit = { day: dayOf(G.practice.at), how: 'Misses redone ' + short(dayOf(G.practice.at)) };
+      } else if (k === 'quick') {
+        var tot = 0, need = 0;
+        String(t.ch).split(' ').forEach(function (c) { R.tasks.forEach(function (r) { if (r.kind === 'read' && r.ch === c) { tot += secs(G, r.topic, t.from); need += r.quick * 60; } }); });
+        if (tot >= 0.5 * need) hit = { day: TODAY > t.from ? TODAY : t.from, how: 'Reviewed on the map: ' + hm(tot / 60) };
+      } else if (k === 'fix' || k === 'fix2') {
+        var base0 = snapFor(G, t), s3 = 0; t.topics.forEach(function (id) { s3 += Math.max(0, secs(G, id) - base0[id]); });
+        if (t.topics.length && s3 >= 0.5 * 60 * t.reread) hit = { day: TODAY, how: 'Re-read on the map: ' + hm(s3 / 60) };
+        else if (G.practice && G.practice.at > t.testAt) hit = { day: dayOf(G.practice.at), how: 'Misses redone ' + short(dayOf(G.practice.at)) };
+      }
+      if (hit) D[t.id] = hit;
+    });
+    return D;
+  }
+  function isDone(D, id) { return !S.undone[id] && !!(S.done[id] || D[id]); }
+  function doneDay(D, id) { return S.done[id] || (D[id] || {}).day; }
+
+  // ---------- Changing the plan from your results ----------
+  // Weakest topics (lowest Mastery score) among some chapters; only topics the tests have reached count.
+  function weakest(G, chs, k, below) {
+    return R.tasks.filter(function (t) { return t.kind === 'read' && chs.indexOf(t.ch) >= 0 && G.topics[t.topic] && G.topics[t.topic].m != null && G.topics[t.topic].m * 100 < below; })
+      .sort(function (a, b) { return G.topics[a.topic].m - G.topics[b.topic].m; }).slice(0, k).map(function (t) { return t.topic; });
+  }
+  function rereadMin(ids) { return ids.reduce(function (n, id) { return n + Math.max(2, Math.round(byTopic[id].min * A.reread)); }, 0); }
+  function adapt(G, D0) {
+    var tasks = R.tasks.map(function (t) { return Object.assign({}, t, { after: t.after.slice() }); });
+    var by = {}; tasks.forEach(function (t) { by[t.id] = t; });
+    var chT = chapterTests(G), notes = {};
+    function insertAfter(id, t) { var i = tasks.indexOf(by[id]); tasks.splice(i + 1, 0, t); by[t.id] = t; }
+    // A weak chapter test → re-read its weakest topics and redo the misses before the group's retest.
+    R.chapters.forEach(function (c) {
+      var x = (chT[c.ch] || [])[0]; if (!x || x.pct >= A.weak) return;
+      var ids = weakest(G, [c.ch], 3, A.strong); if (!ids.length) ids = weakest(G, [c.ch], 2, 101);
+      var fix = { id: 'fix:' + c.ch, kind: 'fix', ch: c.ch, topics: ids, since: x.day, testAt: x.at, prio: 2, after: ['test:' + c.ch], href: ids.length ? 'Exam 3 Map.html#' + ids[0] : 'Exam 3 Map.html#weak',
+        label: 'Fix chapter ' + c.ch + (ids.length ? ': re-read your ' + (ids.length > 1 ? ids.length + ' weakest topics' : 'weakest topic') + ', then redo the misses' : ': redo the misses'), reread: rereadMin(ids), min: rereadMin(ids) + A.fixRedo };
+      notes[fix.id] = 'Your chapter ' + c.ch + ' test was ' + x.pct + '%, below ' + A.weak + '%. These are the topics you missed most.';
+      insertAfter('test:' + c.ch, fix);
+      R.retests.forEach(function (b) { if (b.chs.indexOf(c.ch) >= 0) by[b.id].after.push([fix.id, 0]); });
+    });
+    // A strong group → a shorter retest; a weak retest → one more re-read before the practice exams.
+    R.retests.forEach(function (b) {
+      var t = by[b.id], xs = b.chs.map(function (c) { return (chT[c] || [])[0]; });
+      if (!D0[b.id] && xs.every(function (x) { return x && x.pct >= A.strong; })) {
+        t.n = 20; t.min = Math.ceil(20 * (P0.question + P0.redo)); t.label = b.name + ' retest, 20 questions on chapters ' + b.chs.join(', ');
+        notes[t.id] = 'Shortened from ' + b.n + ' questions: you scored ' + xs.map(function (x) { return x.pct + '%'; }).join(', ') + ' on these chapters.';
+      }
+      var r = D0[b.id];
+      if (r && r.pct < A.weak) {
+        var ids = weakest(G, b.chs, 3, A.strong); if (!ids.length) return;
+        var f2 = { id: 'fix2:' + b.id.split(':')[1], kind: 'fix2', ch: b.chs.join(' '), topics: ids, since: r.day, testAt: parse(r.day).getTime() + 432e5, prio: 3, after: [b.id], href: 'Exam 3 Map.html#' + ids[0],
+          label: 'Re-read after the ' + b.name.toLowerCase() + ' retest: your ' + (ids.length > 1 ? ids.length + ' weakest topics' : 'weakest topic') + ' there', reread: rereadMin(ids), min: rereadMin(ids) };
+        notes[f2.id] = 'The retest was ' + r.pct + '%. These topics are still weak.';
+        insertAfter(b.id, f2);
+      }
+    });
+    // Repairs name your weakest topics, whatever chapter they are in.
+    var allChs = R.chapters.map(function (c) { return c.ch; });
+    tasks.forEach(function (t) {
+      if (t.kind !== 'repair') return;
+      var ids = weakest(G, allChs, 5, A.strong); if (!ids.length) return;
+      t.topics = ids; t.min = Math.min(120, rereadMin(ids) + A.repairRedo); t.href = 'Exam 3 Map.html#weak';
+      t.label = 'Repair after practice exam ' + examNo(t) + ': re-read your ' + ids.length + ' weakest topics, then redo the misses';
+    });
+    return { tasks: tasks, notes: notes };
+  }
+
+  // ---------- Fitting it into the days left ----------
+  // Minutes still needed: a topic you have partly read needs only the rest.
+  function need(G, t, q) {
+    if (t.kind !== 'read') return t.min;
+    var est = q ? t.quick : t.min, rs = readState(G, t);
+    return Math.max(1, Math.round(est * (1 - rs.p)));
+  }
+  // Within `near` days of the exam a retest waits only 1 day.
+  function gapFor(depDay, g) { return g > 1 && between(depDay, R.exam) <= A.near ? 1 : g; }
+  function plan(G, tasks, D, o) {
+    var first = o.baseline ? R.start : (TODAY > R.start ? TODAY : R.start), days = [], at = {}, used = {}, mode = {}, ord = {}, n = 0;
+    for (var d = first; d <= R.exam; d = addDays(d, 1)) { days.push(d); used[d] = 0; }
+    if (!o.baseline) {
+      tasks.forEach(function (t) { if (isDone(D, t.id)) at[t.id] = doneDay(D, t.id) || TODAY; });
+      if (used[TODAY] != null) used[TODAY] = o.usedToday || 0;
+    }
+    var pending = tasks.filter(function (t) { return (o.baseline || !isDone(D, t.id)) && !o.skip[t.id]; }), has = {};
+    tasks.forEach(function (t) { has[t.id] = 1; });
+    function ready(t, d) {
+      if (at[t.id] || (t.kind === 'morning') !== (d === R.exam) || (t.from && d < t.from)) return false;
+      for (var i = 0; i < t.after.length; i++) {
+        var a = t.after[i], g = t.gap || 0;
+        if (Array.isArray(a)) { g = a[1]; a = a[0]; }
+        if (o.skip[a] || !has[a]) continue;
+        if (!at[a] || addDays(at[a], gapFor(at[a], g)) > d) return false;
+      }
+      return true;
+    }
+    function place(t, d) {
+      if (!ready(t, d)) return;
+      var q = !o.baseline && t.kind === 'read' && (S.quick === 'on' || (S.quick === 'auto' && (o.quickCh[t.ch] || between(d, R.exam) <= A.final)));
+      var m = o.baseline ? t.min : need(G, t, q);
+      if (used[d] + m <= cap(d)) { at[t.id] = d; used[d] += m; ord[t.id] = ++n; if (q) mode[t.id] = 'q'; }
+    }
+    var since = {};
+    days.forEach(function (d) {
+      // A retest that was ready on an earlier day but got crowded out goes first, so new reading can't keep pushing it back.
+      pending.forEach(function (t) { if (t.kind === 'retest' && since[t.id] == null && ready(t, d)) since[t.id] = d; });
+      var due = pending.filter(function (t) { return t.kind === 'retest' && since[t.id] < d && ready(t, d); })[0];
+      if (due) place(due, d);
+      // Finishing a practice exam you started (the test keeps your place) comes before starting anything new.
+      pending.forEach(function (t) { if (t.kind === 'exam' && t.part === 2) place(t, d); });
+      pending.forEach(function (t) { place(t, d); });
+    });
+    return { days: days, at: at, used: used, mode: mode, ord: ord, left: pending.filter(function (t) { return !at[t.id]; }) };
+  }
+  // When something important doesn't fit: first read the latest unread chapters in Quick (when Quick is on Auto),
+  // then give up the least important tasks (highest prio number, latest first, with their group).
+  function schedule(G, tasks, D, usedToday) {
+    var o = { skip: {}, quickCh: {}, usedToday: usedToday }, order = [], P = plan(G, tasks, D, o);
+    var unread = R.chapters.map(function (c) { return c.ch; }).filter(function (ch) { return tasks.some(function (t) { return t.kind === 'read' && t.ch === ch && !isDone(D, t.id); }); });
+    var finalAll = between(TODAY > R.start ? TODAY : R.start, R.exam) <= A.final;
+    while (S.quick === 'auto' && !finalAll && P.left.some(function (t) { return t.prio <= 2; }) && unread.length) { o.quickCh[unread.pop()] = 1; P = plan(G, tasks, D, o); }
+    for (var guard = 0; guard < tasks.length; guard++) {
+      var needP = P.left.reduce(function (m, t) { return Math.min(m, t.prio); }, 99);
+      var cand = tasks.filter(function (t) { return !isDone(D, t.id) && !o.skip[t.id] && t.prio > needP; });
+      if (needP === 99 || !cand.length) break;
+      var worst = cand.reduce(function (w, t) { return t.prio >= w.prio ? t : w; });
+      tasks.forEach(function (t) { if ((t === worst || (worst.grp && t.grp === worst.grp)) && !isDone(D, t.id) && !o.skip[t.id]) { o.skip[t.id] = 1; order.push(t); } });
+      P = plan(G, tasks, D, o);
+    }
+    P.out = order.concat(P.left); P.quickCh = Object.keys(o.quickCh);
+    return P;
+  }
+  // Time you have already put in today: reading on the map, test questions, and tasks you checked off yourself.
+  function today(G, tasks, D) {
+    var read = 0, qs = 0, manual = 0;
+    Object.keys(G.read).forEach(function (id) { var b = (G.read[id].by || {})[TODAY]; if (b) read += (b[0] + b[1]) / 60; });
+    G.hist.forEach(function (h) { if (dayOf(h.at) === TODAY) qs += h.n; });
+    if (G.test && G.test.at && dayOf(G.test.at) === TODAY) qs += Object.keys(G.test.checked || {}).length;
+    tasks.forEach(function (t) {
+      if (S.done[t.id] !== TODAY || D[t.id]) return;
+      var b = t.kind === 'read' && G.read[t.topic] && (G.read[t.topic].by || {})[TODAY];
+      manual += Math.max(0, t.min - (b ? (b[0] + b[1]) / 60 : 0));
+    });
+    return { read: read, qs: qs, manual: manual, total: read + qs * (P0.question + P0.redo) + manual };
+  }
+
+  // ---------- The page ----------
+  var CUR = null;
+  function focusName(t) { return t.kind === 'test' ? 'Route: chapter ' + t.ch : 'Route: chapters ' + String(t.ch).split(' ').join(', '); }
+  function taskRow(t, C) {
+    var done = isDone(C.D, t.id), ev = C.D[t.id], q = C.P.mode[t.id] === 'q', m = done ? (t.kind === 'read' && ev ? Math.round(readState(C.G, t).m) || t.min : t.min) : C.P.at[t.id] ? (t.kind === 'read' ? need(C.G, t, q) : t.min) : t.min;
+    var openMode = t.kind === 'read' || t.kind === 'fix' || t.kind === 'fix2' ? ' data-mode="' + (q ? 'quick' : 'full') + '"' : t.kind === 'quick' ? ' data-mode="quick"' : '';
+    var row = '<div class="row' + (done ? ' done' : '') + '"><label><input type="checkbox" data-id="' + esc(t.id) + '"' + (done ? ' checked' : '') + '><span>' + esc(t.label) + '</span>' + (q && !done ? '<span class="q">Quick</span>' : '') + '</label>' +
+      '<span class="min">' + hm(m) + '</span>' + (!t.focus ? '<a class="open" href="' + esc(t.href) + '"' + openMode + '>Open</a>' : '') + '</div>';
+    var evid = done ? '<p class="ev">✓ ' + esc(ev && !S.done[t.id] ? ev.how : 'Checked off') + '</p>' : '';
+    if (t.kind === 'read') return row + evid;
+    var how = '';
+    if (t.kind === 'test' || t.kind === 'retest') how = 'On the Mastery page pick <b>' + (t.n <= 20 ? 20 : t.n) + ' questions</b>, then Start. When it ends, tap <b>Redo my misses</b>.';
+    if (t.kind === 'exam') how = t.part === 2 ? 'Open the Mastery page: it picks the test up where you stopped. When it ends, your report lists what to work on.' : 'On the Mastery page pick <b>60 questions</b>, then Start. Stop after question 30; the test keeps your place.';
+    if ((t.kind === 'fix' || t.kind === 'fix2' || t.kind === 'repair') && t.topics) how = 'Open each topic on the map' + (t.kind === 'fix2' ? '.' : ', then <b>Redo my misses</b> on the <a href="' + MASTERY + '">Mastery page</a>.');
+    var tops = t.topics && !done ? '<div class="tops">' + t.topics.map(function (id) { var x = C.G.topics[id]; return '<a href="Exam 3 Map.html#' + esc(id) + '" data-mode="full">' + esc(byTopic[id].label) + (x && x.m != null ? ' · ' + Math.round(x.m * 100) + '%' : '') + '</a>'; }).join('') + '</div>' : '';
+    var btn = t.focus && !done ? '<a class="btn btn-secondary go" href="' + esc(t.href) + '" data-focus="' + esc(t.focus === 'clear' ? 'clear' : t.focus.join(',')) + '" data-name="' + esc(focusName(t)) + '">' +
+      (t.focus === 'clear' ? 'Clear the focus and open the test' : t.kind === 'test' ? 'Focus on chapter ' + t.ch + ' and open the test' : 'Focus on these chapters and open the test') + '</a>' : '';
+    var note = C.notes[t.id] && !done ? '<p class="adapt">' + esc(C.notes[t.id]) + '</p>' : '';
+    return '<div class="task">' + row + evid + (done ? '' : note + tops + (how ? '<p class="how">' + how + '</p>' : '') + btn + (t.part === 2 ? '' : '<p class="why" style="margin-left:28px">' + esc(R.why[t.kind] || '') + '</p>')) + '</div>';
+  }
+  function dayCard(d, C, seenCh) {
+    // In the order you'd do them: what's done first, then as planned (a due retest leads its day).
+    var list = C.tasks.filter(function (t) { return C.P.at[t.id] === d && (d >= TODAY || !isDone(C.D, t.id)); })
+      .sort(function (a, b) { return (C.P.ord[a.id] || 0) - (C.P.ord[b.id] || 0); });
+    var groups = [], cur = null;
+    list.forEach(function (t) {
+      var inCh = /^(read|drugs|test|fix)$/.test(t.kind), key = inCh ? 'ch' + t.ch : t.id;
+      if (!cur || cur.key !== key) { cur = { key: key, ch: inCh ? t.ch : null, tasks: [] }; groups.push(cur); }
+      cur.tasks.push(t);
+    });
+    var isExam = d === R.exam, isToday = d === TODAY, free = cap(d) - C.P.used[d];
+    var hrs = '';
+    if (!isExam) {
+      var h = S.day[d] != null ? S.day[d] : S.hours, opts = [];
+      for (var x = 0; x <= 10; x += 0.5) opts.push('<option value="' + x + '"' + (x === h ? ' selected' : '') + '>' + (x ? x + ' h' : 'day off') + '</option>');
+      hrs = '<select data-day="' + d + '" aria-label="Hours on ' + dayName(d) + '">' + opts.join('') + '</select>';
+    }
+    var load = isExam ? 'a short look, nothing new' : (isToday && C.T.total >= 1 ? hm(C.T.total) + ' done, ' + hm(Math.max(0, C.P.used[d] - C.T.total)) + ' planned of ' : hm(C.P.used[d]) + ' planned of ') + hrs;
+    var h = '<section class="glass day' + (isToday ? ' today' : '') + '"><header><b>' + dayName(d) + '</b>' +
+      (isToday ? '<span class="tag tag-accent">Today</span>' : '') + (isExam ? '<span class="tag tag-outline">Exam 3</span>' : '') + '<span class="load">' + load + '</span></header>';
+    if (!groups.length) h += '<p class="why">' + (cap(d) ? 'Nothing planned: what’s ready fits on the days before, or waits for a gap to pass.' : 'Day off.') + '</p>';
+    groups.forEach(function (g) {
+      h += '<div class="grp">';
+      if (g.ch) {
+        var c = chap[g.ch], first = !seenCh[g.ch]; seenCh[g.ch] = 1;
+        h += '<h3>Chapter ' + c.ch + ' <span>· ' + esc(c.title) + '</span></h3>';
+        if (first) h += '<p class="why">' + esc(c.why) + ' About ' + c.share + ' of 60 questions on the provisional blueprint. ' + esc(R.why.read) + '</p>';
+      }
+      g.tasks.forEach(function (t) { h += taskRow(t, C); });
+      h += '</div>';
+    });
+    if (!isExam && free >= 20 && groups.length && d >= TODAY) h += '<p class="free">' + hm(free) + ' free: redo your misses or drill your weakest topic on the <a href="' + MASTERY + '">Mastery page</a>.</p>';
+    return h + '</section>';
+  }
+
+  // How far along you are against the route as first laid out (from day one, at your hours, nothing done).
+  function pace(G, C) {
+    var B = plan(G, R.tasks, {}, { baseline: true, skip: {}, quickCh: {} }), behind = 0, ahead = 0;
+    R.tasks.forEach(function (t) {
+      var b = B.at[t.id], dn = isDone(C.D, t.id);
+      if (b && b < TODAY && !dn) behind += t.min;
+      if (dn && (!b || b >= TODAY)) ahead += t.min;
+    });
+    return ahead - behind;
+  }
+  function phase(n) {
+    if (n <= 0) return 'Exam day: nothing new.';
+    if (n <= A.final) return n + ' day' + (n > 1 ? 's' : '') + ' left — final review: anything still unread is planned in Quick, retests come a day apart, and your weakest topics come first.';
+    if (n <= A.near) return n + ' days left — mixing and applying: retests need only a 1-day gap, and the practice exams begin once every chapter has had its test.';
+    return n + ' days left — learning: each chapter gets full reading, its drug cards and a test right away, with a retest two days later.';
+  }
+  function progHtml(C) {
+    var G = C.G, chT = chapterTests(G), ex = practiceExams(G), n = between(TODAY, R.exam);
+    var doneN = C.tasks.filter(function (t) { return isDone(C.D, t.id); }).length, net = pace(G, C);
+    var paceTxt = Math.abs(net) < 30 ? '<span class="pace-ok">on track</span>' : net < 0 ? '<span class="pace-behind">' + hm(-net) + ' behind</span> the route as first planned' : '<span class="pace-ahead">' + hm(net) + ' ahead</span> of the route as first planned';
+    var h = '<h2>Where you are</h2><div class="stat"><span><b>' + doneN + '</b> of ' + C.tasks.length + ' tasks done</span><span>' + paceTxt + '</span>' +
+      '<span>Today: <b>' + hm(C.T.total) + '</b>' + (C.T.read >= 1 || C.T.qs ? ' (' + [C.T.read >= 1 ? hm(C.T.read) + ' reading on the map' : '', C.T.qs ? C.T.qs + ' question' + (C.T.qs > 1 ? 's' : '') : ''].filter(Boolean).join(', ') + ')' : '') + '</span></div>';
+    h += '<div class="chs">' + R.chapters.map(function (c) {
+      var rd = C.tasks.filter(function (t) { return t.kind === 'read' && t.ch === c.ch; }), nr = rd.filter(function (t) { return isDone(C.D, t.id); }).length;
+      var frac = rd.reduce(function (s, t) { return s + (isDone(C.D, t.id) ? 1 : readState(G, t).p); }, 0) / rd.length;
+      var x = (chT[c.ch] || [])[0], y = (chT[c.ch] || [])[1], ids = weakest(G, [c.ch], 1, 101), w = ids[0] && G.topics[ids[0]];
+      var bits = ['<span>read <b>' + nr + '/' + rd.length + '</b></span>',
+        '<span>test ' + (x ? '<b class="lvl-' + lvl(x.pct) + '">' + x.pct + '%</b> ' + short(x.day) : '—') + '</span>'];
+      if (y) bits.push('<span>again <b class="lvl-' + lvl(y.pct) + '">' + y.pct + '%</b> ' + short(y.day) + '</span>');
+      if (w) bits.push('<span>weakest: <a href="Exam 3 Map.html#' + esc(ids[0]) + '" data-mode="full">' + esc(byTopic[ids[0]].label) + '</a> <b class="lvl-' + lvl(w.m * 100) + '">' + Math.round(w.m * 100) + '%</b></span>');
+      return '<div class="chr"><span class="n">' + c.ch + '</span><span class="t">' + esc(c.title) + '</span><span class="s">' + bits.join('') + '</span>' +
+        '<span></span><div class="meter" title="Reading ' + Math.round(frac * 100) + '%"><i style="width:' + Math.round(frac * 100) + '%"></i></div></div>';
+    }).join('') + '</div>';
+    if (ex.length) h += '<div class="stat">' + ex.map(function (e, i) { return '<span>Practice exam ' + (i + 1) + ': <b class="lvl-' + lvl(e.pct) + '">' + e.pct + '%</b> ' + short(dayOf(e.at)) + '</span>'; }).join('') + '</div>';
+    var ids = weakest(G, R.chapters.map(function (c) { return c.ch; }), 5, A.weak);
+    if (ids.length) h += '<div>Weakest topics so far: ' + ids.map(function (id) { return '<a href="Exam 3 Map.html#' + esc(id) + '" data-mode="full">' + esc(byTopic[id].label) + '</a> (' + Math.round(G.topics[id].m * 100) + '%)'; }).join(', ') + '.</div>';
+    h += '<div class="why">' + esc(phase(n)) + ' Reading counts once the map has had a topic open about half its time; tests count from the Mastery page.</div>';
+    return h;
+  }
+
+  function render() {
+    var lead = document.getElementById('lead'), days = document.getElementById('days'), warn = document.getElementById('warn'), prog = document.getElementById('prog');
+    var G = signals(), D0 = detect(G, R.tasks), Ad = adapt(G, D0), tasks = Ad.tasks, D = detect(G, tasks), T = today(G, tasks, D);
+    var P = TODAY > R.exam ? null : schedule(G, tasks, D, T.total);
+    if (snapDirty) { snapDirty = false; save(); }
+    CUR = { G: G, D: D, tasks: tasks, notes: Ad.notes, P: P, T: T };
+    renderBar(G); renderDone(CUR); renderHow();
+    if (!P) {
+      lead.textContent = 'Exam 3 was on ' + dayName(R.exam) + '. This route is finished.';
+      days.innerHTML = ''; warn.innerHTML = ''; prog.innerHTML = progHtml(Object.assign({}, CUR, { P: { mode: {} } })); document.getElementById('left').hidden = true; return;
+    }
+    var left = tasks.filter(function (t) { return !isDone(D, t.id); });
+    var planned = left.filter(function (t) { return P.at[t.id]; }).reduce(function (n, t) { return n + (t.kind === 'read' ? need(G, t, P.mode[t.id] === 'q') : t.min); }, 0);
+    var have = P.days.reduce(function (n, d) { return n + cap(d); }, 0) - Math.min(T.total, cap(TODAY));
+    var nDays = P.days.filter(function (d) { return d < R.exam; }).length;
+    lead.innerHTML = 'Exam 3 is on <b>' + dayName(R.exam) + '</b>. ' + (nDays ? nDays + ' study day' + (nDays > 1 ? 's' : '') + ' left' + (TODAY < R.start ? ' from ' + dayName(R.start) : '') + ': ' : '') +
+      'the plan fits <b>' + hm(planned) + '</b> of work into the <b>' + hm(Math.max(0, have)) + '</b> you have. It follows what you do on the map and the Mastery page, so most tasks check themselves off.';
+    prog.innerHTML = progHtml(CUR);
+    var w = '';
+    var finalQ = between(TODAY, R.exam) <= A.final && S.quick === 'auto' && left.some(function (t) { return t.kind === 'read' && P.mode[t.id] === 'q'; });
+    if (finalQ) w += '<div class="note"><b>Quick from here on:</b> with ' + between(TODAY, R.exam) + ' day' + (between(TODAY, R.exam) > 1 ? 's' : '') + ' left, what you haven’t read is planned in Quick (the bullet version), so the time goes to tests and your weak spots.</div>';
+    else if (P.quickCh.length) w += '<div class="note"><b>Planned in Quick to fit:</b> chapter' + (P.quickCh.length > 1 ? 's ' : ' ') + P.quickCh.sort().join(', ') + ' — the full notes for ' + (P.quickCh.length > 1 ? 'them' : 'it') + ' no longer fit before the exam alongside the tests. Give some days more hours and they go back to Full.</div>';
+    if (P.out.length) {
+      var unread = left.filter(function (t) { return t.kind === 'read' && P.mode[t.id] !== 'q'; }), saveQ = unread.reduce(function (n, t) { return n + t.min - t.quick; }, 0);
+      w += '<div class="note"><b>Not everything fits before the exam.</b> Left out, in the order it was given up:<ul>' +
+        P.out.slice(0, 8).map(function (t) { return '<li>' + esc(t.label) + (t.kind === 'read' ? ' (chapter ' + t.ch + ')' : '') + ' · ' + hm(t.min) + '</li>'; }).join('') +
+        (P.out.length > 8 ? '<li>and ' + (P.out.length - 8) + ' more (Still to cover, below, lists them)</li>' : '') + '</ul>' +
+        'To make room, give some days more hours above' + (S.quick === 'off' && saveQ >= 30 ? ', or let unread chapters go to Quick (saves about <b>' + hm(saveQ) + '</b>).<br><button class="btn btn-primary" type="button" data-quick="auto">Use Quick when needed</button>' : '.') + '</div>';
+    }
+    warn.innerHTML = w;
+    var seenCh = {};
+    days.innerHTML = P.days.map(function (d) { return dayCard(d, CUR, seenCh); }).join('');
+    renderLeft(CUR);
+    var todayLeft = tasks.filter(function (t) { return P.at[t.id] === TODAY && !isDone(D, t.id); });
+    var net = pace(G, CUR);
+    write('e3-route-sum', { at: Date.now(), day: TODAY, done: tasks.filter(function (t) { return isDone(D, t.id); }).length, total: tasks.length, today: todayLeft.length, todayMin: todayLeft.reduce(function (n, t) { return n + (t.kind === 'read' ? need(G, t, P.mode[t.id] === 'q') : t.min); }, 0), pace: Math.abs(net) < 30 ? 0 : net });
+  }
+  function renderBar(G) {
+    var opts = [];
+    for (var x = 1; x <= 10; x += 0.5) opts.push('<option value="' + x + '"' + (x === S.hours ? ' selected' : '') + '>' + x + ' h</option>');
+    var F = read(FOCUS), st = [], M = read('e3-mastery-v3');
+    if (M && M.test) st.push('A Mastery test is in progress — <a href="' + MASTERY + '">finish it</a>.');
+    else if (!(G.hist || []).length) st.push('No Mastery test yet: the first one is on the route after your first chapter.');
+    st.push('Map focus: ' + (F && F.ids && F.ids.length ? esc(F.name || 'My topics') + ' (' + F.ids.length + ' topics) · <a href="#" data-clear="1">clear it</a>' : 'everything') + '.');
+    document.getElementById('bar').innerHTML = '<label>Hours a day <select id="hours">' + opts.join('') + '</select></label>' +
+      '<label>Quick reading <select id="quick"><option value="auto"' + (S.quick === 'auto' ? ' selected' : '') + '>when needed</option><option value="on"' + (S.quick === 'on' ? ' selected' : '') + '>always</option><option value="off"' + (S.quick === 'off' ? ' selected' : '') + '>never</option></select></label>' +
+      '<span class="status">' + st.join(' ') + '</span>';
+  }
+  function renderLeft(C) {
+    var el = document.getElementById('left'), unread = {}, untested = [];
+    C.tasks.forEach(function (t) {
+      if (isDone(C.D, t.id)) return;
+      if (t.kind === 'read') { var u = unread[t.ch] = unread[t.ch] || { n: 0, m: 0 }; u.n++; u.m += need(C.G, t, C.P.mode[t.id] === 'q'); }
+      if (t.kind === 'test') untested.push(t.ch);
+    });
+    var rows = R.chapters.filter(function (c) { return unread[c.ch]; }).map(function (c) { return '<li>Chapter ' + c.ch + ' · ' + esc(c.title) + ': ' + unread[c.ch].n + ' of ' + c.topics + ' topics still to read (' + hm(unread[c.ch].m) + ')</li>'; });
+    el.hidden = false;
+    el.innerHTML = '<summary>Still to cover</summary>' + (rows.length ? '<ul>' + rows.join('') + '</ul>' : '<p>Every topic has been read.</p>') +
+      '<p>' + (untested.length ? 'Not tested yet: chapter' + (untested.length > 1 ? 's ' : ' ') + untested.join(', ') + '.' : 'Every chapter has had its test.') + '</p>' +
+      (C.P.out.length ? '<p>Not in the plan for lack of time: ' + C.P.out.map(function (t) { return esc(t.label); }).join('; ') + '.</p>' : '');
+  }
+  function renderDone(C) {
+    var el = document.getElementById('donelist'), list = C.tasks.filter(function (t) { return isDone(C.D, t.id); });
+    el.hidden = !list.length;
+    if (!list.length) return;
+    var by = {}; list.forEach(function (t) { var d = doneDay(C.D, t.id) || TODAY; (by[d] = by[d] || []).push(t); });
+    el.innerHTML = '<summary>Done so far: ' + list.length + ' of ' + C.tasks.length + ' tasks</summary><ul>' + Object.keys(by).sort().map(function (d) {
+      return '<li><b>' + dayName(d) + '</b>: ' + by[d].map(function (t) { return esc(t.label) + (t.kind === 'read' ? ' (ch ' + t.ch + ')' : '') + (C.D[t.id] && !S.done[t.id] ? ' — ' + esc(C.D[t.id].how) : ''); }).join('; ') + '</li>';
+    }).join('') + '</ul><p><button class="btn btn-ghost" type="button" data-reset="1">Clear my checkmarks</button></p>';
+  }
+  function renderHow() {
+    var p = R.pace;
+    document.getElementById('how').innerHTML = [
+      'It follows what you do. A topic counts as read once the map has had it open for about half its reading time (Full or Quick; time doesn’t count when the screen sits idle). Drug cards count once you’ve opened most of a chapter’s cards. Tests count when you finish them on the Mastery page: a chapter’s test needs ' + A.testMin + ' or more of its questions, practice exams are Everything tests of 40 or more. You can still check anything off yourself, or uncheck it.',
+      'It changes the plan from your results. A chapter test under ' + A.weak + '% adds a fix task — re-reading the topics you missed most, then redoing the misses — before that chapter’s retest. If every chapter in a group scored ' + A.strong + '% or more, the group’s retest is cut to 20 questions. A weak retest adds one more re-read. Repairs after the practice exams name your weakest topics.',
+      'It changes with the days left. Anything you didn’t get to moves forward. Within ' + A.near + ' days of the exam a retest needs only a 1-day gap; within ' + A.final + ' days, anything still unread is planned in Quick. If the reading no longer fits, the last unread chapters switch to Quick first (with Quick reading on “when needed”); then the least important tasks make room: practice exam 2, the Quick reviews, the drug cards and retests, practice exam 1. Reading and the chapter tests are never left out, and the plan always says what it left out.',
+      'Order: the assessment chapters first (53 before 55 and 56; 45 before 46–49), the biggest chapters early. Times are estimates: notes at about ' + p.read + ' words a minute, Quick at ' + p.quick + ', about ' + p.question + ' minutes a question with its rationales plus ' + p.redo + ' for redoing misses, ' + p.drug + ' minutes a drug card.',
+      'Chapter shares (“about 6 of 60 questions”) come from the Mastery test’s provisional blueprint, set by chapter size until the professor’s study guide arrives. The test buttons set the map’s focus to those chapters; the practice exams clear it. Everything here is saved in this browser and goes with your progress file (Home → Save progress file).'
+    ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
+  }
+
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.matches('input[data-id]')) {
+      var id = t.dataset.id, auto = CUR && CUR.D[id];
+      if (t.checked) { delete S.undone[id]; if (!auto) S.done[id] = TODAY; }
+      else { delete S.done[id]; if (auto) S.undone[id] = 1; }
+      save(); render();
+    }
+    else if (t.matches('select[data-day]')) { var v = +t.value; if (v === S.hours) delete S.day[t.dataset.day]; else S.day[t.dataset.day] = v; save(); render(); }
+    else if (t.id === 'hours') { S.hours = +t.value; save(); render(); }
+    else if (t.id === 'quick') { S.quick = t.value; save(); render(); }
+  });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-focus]');
+    if (a) { var f = a.dataset.focus; if (f === 'clear') write(FOCUS, null); else write(FOCUS, { ids: f.split(','), name: a.dataset.name }); return; }
+    var m = e.target.closest('a[data-mode]');
+    if (m) { try { localStorage.setItem('e2-bd-mode', m.dataset.mode); } catch (x) {} return; } // the map opens the topic in that mode
+    if (e.target.closest('[data-clear]')) { e.preventDefault(); write(FOCUS, null); render(); }
+    var qb = e.target.closest('[data-quick]'); if (qb) { S.quick = qb.dataset.quick; save(); render(); }
+    if (e.target.closest('[data-reset]') && window.confirm('Clear the tasks you checked off yourself? What the map and the Mastery page recorded stays.')) { S.done = {}; S.undone = {}; save(); render(); }
+  });
+  var WATCH = [KEY, FOCUS, 'e3-mastery-v3', 'e3-read', 'e3-drugs-seen', 'e3-weak-seen'];
+  window.addEventListener('storage', function (e) { if (WATCH.indexOf(e.key) >= 0) { load(); render(); } });
+  // Coming back to this tab (after studying in another) picks up what you did there.
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) { load(); render(); } });
+  render();
+})();
+</script>
+<script src="nav.js?v=202610201500"></script>
+</body>
+</html>

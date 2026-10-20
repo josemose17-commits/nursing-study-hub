@@ -87,7 +87,7 @@
   </details>
   <details class="glass more" id="donelist"></details>
 </main>
-<script src="data/e3/route.js?v=202610201800"></script>
+<script src="data/e3/route.js?v=202610201900"></script>
 <script>
 // The study route. The tasks come from data/e3/route.js (tools/build_e3_route.js); this page decides, every time it opens:
 // - what is already done, from what you did elsewhere in the hub: reading time on the map (e3-read), drug cards opened
@@ -220,6 +220,9 @@
         var tot = 0, need = 0;
         String(t.ch).split(' ').forEach(function (c) { R.tasks.forEach(function (r) { if (r.kind === 'read' && r.ch === c) { tot += secs(G, r.topic, t.from); need += r.quick * 60; } }); });
         if (tot >= 0.5 * need) hit = { day: TODAY > t.from ? TODAY : t.from, how: 'Reviewed on the map: ' + hm(tot / 60) };
+      } else if (k === 'drill') {
+        x = G.hist.filter(function (h) { return h.focus === 'Drill · ' + t.drill && h.n >= 10; })[0];
+        if (x) hit = { day: dayOf(x.at), pct: x.pct, how: 'Drilled ' + short(dayOf(x.at)) + ': ' + x.pct + '%' };
       } else if (k === 'last') {
         x = G.hist.filter(function (h) { return dayOf(h.at) >= t.from && h.focus === 'Everything' && h.n >= 15 && h.n < 40; })[0];
         if (x) hit = { day: dayOf(x.at), pct: x.pct, how: 'Mixed test ' + short(dayOf(x.at)) + ': ' + x.pct + '%' };
@@ -260,9 +263,9 @@
     // A strong group → a shorter retest; a weak retest → one more re-read before the practice exams.
     R.retests.forEach(function (b) {
       var t = by[b.id], xs = b.chs.map(function (c) { return (chT[c] || [])[0]; });
-      if (!D0[b.id] && xs.every(function (x) { return x && x.pct >= A.strong; })) {
+      if (!D0[b.id] && b.n > 20 && xs.every(function (x) { return x && x.pct >= A.strong; })) {
         t.n = 20; t.min = Math.ceil(20 * (P0.question + P0.redo)); t.label = b.name + ' retest, 20 questions on chapters ' + b.chs.join(', ');
-        notes[t.id] = 'Shortened from ' + b.n + ' questions: you scored ' + xs.map(function (x) { return x.pct + '%'; }).join(', ') + ' on these chapters.';
+        notes[t.id] = 'Shortened from ' + b.n + ' questions: you scored ' + xs.map(function (x) { return x.pct + '%'; }).join(', ') + (xs.length > 1 ? ' on these chapters.' : ' on this chapter.');
       }
       var r = D0[b.id];
       if (r && r.pct < A.weak) {
@@ -380,6 +383,7 @@
     var how = '';
     if (t.kind === 'test' || t.kind === 'retest') how = 'On the Mastery page pick <b>' + (t.n <= 20 ? 20 : t.n) + ' questions</b>, then Start. When it ends, tap <b>Redo my misses</b>.';
     if (t.kind === 'exam') how = t.part === 2 ? 'Open the Mastery page: it picks the test up where you stopped. When it ends, your report lists what to work on.' : 'On the Mastery page pick <b>60 questions</b>, then Start. Stop after question 30; the test keeps your place.';
+    if (t.kind === 'drill') how = 'On the Mastery page set <b>20 questions</b>, open <b>Drill one topic</b> and pick <b>' + esc(t.drill) + '</b>. If your map focus is set, clear it first.';
     if (t.kind === 'last') how = (t.topics ? 'Open each topic on the map first. Then o' : 'O') + 'n the Mastery page pick <b>20 questions</b>, then Start.';
     if ((t.kind === 'fix' || t.kind === 'fix2' || t.kind === 'repair') && t.topics) how = 'Open each topic on the map' + (t.kind === 'fix2' ? '.' : ', then <b>Redo my misses</b> on the <a href="' + MASTERY + '">Mastery page</a>.');
     var tops = t.topics && !done ? '<div class="tops">' + t.topics.map(function (id) { var x = C.G.topics[id]; return '<a href="Exam 3 Map.html#' + esc(id) + '" data-mode="full">' + esc(byTopic[id].label) + (x && x.m != null ? ' · ' + Math.round(x.m * 100) + '%' : '') + '</a>'; }).join('') + '</div>' : '';
@@ -539,7 +543,7 @@
       'It follows what you do. A topic counts as read once the map has had it open for about half its reading time (Full or Quick; time doesn’t count when the screen sits idle). Drug cards count once you’ve opened most of a chapter’s cards. Tests count when you finish them on the Mastery page: a chapter’s test needs ' + A.testMin + ' or more of its questions, practice exams are Everything tests of 40 or more. You can still check anything off yourself, or uncheck it.',
       'It changes the plan from your results. A chapter test under ' + A.weak + '% adds a fix task — re-reading the topics you missed most, then redoing the misses — before that chapter’s retest. If every chapter in a group scored ' + A.strong + '% or more, the group’s retest is cut to 20 questions. A weak retest adds one more re-read. Repairs after the practice exams name your weakest topics.',
       'It changes with the days left. Anything you didn’t get to moves forward. Within ' + A.near + ' days of the exam a retest needs only a 1-day gap; within ' + A.final + ' days, anything still unread is planned in Quick. If the reading no longer fits, the last unread chapters switch to Quick first (with Quick reading on “when needed”); then the least important tasks make room: practice exam 2, the Quick reviews, the drug cards and retests, practice exam 1. Reading and the chapter tests are never left out, and the plan always says what it left out.',
-      'Order: the assessment chapters first (53 before 55 and 56; 45 before 46 and 47), the biggest chapters early. Times are estimates: notes at about ' + p.read + ' words a minute, Quick at ' + p.quick + ', about ' + p.question + ' minutes a question with its rationales plus ' + p.redo + ' for redoing misses, ' + p.drug + ' minutes a drug card.',
+      'Order: by the study guide’s weight, each block’s basics first — the short chapter 53 items, then diabetes (20 of 60 questions, with its own retest and two drills), then 55; the short chapter 45 items, then 47 and 46. Times are estimates: notes at about ' + p.read + ' words a minute, Quick at ' + p.quick + ', about ' + p.question + ' minutes a question with its rationales plus ' + p.redo + ' for redoing misses, ' + p.drug + ' minutes a drug card.',
       'Chapter shares (“20 of the 60 exam questions”) and the topics come from the professor’s study guide: in chapters 53, 45 and 46 only the items it names are on the route; 47, 55 and 56 are whole. The test buttons set the map’s focus to those chapters; the practice exams clear it. Everything here is saved in this browser and goes with your progress file (Home → Save progress file).'
     ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
   }
@@ -572,6 +576,6 @@
   render();
 })();
 </script>
-<script src="nav.js?v=202610201800"></script>
+<script src="nav.js?v=202610201900"></script>
 </body>
 </html>

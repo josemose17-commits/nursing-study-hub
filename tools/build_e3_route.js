@@ -13,21 +13,25 @@ const EXAM = '2026-10-28', START = '2026-10-20', HOURS = 5, EXAM_DAY_MIN = 30;
 // a question with its rationales, redoing the misses afterwards (per question asked), and a drug card.
 const PACE = { read: 90, quick: 120, question: 2.5, redo: 0.5, drug: 1.2 };
 // Study order: each block's assessment chapter first (the others build on it); the biggest chapters early, so they get the most review.
+// In study-guide order of weight, each block's basics first: the short ch 53 items (pancreas, thyroid, parathyroid)
+// lead into diabetes, which is a third of the exam, so it comes first and gets the most review.
 const ORDER = [
-  ['53', 'First: the normal endocrine physiology and tests that chapters 55 and 56 build on.'],
-  ['55', 'Builds straight on chapter 53’s thyroid and parathyroid physiology.'],
-  ['56', 'The biggest chapter with the biggest share of the exam, so it comes early and gets the most review.'],
-  ['45', 'Normal GI function, the abdominal exam and the tests that chapters 46 and 47 rely on.'],
-  ['46', 'The top of the tract: the mouth and the esophagus.'],
-  ['47', 'The stomach: gastritis, ulcers, bleeding and gastric surgery.']
+  ['53', 'First, and short: the pancreas, thyroid and parathyroid basics that diabetes and chapter 55 build on, aging changes and the 24-hour urine.'],
+  ['56', 'A third of the exam (20 of 60 questions), so it comes right after the basics and gets the most review: its own retest and two drills.'],
+  ['55', 'Builds on the chapter 53 thyroid and parathyroid basics.'],
+  ['45', 'Short: GI changes with aging and Table 45.1, the organs in each quadrant — the anatomy chapters 46 and 47 use.'],
+  ['47', 'The whole chapter is on the guide: gastritis, ulcers, bleeding and gastric surgery.'],
+  ['46', 'Only the guide’s parts: keeping the mouth healthy and oral care (Boxes 46.1–46.2), GERD and hiatal hernia.']
 ];
 // Chapters with notes on the map that are not on this exam: no route tasks.
 const SKIP = ['48', '49'];
 const FIRST_TEST = { '56': 40, '45': 15 };   // questions in a chapter's first test (otherwise 20, the shortest test); 45 has few guide questions
-const RETESTS = [['endo', 'Endocrine', ['53', '55', '56'], 40], ['gi', 'GI', ['45', '46', '47'], 40]];
+const RETESTS = [['diabetes', 'Diabetes', ['56'], 40], ['thyroid', 'Thyroid & endocrine', ['53', '55'], 20], ['gi', 'GI', ['45', '46', '47'], 40]];
+// Extra drills for the heaviest chapter: Mastery → "Drill one topic" on these study-guide topics (names as in tools/e3-mastery-cfg.js).
+const DRILLS = [['Insulin & diabetes drugs', '56'], ['Hypoglycemia, DKA & HHS', '56']];
 const GAP = 2;                     // days between a chapter's first test and its retest
 // prio: what goes first when the days are too short. 1 reading, chapter tests and exam morning (never left out);
-// 2 practice exam 1 and its repair; 3 retests and drug cards; 4 Quick reviews; 5 practice exam 2 and its repair.
+// 2 practice exam 1 and its repair; 3 retests and drug cards; 4 Quick reviews, drills and the last pass; 5 practice exam 2 and its repair.
 // grp: tasks that are left out together (a practice exam's two halves and its repair).
 // after: the tasks it waits for, each 'id' (plus the task's gap in days) or ['id', days].
 // How the page reads what you have done, and when it changes the plan:
@@ -47,6 +51,7 @@ const WHY = {
   repair: 'Fix what the last test found. Your weak areas on the map shows each missed question with its notes and Why it works cards; then Redo my misses on the Mastery page.',
   quick: 'In the last days, the bullet version of every topic. Turn on Quick on the map.',
   morning: 'Nothing new on exam day. Read each chapter’s Act now and Emergency trigger boxes (in its overview) and the numbers strip, then stop.',
+  drill: 'Chapter 56 is a third of the exam, so its two biggest topics get a whole test each. A drill rotates through every subtopic of one topic.',
   last: 'The day before the exam: one more look at what is still weakest, then a short mixed test so you finish on recall, not rereading. The button clears the focus.',
   fix: 'Your chapter test showed gaps. Before the retest, re-read the topics you missed most (the Mastery test keeps a score for every topic), then redo the misses on the Mastery page.',
   fix2: 'The retest showed gaps that are still there. Re-read these topics once more before the practice exams.'
@@ -95,6 +100,7 @@ const practice = (k, after, gap, prio) => {
   add({ id: 'repair:' + k, kind: 'repair', ch: '', label: 'Repair after practice exam ' + k + ': your weak areas, then redo the misses', min: 75, after: [b], href: 'Exam 3 Map.html#weak', prio, grp });
 };
 practice(1, allTests, 0, 2);
+DRILLS.forEach(([name, ch], i) => add({ id: 'drill:' + (i + 1), kind: 'drill', ch, drill: name, label: 'Drill: ' + name + ', 20 questions', n: 20, min: test(20), after: [['retest:diabetes', 1]], href: MASTERY, prio: 4 }));
 add({ id: 'quick:endo', kind: 'quick', ch: '53 55 56', label: 'Quick review: chapters 53, 55 and 56', min: quickMin(['53', '55', '56']), after: ['exam:1b'], from: minus(EXAM, 2), href: 'Exam 3 Map.html#53-overview', prio: 4 });
 add({ id: 'quick:gi', kind: 'quick', ch: '45 46 47', label: 'Quick review: chapters 45 to 47', min: quickMin(['45', '46', '47']), after: ['exam:1b'], from: minus(EXAM, 2), href: 'Exam 3 Map.html#45-overview', prio: 4 });
 practice(2, [['exam:1b', 1]].concat(retests), 0, 5);   // a day after practice exam 1, once the retests are done

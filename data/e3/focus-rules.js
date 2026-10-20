@@ -1,6 +1,6 @@
 // Exam 3's focus settings for focus.js (load this first): its own storage keys, the keywords that tie a
 // question to each map topic ([chapter, topic-title test, keywords]; a topic with none covers its whole
-// chapter), and the professor's study-guide topics (empty until the Exam 3 study guide is added).
+// chapter), and the professor's study-guide topics (guide).
 window.FOCUS_CFG = {
   key: 'e3-focus', saved: 'e3-focus-saved',
   rules: [
@@ -61,5 +61,11 @@ window.FOCUS_CFG = {
     ['56', /^diabetes in the hospital/i, /hospital|surgery|surgical|NPO|pre-?op|post-?op|sliding|correction dose|basal|IV insulin|insulin (drip|infusion)|pancreas transplant|TPN|beta blocker/i],
     ['56', /^teaching self-management/i, /teach|education|self-management|teach-back|literacy|survival skill|home care|sick[- ]day/i]
   ],
-  guide: []
+  // The professor's Exam 3 study guide, as map topics: the items it names in 53, 45 and 46; all of 47, 55 and 56.
+  guide: [
+    ['53', /^pituitary, thyroid, parathyroid and pancreas/i], ['53', /^aging and covid/i], ['53', /^diagnostic tests/i],
+    ['45', /^gi changes with aging/i], ['45', /^gi history and the abdominal exam/i],
+    ['46', /^stomatitis/i], ['46', /^gerd/i], ['46', /^treating gerd/i], ['46', /^hiatal hernia/i],
+    ['47', /./], ['55', /./], ['56', /./]
+  ]
 };

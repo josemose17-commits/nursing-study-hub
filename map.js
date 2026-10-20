@@ -65,7 +65,7 @@
   function chapterHtml(ch) {
     var q = EXAM_Q[ch];
     return '<div class="chapter' + (q ? '' : ' untested') + '" data-ch="' + ch + '"><div class="chhead"><b>' + ch + ' · ' + esc(chTitle(ch)) + '</b>' +
-      (q ? '<span class="q">' + q + ' questions</span>' : X.examQ ? '<span class="q none">Not on guide · basics</span>' : '') +
+      (q ? '<span class="q">' + q + ' questions</span>' : X.examQ ? '<span class="q none">' + esc(X.offLabel || 'Not on guide · basics') + '</span>' : '') +
       '<button class="all" data-ch="' + ch + '">All / none</button></div><div class="chips">' + order(ch).map(chipHtml).join('') + '</div></div>';
   }
   function buildMap() {

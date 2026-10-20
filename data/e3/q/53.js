@@ -80,7 +80,43 @@ window.NGN_EXTRA['53'] = [
       { t: 'The hormone level fails to fall → hyperfunction', a: 1, r: 'Suppression test result.' }],
     ask: 'Why push or block a gland instead of just measuring it?', cues: ['Too little → stimulate; too much → suppress'],
     phys: 'Hormones have wide normal ranges and pulse through the day → a single level may look normal → challenging the feedback loop shows whether the gland responds as it should.',
-    rule: 'Suspect too little: stimulate — no rise = hypofunction. Suspect too much: suppress — no fall = hyperfunction.' }
+    rule: 'Suspect too little: stimulate — no rise = hypofunction. Suspect too much: suppress — no fall = hyperfunction.' },
+
+  { f: 'matrix', t: 'Normal aging or a red flag?', q: 'A 78-year-old client comes for a routine visit. For each finding, indicate whether it is an expected age-related endocrine change or needs further assessment.',
+    cols: ['Expected with aging', 'Needs further assessment'],
+    rows: [{ t: 'Eats less than she did a few years ago', a: 0, r: 'Expected. A slower general metabolism lowers appetite.' },
+      { t: 'Wears a sweater in a room others find comfortable', a: 0, r: 'Expected. A slower metabolism means less tolerance for cold — teach dressing in layers.' },
+      { t: 'Pale, dilute urine even on a day she drank little', a: 0, r: 'Expected. With less ADH, urine may not concentrate when intake is low — the reason dehydration risk is high and fluids are offered at least every 2 hours.' },
+      { t: 'Fasting glucose a little higher than at last year’s visit', a: 0, r: 'Expected with decreased glucose tolerance. Teach exercise, a healthy weight and the signs of diabetes to report.' },
+      { t: 'Heat intolerance with a resting heart rate of 108', a: 1, r: 'Needs assessment. Aging slows metabolism and lowers heart rate; heat intolerance with a fast pulse points the other way — toward too much thyroid hormone.' },
+      { t: 'Temperature that stays at 96.4°F (35.8°C), with new constipation and slowed speech', a: 1, r: 'Needs assessment. A temperature consistently below 97°F (36°C), a change from usual bowel habits and slowed speech are signs of an endocrine disorder, not normal aging.' },
+      { t: 'A shin wound that has not healed after 3 weeks', a: 1, r: 'Needs assessment. Slower healing comes with decreased glucose tolerance, but a wound not healed within 2 weeks (especially on the leg or foot) is the point to suggest diabetes testing.' }],
+    ask: 'Can you tell normal endocrine aging from a disorder?', cues: ['Aging lowers metabolism, ADH and glucose tolerance', 'Red flags: temperature < 97°F, HR < 60, a wound not healed in 2 weeks, signs of a fast metabolism'],
+    phys: 'Aging reduces most glandular output → metabolism slows (less appetite, cold intolerance, lower heart rate and BP), ADH falls (dilute urine), glucose tolerance falls (slightly higher glucose) → findings that go beyond these, or point the opposite way (heat intolerance, tachycardia), signal disease.',
+    rule: 'Older adult: less appetite, cold intolerance, dilute urine and slightly higher glucose are expected with aging. Temperature consistently below 97°F (36°C), heart rate consistently below 60, new constipation or slowed speech, a wound not healed in 2 weeks, or heat intolerance with tachycardia → assess further.' },
+
+  { f: 'cloze', t: 'The gonads at puberty', q: 'Complete the statement.',
+    parts: ['The gonads stay dormant until ', { o: ['puberty', 'birth', 'middle age'], a: 0, r: 'Gonad function is dormant until puberty.' },
+      '. Then the hypothalamus releases ', { o: ['GnRH', 'TRH', 'CRH'], a: 0, r: 'Gonadotropin-releasing hormone drives the gonad chain; TRH drives the thyroid axis and CRH the adrenal axis.' },
+      ', and the anterior pituitary releases ', { o: ['FSH and LH', 'ACTH and TSH', 'ADH and oxytocin'], a: 0, r: 'FSH and LH are the gonadotropins. ACTH and TSH target the adrenal cortex and thyroid; ADH and oxytocin are stored in the posterior pituitary.' },
+      '. The testes then make ', { o: ['testosterone', 'estrogen', 'prolactin'], a: 0, r: 'LH stimulates testosterone secretion by the testes; prolactin comes from the anterior pituitary.' },
+      ' and the ovaries make estrogen, producing the ', { o: ['secondary sex characteristics', 'circadian rhythm', 'basal metabolic rate'], a: 0, r: 'Sex hormones mature the genitalia and produce the secondary sex characteristics. Melatonin sets the circadian rhythm; thyroid hormone sets the basal metabolic rate.' }, '.'],
+    ask: 'Can you trace the gonads back up their hormone chain?', cues: ['Hypothalamus → anterior pituitary → gonad', 'Gonadotropins = FSH + LH'],
+    phys: 'At puberty the hypothalamus releases GnRH → the anterior pituitary releases FSH and LH → the testes make testosterone and the ovaries make estrogen (and progesterone) → the genitalia mature and the secondary sex characteristics develop.',
+    rule: 'Gonads (ovaries, testes) are dormant until puberty; pituitary FSH and LH switch them on → estrogen and progesterone (ovary), testosterone (testis) → secondary sex characteristics. In the history ask about menarche, menses, menopause and libido; on the exam look at body and pubic hair, breasts and genitals.' },
+
+  { f: 'sata', t: 'Where iodine comes from', q: 'During a nutrition history, the nurse asks about dietary iodine. Which foods are common sources of iodine? Select all that apply.',
+    o: ['Yogurt and cheese', 'Eggs', 'Iodized table salt', 'Shrimp and scallops', 'Seaweed such as kelp or nori', 'Olive oil', 'Fresh apples'], a: [0, 1, 2, 3, 4],
+    r: ['Correct. Dairy products — cheese, milk and yogurt — are a main source (Box 53.3).',
+      'Correct. Eggs are a listed source.',
+      'Correct. Iodized table salt is a listed source.',
+      'Correct. Shellfish such as scallops and shrimp are listed, along with saltwater fish (salmon, sardines, tuna).',
+      'Correct. Seaweed (kelp, nori) is a listed source.',
+      'Incorrect. Not a listed iodine source.',
+      'Incorrect. Not a listed iodine source.'],
+    ask: 'Why does the nurse ask about iodine at all?', cues: ['The body cannot make iodine', 'Iodine + tyrosine → T4 and T3'],
+    phys: 'The body cannot make iodine → it must come from food → the thyroid traps iodide and joins it to tyrosine to build T4 and T3 → too little iodine means too little thyroid hormone.',
+    rule: 'Iodine sources (Box 53.3): dairy (cheese, milk, yogurt), eggs, iodized table salt, saltwater fish (salmon, sardines, tuna), seaweed (kelp, nori), shellfish (scallops, shrimp) and iodine-containing multivitamins. Ask what the patient eats and how much.' }
 ];
 
 window.RECALL_EXTRA['53'] = {
@@ -150,7 +186,31 @@ window.RECALL_EXTRA['53'] = {
       r: ['Correct. SARS-CoV-2 can infect pancreatic cells; ketoacidosis was also seen in type 2 diabetes.', 'Incorrect. Subacute thyroiditis occurred but usually resolved within months.', 'Incorrect. Not described.', 'Incorrect. Not described.'],
       ask: 'Which gland can the virus infect?', cues: ['COVID-19 → pancreas'],
       phys: 'The virus can replicate in pancreatic cells → insulin release falls while illness raises stress hormones → glucose rises.',
-      rule: 'COVID-19: new hyperglycemia and possible new-onset diabetes; subacute thyroiditis (usually resolves); menstrual changes.' }
+      rule: 'COVID-19: new hyperglycemia and possible new-onset diabetes; subacute thyroiditis (usually resolves); menstrual changes.' },
+    { t: 'Fractures in an older adult', q: 'An 81-year-old woman is admitted with a hip fracture after tripping on a rug. She fractured her wrist 7 months ago. Which laboratory value does the nurse review first?',
+      o: ['Serum calcium', 'Serum sodium', 'Serum potassium', 'Fasting blood glucose'], a: [0],
+      r: ['Correct. Bone is the main calcium store, and two low-impact fractures point to bone loss. PTH and calcitonin keep serum calcium in range, and falling estrogen with aging lowers bone density.', 'Incorrect. Sodium reflects water and sodium balance (ADH, aldosterone), not bone strength.', 'Incorrect. Potassium is controlled by aldosterone and matters most for heart rhythm.', 'Incorrect. Glucose tolerance falls with age and slows healing, but it does not explain repeated fractures.'],
+      ask: 'Which mineral does bone store, and which hormones guard it?', cues: ['Two low-impact fractures within a year', 'Older woman → less estrogen → bone loss'],
+      phys: 'Bone is the main calcium store → PTH releases calcium from bone into the blood and calcitonin reduces that release → after menopause, less estrogen lowers bone density → bones break with minor falls → calcium is the first value to check.',
+      rule: 'Repeated fractures in an older adult → check calcium first. PTH raises serum calcium; calcitonin lowers it; less estrogen with aging lowers bone density — teach weight-bearing exercise.' },
+    { t: 'A neck finding to follow up', q: 'The nurse is performing a routine physical assessment on a 36-year-old client. Which finding needs further assessment for an endocrine problem?',
+      o: ['A visible fullness at the front of the lower neck while the client sits quietly', 'The thyroid isthmus briefly rises when the client swallows', 'A few gray hairs at the temples', 'A 6-lb (2.7-kg) weight loss over 4 months after the client began eating smaller portions'], a: [0],
+      r: ['Correct. The thyroid normally cannot be seen at rest; a visible gland suggests enlargement. Assess further (history, listen for a bruit) and do not press on it if hyperthyroidism is possible.', 'Incorrect. The isthmus may be seen moving upward on swallowing — a normal finding.', 'Incorrect. Graying hair is a normal age change.', 'Incorrect. A planned diet change explains this; the clue is a rapid weight change with no change in diet.'],
+      ask: 'Which neck finding is normal, and which is not?', cues: ['Thyroid normally not visible at rest', 'Rising on a swallow = normal', 'Weight change explained by diet'],
+      phys: 'A normal thyroid lies flat under the neck muscles and is glimpsed only as it rises with a swallow → an enlarged gland bulges forward and becomes visible at rest → enlargement can come with too much or too little hormone, so it needs a fuller work-up.',
+      rule: 'A thyroid visible at rest needs further assessment: history, auscultation for a bruit, and no pressure if hyperthyroidism is possible. The isthmus rising on a swallow, graying hair and weight change explained by diet are expected.' },
+    { t: 'Salt intake and serum sodium', q: 'A healthy 30-year-old client eats about 10 g of sodium a day and asks whether that makes the blood sodium level high. The nurse explains that the endocrine system keeps serum sodium in which range?',
+      o: ['136–145 mEq/L (mmol/L)', '125–135 mEq/L (mmol/L)', '146–155 mEq/L (mmol/L)', 'It rises and falls in step with intake'], a: [0],
+      r: ['Correct. In a healthy adult, hormonal control holds serum sodium at 136–145 mEq/L whether intake is 2 g or 12 g a day.', 'Incorrect. Below 136 mEq/L is low (hyponatremia).', 'Incorrect. Above 145 mEq/L is high (hypernatremia).', 'Incorrect. The kidneys, under hormonal control, change how much sodium and water they keep, so the serum level stays in range across a wide intake.'],
+      ask: 'What range does endocrine control hold sodium in?', cues: ['Healthy adult', 'Intake anywhere from 2 g to 12 g a day'],
+      phys: 'Sodium intake changes → hormones such as aldosterone (sodium kept) and ADH (water kept) adjust what the kidney reabsorbs or excretes → serum sodium stays at 136–145 mEq/L while volume and urine sodium change.',
+      rule: 'Normal serum sodium is 136–145 mEq/L (mmol/L). In a healthy adult, endocrine control holds it there whether intake is 2 g or 12 g a day, so a value outside the range points to a problem with control, not just diet.' },
+    { t: 'Thyroiditis after COVID-19', q: 'A client developed subacute thyroiditis during a COVID-19 infection 2 months ago and asks whether her thyroid will ever be normal again. Which response by the nurse is accurate?',
+      o: ['“In most people studied, thyroid function returned to normal within several months.”', '“COVID-19 permanently damages the thyroid, so lifelong hormone replacement is expected.”', '“Thyroid problems have not been linked to COVID-19.”', '“Your thyroid will recover only if you take extra iodine.”'], a: [0],
+      r: ['Correct. Several studies found subacute thyroiditis during infection, with thyroid function usually back to normal within several months and no lasting change in thyroid hormones.', 'Incorrect. Lasting thyroid damage was not the usual finding.', 'Incorrect. Several studies reported subacute thyroiditis with COVID-19.', 'Incorrect. Recovery was not linked to iodine supplements.'],
+      ask: 'What did COVID-19 do to the thyroid — and did it last?', cues: ['Subacute thyroiditis during infection', 'Usually resolves within months'],
+      phys: 'Viral illness can inflame the thyroid and disturb hormone release for a time → as the inflammation settles, the gland recovers → thyroid hormone levels return to normal within months.',
+      rule: 'COVID-19 and the glands: new hyperglycemia (the virus can infect pancreatic cells), ketoacidosis in older non-White patients with type 2 diabetes, subacute thyroiditis that usually resolves within months, and menstrual changes in about a third of survey respondents.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'Blood glucose rises → ___ → ___ → glucose falls → ___.',
@@ -177,7 +237,12 @@ window.RECALL_EXTRA['53'] = {
       'Cortisol: round face, buffalo hump, truncal obesity, striae, bruising. Thyroid: eye changes (exophthalmos), nails, heart rate, a visible neck or bruit. Aldosterone/ADH: edema, JVD, orthostatic changes.',
       'Each hormone leaves its own fingerprints.',
       'Never palpate a possibly hyperthyroid gland.',
-      'Ask family about mood or personality changes — patients often miss them.']
+      'Ask family about mood or personality changes — patients often miss them.'],
+    ['Direct recall', 1, 'What three things make the hypothalamus release TRH?',
+      'Low thyroid hormone levels (negative feedback), cold and stress. TRH → TSH → the thyroid releases T3 and T4; high T3 and T4 switch TRH and TSH off.',
+      'The thyroid axis matches heat production and metabolism to need.',
+      'Read a T3 or T4 level against TSH, the signal that drives it.',
+      'Stress triggers TRH yet slows T4 → T3 conversion; cold both triggers TRH and speeds conversion.']
   ],
   mc: [
     ['An enlarged thyroid should be pressed firmly to feel for nodules.', 'Never palpate or press on a thyroid that may be hyperthyroid.', 'A burst of stored hormone can trigger thyroid storm.', 'The follicles store hormone that pressure can release.'],
@@ -185,7 +250,8 @@ window.RECALL_EXTRA['53'] = {
     ['Older adults need less fluid because they are less thirsty.', 'Older adults have little ADH reserve; offer fluids at least every 2 hours while awake.', 'Dehydration comes fast.', 'Urine stays dilute even when intake is low.'],
     ['One normal hormone level rules out a gland problem.', 'Pulsing hormones may need a 24-hour urine or a stimulation or suppression test.', 'A real disorder is missed.', 'Single levels vary with time of day, stress and pulses.'],
     ['Many hormones lower blood glucose.', 'Insulin is the only hormone that lowers glucose.', 'High glucose with stress, illness or steroids is underestimated.', 'Glucagon, cortisol, epinephrine, growth hormone and thyroid hormone all raise it.'],
-    ['TSH can be checked in saliva.', 'Only steroid hormones such as cortisol are measured in saliva.', 'The wrong specimen is collected.', 'Protein hormones don’t diffuse into saliva.']
+    ['TSH can be checked in saliva.', 'Only steroid hormones such as cortisol are measured in saliva.', 'The wrong specimen is collected.', 'Protein hormones don’t diffuse into saliva.'],
+    ['A 24-hour urine container that must stay cold can go in the kitchen refrigerator.', 'Keep it in a separate cooler with ice — never with food or drinks.', 'Food and drinks can be contaminated, and some preservatives are caustic.', 'The specimen needs cold, not a shared fridge; a cheap cooler with ice keeps it cold and away from food.']
   ]
 };
 window.EXPLAIN_CARDS['53'] = { mc: Object.fromEntries(window.RECALL_EXTRA['53'].mc.map((x, i) => [i, { why: x[3] }])) };

@@ -114,7 +114,43 @@ window.NGN_EXTRA['48'] = [
     r: ['Correct. Worsening pain and bloody diarrhea on alosetron can mean ischemic colitis — stop the drug and report at once.', 'Incorrect. Food doesn’t prevent ischemic colitis.', 'Incorrect. Fiber doesn’t treat ischemia.', 'Incorrect. Bleeding is never expected.'],
     ask: 'What serious effect does alosetron carry?', cues: ['Alosetron + worsening pain + rectal bleeding → ischemic colitis'],
     phys: 'Alosetron blocks 5-HT₃ receptors and slows the gut → in some women blood flow to the colon wall falls → ischemic colitis: pain and bloody diarrhea; severe constipation is also a warning.',
-    rule: 'Alosetron (women, IBS-D, last resort): stop and report severe constipation, worsening pain, bloody diarrhea or rectal bleeding.' }
+    rule: 'Alosetron (women, IBS-D, last resort): stop and report severe constipation, worsening pain, bloody diarrhea or rectal bleeding.' },
+
+  { f: 'matrix', t: 'Matching IBS drugs to the main symptom', q: 'For each drug, indicate which kind of irritable bowel syndrome (IBS) it is used for.',
+    cols: ['Constipation-predominant (IBS-C)', 'Diarrhea-predominant (IBS-D)', 'Pain-predominant'],
+    rows: [{ t: 'Linaclotide', a: 0, r: 'IBS-C. It stimulates guanylate cyclase receptors so the bowel secretes more fluid and moves faster, and it eases pain and cramping. Once a day, about 30 minutes before breakfast.' },
+      { t: 'Lubiprostone', a: 0, r: 'IBS-C. It increases fluid in the intestine; approved for women and taken with food and water.' },
+      { t: 'Loperamide', a: 1, r: 'IBS-D. An antidiarrheal that slows transit.' },
+      { t: 'Alosetron', a: 1, r: 'IBS-D. A 5-HT₃ antagonist for women, used with caution as a last resort because it can cause ischemic colitis and severe constipation.' },
+      { t: 'Rifaximin', a: 1, r: 'IBS-D. An antibiotic that acts in the gut with little absorption; used for bloating and a swollen abdomen without constipation.' },
+      { t: 'Amitriptyline', a: 2, r: 'Pain-predominant. A tricyclic antidepressant; if pain follows meals, it is taken 30–45 minutes before eating.' }],
+    ask: 'Does the drug add water and speed the bowel, slow it down, or ease the pain?', cues: ['IBS-C → more fluid, faster transit', 'IBS-D → slower transit, fewer bacteria', 'Pain → tricyclic'],
+    phys: 'IBS-C: stool moves slowly and dries → linaclotide and lubiprostone pull fluid into the lumen → softer stool, faster transit. IBS-D: transit is fast or bacteria overgrow → loperamide and alosetron slow the gut, rifaximin reduces the bacteria. Pain from visceral hypersensitivity → a tricyclic helps (whether through its antidepressant or anticholinergic effect is unclear).',
+    rule: 'IBS-C: psyllium with water at meals, lubiprostone (women, with food and water), linaclotide (30 min before breakfast). IBS-D: loperamide, psyllium, alosetron (women, last resort), rifaximin. Pain: amitriptyline before meals.' },
+
+  { f: 'bow', t: 'Vomiting and no flatus years after surgery', q: 'A 67-year-old client who had a hysterectomy 3 years ago has had 14 hours of midabdominal cramping that comes in waves, repeated vomiting of greenish bile and no flatus since last night. The abdomen is distended with high-pitched rushes on auscultation; mucous membranes are dry. T 99.0°F, HR 96, BP 108/68. Na⁺ 133 mEq/L, K⁺ 3.2 mEq/L, BUN 28 mg/dL.',
+    cond: { o: ['Small-bowel obstruction from adhesions', 'Paralytic ileus', 'Irritable bowel syndrome flare', 'Strangulated obstruction with peritonitis'], a: 0,
+      r: ['Correct. Past abdominal surgery (adhesions), colicky midabdominal waves, early bilious vomiting, distention, no flatus and high-pitched sounds above the block = mechanical small-bowel obstruction.', 'Incorrect. Ileus causes constant, diffuse discomfort with bowel sounds decreased or absent — not colicky waves with high-pitched rushes.', 'Incorrect. IBS doesn’t stop flatus or cause bilious vomiting and distention like this; a client with IBS usually looks well.', 'Incorrect. Not yet: the temperature is below 100°F, the pulse isn’t climbing, and the pain still comes in waves without rigidity. Those are the changes to watch for.'] },
+    act: { o: ['Keep the client NPO and insert an NG tube to low continuous suction', 'Start IV isotonic fluid (normal saline or lactated Ringer’s) with potassium as prescribed', 'Give a tap-water enema to move the blockage', 'Offer clear liquids to replace what was vomited', 'Lay the client flat and supine'], a: [0, 1],
+      r: ['Correct. Decompression drains the fluid and air piling up above the block and relieves vomiting and distention.', 'Correct. Vomiting, NPO and suction drain sodium and potassium; isotonic fluid with K⁺ restores volume (watch for overload in older or cardiac clients).', 'Incorrect. Enemas clear a low fecal impaction, not an adhesion kinking the small bowel.', 'Incorrect. Food and fluids by mouth worsen pain and vomiting — keep NPO.', 'Incorrect. Semi-Fowler eases the pressure of distention on the chest and helps breathing.'] },
+    mon: { o: ['Serum potassium and sodium', 'Daily weight with intake and output', 'Capillary glucose every 2 hours', 'Pupil response', 'Peak expiratory flow'], a: [0, 1],
+      r: ['Correct. Vomiting and suction keep lowering K⁺ and Na⁺, and low potassium itself slows the bowel.', 'Correct. Daily weight is the most reliable fluid measure; I&O includes NG drainage.', 'Incorrect. Not related to the obstruction.', 'Incorrect. No neurologic problem.', 'Incorrect. No airway disease described.'] },
+    ask: 'Is something blocking the bowel, and what does the client need first?', cues: ['Past surgery → adhesions', 'Colicky waves + high-pitched rushes → mechanical', 'Bilious vomiting, no flatus, K⁺ 3.2, BUN 28'],
+    phys: 'An adhesion kinks the small bowel → contents and gas pile up above it → peristalsis surges (colic, high-pitched rushes) and secretions increase → vomiting and fluid trapped in the bowel drain sodium, potassium and volume (BUN rises) → NG decompression breaks the cycle and isotonic fluid with K⁺ refills the circulation.',
+    rule: 'Suspected bowel obstruction: NPO, NG to low continuous suction, IV isotonic fluid with K⁺, daily weight and I&O, electrolytes; report temperature > 100°F, a rising pulse or pain that turns constant. Partial without strangulation → often nonsurgical; complete mechanical → surgery; strangulated → always surgery.' },
+
+  { f: 'sata', t: 'Handlebar injury in the ED', q: 'A 26-year-old cyclist struck the handlebars with his upper abdomen. In the ED he is alert, reports left upper abdominal pain of 8/10 and has a bruise across the upper abdomen. HR 122, BP 96/62, RR 24, SpO₂ 91% on room air. Which actions should the nurse take? Select all that apply.',
+    o: ['Complete the primary survey before a detailed abdominal assessment', 'Apply supplemental oxygen', 'Assist with a bedside FAST scan', 'Inspect the abdomen with the client lying flat, and repeat it often', 'Palpate deeply over the painful area to find the injury', 'Give sips of water for thirst', 'Ask how the injury happened once life threats are managed'], a: [0, 1, 2, 3, 6],
+    r: ['Correct. Airway, breathing, circulation and any resuscitation come before the focused abdominal exam.',
+      'Correct. SpO₂ 91% with a fast respiratory rate — impaired oxygenation is treated with oxygen, or ventilation if needed.',
+      'Correct. A FAST scan quickly shows free fluid (blood or GI contents) in the abdomen.',
+      'Correct. Repeated inspection catches new bruising (Cullen, Turner), distention and worsening findings.',
+      'Incorrect. Significant palpation and percussion are left to the surgeon or emergency care provider.',
+      'Incorrect. He may need emergency surgery — keep him NPO.',
+      'Correct. The mechanism of injury (the instrument and the force) hints at which organs may be damaged.'],
+    ask: 'What comes first after blunt abdominal trauma, and how is bleeding inside the abdomen found quickly?', cues: ['HR 122, BP 96/62 → possible hemorrhage', 'SpO₂ 91%, RR 24 → oxygen', 'Blunt trauma → FAST for free fluid'],
+    phys: 'Blunt force tears a solid organ such as the spleen or liver → blood collects in the abdomen → circulating volume falls (tachycardia, low BP) and less oxygen reaches the tissues → the primary survey supports airway, breathing and circulation → a FAST scan finds the free fluid → unstable bleeding goes to laparotomy.',
+    rule: 'Blunt abdominal trauma: primary survey first; oxygen as needed; FAST for free fluid, CT after resuscitation; inspect lying flat and repeat; frequent VS and Hgb/Hct; NPO; significant palpation by the trained provider; unstable → laparotomy.' }
 ];
 
 window.RECALL_EXTRA['48'] = {
@@ -196,7 +232,43 @@ window.RECALL_EXTRA['48'] = {
       r: ['Correct. Rectal bleeding, anemia and a change in stool consistency or shape are the most common signs.', 'Incorrect. A one-time change with a clear cause isn’t concerning.', 'Incorrect. Expected.', 'Incorrect. Not a cancer sign on its own.'],
       ask: 'Which changes persist and point to the colon?', cues: ['Blood + change in shape'],
       phys: 'A tumor bleeds from its fragile surface and narrows the lumen → blood in stool, narrow or changed stool, and over time anemia, fatigue and weight loss.',
-      rule: 'CRC signs: rectal bleeding, anemia, change in bowel habits or stool shape; fatigue, fullness and weight loss suggest advanced disease.' }
+      rule: 'CRC signs: rectal bleeding, anemia, change in bowel habits or stool shape; fatigue, fullness and weight loss suggest advanced disease.' },
+    { t: 'Linaclotide teaching', q: 'A 29-year-old woman with constipation-predominant irritable bowel syndrome (IBS-C) is starting linaclotide. Which instruction should the nurse give?',
+      o: ['Take it once a day about 30 minutes before breakfast', 'Take it with your largest meal to prevent nausea', 'Take it only on days you have not had a bowel movement', 'Take it at bedtime with an antihistamine to help you sleep'], a: [0],
+      r: ['Correct. Linaclotide is taken once daily about 30 minutes before breakfast. It draws fluid into the intestine, speeds transit and eases pain and cramping.', 'Incorrect. Taking the drug with food and water is the teaching for lubiprostone, another IBS-C drug — not linaclotide.', 'Incorrect. It is a scheduled daily drug, not a rescue laxative.', 'Incorrect. There is no reason to pair it with an antihistamine; the warning about antihistamines and psychoactive drugs belongs to alosetron.'],
+      ask: 'Which IBS-C drug has the before-breakfast timing?', cues: ['IBS-C', 'Linaclotide → once daily, 30 min before breakfast'],
+      phys: 'Linaclotide stimulates guanylate cyclase receptors on the intestinal lining → the cells secrete more fluid into the lumen → stool softens and moves faster → pain and cramping ease.',
+      rule: 'IBS-C: linaclotide once daily 30 min before breakfast; lubiprostone (women) with food and water; psyllium at meals with a full glass of water.' },
+    { t: 'Watching a liver injury', q: 'A client with a liver laceration from blunt abdominal trauma is being managed without surgery in the ICU. Which finding should the nurse report to the surgeon immediately?',
+      o: ['Hemoglobin 13.2 → 10.1 g/dL over 4 hours, with heart rate 88 → 118', 'Abdominal pain steady at 4/10 since admission', 'Hypoactive bowel sounds', 'Urine output 50 mL/hr'], a: [0],
+      r: ['Correct. A falling hemoglobin with a rising heart rate means continued bleeding — deterioration under observation can mean the client needs a laparotomy.', 'Incorrect. Pain that holds steady is reassuring; worsening pain is what signals bleeding, perforation or abdominal compartment syndrome.', 'Incorrect. Bowel sounds are often decreased after abdominal trauma (bleeding, organ injury, ileus); on its own this isn’t the urgent finding.', 'Incorrect. Adequate output — above 30 mL/hr.'],
+      ask: 'Which trend shows the bleeding hasn’t stopped?', cues: ['Hgb falling + HR rising', 'Nonsurgical observation → watch for deterioration'],
+      phys: 'A torn liver keeps bleeding into the abdomen → red cell mass falls (Hgb, Hct) → the heart speeds up to hold cardiac output → without control, hypovolemic shock follows → surgery stops the bleeding.',
+      rule: 'Abdominal trauma under ICU observation: frequent VS, pain and Hgb/Hct; transfuse for active bleeding; a falling Hgb, rising pulse or worsening pain → report → possible laparotomy. Stable for 24–48 h → transfer.' },
+    { t: 'After an abdominoperineal resection', q: 'Three days after an abdominoperineal (AP) resection, a client has a closed perineal wound with two Jackson-Pratt drains. Which finding should the nurse report first?',
+      o: ['Temperature 101.6°F with cloudy, foul-smelling drainage from the perineal wound', 'Serosanguineous drainage in the drains', 'A feeling of needing to pass stool through the rectum', 'Perineal pain that increases with sitting'], a: [0],
+      r: ['Correct. The perineal wound is at high risk for infection and abscess — fever with cloudy, foul drainage is the priority to report.', 'Incorrect. Serosanguineous drainage is expected and may continue for 1–2 months.', 'Incorrect. Phantom rectal sensations are common because the sympathetic nerves for rectal control were not cut.', 'Incorrect. Expected — the perineal wound often hurts more than the abdominal incision; side-lying, a foam cushion and sitz baths help.'],
+      ask: 'Which finding is expected after an AP resection, and which means a complication?', cues: ['Perineal wound + drains → infection and abscess risk', 'Fever + cloudy, foul drainage'],
+      phys: 'Removing the rectum and anus leaves a perineal wound and cavity near a heavily colonized area → drainage that collects lets bacteria multiply → infection or abscess → fever and cloudy, foul drainage.',
+      rule: 'After AP resection the priority problem for the perineal wound is infection. Expected: serosanguineous drainage for 1–2 months, phantom rectal sensations, more pain than the abdominal incision. Report fever, foul or purulent drainage, redness, swelling or constant pain.' },
+    { t: 'Ascending colostomy teaching', q: 'A client with a right-sided colon tumor now has an ascending colostomy. Which statement shows that the client understands the teaching?',
+      o: ['“My stool will stay liquid, so I’ll keep my pouch on all the time.”', '“I’ll irrigate my colostomy each morning so I can go without a pouch.”', '“I’ll wait until the pouch is completely full before I empty it.”', '“My stoma will get bigger over the next 6 weeks, so I’ll cut the opening larger.”'], a: [0],
+      r: ['Correct. Stool from the ascending colon stays liquid and drains often, so the pouch is worn at all times.', 'Incorrect. Irrigation can regulate a sigmoid colostomy, which passes formed stool — not an ascending one.', 'Incorrect. Empty it at one-third to one-half full; a heavy pouch pulls on the seal and leaks.', 'Incorrect. The stoma shrinks over 6–8 weeks; measure it weekly and cut the opening ⅛–1/16 inch larger than the stoma.'],
+      ask: 'What does the stoma’s location tell you about its output?', cues: ['Right-sided tumor → ascending colostomy', 'Ascending → liquid stool'],
+      phys: 'The colon absorbs water along its length → an ascending stoma diverts stool before most water is absorbed → output is liquid and frequent → a pouch must always be on; a sigmoid stoma passes formed stool that irrigation can regulate.',
+      rule: 'Colostomy site follows the tumor (Fig. 48.4): ascending (right), descending (left), sigmoid (rectal), transverse double-barrel in emergencies. Ascending = liquid, pouch always on; empty at ⅓–½ full; stoma shrinks 6–8 weeks; alcohol-free sealant before the wafer.' },
+    { t: 'Large-bowel obstruction in an older adult', q: 'An 84-year-old resident of a long-term care facility who takes an opioid for arthritis has had no bowel movement for 6 days. The lower abdomen is distended, cramping comes and goes, and there has been little vomiting. Which cause of this large-bowel obstruction should the nurse suspect first?',
+      o: ['Fecal impaction', 'Volvulus', 'Adhesions from surgery', 'Intussusception'], a: [0],
+      r: ['Correct. Older adults are the group most likely to have a bowel obstruction, usually from fecal impaction or a tumor; slower peristalsis, opioids and constipation set it up. A low impaction usually resolves with disimpaction and enemas.', 'Incorrect. Twisting of the bowel is a possible mechanical cause but much less likely than impaction in this client.', 'Incorrect. Adhesions follow abdominal surgery, and none is described.', 'Incorrect. Telescoping of the bowel has nothing in this history to suggest it.'],
+      ask: 'Which cause fits an older adult with constipation and opioid use?', cues: ['Older adult + opioid + no BM for 6 days', 'Lower distention, little vomiting → large bowel'],
+      phys: 'Aging slows peristalsis → opioids slow it further → stool stays in the colon and dries → a hard mass forms (impaction) → stool and gas back up behind it → lower distention and cramping.',
+      rule: 'Older adults: obstruction is most often fecal impaction or cancer. Prevent impaction with fiber, water, daily walks, warm drinks or prune juice, bulk formers and softeners — not routine laxatives (atonic colon).' },
+    { t: 'Going home after hernia repair', q: 'Four hours after a minimally invasive inguinal hernia repair, the nurse reviews discharge teaching. Which statement by the client needs follow-up?',
+      o: ['“I’ll drive myself to work tomorrow while I’m taking the oxycodone.”', '“Some soreness is normal, but I’ll call if the pain gets much worse.”', '“I’ll take the stool softener so I don’t strain.”', '“I won’t lift anything heavier than 10 pounds until the surgeon says it’s OK.”'], a: [0],
+      r: ['Correct — needs follow-up. Clients taking oral opioids must not drive or operate heavy machinery, and return to work is usually in 1–2 weeks, when the surgeon allows.', 'Incorrect. Accurate: soreness and discomfort are expected; severe or increasing pain is reported.', 'Incorrect. Accurate: a stool softener prevents constipation and straining on the repair.', 'Incorrect. Accurate: no lifting over 10 lb (4.5 kg) until cleared.'],
+      ask: 'Which plan is unsafe after same-day hernia repair?', cues: ['Opioid + driving', '“Needs follow-up” → find the wrong statement'],
+      phys: 'Opioids depress the central nervous system → drowsiness and slower reactions → driving or using machinery is unsafe; straining and lifting raise intraabdominal pressure on the fresh repair.',
+      rule: 'After MIIHR: home in 3–5 h with an adult; no driving on opioids; soreness expected, severe pain reported; stool softener; ≤ 10 lb lifting; deep breathe, don’t cough; report fever, redness or drainage; follow-up call the next day.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'Bowel blocked → ___ → bowel wall ___ → ___ → strangulation → ___.',
@@ -233,7 +305,12 @@ window.RECALL_EXTRA['48'] = {
       'IBS-C: psyllium (with water), lubiprostone (women, with food and water), linaclotide (30 min before breakfast). IBS-D: loperamide, psyllium, alosetron (women, last resort — report constipation or bloody diarrhea: ischemic colitis), rifaximin (bloating). Pain: tricyclics like amitriptyline.',
       'Each drug adds fluid, slows transit or reduces sensitivity.',
       'Take a full drug history before alosetron.',
-      'IBS labs are normal — weight loss or bleeding point elsewhere.']
+      'IBS labs are normal — weight loss or bleeding point elsewhere.'],
+    ['Direct recall', 1, 'What preparation does a stool test for occult blood (FOBT or FIT) need?',
+      'It depends on the type of test. Some call for no aspirin, vitamin C, iron or red meat for the 48 hours before and stop antiinflammatory drugs (ibuprofen, corticosteroids, salicylates) for a set period; FOBT uses 2–3 samples on 3 consecutive days. Ch 45’s guaiac schedule: no NSAIDs for 7 days, no red meat or vitamin C over 250 mg for 3 days; FIT needs no preparation.',
+      'Some foods, vitamins and drugs throw off the result, and aspirin and other antiinflammatory drugs can make the GI tract bleed on their own.',
+      'Check which test is ordered, teach that test’s preparation, and review the drug list.',
+      'A negative result does not rule out colorectal cancer.']
   ],
   mc: [
     ['Listen for bowel sounds with the NG suction running.', 'Turn the suction off before listening for bowel sounds.', 'Peristalsis is “heard” when it isn’t there.', 'The suction itself gurgles.'],
@@ -242,7 +319,8 @@ window.RECALL_EXTRA['48'] = {
     ['An aspirin in the pouch controls colostomy odor.', 'Never put aspirin in the pouch; odor usually means a leak.', 'Aspirin can ulcerate the stoma.', 'Aspirin is irritating to exposed mucosa.'],
     ['A negative stool blood test rules out colon cancer.', 'A negative FOBT or FIT does not rule out colorectal cancer.', 'Symptoms get dismissed and diagnosis is delayed.', 'Tumors bleed intermittently, so a sample can miss it.'],
     ['Fiber makes IBS diarrhea worse.', 'Soluble fiber such as psyllium helps both IBS-C and IBS-D.', 'Clients skip a treatment that works.', 'It holds water and normalizes stool form in both directions.'],
-    ['Cut the wafer opening exactly the size of the stoma.', 'Measure weekly and cut the opening ⅛–1/16 inch larger than the stoma.', 'The wafer edge cuts a stoma that can’t feel pain.', 'The stoma shrinks for 6–8 weeks after surgery.']
+    ['Cut the wafer opening exactly the size of the stoma.', 'Measure weekly and cut the opening ⅛–1/16 inch larger than the stoma.', 'The wafer edge cuts a stoma that can’t feel pain.', 'The stoma shrinks for 6–8 weeks after surgery.'],
+    ['A laxative every night keeps an older adult regular and prevents impaction.', 'Avoid routine laxatives; prevent constipation with fiber, plenty of water (8–10 glasses a day unless fluids are restricted), daily walks, warm drinks or prune juice, and bulk formers or softeners if needed.', 'Overuse weakens abdominal muscle tone and leads to an atonic colon — the setup for the impaction it was meant to prevent.', 'Stimulant laxatives replace the bowel’s own reflex instead of training it, so the reflex fades and the colon stretches and slows.']
   ]
 };
 window.EXPLAIN_CARDS['48'] = { mc: Object.fromEntries(window.RECALL_EXTRA['48'].mc.map((x, i) => [i, { why: x[3] }])) };

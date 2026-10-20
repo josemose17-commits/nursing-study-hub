@@ -38,7 +38,7 @@ window.NGN_EXTRA['47'] = [
     phys: 'The ulcer erodes through the full thickness of the wall → acid, food and bacteria spill into the peritoneum → chemical then bacterial peritonitis → reflex rigidity → fluid shifts and sepsis → shock.',
     rule: 'Perforation: sudden severe pain spreading over the abdomen, rigid board-like abdomen, rebound → NPO and notify now — surgery.' },
 
-  { f: 'sata', t: 'H. pylori therapy teaching', q: 'A client starts PPI-based triple therapy for H. pylori. Which statements by the client show correct understanding? Select all that apply.',
+  { f: 'sata', t: 'H. pylori therapy teaching', q: 'A client starts quadruple therapy for H. pylori: omeprazole, metronidazole, tetracycline and bismuth subsalicylate. Which statements by the client show correct understanding? Select all that apply.',
     o: ['“I’ll take every dose of the antibiotics for the full 10 to 14 days.”', '“I’ll take my omeprazole 30 minutes before my main meal.”', '“I won’t drink any alcohol while I’m on metronidazole, or for 3 days after.”', '“If my stool turns black from the bismuth, that’s expected.”', '“I can take aspirin for headaches while I’m on bismuth.”', '“I’ll stop the omeprazole the day my pain goes away.”', '“I’ll take my tetracycline with a glass of milk.”'], a: [0, 1, 2, 3],
     r: ['Correct. No single drug eradicates H. pylori; stopping early lets it survive and resist.',
       'Correct. Food switches on the proton pumps the drug blocks, so it must be in the blood before the meal.',
@@ -47,7 +47,7 @@ window.NGN_EXTRA['47'] = [
       'Incorrect. Bismuth subsalicylate is a salicylate — aspirin on top risks salicylate overdose.',
       'Incorrect. Finish the course; taper a PPI rather than stopping abruptly (rebound acid).',
       'Incorrect. Dairy binds tetracycline; take it 1 hour before or 2 hours after meals.'],
-    ask: 'Which choices make the regimen work — and which undo it?', cues: ['Triple therapy = PPI + 2 antibiotics, 10–14 days'],
+    ask: 'Which choices make the regimen work — and which undo it?', cues: ['Quadruple therapy = PPI + 2 antibiotics + bismuth (triple therapy is the same without bismuth), 10–14 days'],
     phys: 'H. pylori hides under the mucus and neutralizes acid with urease → a PPI raises gastric pH so antibiotics work better → two antibiotics kill it → the barrier heals and the ulcer stops coming back.',
     rule: 'H. pylori: finish 10–14 days; PPI 30 min before the main meal; no alcohol with metronidazole; no aspirin with bismuth; tetracycline away from dairy.' },
 
@@ -102,7 +102,46 @@ window.NGN_EXTRA['47'] = [
     r: ['Correct. Scar and swelling block the pylorus → retained food is vomited → stomach acid is lost → pH and bicarbonate rise; potassium and chloride fall.', 'Incorrect. There is no sudden severe pain or rigid abdomen, and the pH is alkalotic.', 'Incorrect. No blood is described, and the bicarbonate rise points to a metabolic cause.', 'Incorrect. No gastric surgery, and potassium is low, not high.'],
     ask: 'What does losing stomach contents do to acid–base balance?', cues: ['Vomiting undigested food → outlet blocked', 'pH 7.52 + HCO₃⁻ 34 → metabolic alkalosis', 'Low K⁺ and Cl⁻'],
     phys: 'Gastric juice is hydrochloric acid → persistent vomiting removes H⁺ and Cl⁻ → bicarbonate is left unopposed → metabolic alkalosis → the kidneys trade K⁺ to hold H⁺ → hypokalemia.',
-    rule: 'Pyloric obstruction: NG decompression, correct fluids, alkalosis and potassium; clamp trial after ~72 h (residual ≤ 50 mL in 30 min → start fluids).' }
+    rule: 'Pyloric obstruction: NG decompression, correct fluids, alkalosis and potassium; clamp trial after ~72 h (residual ≤ 50 mL in 30 min → start fluids).' },
+
+  { f: 'matrix', t: 'Early or advanced gastric cancer?', q: 'A nurse screens adults at a community health fair. For each finding, indicate whether it fits early or advanced gastric cancer.',
+    cols: ['Early gastric cancer', 'Advanced gastric cancer'],
+    rows: [{ t: 'Indigestion for months that an antacid used to settle', a: 0, r: 'Early. Chronic dyspepsia and discomfort relieved by antacids at first — the reason early disease is so often ignored.' },
+      { t: 'A firm mass felt in the upper abdomen just below the sternum', a: 1, r: 'Advanced. A palpable epigastric mass means a large tumor.' },
+      { t: 'Feeling full after a small meal', a: 0, r: 'Early. A feeling of fullness is on the early list.' },
+      { t: 'Iron deficiency anemia with weakness and fatigue', a: 1, r: 'Advanced. Slow occult bleeding and poor absorption cause iron deficiency anemia; weakness and fatigue follow.' },
+      { t: 'Weight falling month after month without trying', a: 1, r: 'Advanced. Progressive weight loss is a late sign.' },
+      { t: 'Epigastric pain that spreads to the back or behind the sternum', a: 0, r: 'Early. Epigastric, back or retrosternal pain is an early sign.' },
+      { t: 'Hard, enlarged lymph nodes above the clavicle', a: 1, r: 'Advanced. Enlarged nodes are a late sign — and spread to the supraclavicular nodes means cure by resection is no longer possible.' }],
+    ask: 'Which findings could still be early, curable disease — and which mean the cancer has advanced?', cues: ['Vague dyspepsia eased by antacids → early', 'Mass, anemia, weight loss, nodes → advanced'],
+    phys: 'A small tumor in the mucosa only irritates the lining → vague dyspepsia and fullness that antacids ease → it grows silently through the wall → it bleeds slowly (iron deficiency anemia), narrows the outlet (nausea, vomiting, weight loss), becomes palpable and spreads to lymph nodes.',
+    rule: 'Gastric cancer (Box 47.4) — early: chronic dyspepsia relieved by antacids at first, fullness, epigastric, back or retrosternal pain. Advanced: nausea and vomiting, iron deficiency anemia, palpable epigastric mass, enlarged nodes, weakness, fatigue, progressive weight loss. EGD with biopsy confirms it.' },
+
+  { f: 'sata', t: 'Ulcer clinic visit: what needs follow-up?', q: 'A 58-year-old client at a community clinic reports burning epigastric pain for 3 weeks. The client has been sleeping at a friend’s place since losing an apartment and says money is tight. Takes ibuprofen 800 mg three times a day for back pain and drinks 4–5 beers most nights. Has felt “down” and slept poorly since a divorce. Avoids spicy foods because they make the pain worse. BP 128/80 mm Hg, HR 82, SpO₂ 97% on room air; weight unchanged. Stool antigen test positive for H. pylori. Which findings require follow-up? Select all that apply.',
+    o: ['Takes ibuprofen 800 mg three times a day', 'Avoids spicy foods that make the pain worse', 'Drinks 4–5 beers most nights', 'Lost an apartment and says money is tight', 'BP 128/80 mm Hg with weight unchanged', 'Feels down and sleeps poorly since a divorce', 'Stool antigen test positive for H. pylori'], a: [0, 2, 3, 5, 6],
+    r: ['Follow up. Long-term NSAIDs are a leading cause of peptic ulcers — they block the prostaglandins that keep up the mucosal barrier; tell the provider and discuss alternatives.',
+      'No follow-up needed. Avoiding foods that cause discomfort is appropriate self-management.',
+      'Follow up. Alcohol injures the lining and stimulates acid — and must be avoided if metronidazole is part of the regimen.',
+      'Follow up. Unstable housing and little money threaten the ability to buy and finish a multidrug regimen — a barrier to adherence for social work or community resources.',
+      'No follow-up needed. A normal BP and stable weight show no sign of bleeding or nutritional loss right now.',
+      'Follow up. Low mood and stress worsen GI disorders and make adherence harder; assess coping, support and safety.',
+      'Follow up. A positive test means PPI-based triple or quadruple therapy to eradicate H. pylori and prevent recurrence and gastric cancer.'],
+    ask: 'Which findings keep the ulcer going or threaten treatment — and which are reassuring?', cues: ['Daily ibuprofen and nightly alcohol → ongoing injury', 'H. pylori positive → needs eradication', 'Housing, money, mood → barriers to adherence'],
+    phys: 'NSAIDs block COX → fewer prostaglandins → a thinner barrier; alcohol injures the lining; H. pylori keeps it inflamed → the ulcer persists unless all three are removed — and a multidrug regimen works only if the client can afford it and take it for the full 10–14 days.',
+    rule: 'Peptic ulcer assessment: every NSAID, alcohol and tobacco use, H. pylori status — plus the psychosocial picture (support, housing, money, mood), because it decides whether the client can adhere to treatment.' },
+
+  { f: 'matrix', t: 'After endoscopic hemostasis', q: 'A client returns to the unit 30 minutes after an EGD in which a bleeding duodenal ulcer was clipped. The throat was sprayed with a local anesthetic, and IV midazolam was given. BP 112/70 mm Hg, HR 92, SpO₂ 95%. An IV pantoprazole infusion is running. This morning’s K⁺ was 3.2 mEq/L after repeated vomiting. The client asks for water and something for a sore throat. For each action, indicate whether it is indicated or not indicated now.',
+    cols: ['Indicated', 'Not indicated'],
+    rows: [{ t: 'Check the gag reflex and ability to swallow saliva before giving any fluids', a: 0, r: 'Indicated. The throat was numbed, so the gag reflex may be absent — fluid could be aspirated.' },
+      { t: 'Give a few ice chips now to soothe the throat', a: 1, r: 'Not indicated. Nothing by mouth — not even ice chips — until the gag reflex returns.' },
+      { t: 'Monitor vital signs, heart rhythm and SpO₂ frequently until back to baseline', a: 0, r: 'Indicated. Sedation can depress breathing, and a falling BP or rising HR would signal rebleeding.' },
+      { t: 'Lay the client flat and supine to support blood pressure', a: 1, r: 'Not indicated. BP is acceptable, and lying flat with a numb throat after sedation raises the aspiration risk.' },
+      { t: 'Keep the IV pantoprazole infusing as prescribed', a: 0, r: 'Indicated. Raising gastric pH stabilizes the new clot and helps prevent rebleeding.' },
+      { t: 'Give the client’s usual ibuprofen for the sore throat', a: 1, r: 'Not indicated. NSAIDs injure the mucosa and raise the risk of rebleeding — and nothing is allowed by mouth yet.' },
+      { t: 'Give the prescribed IV potassium replacement', a: 0, r: 'Indicated. Vomiting has depleted potassium; losses from vomiting or NG suction must be replaced.' }],
+    ask: 'What keeps this client safe in the first hour after endoscopic treatment of a bleeding ulcer?', cues: ['Throat sprayed + midazolam → no gag reflex yet', 'Fresh clot on the ulcer → prevent rebleeding', 'K⁺ 3.2 after vomiting'],
+    phys: 'A topical anesthetic blocks the sensory nerves of the throat → the gag and swallow reflexes are absent for a while → anything by mouth can enter the airway. The clot sealing the vessel sits in gastric acid → a PPI raises pH to keep it stable. Vomiting removes acid and potassium → hypokalemia.',
+    rule: 'After EGD for bleeding: VS, rhythm and SpO₂ until baseline; nothing by mouth until the gag reflex returns; PPI to stabilize the clot; replace potassium; no NSAIDs; watch for rebleeding.' }
 ];
 
 window.RECALL_EXTRA['47'] = {
@@ -190,7 +229,31 @@ window.RECALL_EXTRA['47'] = {
       r: ['Correct. Early gastric cancer feels like ordinary dyspepsia and fullness, and antacids help at first — so it is often ignored until it is advanced.', 'Incorrect. Not typically an early sign.', 'Incorrect. A palpable mass is a late sign.', 'Incorrect. Progressive weight loss is a late sign.'],
       ask: 'Why is gastric cancer usually found late?', cues: ['Early = vague dyspepsia relieved by antacids'],
       phys: 'A small tumor in the mucosa causes mild irritation and fullness → antacids neutralize the acid that aggravates it → symptoms ease → the tumor keeps growing and spreading (5-year survival ~30% when late, ~70% when early).',
-      rule: 'Early gastric cancer: chronic dyspepsia, fullness, epigastric or back pain. Late: vomiting, anemia, epigastric mass, nodes, weight loss. Diagnose by EGD with biopsy.' }
+      rule: 'Early gastric cancer: chronic dyspepsia, fullness, epigastric or back pain. Late: vomiting, anemia, epigastric mass, nodes, weight loss. Diagnose by EGD with biopsy.' },
+    { t: 'Which ulcer is it?', q: 'A 64-year-old client describes upper abdominal pain. Which statement by the client most suggests a gastric ulcer rather than a duodenal ulcer?',
+      o: ['“The pain starts within an hour after I eat, and eating makes it worse.”', '“The pain wakes me up around 1 or 2 in the morning.”', '“A few crackers make the pain go away.”', '“The pain comes 2 to 3 hours after meals.”'], a: [0],
+      r: ['Correct. Gastric ulcer pain comes 30–60 minutes after a meal and is worsened by eating; night pain is rare (Table 47.2).', 'Incorrect. Waking at 1–2 a.m. is typical of a duodenal ulcer.', 'Incorrect. Relief with food is typical of a duodenal ulcer — food buffers the acid reaching the duodenum.', 'Incorrect. Pain 1½–3 hours after a meal fits a duodenal ulcer.'],
+      ask: 'Does food make the pain better or worse — and when does the pain come?', cues: ['Age 64 → the gastric ulcer range (50–70)', 'Pain soon after eating, worse with food'],
+      phys: 'Eating stretches the stomach and stimulates acid right where a gastric ulcer sits → pain within 30–60 minutes. With a duodenal ulcer, food buffers acid until the stomach empties → pain returns 1½–3 hours later and at night, and eating relieves it.',
+      rule: 'Gastric ulcer: pain 30–60 min after meals, worsened by eating, rarely at night, hematemesis. Duodenal ulcer: pain 1½–3 h after meals and at 1–2 a.m., relieved by eating, melena.' },
+    { t: 'Which result to report', q: 'A client admitted with a gastric ulcer has these findings this morning. Which should the nurse report to the provider immediately?',
+      o: ['Hematocrit 30%, down from 38% on admission', 'Serum creatinine 1.0 mg/dL', 'Epigastric pain 3/10 after breakfast', 'Fasting blood glucose 96 mg/dL'], a: [0],
+      r: ['Correct. A falling hematocrit points to bleeding — hemorrhage is the most serious ulcer complication. Check vital signs and orthostatics and report at once.', 'Incorrect. Within the normal range.', 'Incorrect. Expected with a gastric ulcer and within the goal of 3 or less.', 'Incorrect. Normal.'],
+      ask: 'Which finding signals the most serious complication of peptic ulcer disease?', cues: ['Hct 38% → 30% since admission', 'Hemorrhage is the most serious complication'],
+      phys: 'An ulcer that erodes into a vessel bleeds into the gut → red cells are lost → as fluid shifts in to restore volume, hemoglobin and hematocrit fall → a falling BP and rising HR follow if the loss continues.',
+      rule: 'Peptic ulcer: monitor vital signs, orthostatics and Hgb/Hct often; a falling Hct, hematemesis, melena, falling BP or rising HR → report at once (early detection).' },
+    { t: 'Is the bleeding controlled?', q: 'A client was treated for upper GI bleeding from a duodenal ulcer with IV fluids, 2 units of packed RBCs and endoscopic therapy. Which finding the next day best shows that treatment has been effective?',
+      o: ['BP 118/74 and HR 84 with no change on standing; hemoglobin stable on two checks', 'NG drainage has changed from bright red to coffee-ground', 'Urine output 20 mL/hr for the past 3 hours', 'BUN has risen from 28 to 36 mg/dL'], a: [0],
+      r: ['Correct. Normal vital signs with no orthostatic change and a stable hemoglobin mean volume is restored and the bleeding has stopped — the expected outcome, and a discharge criterion.', 'Incorrect. Coffee-ground drainage is still blood, digested by acid; it does not prove the bleeding has stopped.', 'Incorrect. Under 30 mL/hr suggests the kidneys are still underperfused.', 'Incorrect. A rising BUN suggests continued bleeding (digested blood) or dehydration.'],
+      ask: 'What would you expect to see once the bleeding has stopped and volume is restored?', cues: ['Expected outcome: bleeding controlled, VS within normal limits', 'Discharge: no ongoing bleeding, no orthostatic changes'],
+      phys: 'With the vessel sealed and volume replaced, venous return and cardiac output recover → BP normalizes, the compensatory tachycardia settles and standing no longer drops the BP → hemoglobin stops falling.',
+      rule: 'Upper GI bleeding is controlled when VS are within normal limits with no orthostatic changes, Hgb/Hct is stable, there is no new hematemesis or melena, and urine output is adequate.' },
+    { t: 'Lowering gastric cancer risk', q: 'A 52-year-old client whose father died of gastric cancer asks how to lower the risk. The client has untreated H. pylori and eats pickled vegetables and cured meats most days. Which response by the nurse is best?',
+      o: ['“Treating the H. pylori and cutting back on pickled, salted and processed foods — while eating more fruits and vegetables — lowers your risk.”', '“Taking an antacid whenever you have indigestion will protect your stomach lining.”', '“A daily low-dose aspirin helps protect against stomach cancer.”', '“Since the risk is mostly inherited, changing your diet won’t make much difference.”'], a: [0],
+      r: ['Correct. H. pylori is the largest risk factor for gastric cancer; pickled foods, nitrates in processed food and added salt, plus few fruits and vegetables, raise the risk.', 'Incorrect. Antacids only mask symptoms — early gastric cancer often feels like dyspepsia that antacids relieve, so ongoing indigestion needs evaluation.', 'Incorrect. Aspirin and other NSAIDs injure the gastric mucosa.', 'Incorrect. The main risks — H. pylori, diet and smoking — can be changed.'],
+      ask: 'Which gastric cancer risks can this client change?', cues: ['Untreated H. pylori → the largest risk', 'Pickled and cured foods most days'],
+      phys: 'Years of H. pylori infection plus dietary salt and nitrates keep the lining inflamed → atrophic gastritis and intestinal metaplasia → low acid lets bacteria multiply → glandular cells can become adenocarcinoma.',
+      rule: 'To lower gastric cancer risk: treat H. pylori; limit pickled, salted and nitrate-preserved foods; eat fruits and vegetables; stop smoking — and connect clients facing food insecurity with community food resources.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'NSAID or H. pylori → ___ → ___ → ulcer erodes into ___ or through ___.',
@@ -222,7 +285,12 @@ window.RECALL_EXTRA['47'] = {
       'Bright red: fast, fresh bleeding. Coffee-ground: blood digested by stomach acid — slower or older bleeding. Melena: black, tarry stool from blood digested on its way through the small intestine (more common with duodenal ulcers).',
       'Acid and digestion change hemoglobin’s color.',
       'Any of these with falling BP or rising HR → ABCs and two large-bore IVs.',
-      'Bismuth also blackens stool — but not tarry, and without shock signs.']
+      'Bismuth also blackens stool — but not tarry, and without shock signs.'],
+    ['Direct recall', 1, 'Name the common sources of upper GI bleeding (Fig. 47.2) and the Box 47.2 signs that the bleeding is significant.',
+      'Sources: esophageal varices, esophageal cancer, gastritis, gastric ulcer, gastric cancer, duodenal ulcer. Signs: hematemesis, melena, falling Hgb/Hct and BP, rising heart rate, weak peripheral pulses, acute confusion in older adults, vertigo, dizziness or light-headedness, syncope.',
+      'Anything that erodes the lining or a vessel from the esophagus to the duodenum bleeds above the duodenojejunal junction.',
+      'Signs of significant bleeding → ABCs, oxygen, two large-bore IVs, isotonic fluid; monitor VS, Hct and SpO₂.',
+      'In an older adult, new confusion may be the first sign of blood loss.']
   ],
   mc: [
     ['A bland diet heals peptic ulcers.', 'No diet has been shown to heal ulcers; food buffers acid for 30–60 minutes, then acid rebounds.', 'Clients rely on diet and skip the drugs that heal.', 'Healing comes from lowering acid, protecting the lining and removing the cause.'],
@@ -230,7 +298,8 @@ window.RECALL_EXTRA['47'] = {
     ['Black stool on bismuth means the ulcer is bleeding.', 'Bismuth turns stool and tongue black; it is temporary and harmless.', 'Needless alarm — or real melena dismissed if teaching is unclear.', 'Bismuth sulfide is black. Real melena is tarry and comes with shock signs.'],
     ['A PPI works best taken after a meal.', 'Take a PPI 30 minutes before the main meal.', 'Much less acid suppression.', 'Food switches on the proton pumps the drug blocks.'],
     ['Calcium carbonate is the best antacid for frequent use.', 'Calcium carbonate triggers gastrin and rebound acid.', 'Acid comes back stronger.', 'Calcium stimulates gastrin release, which drives acid secretion.'],
-    ['Healing the ulcer with a PPI is enough.', 'H. pylori must be eradicated with triple or quadruple therapy, or the ulcer returns.', 'The ulcer keeps coming back.', 'No single drug kills H. pylori; the bacteria keep breaking the barrier.']
+    ['Healing the ulcer with a PPI is enough.', 'H. pylori must be eradicated with triple or quadruple therapy, or the ulcer returns.', 'The ulcer keeps coming back.', 'No single drug kills H. pylori; the bacteria keep breaking the barrier.'],
+    ['After a gastrectomy, sitting upright after meals prevents dumping syndrome.', 'Lie down flat for a short time after eating — it slows the meal’s passage into the small intestine.', 'Sitting up or walking right after meals speeds emptying and brings on dumping.', 'Gravity pulls food out of the remaining stomach faster when the client is upright. Staying upright after meals is the rule for reflux; for dumping, lie down briefly (the head of the bed stays raised in the early postoperative period to prevent aspiration).']
   ]
 };
 window.EXPLAIN_CARDS['47'] = { mc: Object.fromEntries(window.RECALL_EXTRA['47'].mc.map((x, i) => [i, { why: x[3] }])) };

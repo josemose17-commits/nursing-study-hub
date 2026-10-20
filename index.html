@@ -79,7 +79,7 @@
     <h1>Food in, hormones in balance.</h1>
   </div>
   <p class="lead">Chapters 45–49 (the GI tract, from mouth to colon) and 53, 55 and 56 (the endocrine glands, the thyroid and parathyroids, and diabetes). The notes come from your med-surg book; the Why it works cards use your A&amp;P, chemistry, microbiology, pharmacology, psychology and pathophysiology books to explain them. When your professor gives the Exam 3 study guide, pick its topics on the map.</p>
-  <p class="lead" style="font-size:14px;color:var(--color-accent-200)">Ready now: the map (all eight chapters, organ → molecule breakdowns, Why it works cards from your other books, pictures and videos, every word defined, a reference strip of the numbers they use), the drug cards and the Mastery test. Until the Exam 3 study guide arrives, the test covers the 20 main topics of the eight chapters; once it is added, the test will follow the guide.</p>
+  <p class="lead" style="font-size:14px;color:var(--color-accent-200)">Ready now: a day-by-day study route to October 28, the map (all eight chapters, organ → molecule breakdowns, Why it works cards from your other books, pictures and videos, every word defined, a reference strip of the numbers they use), the drug cards and the Mastery test. Until the Exam 3 study guide arrives, the test covers the 20 main topics of the eight chapters; once it is added, the test will follow the guide.</p>
 
   <div class="glass next">
     <div><b data-next="title">Start here</b><span data-next="body">Read the chapters on the map.</span></div>
@@ -87,6 +87,7 @@
   </div>
 
   <div class="tiles">
+    <a class="glass tile wide" href="Exam 3 Route.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm3 11 2.5 2.5L16 12"/></svg><span class="step">0 · Plan</span><b>Study route</b><p>What to read and which test to take each day until October 28, at the hours you have. Check things off and the rest re-spreads.</p><em data-next="route"></em></a>
     <a class="glass tile" href="Exam 3 Map.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v4M12 8 6 13M12 8l6 5M6 13v3M18 13v3M4 16h4v4H4zM16 16h4v4h-4zM10 2h4v4h-4z"/></svg><span class="step">1 · Learn</span><b>Exam map</b><p>All eight chapters as one map — notes with a Quick version, organ → molecule breakdowns, Why it works from your other books, pictures and videos, every word defined.</p><em data-next="focus"></em></a>
     <a class="glass tile" href="Exam 3 Drug Cards.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7"/></svg><span class="step">1 · Learn</span><b>Drug cards</b><p>The GI and endocrine drugs by class — acid, bowel and IBD drugs, thyroid drugs, diabetes pills and every insulin, with the why behind each effect.</p></a>
     <a class="glass tile" href="Reference Sheet.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg><span class="step">Background</span><b>Reference sheet</b><p>What your med-surg book assumes you know from earlier courses.</p></a>
@@ -114,7 +115,9 @@
     var sec = document.querySelector('.exam[data-exam="' + ex + '"]'), q = function (n) { return sec.querySelector('[data-next="' + n + '"]'); };
     var M = read('e' + ex + '-mastery-v3'), map = 'Exam ' + ex + ' Map.html', mastery = 'Exam ' + ex + ' Mastery Loop.dc.html';
     var title = 'Start here', body = 'Study on the map, then take a mastery test — it finds what is weak and tells you what to study.', label = 'Open the map', href = map, status = '';
-    if (ex === '3') body = 'Read the chapters on the map (Quick for the short version, Why it works when a line doesn\u2019t make sense), then take a mastery test \u2014 it finds what is weak and tells you what to study.';
+    if (ex === '3') { body = 'Follow your study route: what to read and which test to take each day until the exam, with the reason for each.'; label = 'Open the route'; href = 'Exam 3 Route.html'; }
+    var route = ex === '3' ? read('e3-route') : null, nDone = route && route.done ? Object.keys(route.done).length : 0;
+    if (nDone && q('route')) q('route').textContent = nDone + ' route task' + (nDone > 1 ? 's' : '') + ' done';
     var focus = read('e' + ex + '-focus');
     if (focus && focus.ids && focus.ids.length && q('focus')) q('focus').textContent = 'Focus: ' + focus.name + ' · ' + focus.ids.length + ' topics';
     if (M && M.test) { title = 'Finish your test'; body = 'You stopped at question ' + M.test.items.length + '.'; label = 'Resume'; href = mastery; status = 'Test in progress'; }
@@ -145,7 +148,7 @@
   });
 })();
 </script>
-<script src="nav.js?v=202610192200"></script>
+<script src="nav.js?v=202610201400"></script>
 <script src="say.js?v=202610171500"></script>
 <script>
 (function () {

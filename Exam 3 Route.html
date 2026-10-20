@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Exam 3 Route</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610022000">
+<style>
+  body { padding-bottom: 96px; }
+  main { max-width: 920px; margin: 0 auto; padding: clamp(20px, 4vw, 44px) 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-accent-300); }
+  h1 { font-size: clamp(30px, 6vw, 46px); margin: 4px 0 0; }
+  .lead { color: var(--color-neutral-300); max-width: 66ch; margin: 0; }
+  .glass { border-radius: var(--radius-lg); background: var(--color-surface); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--shadow-md); }
+  .bar { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; font-size: 14px; color: var(--color-neutral-300); }
+  .bar label { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+  .bar .status { flex: 1 1 100%; font-size: 13px; color: var(--color-neutral-400); }
+  .bar .status a, .note a { color: var(--color-accent-300); }
+  select { font: inherit; color: var(--color-text); background: var(--color-neutral-900); border: 1px solid var(--color-divider); border-radius: 8px; padding: 3px 6px; }
+  input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--color-accent); flex: none; margin: 2px 0 0; }
+  .note { padding: 12px 16px; border: 1px solid var(--color-accent-700); background: var(--color-accent-900); border-radius: var(--radius-lg); font-size: 14px; color: var(--color-accent-100); }
+  .note b { color: var(--color-text); font-weight: 500; }
+  .note ul { margin: 6px 0 0; padding-left: 18px; }
+  .note .btn { margin-top: 8px; }
+  .day { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; border: 1px solid transparent; }
+  .day.today { border-color: var(--color-accent-700); }
+  .day.past { opacity: .6; }
+  .day > header { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
+  .day > header b { font-size: 18px; font-weight: 500; }
+  .day > header .tag { vertical-align: 2px; }
+  .day > header .load { margin-left: auto; font-size: 13px; color: var(--color-neutral-400); display: inline-flex; gap: 6px; align-items: center; }
+  .grp { display: flex; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 1px solid var(--color-divider); }
+  .grp:first-of-type { border-top: 0; padding-top: 0; }
+  .grp h3 { margin: 0; font-size: 15px; font-weight: 600; }
+  .grp h3 span { font-weight: 400; color: var(--color-neutral-400); }
+  .why { margin: 0; font-size: 13px; color: var(--color-neutral-400); max-width: 70ch; }
+  .row { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; }
+  .row label { display: flex; gap: 10px; align-items: flex-start; flex: 1; min-width: 0; cursor: pointer; }
+  .row .min { flex: none; font-size: 12.5px; color: var(--color-neutral-400); white-space: nowrap; padding-top: 2px; }
+  .row a.open { flex: none; font-size: 13px; color: var(--color-accent-300); text-decoration: none; padding-top: 1px; }
+  .row.done label span { text-decoration: line-through; color: var(--color-neutral-500); }
+  .task { display: flex; flex-direction: column; gap: 6px; }
+  .task .how { margin: 0 0 0 28px; font-size: 13px; color: var(--color-neutral-300); }
+  .task .btn { align-self: flex-start; margin-left: 28px; font-size: 13.5px; padding: 6px 12px; }
+  .free { font-size: 13px; color: var(--color-accent-2-300); }
+  .more { padding: 14px 18px; font-size: 14px; color: var(--color-neutral-300); }
+  .more summary { cursor: pointer; color: var(--color-text); font-weight: 500; font-size: 16px; }
+  .more ul { margin: 8px 0 0; padding-left: 18px; }
+  .more li { margin-bottom: 6px; }
+  .more a { color: var(--color-accent-300); }
+  .muted { color: var(--color-neutral-500); font-size: 12.5px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">NRS 114 · Exam 3 · Study route</div>
+    <h1>Your route to the exam.</h1>
+  </header>
+  <p class="lead" id="lead">Loading your route…</p>
+  <div class="glass bar" id="bar"></div>
+  <div id="warn"></div>
+  <div id="days" style="display:flex;flex-direction:column;gap:12px"></div>
+  <details class="glass more" id="left"></details>
+  <details class="glass more">
+    <summary>How this route works</summary>
+    <ul id="how"></ul>
+  </details>
+  <details class="glass more" id="donelist"></details>
+</main>
+<script src="data/e3/route.js?v=202610201400"></script>
+<script>
+// The study route: the tasks in data/e3/route.js (tools/build_e3_route.js), spread over the days left at the hours you
+// give each day. Checking a task off, or changing the hours, re-spreads everything that is left. Saved in this browser
+// as localStorage['e3-route'] = { done: { taskId: date }, hours, day: { date: hours }, quick }, which the progress file carries.
+(function () {
+  var R = window.E3_ROUTE, KEY = 'e3-route', FOCUS = 'e3-focus', MASTERY = 'Exam 3 Mastery Loop.dc.html';
+  if (!R) { document.getElementById('lead').textContent = 'The route didn’t load — reload the page.'; return; }
+  function read(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
+  function write(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  var S;
+  function load() { S = read(KEY) || {}; S.done = S.done || {}; S.day = S.day || {}; if (!(S.hours >= 0)) S.hours = R.hours; S.quick = !!S.quick; }
+  function save() { write(KEY, { v: 1, done: S.done, hours: S.hours, day: S.day, quick: S.quick }); }
+  load();
+
+  // Dates are local "yyyy-mm-dd" strings. ?today=2026-10-23 shows the route as it would look that day.
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function iso(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function parse(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2], 12); }
+  function addDays(s, n) { var d = parse(s); d.setDate(d.getDate() + n); return iso(d); }
+  var forced = /[?&]today=(\d{4}-\d\d-\d\d)/.exec(location.search), TODAY = forced ? forced[1] : iso(new Date());
+  var byId = {}, chap = {};
+  R.tasks.forEach(function (t) { byId[t.id] = t; });
+  R.chapters.forEach(function (c) { chap[c.ch] = c; });
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function hm(m) { m = Math.round(m); return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h' + (m % 60 ? ' ' + (m % 60) + ' min' : ''); }
+  function dayName(s) { return parse(s).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+  function minOf(t) { return S.quick && t.kind === 'read' && !S.done[t.id] ? t.quick : t.min; }
+  function cap(d) { return d === R.exam ? R.examDayMin : Math.round(60 * (S.day[d] != null ? S.day[d] : S.hours)); }
+
+  // Spread what is left over the days, in order: a task goes on the first day with room for it once everything it
+  // waits for is done or planned (plus its gap in days). skip: tasks left out for lack of time.
+  function plan(skip) {
+    var first = TODAY > R.start ? TODAY : R.start, days = [], at = {}, used = {};
+    for (var d = first; d <= R.exam; d = addDays(d, 1)) { days.push(d); used[d] = 0; }
+    Object.keys(S.done).forEach(function (id) { var t = byId[id]; if (!t) return; at[id] = S.done[id]; if (used[at[id]] != null) used[at[id]] += S.quick && t.kind === 'read' ? t.quick : t.min; });
+    var pending = R.tasks.filter(function (t) { return !S.done[t.id] && !skip[t.id]; });
+    days.forEach(function (d) {
+      pending.forEach(function (t) {
+        if (at[t.id] || (t.kind === 'morning') !== (d === R.exam) || (t.from && d < t.from)) return;
+        for (var i = 0; i < t.after.length; i++) {
+          var a = t.after[i], g = t.gap || 0;
+          if (Array.isArray(a)) { g = a[1]; a = a[0]; }
+          if (skip[a]) continue;
+          if (!at[a] || addDays(at[a], g) > d) return;
+        }
+        var m = minOf(t);
+        if (used[d] + m <= cap(d)) { at[t.id] = d; used[d] += m; }
+      });
+    });
+    return { days: days, at: at, used: used, left: pending.filter(function (t) { return !at[t.id]; }) };
+  }
+  // When something doesn't fit, the least important task still in the plan makes room (highest prio number, latest
+  // first), taking its repair with it, until everything more important fits or nothing is left to give up.
+  function schedule() {
+    var skip = {}, order = [], P = plan(skip);
+    for (var guard = 0; guard < R.tasks.length; guard++) {
+      var need = P.left.reduce(function (m, t) { return Math.min(m, t.prio); }, 99);
+      var cand = R.tasks.filter(function (t) { return !S.done[t.id] && !skip[t.id] && t.prio > need; });
+      if (need === 99 || !cand.length) break;
+      var worst = cand.reduce(function (w, t) { return t.prio >= w.prio ? t : w; });
+      R.tasks.forEach(function (t) { if ((t === worst || (worst.grp && t.grp === worst.grp)) && !S.done[t.id] && !skip[t.id]) { skip[t.id] = 1; order.push(t); } });
+      P = plan(skip);
+    }
+    // Everything not in the plan: what was given up (in that order), then what still didn't fit.
+    P.out = order.concat(P.left);
+    return P;
+  }
+
+  function focusIds(t) { return t.focus === 'clear' ? 'clear' : (t.focus || []).join(','); }
+  function taskRow(t, P) {
+    var done = !!S.done[t.id], m = done ? (S.quick && t.kind === 'read' ? t.quick : t.min) : minOf(t);
+    var row = '<div class="row' + (done ? ' done' : '') + '"><label><input type="checkbox" data-id="' + esc(t.id) + '"' + (done ? ' checked' : '') + '><span>' + esc(t.label) + '</span></label>' +
+      '<span class="min">' + hm(m) + '</span>' + (!t.focus ? '<a class="open" href="' + esc(t.href) + '">Open</a>' : '') + '</div>';
+    if (t.kind === 'read') return row;
+    var how = '';
+    if (t.kind === 'test' || t.kind === 'retest') how = 'On the Mastery page pick <b>' + t.n + ' questions</b>, then Start. When it ends, tap <b>Redo my misses</b>.';
+    if (t.kind === 'exam') how = t.part === 2 ? 'Open the Mastery page: it picks the test up where you stopped. When it ends, your report lists what to work on.' : 'On the Mastery page pick <b>60 questions</b>, then Start. Stop after question 30; the test keeps your place.';
+    var btn = t.focus ? '<a class="btn btn-secondary go" href="' + esc(t.href) + '" data-focus="' + esc(focusIds(t)) + '" data-name="' + esc(t.kind === 'test' ? 'Route: chapter ' + t.ch : 'Route: chapters ' + String(t.ch).split(' ').join(', ')) + '">' +
+      (t.focus === 'clear' ? 'Clear the focus and open the test' : t.kind === 'test' ? 'Focus on chapter ' + t.ch + ' and open the test' : 'Focus on these chapters and open the test') + '</a>' : '';
+    return '<div class="task">' + row + (done ? '' : (how ? '<p class="how">' + how + '</p>' : '') + btn + (t.part === 2 ? '' : '<p class="why" style="margin-left:28px">' + esc(R.why[t.kind] || '') + '</p>')) + '</div>';
+  }
+  function dayCard(d, P, seenCh) {
+    var list = R.tasks.filter(function (t) { return P.at[t.id] === d; });
+    var groups = [], cur = null;
+    list.forEach(function (t) {
+      var key = /^(read|drugs|test)$/.test(t.kind) ? 'ch' + t.ch : t.id;
+      if (!cur || cur.key !== key) { cur = { key: key, ch: /^(read|drugs|test)$/.test(t.kind) ? t.ch : null, tasks: [] }; groups.push(cur); }
+      cur.tasks.push(t);
+    });
+    var free = cap(d) - P.used[d], isExam = d === R.exam;
+    var hrs = '';
+    if (!isExam) {
+      var h = S.day[d] != null ? S.day[d] : S.hours, opts = [];
+      for (var x = 0; x <= 10; x += 0.5) opts.push('<option value="' + x + '"' + (x === h ? ' selected' : '') + '>' + (x ? x + ' h' : 'day off') + '</option>');
+      hrs = '<select data-day="' + d + '" aria-label="Hours on ' + dayName(d) + '">' + opts.join('') + '</select>';
+    }
+    var h = '<section class="glass day' + (d === TODAY ? ' today' : '') + '"><header><b>' + dayName(d) + '</b>' +
+      (d === TODAY ? '<span class="tag tag-accent">Today</span>' : '') + (isExam ? '<span class="tag tag-outline">Exam 3</span>' : '') +
+      '<span class="load">' + (isExam ? 'a short look, nothing new' : hm(P.used[d]) + ' planned of ' + hrs) + '</span></header>';
+    if (!groups.length) h += '<p class="why">' + (cap(d) ? 'Nothing planned: everything that’s ready fits on the days before, or waits for a gap to pass.' : 'Day off.') + '</p>';
+    groups.forEach(function (g) {
+      h += '<div class="grp">';
+      if (g.ch) {
+        var c = chap[g.ch], first = !seenCh[g.ch]; seenCh[g.ch] = 1;
+        h += '<h3>Chapter ' + c.ch + ' <span>· ' + esc(c.title) + '</span></h3>';
+        if (first) h += '<p class="why">' + esc(c.why) + ' About ' + c.share + ' of 60 questions on the provisional blueprint. ' + esc(R.why.read) + '</p>';
+      }
+      g.tasks.forEach(function (t) { h += taskRow(t, P); });
+      h += '</div>';
+    });
+    if (!isExam && free >= 20 && groups.length && d >= TODAY) h += '<p class="free">' + hm(free) + ' free: redo your misses or drill your weakest topic on the <a href="' + MASTERY + '">Mastery page</a>.</p>';
+    return h + '</section>';
+  }
+
+  function render() {
+    var lead = document.getElementById('lead'), days = document.getElementById('days'), warn = document.getElementById('warn');
+    if (TODAY > R.exam) {
+      lead.textContent = 'Exam 3 was on ' + dayName(R.exam) + '. This route is finished.';
+      days.innerHTML = ''; warn.innerHTML = ''; renderBar(); renderDone(); renderHow(); document.getElementById('left').hidden = true; return;
+    }
+    var P = schedule(), seenCh = {};
+    var left = R.tasks.filter(function (t) { return !S.done[t.id]; });
+    var planned = left.filter(function (t) { return P.at[t.id]; }).reduce(function (n, t) { return n + minOf(t); }, 0);
+    var doneNow = Object.keys(S.done).reduce(function (n, id) { var t = byId[id]; return n + (t && P.used[S.done[id]] != null ? (S.quick && t.kind === 'read' ? t.quick : t.min) : 0); }, 0);
+    var have = P.days.reduce(function (n, d) { return n + cap(d); }, 0) - doneNow;
+    var nDays = P.days.filter(function (d) { return d < R.exam; }).length;
+    lead.innerHTML = 'Exam 3 is on <b>' + dayName(R.exam) + '</b>. ' + (nDays ? nDays + ' study day' + (nDays > 1 ? 's' : '') + ' left' + (TODAY < R.start ? ' from ' + dayName(R.start) : '') + ': ' : '') +
+      'the plan below fits <b>' + hm(planned) + '</b> of work into the <b>' + hm(have) + '</b> you have. Check things off as you go; whatever is left re-spreads over the days that remain.';
+    // What didn't fit, and what would make room.
+    var w = '';
+    if (P.out.length) {
+      var unread = left.filter(function (t) { return t.kind === 'read'; }), save = unread.reduce(function (n, t) { return n + t.min - t.quick; }, 0);
+      w = '<div class="note"><b>Not everything fits before the exam.</b> Left out, in the order it was given up:<ul>' +
+        P.out.slice(0, 8).map(function (t) { return '<li>' + esc(t.label) + (t.kind === 'read' ? ' (chapter ' + t.ch + ')' : '') + ' · ' + hm(minOf(t)) + '</li>'; }).join('') +
+        (P.out.length > 8 ? '<li>and ' + (P.out.length - 8) + ' more (Still to cover, below, lists them)</li>' : '') + '</ul>' +
+        'To make room: give some days more hours above' + (!S.quick && save >= 30 ? ', or read the chapters you haven’t read yet in Quick mode (the bullet version), which saves about <b>' + hm(save) + '</b>.<br><button class="btn btn-primary" type="button" data-quick="1">Use Quick for what’s unread</button>' : '.') + '</div>';
+    }
+    warn.innerHTML = w;
+    days.innerHTML = P.days.map(function (d) { return dayCard(d, P, seenCh); }).join('');
+    renderBar(); renderLeft(P); renderDone(); renderHow();
+  }
+  function renderBar() {
+    var opts = [];
+    for (var x = 1; x <= 10; x += 0.5) opts.push('<option value="' + x + '"' + (x === S.hours ? ' selected' : '') + '>' + x + ' h</option>');
+    var M = read('e3-mastery-v3'), F = read(FOCUS), st = [];
+    if (M && M.test) st.push('A Mastery test is in progress — <a href="' + MASTERY + '">finish it</a>.');
+    else if (M && M.report) { var miss = (M.report.recs || []).filter(function (r) { return r.e < 1; }).length; st.push('Last Mastery test: <b>' + M.report.pct + '%</b>' + (miss ? ', ' + miss + ' things to work on — <a href="Exam 3 Map.html#weak">your weak areas</a>' : '') + '.'); }
+    else st.push('No Mastery test yet: the first one is on the route after your first chapter.');
+    st.push('Map focus: ' + (F && F.ids && F.ids.length ? esc(F.name || 'My topics') + ' (' + F.ids.length + ' topics) · <a href="#" data-clear="1">clear it</a>' : 'everything') + '.');
+    document.getElementById('bar').innerHTML = '<label>Hours a day <select id="hours">' + opts.join('') + '</select></label>' +
+      '<label><input type="checkbox" id="quick"' + (S.quick ? ' checked' : '') + '> Read what’s unread in Quick mode</label>' +
+      '<span class="status">' + st.join(' ') + '</span>';
+  }
+  function renderLeft(P) {
+    var el = document.getElementById('left'), unread = {}, untested = [];
+    R.tasks.forEach(function (t) {
+      if (S.done[t.id]) return;
+      if (t.kind === 'read') { var u = unread[t.ch] = unread[t.ch] || { n: 0, m: 0 }; u.n++; u.m += minOf(t); }
+      if (t.kind === 'test') untested.push(t.ch);
+    });
+    var rows = R.chapters.filter(function (c) { return unread[c.ch]; }).map(function (c) { return '<li>Chapter ' + c.ch + ' · ' + esc(c.title) + ': ' + unread[c.ch].n + ' of ' + c.topics + ' topics unread (' + hm(unread[c.ch].m) + ')</li>'; });
+    el.hidden = false;
+    el.innerHTML = '<summary>Still to cover</summary>' + (rows.length ? '<ul>' + rows.join('') + '</ul>' : '<p>Every topic has been read.</p>') +
+      '<p>' + (untested.length ? 'Not tested yet: chapter' + (untested.length > 1 ? 's ' : ' ') + untested.join(', ') + '.' : 'Every chapter has had its test.') + '</p>' +
+      (P.out.length ? '<p>Not in the plan for lack of time: ' + P.out.map(function (t) { return esc(t.label); }).join('; ') + '.</p>' : '');
+  }
+  function renderDone() {
+    var el = document.getElementById('donelist'), ids = Object.keys(S.done).filter(function (id) { return byId[id]; });
+    el.hidden = !ids.length;
+    if (!ids.length) return;
+    var by = {}; ids.forEach(function (id) { (by[S.done[id]] = by[S.done[id]] || []).push(byId[id]); });
+    el.innerHTML = '<summary>Done so far: ' + ids.length + ' of ' + R.tasks.length + ' tasks</summary><ul>' + Object.keys(by).sort().map(function (d) {
+      return '<li><b>' + dayName(d) + '</b>: ' + by[d].map(function (t) { return esc(t.label) + (t.kind === 'read' ? ' (ch ' + t.ch + ')' : ''); }).join('; ') + '</li>';
+    }).join('') + '</ul><p><button class="btn btn-ghost" type="button" data-reset="1">Start the route over</button></p>';
+  }
+  function renderHow() {
+    var p = R.pace;
+    document.getElementById('how').innerHTML = [
+      'Order: the assessment chapters first (53 before 55 and 56; 45 before 46–49), and the biggest chapters early so they get the most review.',
+      'For each chapter: read every topic in full → its drug cards → a chapter test right away → a retest of its group (endocrine, upper GI, lower GI) at least ' + R.gap + ' days later. Then two mixed practice exams with a repair after each, a Quick review in the last two days, and nothing new on exam morning.',
+      'Times are estimates: notes at about ' + p.read + ' words a minute (time for a Why it works card now and then), Quick at ' + p.quick + ', about ' + p.question + ' minutes a question with its rationales plus ' + p.redo + ' for redoing misses, and ' + p.drug + ' minutes a drug card. If you’re faster or slower, just check things off: the rest re-spreads.',
+      'If the days are too short, the least important tasks make room first: practice exam 2 (both halves and its repair), then the Quick reviews, then the drug cards and retests, then practice exam 1. Reading and the chapter tests are never left out, and the plan always says what it left out.',
+      'Chapter shares (“about 6 of 60 questions”) come from the Mastery test’s provisional blueprint, set by chapter size until the professor’s study guide arrives.',
+      'The test buttons set the map’s focus to those chapters, so the Mastery test asks only about them; the practice exams clear it. Your checkmarks and hours are saved in this browser and go with your progress file (Home → Save progress file).'
+    ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
+  }
+
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.matches('input[data-id]')) { if (t.checked) S.done[t.dataset.id] = TODAY; else delete S.done[t.dataset.id]; save(); render(); }
+    else if (t.matches('select[data-day]')) { var v = +t.value; if (v === S.hours) delete S.day[t.dataset.day]; else S.day[t.dataset.day] = v; save(); render(); }
+    else if (t.id === 'hours') { S.hours = +t.value; save(); render(); }
+    else if (t.id === 'quick') { S.quick = t.checked; save(); render(); }
+  });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-focus]');
+    if (a) {
+      var f = a.dataset.focus;
+      if (f === 'clear') write(FOCUS, null); else write(FOCUS, { ids: f.split(','), name: a.dataset.name });
+      return; // the link then opens the Mastery page
+    }
+    if (e.target.closest('[data-clear]')) { e.preventDefault(); write(FOCUS, null); render(); }
+    if (e.target.closest('[data-quick]')) { S.quick = true; save(); render(); }
+    if (e.target.closest('[data-reset]') && window.confirm('Uncheck every task and start the route over? Your Mastery tests are not affected.')) { S.done = {}; save(); render(); }
+  });
+  window.addEventListener('storage', function (e) { if (e.key === KEY || e.key === FOCUS || e.key === 'e3-mastery-v3') { load(); render(); } });
+  render();
+})();
+</script>
+<script src="nav.js?v=202610201400"></script>
+</body>
+</html>

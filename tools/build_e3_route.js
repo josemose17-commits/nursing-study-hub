@@ -17,14 +17,14 @@ const ORDER = [
   ['53', 'First: the normal endocrine physiology and tests that chapters 55 and 56 build on.'],
   ['55', 'Builds straight on chapter 53’s thyroid and parathyroid physiology.'],
   ['56', 'The biggest chapter with the biggest share of the exam, so it comes early and gets the most review.'],
-  ['45', 'Normal GI function, the abdominal exam and the tests that chapters 46–49 rely on.'],
+  ['45', 'Normal GI function, the abdominal exam and the tests that chapters 46 and 47 rely on.'],
   ['46', 'The top of the tract: the mouth and the esophagus.'],
-  ['47', 'The stomach: gastritis, ulcers, bleeding and gastric surgery.'],
-  ['48', 'The bowel without inflammation: obstruction, colorectal cancer and ostomies, hernias, trauma.'],
-  ['49', 'The inflamed bowel and the acute abdomen: appendicitis, peritonitis, IBD, diverticulitis.']
+  ['47', 'The stomach: gastritis, ulcers, bleeding and gastric surgery.']
 ];
+// Chapters with notes on the map that are not on this exam: no route tasks.
+const SKIP = ['48', '49'];
 const FIRST_TEST = { '56': 40 };   // questions in a chapter's first test (otherwise 20, the shortest test)
-const RETESTS = [['endo', 'Endocrine', ['53', '55', '56'], 40], ['upper', 'Upper GI', ['45', '46', '47'], 40], ['lower', 'Lower GI', ['48', '49'], 40]];
+const RETESTS = [['endo', 'Endocrine', ['53', '55', '56'], 40], ['gi', 'GI', ['45', '46', '47'], 40]];
 const GAP = 2;                     // days between a chapter's first test and its retest
 // prio: what goes first when the days are too short. 1 reading, chapter tests and exam morning (never left out);
 // 2 practice exam 1 and its repair; 3 retests and drug cards; 4 Quick reviews; 5 practice exam 2 and its repair.
@@ -43,10 +43,11 @@ const WHY = {
   drugs: 'This chapter’s drugs as cards: what each one is for, how it works and the nursing points. The test after it asks about them.',
   test: 'Test yourself right after reading. Pulling it back from memory fixes it better than rereading, and it shows what didn’t stick while it’s fresh. The button sets the map focus to this chapter, so the test asks only about it.',
   retest: 'Test it again after a gap of two or more days. Remembering after a gap is what makes it last, and mixing chapters makes you tell look-alikes apart. The button sets the focus to these chapters.',
-  exam: 'All eight chapters mixed, in the exam’s chapter mix (provisional until the study guide arrives). The button clears the focus. The report lists your weak areas.',
+  exam: 'All six chapters mixed, in the exam’s chapter mix (provisional until the study guide arrives). The button clears the focus. The report lists your weak areas.',
   repair: 'Fix what the last test found. Your weak areas on the map shows each missed question with its notes and Why it works cards; then Redo my misses on the Mastery page.',
   quick: 'In the last days, the bullet version of every topic. Turn on Quick on the map.',
   morning: 'Nothing new on exam day. Read each chapter’s Act now and Emergency trigger boxes (in its overview) and the numbers strip, then stop.',
+  last: 'The day before the exam: one more look at what is still weakest, then a short mixed test so you finish on recall, not rereading. The button clears the focus.',
   fix: 'Your chapter test showed gaps. Before the retest, re-read the topics you missed most (the Mastery test keeps a score for every topic), then redo the misses on the Mastery page.',
   fix2: 'The retest showed gaps that are still there. Re-read these topics once more before the practice exams.'
 };
@@ -61,7 +62,7 @@ const drugsOf = ch => (win.DRUG_DATA.drugs || []).filter(d => (String(d.ch).matc
 const qOf = ch => { const R = (win.RECALL_EXTRA || {})[ch] || {}; return ((win.NGN_EXTRA || {})[ch] || []).length + (R.nclex || []).length + (R.rq || []).length + (R.mc || []).length; };
 const up = x => Math.max(1, Math.ceil(x));
 const test = n => up(n * (PACE.question + PACE.redo));
-if (ORDER.length !== CHS.length || !CHS.every(ch => ORDER.some(o => o[0] === ch))) throw new Error('ORDER must list every chapter once: ' + CHS.join(', '));
+if (!CHS.every(ch => ORDER.some(o => o[0] === ch) !== SKIP.includes(ch))) throw new Error('ORDER and SKIP must list every chapter once: ' + CHS.join(', '));
 
 const tasks = [];
 const add = t => { tasks.push(Object.assign({ after: [], gap: 0, prio: 1 }, t)); return t.id; };
@@ -89,8 +90,9 @@ const practice = (k, after, gap, prio) => {
 };
 practice(1, allTests, 0, 2);
 add({ id: 'quick:endo', kind: 'quick', ch: '53 55 56', label: 'Quick review: chapters 53, 55 and 56', min: quickMin(['53', '55', '56']), after: ['exam:1b'], from: minus(EXAM, 2), href: 'Exam 3 Map.html#53-overview', prio: 4 });
-add({ id: 'quick:gi', kind: 'quick', ch: '45 46 47 48 49', label: 'Quick review: chapters 45 to 49', min: quickMin(['45', '46', '47', '48', '49']), after: ['exam:1b'], from: minus(EXAM, 2), href: 'Exam 3 Map.html#45-overview', prio: 4 });
+add({ id: 'quick:gi', kind: 'quick', ch: '45 46 47', label: 'Quick review: chapters 45 to 47', min: quickMin(['45', '46', '47']), after: ['exam:1b'], from: minus(EXAM, 2), href: 'Exam 3 Map.html#45-overview', prio: 4 });
 practice(2, [['exam:1b', 1]].concat(retests), 0, 5);   // a day after practice exam 1, once the retests are done
+add({ id: 'last', kind: 'last', ch: '', label: 'Last pass: your weakest topics, then a 20-question mixed test', n: 20, min: 90, after: [['exam:2b', 0]], from: minus(EXAM, 1), focus: 'clear', href: MASTERY, prio: 4 });
 add({ id: 'morning', kind: 'morning', ch: '', label: 'Exam morning: Act now, Emergency trigger and the numbers', min: EXAM_DAY_MIN, from: EXAM, href: 'Exam 3 Map.html#53-overview' });
 
 const route = {

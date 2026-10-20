@@ -23,7 +23,7 @@ const ORDER = [
 ];
 // Chapters with notes on the map that are not on this exam: no route tasks.
 const SKIP = ['48', '49'];
-const FIRST_TEST = { '56': 40 };   // questions in a chapter's first test (otherwise 20, the shortest test)
+const FIRST_TEST = { '56': 40, '45': 15 };   // questions in a chapter's first test (otherwise 20, the shortest test); 45 has few guide questions
 const RETESTS = [['endo', 'Endocrine', ['53', '55', '56'], 40], ['gi', 'GI', ['45', '46', '47'], 40]];
 const GAP = 2;                     // days between a chapter's first test and its retest
 // prio: what goes first when the days are too short. 1 reading, chapter tests and exam morning (never left out);
@@ -43,7 +43,7 @@ const WHY = {
   drugs: 'This chapter’s drugs as cards: what each one is for, how it works and the nursing points. The test after it asks about them.',
   test: 'Test yourself right after reading. Pulling it back from memory fixes it better than rereading, and it shows what didn’t stick while it’s fresh. The button sets the map focus to this chapter, so the test asks only about it.',
   retest: 'Test it again after a gap of two or more days. Remembering after a gap is what makes it last, and mixing chapters makes you tell look-alikes apart. The button sets the focus to these chapters.',
-  exam: 'All six chapters mixed, in the exam’s chapter mix (provisional until the study guide arrives). The button clears the focus. The report lists your weak areas.',
+  exam: 'All six chapters mixed, in the study guide’s chapter mix. The button clears the focus. The report lists your weak areas.',
   repair: 'Fix what the last test found. Your weak areas on the map shows each missed question with its notes and Why it works cards; then Redo my misses on the Mastery page.',
   quick: 'In the last days, the bullet version of every topic. Turn on Quick on the map.',
   morning: 'Nothing new on exam day. Read each chapter’s Act now and Emergency trigger boxes (in its overview) and the numbers strip, then stop.',
@@ -53,12 +53,18 @@ const WHY = {
 };
 // ---------- End of the exam config ----------
 
-// Each chapter's share of a 60-question exam, from the Mastery test's blueprint (provisional until the study guide).
+// Each chapter's share of a 60-question exam, from the study guide (the Mastery test's blueprint).
 const BP = vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'e3-mastery-cfg.js'), 'utf8') + '\nBP;', {});
 const win = {}, ctx = vm.createContext({ window: win });
+// The study guide: only its topics get reading tasks, and in chapters it narrows only drugs it names get cards.
+vm.runInContext(fs.readFileSync(path.join(DATA, 'focus-rules.js'), 'utf8'), ctx);
+const GUIDE_TOPICS = (win.FOCUS_CFG.guide || []);
+const onGuide = t => !GUIDE_TOPICS.length || GUIDE_TOPICS.some(g => g[0] === t.ch && g[1].test(t.title));
+const MCFG = vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'e3-mastery-cfg.js'), 'utf8') + '\n({ GUIDE, GUIDE_OFF });', {});
+const drugOnGuide = d => { const ch = (String(d.ch).match(/\d\d/g) || [])[0]; if (!MCFG.GUIDE_OFF[ch]) return true; const txt = [d.n, d.g, d.c, d.ind, d.moa].join(' '); return (MCFG.GUIDE[ch] || []).some(g => g[1].test(txt)); };
 ['drugs-gi.js', 'drugs-endo.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(DATA, f), 'utf8'), ctx));
 fs.readdirSync(path.join(DATA, 'q')).filter(f => /\.js$/.test(f)).forEach(f => vm.runInContext(fs.readFileSync(path.join(DATA, 'q', f), 'utf8'), ctx));
-const drugsOf = ch => (win.DRUG_DATA.drugs || []).filter(d => (String(d.ch).match(/\d\d/g) || [])[0] === ch);
+const drugsOf = ch => (win.DRUG_DATA.drugs || []).filter(d => (String(d.ch).match(/\d\d/g) || [])[0] === ch && drugOnGuide(d));
 const qOf = ch => { const R = (win.RECALL_EXTRA || {})[ch] || {}; return ((win.NGN_EXTRA || {})[ch] || []).length + (R.nclex || []).length + (R.rq || []).length + (R.mc || []).length; };
 const up = x => Math.max(1, Math.ceil(x));
 const test = n => up(n * (PACE.question + PACE.redo));
@@ -68,17 +74,17 @@ const tasks = [];
 const add = t => { tasks.push(Object.assign({ after: [], gap: 0, prio: 1 }, t)); return t.id; };
 let prev = null;
 ORDER.forEach(([ch]) => {
-  const C = chapters[ch];
+  const C = { topics: chapters[ch].topics.filter(onGuide) };
   C.topics.forEach(t => { prev = add({ id: 'read:' + t.id, kind: 'read', ch, topic: t.id, label: t.title, min: up(t.full / PACE.read), quick: up(t.quick / PACE.quick), after: prev ? [prev] : [], href: 'Exam 3 Map.html#' + t.id }); });
   const lastRead = prev, d = drugsOf(ch);
   const drugs = d.length ? add({ id: 'drugs:' + ch, kind: 'drugs', ch, drugs: d.map(x => x.id), label: d.length + ' drug card' + (d.length > 1 ? 's' : ''), min: up(d.length * PACE.drug), after: [lastRead], href: 'Exam 3 Drug Cards.dc.html#drug-' + d[0].id, prio: 3 }) : null;
   const n = FIRST_TEST[ch] || 20;
-  add({ id: 'test:' + ch, kind: 'test', ch, label: 'Chapter test, ' + n + ' questions', n, min: test(n), after: drugs ? [lastRead, drugs] : [lastRead], focus: C.topics.map(t => t.id), href: 'Exam 3 Mastery Loop.dc.html' });
+  add({ id: 'test:' + ch, kind: 'test', ch, label: 'Chapter test, ' + (n < 20 ? 'about ' : '') + n + ' questions', n, min: test(n), after: drugs ? [lastRead, drugs] : [lastRead], focus: C.topics.map(t => t.id), href: 'Exam 3 Mastery Loop.dc.html' });
 });
 RETESTS.forEach(([key, name, chs, n]) => add({ id: 'retest:' + key, kind: 'retest', ch: chs.join(' '), label: name + ' retest, ' + n + ' questions on chapters ' + chs.join(', '), n, min: test(n),
-  after: chs.map(c => 'test:' + c), gap: GAP, focus: chs.flatMap(c => chapters[c].topics.map(t => t.id)), href: 'Exam 3 Mastery Loop.dc.html', prio: 3 }));
+  after: chs.map(c => 'test:' + c), gap: GAP, focus: chs.flatMap(c => chapters[c].topics.filter(onGuide).map(t => t.id)), href: 'Exam 3 Mastery Loop.dc.html', prio: 3 }));
 const allTests = ORDER.map(o => 'test:' + o[0]), retests = RETESTS.map(r => 'retest:' + r[0]);
-const quickMin = chs => up(chs.reduce((n, c) => n + chapters[c].topics.reduce((m, t) => m + t.quick, 0), 0) / PACE.quick);
+const quickMin = chs => up(chs.reduce((n, c) => n + chapters[c].topics.filter(onGuide).reduce((m, t) => m + t.quick, 0), 0) / PACE.quick);
 const minus = (iso, days) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() - days); return d.toISOString().slice(0, 10); };
 // A practice exam is 60 questions in two sittings (the Mastery test keeps your place), then a repair; the three go together.
 const MASTERY = 'Exam 3 Mastery Loop.dc.html';
@@ -98,7 +104,7 @@ add({ id: 'morning', kind: 'morning', ch: '', label: 'Exam morning: Act now, Eme
 const route = {
   exam: EXAM, start: START, hours: HOURS, examDayMin: EXAM_DAY_MIN, pace: PACE, gap: GAP, adapt: ADAPT, why: WHY,
   retests: RETESTS.map(([key, name, chs, n]) => ({ id: 'retest:' + key, name, chs, n })),
-  chapters: ORDER.map(([ch, why]) => ({ ch, title: chapters[ch].title, why, share: BP[ch] || 0, topics: chapters[ch].topics.length, questions: qOf(ch), drugs: drugsOf(ch).length })),
+  chapters: ORDER.map(([ch, why]) => ({ ch, title: chapters[ch].title, why, share: BP[ch] || 0, topics: chapters[ch].topics.filter(onGuide).length, questions: qOf(ch), drugs: drugsOf(ch).length })),
   tasks
 };
 const out = path.join(DATA, 'route.js');

@@ -87,7 +87,7 @@
   </details>
   <details class="glass more" id="donelist"></details>
 </main>
-<script src="data/e3/route.js?v=202610201600"></script>
+<script src="data/e3/route.js?v=202610201800"></script>
 <script>
 // The study route. The tasks come from data/e3/route.js (tools/build_e3_route.js); this page decides, every time it opens:
 // - what is already done, from what you did elsewhere in the hub: reading time on the map (e3-read), drug cards opened
@@ -414,7 +414,7 @@
       if (g.ch) {
         var c = chap[g.ch], first = !seenCh[g.ch]; seenCh[g.ch] = 1;
         h += '<h3>Chapter ' + c.ch + ' <span>· ' + esc(c.title) + '</span></h3>';
-        if (first) h += '<p class="why">' + esc(c.why) + ' About ' + c.share + ' of 60 questions on the provisional blueprint. ' + esc(R.why.read) + '</p>';
+        if (first) h += '<p class="why">' + esc(c.why) + ' ' + c.share + ' of the 60 exam questions (study guide). ' + esc(R.why.read) + '</p>';
       }
       g.tasks.forEach(function (t) { h += taskRow(t, C); });
       h += '</div>';
@@ -540,7 +540,7 @@
       'It changes the plan from your results. A chapter test under ' + A.weak + '% adds a fix task — re-reading the topics you missed most, then redoing the misses — before that chapter’s retest. If every chapter in a group scored ' + A.strong + '% or more, the group’s retest is cut to 20 questions. A weak retest adds one more re-read. Repairs after the practice exams name your weakest topics.',
       'It changes with the days left. Anything you didn’t get to moves forward. Within ' + A.near + ' days of the exam a retest needs only a 1-day gap; within ' + A.final + ' days, anything still unread is planned in Quick. If the reading no longer fits, the last unread chapters switch to Quick first (with Quick reading on “when needed”); then the least important tasks make room: practice exam 2, the Quick reviews, the drug cards and retests, practice exam 1. Reading and the chapter tests are never left out, and the plan always says what it left out.',
       'Order: the assessment chapters first (53 before 55 and 56; 45 before 46 and 47), the biggest chapters early. Times are estimates: notes at about ' + p.read + ' words a minute, Quick at ' + p.quick + ', about ' + p.question + ' minutes a question with its rationales plus ' + p.redo + ' for redoing misses, ' + p.drug + ' minutes a drug card.',
-      'Chapter shares (“about 6 of 60 questions”) come from the Mastery test’s provisional blueprint, set by chapter size until the professor’s study guide arrives. The test buttons set the map’s focus to those chapters; the practice exams clear it. Everything here is saved in this browser and goes with your progress file (Home → Save progress file).'
+      'Chapter shares (“20 of the 60 exam questions”) and the topics come from the professor’s study guide: in chapters 53, 45 and 46 only the items it names are on the route; 47, 55 and 56 are whole. The test buttons set the map’s focus to those chapters; the practice exams clear it. Everything here is saved in this browser and goes with your progress file (Home → Save progress file).'
     ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
   }
 
@@ -572,6 +572,6 @@
   render();
 })();
 </script>
-<script src="nav.js?v=202610201600"></script>
+<script src="nav.js?v=202610201800"></script>
 </body>
 </html>

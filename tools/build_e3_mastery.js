@@ -41,7 +41,7 @@ swap('Exam 2 Map.html', 'Exam 3 Map.html');
 swap('Exam 2 Drug Cards.dc.html', 'Exam 3 Drug Cards.dc.html');
 swap('Exam 2 · Mastery test', 'Exam 3 · Mastery test', 1);
 swap('Exam 2 Mastery Loop.dc.html#redo', 'Exam 3 Mastery Loop.dc.html#redo', 1);
-swap("' Exam 2 study-guide items, in the exam’s chapter mix.'", "' main topics of the eight chapters, weighted by chapter size — provisional until the Exam 3 study guide is added.'", 1);
+swap("' Exam 2 study-guide items, in the exam’s chapter mix.'", "' main topics of the six chapters, weighted by chapter size — provisional until the Exam 3 study guide is added.'", 1);
 swap("' study-guide items'", "' main topics'", 1);
 swap('Drill one study-guide item — every subtopic of it, nothing else', 'Drill one topic — every subtopic of it, nothing else', 1);
 swap('A whole test on one item (like ECG analysis)', 'A whole test on one topic (like hypoglycemia, DKA and HHS)', 1);

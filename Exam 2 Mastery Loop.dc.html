@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610171500"></script>
-<script src="./say.js?v=202610171500"></script>
+<script src="./nav.js?v=202610211300"></script>
+<script src="./say.js?v=202610211300"></script>
 </head>
 <body>
 <x-dc>
@@ -60,7 +60,7 @@
 <script src="data/drugs-cardio.js?v=202610022100"></script>
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
-<script src="data/glossary.js?v=202610171500"></script>
+<script src="data/glossary.js?v=202610211300"></script>
 <script src="data/extra-questions.js?v=202610140100"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
@@ -78,7 +78,9 @@
 <script src="data/explain/drug-whys.js?v=202610040900"></script>
 <script src="data/explain/drug-more.js?v=202610040900"></script>
 <script src="data/topic-index.js?v=202610022200"></script>
-<script src="focus.js?v=202610171500"></script>
+<script src="data/cj-tags.js?v=202610211300"></script>
+<script src="focus.js?v=202610211300"></script>
+<script src="ncjmm.js?v=202610211300"></script>
 </helmet>
 <div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:15px;line-height:1.55;">
 <div style="max-width:860px;padding:28px 20px 64px;display:flex;flex-direction:column;gap:22px;">
@@ -132,6 +134,21 @@
         </details>
       </div>
 
+      <sc-if value="{{ hasCases }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:10px;padding:16px 18px;border-radius:12px;border:1px solid var(--color-neutral-800);background:var(--color-surface);">
+          <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-300);">Unfolding case studies</div>
+          <div style="font-size:12.5px;color:var(--color-neutral-400);">One client, six questions in order — one for each clinical judgment step, the way the NCLEX gives its case studies. The chart grows as the story unfolds.</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <sc-for list="{{ cases }}" as="cs" hint-placeholder-count="3">
+              <button onClick="{{ cs.onClick }}" style="display:flex;flex-direction:column;gap:2px;text-align:left;padding:10px 14px;border-radius:9px;cursor:pointer;font:inherit;color:var(--color-text);background:transparent;border:1px solid var(--color-neutral-700);">
+                <span style="font-size:14.5px;">{{ cs.title }}</span><span style="font-size:12px;color:var(--color-neutral-400);">{{ cs.sub }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <div style="font-size:13px;color:var(--color-neutral-300);">New to the NCLEX formats? <a href="NCLEX Strategies.html">How each question type is scored, the six clinical judgment steps and the test-taking strategies →</a></div>
+
       <sc-if value="{{ hasReport }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;flex-direction:column;gap:24px;">
           <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;">
@@ -145,6 +162,34 @@
               <div style="font-size:13px;color:var(--color-neutral-400);">{{ rp.detail }}</div>
             </div>
           </div>
+
+          <sc-if value="{{ rp.hasSkills }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-400);">By clinical judgment step</div>
+              <sc-for list="{{ rp.skills }}" as="k" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:minmax(118px,180px) minmax(0,1fr) 84px;gap:10px;align-items:center;font-size:13px;">
+                  <span style="color:var(--color-neutral-200);">{{ k.name }}</span>
+                  <div style="height:6px;border-radius:3px;background:var(--color-neutral-800);overflow:hidden;"><div style="height:100%;width:{{ k.w }};background:{{ k.col }};"></div></div>
+                  <span style="text-align:right;font-variant-numeric:tabular-nums;">{{ k.pct }} · {{ k.n }} q</span>
+                </div>
+              </sc-for>
+              <div style="font-size:12.5px;color:var(--color-neutral-400);">{{ rp.skillNote }}</div>
+              <sc-if value="{{ rp.hasNeeds }}" hint-placeholder-val="{{ false }}">
+                <details style="font-size:13px;">
+                  <summary style="cursor:pointer;color:var(--color-accent-300);">By Client Needs category (the NCLEX test plan)</summary>
+                  <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+                    <sc-for list="{{ rp.needs }}" as="k" hint-placeholder-count="4">
+                      <div style="display:grid;grid-template-columns:minmax(118px,220px) minmax(0,1fr) 84px;gap:10px;align-items:center;font-size:13px;">
+                        <span style="color:var(--color-neutral-200);">{{ k.name }}</span>
+                        <div style="height:6px;border-radius:3px;background:var(--color-neutral-800);overflow:hidden;"><div style="height:100%;width:{{ k.w }};background:{{ k.col }};"></div></div>
+                        <span style="text-align:right;font-variant-numeric:tabular-nums;">{{ k.pct }} · {{ k.n }} q</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </details>
+              </sc-if>
+            </div>
+          </sc-if>
 
           <sc-if value="{{ rp.hasStudy }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:10px;">
@@ -300,6 +345,9 @@
           <span style="font-size:11.5px;color:var(--color-neutral-500);">{{ q.topic }}</span>
           <sc-if value="{{ q.isFollow }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" style="font-size:10px;padding:1px 7px;">{{ q.followLabel }}</span></sc-if>
         </div>
+        <sc-if value="{{ q.isCase }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:13px;color:var(--color-accent-100);padding:7px 12px;border-radius:8px;background:var(--color-accent-900);border:1px solid var(--color-accent-700);">Case study · {{ q.caseLine }}</div>
+        </sc-if>
         <div style="font-size:17px;line-height:1.5;text-wrap:pretty;white-space:pre-line;">{{ q.q }}</div>
 
         <sc-if value="{{ q.hasEx }}" hint-placeholder-val="{{ false }}">
@@ -344,6 +392,28 @@
           </div>
         </sc-if>
 
+        <sc-if value="{{ q.isHlText }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:15.5px;line-height:2.1;padding:12px 14px;border-radius:8px;border:1px solid var(--color-neutral-700);background:var(--color-bg);">
+            <sc-for list="{{ q.hlSegs }}" as="h" hint-placeholder-count="3">
+              <sc-if value="{{ h.isText }}" hint-placeholder-val="{{ true }}"><span>{{ h.text }}</span></sc-if>
+              <sc-if value="{{ h.isPick }}" hint-placeholder-val="{{ false }}"><span role="button" tabindex="0" onClick="{{ h.onClick }}" style="padding:1px 3px;border-radius:4px;cursor:pointer;-webkit-box-decoration-break:clone;box-decoration-break:clone;background:{{ h.bg }};border:1px {{ h.bs }} {{ h.bd }};">{{ h.t }}{{ h.note }}</span></sc-if>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ q.isHlTable }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:4px;overflow-x:auto;font-size:13.5px;">
+            <div style="display:grid;grid-template-columns:{{ q.hlGtc }};gap:8px;padding:4px 10px;color:var(--color-neutral-400);font-size:12px;">
+              <sc-for list="{{ q.hlHead }}" as="hh" hint-placeholder-count="3"><span>{{ hh }}</span></sc-for>
+            </div>
+            <sc-for list="{{ q.hlRows }}" as="hr" hint-placeholder-count="4">
+              <button onClick="{{ hr.onClick }}" style="display:grid;grid-template-columns:{{ q.hlGtc }};gap:8px;text-align:left;padding:7px 10px;border-radius:6px;cursor:pointer;font:inherit;font-size:13.5px;color:var(--color-text);background:{{ hr.bg }};border:1px {{ hr.bs }} {{ hr.bd }};">
+                <sc-for list="{{ hr.cells }}" as="cell" hint-placeholder-count="3"><span>{{ cell }}</span></sc-for>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+
         <sc-if value="{{ q.isOrder }}" hint-placeholder-val="{{ false }}">
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div style="font-size:12px;color:var(--color-neutral-400);">Your sequence — tap a step to remove it</div>
@@ -375,7 +445,7 @@
               <div style="display:grid;grid-template-columns:{{ q.gtc }};gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--color-neutral-800);">
                 <span style="font-size:14px;color:{{ r.fg }};">{{ r.t }}</span>
                 <sc-for list="{{ r.cells }}" as="cl" hint-placeholder-count="2">
-                  <button onClick="{{ cl.onClick }}" aria-label="{{ cl.label }}" style="justify-self:center;width:22px;height:22px;border-radius:50%;cursor:pointer;padding:0;border:1.5px solid {{ cl.bd }};background:{{ cl.mf }};"></button>
+                  <button onClick="{{ cl.onClick }}" aria-label="{{ cl.label }}" style="justify-self:center;width:22px;height:22px;border-radius:{{ cl.mr }};cursor:pointer;padding:0;border:1.5px solid {{ cl.bd }};background:{{ cl.mf }};"></button>
                 </sc-for>
               </div>
             </sc-for>
@@ -393,6 +463,54 @@
                 </select>
               </sc-if>
             </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ q.isDnd }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="font-size:16px;line-height:2.4;">
+              <sc-for list="{{ q.dsegs }}" as="sg" hint-placeholder-count="3">
+                <sc-if value="{{ sg.isText }}" hint-placeholder-val="{{ true }}"><span>{{ sg.text }}</span></sc-if>
+                <sc-if value="{{ sg.isBlank }}" hint-placeholder-val="{{ false }}"><button onClick="{{ sg.onClick }}" style="display:inline;font:inherit;font-size:14.5px;padding:2px 10px;border-radius:6px;cursor:pointer;color:var(--color-text);background:{{ sg.bg }};border:1.5px {{ sg.bs }} {{ sg.bd }};">{{ sg.label }}</button></sc-if>
+              </sc-for>
+            </div>
+            <div style="font-size:12px;color:var(--color-neutral-400);">{{ q.dndHint }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <sc-for list="{{ q.pool }}" as="tk" hint-placeholder-count="4">
+                <button onClick="{{ tk.onClick }}" style="padding:6px 12px;border-radius:8px;cursor:pointer;font:inherit;font-size:14px;color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-neutral-600);opacity:{{ tk.op }};">{{ tk.t }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ q.isDdt }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;overflow-x:auto;font-size:14px;">
+            <div style="display:grid;grid-template-columns:{{ q.tgtc }};gap:10px;padding:6px 0;font-size:12px;color:var(--color-neutral-400);">
+              <sc-for list="{{ q.thead }}" as="th" hint-placeholder-count="2"><span>{{ th }}</span></sc-for>
+            </div>
+            <sc-for list="{{ q.trows }}" as="tr" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:{{ q.tgtc }};gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--color-neutral-800);">
+                <sc-for list="{{ tr.cells }}" as="sg" hint-placeholder-count="2">
+                  <sc-if value="{{ sg.isText }}" hint-placeholder-val="{{ true }}"><span>{{ sg.text }}</span></sc-if>
+                  <sc-if value="{{ sg.isBlank }}" hint-placeholder-val="{{ false }}">
+                    <select value="{{ sg.val }}" onChange="{{ sg.onChange }}" disabled="{{ sg.locked }}" style="font:inherit;font-size:13.5px;padding:4px 8px;border-radius:6px;background:var(--color-bg);color:var(--color-text);border:1px solid {{ sg.bd }};max-width:100%;">
+                      <option value="">Select…</option>
+                      <sc-for list="{{ sg.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.t }}</option></sc-for>
+                    </select>
+                  </sc-if>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ q.isCalc }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+              <input type="text" inputmode="decimal" autocomplete="off" value="{{ q.calcVal }}" onInput="{{ q.onCalc }}" disabled="{{ q.calcLocked }}" placeholder="Your answer" style="font:inherit;font-size:17px;width:150px;padding:8px 12px;border-radius:8px;background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-neutral-600);">
+              <span style="font-size:15px;color:var(--color-neutral-200);">{{ q.unit }}</span>
+            </div>
+            <div style="font-size:12.5px;color:var(--color-neutral-400);">Numbers only. {{ q.roundNote }}</div>
           </div>
         </sc-if>
 
@@ -472,6 +590,7 @@
       <sc-if value="{{ checked }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;flex-direction:column;gap:14px;padding:18px 20px;border-radius:12px;border:1px solid {{ fb.bd }};background:var(--color-bg);">
           <div style="font-size:17px;color:{{ fb.fg }};">{{ fb.title }}</div>
+          <sc-if value="{{ fb.hasScore }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--color-neutral-400);">{{ fb.scoreLine }}</div></sc-if>
           <sc-if value="{{ fb.hasFollow }}" hint-placeholder-val="{{ false }}">
             <div style="font-size:13.5px;color:var(--color-accent-100);padding:8px 12px;border-radius:8px;background:var(--color-accent-900);border:1px solid var(--color-accent-700);">{{ fb.follow }}</div>
           </sc-if>
@@ -512,6 +631,14 @@
               </sc-if>
               <sc-if value="{{ fb.hasRule }}" hint-placeholder-val="{{ true }}">
                 <div class="fbsec fbrule"><div class="fbh">Rule to carry into the exam</div><div class="fbt">{{ fb.rule }}</div></div>
+              </sc-if>
+              <sc-if value="{{ fb.hasTags }}" hint-placeholder-val="{{ false }}">
+                <div class="fbsec"><div class="fbh">How this question is built</div>
+                  <sc-for list="{{ fb.tags }}" as="tg" hint-placeholder-count="3">
+                    <div style="font-size:13.5px;color:var(--color-neutral-200);"><b style="color:var(--color-accent-200);font-weight:500;">{{ tg.h }}.</b> {{ tg.t }}</div>
+                  </sc-for>
+                  <a href="NCLEX Strategies.html" style="font-size:12.5px;">Every strategy and question type, explained →</a>
+                </div>
               </sc-if>
               <sc-if value="{{ fb.hasTerms }}" hint-placeholder-val="{{ false }}">
                 <div style="display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:1px solid var(--color-neutral-800);">
@@ -725,6 +852,7 @@ const REASONS = [
   ['do', 'Didn’t know what to do (nursing action)', 2],
   ['mech', 'Didn’t understand the mechanism / why', 1],
   ['fact', 'Didn’t know the fact or normal value', -1],
+  ['calc', 'Math or rounding slip', -1],
   ['cue', 'Missed a cue in the scenario', 3],
   ['prio', 'Knew it, but picked the wrong priority', 2],
   ['read', 'Misread what the question asked', -1],
@@ -732,7 +860,28 @@ const REASONS = [
   ['guess', 'Never learned this — pure guess', -1]
 ];
 const RLABEL = {}; REASONS.forEach(r => { RLABEL[r[0]] = r[1]; });
-const KIND_LABEL = { single: 'Choose one', sata: 'Select all that apply', order: 'Put the steps in order', matrix: 'Matrix — one answer per row', cloze: 'Drop-down — fill each blank', bow: 'Bow-tie — condition, actions, monitoring' };
+// Drug questions built from templates: the clinical judgment skill and strategies each template tests.
+const GEN_TAGS = { use: ['ac', ['pharm', 'subject']], how: ['ac', ['pharm']], check: ['rc', ['pharm', 'assess']], se: ['eo', ['pharm']], sae: ['rc', ['pharm', 'abnormal']], rescue: ['ta', ['pharm', 'safety']] };
+// A case study's chart at step i: every section added so far, merged by heading; what this step adds is marked.
+function caseEx(cs, i) {
+  const out = [];
+  cs.steps.slice(0, i + 1).forEach((st, j) => (st.add || []).forEach(e => {
+    const old = out.find(o => o.h0 === e.h), mark = j === i && i > 0;
+    if (!old) { out.push({ h0: e.h, h: e.h + (mark ? ' · new' : ''), lines: (e.lines || []).slice(), table: (e.table || []).map(r => r.slice()) }); return; }
+    const t = e.table || [];
+    old.lines = old.lines.concat(e.lines || []);
+    old.table = old.table.concat(old.table.length && t.length && t[0].join('|') === old.table[0].join('|') ? t.slice(1) : t);
+    if (mark) old.h = e.h + ' · updated';
+  }));
+  return out.map(o => ({ h: o.h, lines: o.lines, table: o.table.length ? o.table : undefined }));
+}
+const KIND_LABEL = { single: 'Choose one', sata: 'Select all that apply', order: 'Put the steps in order', matrix: 'Matrix — one answer per row', mmatrix: 'Matrix — one or more answers per row', cloze: 'Drop-down — fill each blank', bow: 'Bow-tie — condition, actions, monitoring', group: 'Grouping — select all that apply in each group', calc: 'Fill in the blank — type a number' };
+// The question file's format (f) → how the test shows and scores it. Formats not listed are single answer or select-all.
+const KIND_OF = { sata: 'sata', matrix: 'matrix', order: 'order', bow: 'bow', cloze: 'cloze', hl: 'hl', hlt: 'hl', selectn: 'selectn', mmatrix: 'mmatrix', group: 'group', dnd: 'cloze', ddr: 'cloze', dndr: 'cloze', ddt: 'cloze', calc: 'calc' };
+const kindLabel = P => P.kind === 'hl' ? (P.hlTable ? 'Highlight in table — tap each row that applies' : 'Highlight in text — tap each part that applies')
+  : P.kind === 'selectn' ? 'Select ' + P.n + ' — exactly ' + P.n
+  : P.kind === 'cloze' && P.rat ? (P.dnd ? 'Drag-and-drop rationale — the blanks are linked' : 'Drop-down rationale — the blanks are linked')
+  : P.kind === 'cloze' && P.dnd ? 'Drag and drop — place a word in each blank' : P.kind === 'cloze' && P.table ? 'Drop-down in table — fill each blank cell' : KIND_LABEL[P.kind];
 const STOP = new Set('which client nurse following select apply should would patient these there about after before their other first while being client\u2019s during given order provider most likely statement complete indicate whether finding findings action actions'.split(' '));
 
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -745,35 +894,59 @@ function plusMinus(choices, sel) {
   choices.forEach(c => { if (sel && sel[c.k]) s += c.c ? 1 : -1; });
   return Math.max(0, s) / Math.max(1, n);
 }
-function score(P, R) {
-  if (R == null) return 0;
+// Points as the NCLEX gives them (NCSBN): +/− for select-all, highlight, grouping and the multiple-response matrix;
+// 0/1 for select-N, drop-down and drag-and-drop cloze, drop-down in table, the multiple-choice matrix and the bow-tie;
+// rationale scoring for linked blanks (a point only when both parts of a pair are right); right-or-wrong for the
+// traditional items (single answer, hot spot, ordered response, calculation). Returns [points, possible, rule].
+const pmSum = (choices, sel) => { let s = 0; choices.forEach(c => { if (sel && sel[c.k]) s += c.c ? 1 : -1; }); return Math.max(0, s); };
+const blankOk = (sg, R) => { const o = sg.opts.find(o => o.k === (R || {})[sg.blank]); return !!(o && o.c); };
+const rowOk = (P, r, R) => { const x = (R || {})[r.k] || {}; return P.cols.every((c, ci) => !!x[ci] === r.a.includes(ci)); };
+const calcVal = v => { const t = String(v == null ? '' : v).trim().replace(/,/g, ''); return /^-?\d*\.?\d+$/.test(t) ? parseFloat(t) : NaN; };
+const calcOk = (P, R) => { const v = calcVal(R); return !isNaN(v) && Math.abs(v - P.ans) < 1e-9; };
+function points(P, R) {
+  const none = R == null;
   switch (P.kind) {
-    case 'single': return P.choices.some(c => c.c && c.k === R) ? 1 : 0;
-    case 'sata': return plusMinus(P.choices, R);
-    case 'order': { let s = 0; R.forEach((k, pos) => { const c = P.choices.find(c => c.k === k); if (c && c.rank === pos) s++; }); return s / P.choices.length; }
-    case 'matrix': return P.rows.filter(r => R[r.k] === r.a).length / P.rows.length;
-    case 'cloze': { const bl = P.segs.filter(s => s.opts); return bl.filter(s => { const o = s.opts.find(o => o.k === R[s.blank]); return o && o.c; }).length / Math.max(1, bl.length); }
-    case 'bow': { let tot = 0, s = 0; P.groups.forEach(g => { const r = R[g.g]; tot += g.need; if (r == null) return; s += g.multi ? plusMinus(g.choices, r) * g.need : (g.choices.some(c => c.c && c.k === r) ? 1 : 0); }); return s / Math.max(1, tot); }
+    case 'single': return [!none && P.choices.some(c => c.c && c.k === R) ? 1 : 0, 1, 'dich'];
+    case 'sata': case 'hl': return [none ? 0 : pmSum(P.choices, R), P.choices.filter(c => c.c).length, 'pm'];
+    case 'selectn': return [none ? 0 : P.choices.filter(c => c.c && R[c.k]).length, P.n, 'zo'];
+    case 'order': return [!none && P.choices.every(c => R[c.rank] === c.k) ? 1 : 0, 1, 'dich'];
+    case 'matrix': return [none ? 0 : P.rows.filter(r => R[r.k] === r.a).length, P.rows.length, 'zo'];
+    case 'mmatrix': { let s = 0, n = 0; P.rows.forEach(r => { n += r.a.length; const x = (R || {})[r.k] || {}; P.cols.forEach((c, ci) => { if (x[ci]) s += r.a.includes(ci) ? 1 : -1; }); }); return [Math.max(0, s), n, 'pm']; }
+    case 'cloze': {
+      const bl = P.segs.filter(sg => sg.opts);
+      if (P.rat) { const ok = bl.map(sg => !none && blankOk(sg, R)), pairs = bl.length > 2 ? [[0, 1], [0, 2]] : [[0, 1]]; return [pairs.filter(([a, b]) => ok[a] && ok[b]).length, pairs.length, 'rat']; }
+      return [none ? 0 : bl.filter(sg => blankOk(sg, R)).length, bl.length, 'zo'];
+    }
+    case 'bow': { let s = 0, n = 0; P.groups.forEach(g => { n += g.need; const r = none ? null : R[g.g]; if (r == null) return; s += g.multi ? g.choices.filter(c => c.c && r[c.k]).length : (g.choices.some(c => c.c && c.k === r) ? 1 : 0); }); return [s, n, 'zo']; }
+    case 'group': { let s = 0, n = 0; P.groups.forEach(g => { n += g.need; s += pmSum(g.choices, none ? null : R[g.g]); }); return [s, n, 'pm']; }
+    case 'calc': return [!none && calcOk(P, R) ? 1 : 0, 1, 'dich'];
   }
-  return 0;
+  return [0, 1, 'dich'];
 }
+function score(P, R) { const [s, n] = points(P, R); return s / Math.max(1, n); }
 function answered(P, R) {
   if (R == null) return false;
   if (P.kind === 'single') return true;
-  if (P.kind === 'sata') return Object.values(R).some(Boolean);
+  if (P.kind === 'sata' || P.kind === 'hl') return Object.values(R).some(Boolean);
+  if (P.kind === 'selectn') return Object.values(R).filter(Boolean).length === P.n;
   if (P.kind === 'order') return R.length === P.choices.length;
   if (P.kind === 'matrix') return P.rows.every(r => R[r.k] != null);
+  if (P.kind === 'mmatrix') return P.rows.every(r => R[r.k] && Object.values(R[r.k]).some(Boolean));
   if (P.kind === 'cloze') return P.segs.filter(s => s.opts).every(s => R[s.blank] != null);
-  if (P.kind === 'bow') return P.groups.every(g => R[g.g] != null && (!g.multi || Object.values(R[g.g]).some(Boolean)));
+  if (P.kind === 'bow') return P.groups.every(g => R[g.g] != null && (!g.multi || Object.values(R[g.g]).filter(Boolean).length === g.need));
+  if (P.kind === 'group') return P.groups.every(g => R[g.g] && Object.values(R[g.g]).some(Boolean));
+  if (P.kind === 'calc') return !isNaN(calcVal(R));
   return false;
 }
 function correctText(P) {
   switch (P.kind) {
-    case 'single': case 'sata': return P.choices.filter(c => c.c).map(c => c.t).join('\n');
+    case 'single': case 'sata': case 'hl': case 'selectn': return P.choices.filter(c => c.c).map(c => c.t).join('\n');
     case 'order': return P.choices.slice().sort((a, b) => a.rank - b.rank).map((c, i) => (i + 1) + '. ' + c.t).join('\n');
     case 'matrix': return P.rows.map(r => r.t + ' → ' + P.cols[r.a]).join('\n');
+    case 'mmatrix': return P.rows.map(r => r.t + ' → ' + r.a.map(ci => P.cols[ci]).join(' + ')).join('\n');
     case 'cloze': return P.segs.map(s => s.opts ? '[' + s.opts.find(o => o.c).t + ']' : s.text).join('');
-    case 'bow': return P.groups.map(g => g.short + ': ' + g.choices.filter(c => c.c).map(c => c.t).join('; ')).join('\n');
+    case 'bow': case 'group': return P.groups.map(g => g.short + ': ' + g.choices.filter(c => c.c).map(c => c.t).join('; ')).join('\n');
+    case 'calc': return P.ans + (P.unit ? ' ' + P.unit : '');
   }
   return '';
 }
@@ -781,9 +954,12 @@ function yourText(P, R) {
   if (R == null) return 'No answer';
   switch (P.kind) {
     case 'single': { const c = P.choices.find(c => c.k === R); return c ? c.t : 'No answer'; }
-    case 'sata': return P.choices.filter(c => R[c.k]).map(c => c.t).join('\n') || 'No answer';
+    case 'sata': case 'hl': case 'selectn': return P.choices.filter(c => R[c.k]).map(c => c.t).join('\n') || 'No answer';
     case 'order': return R.map((k, i) => (i + 1) + '. ' + (P.choices.find(c => c.k === k) || {}).t).join('\n') || 'No answer';
     case 'matrix': return P.rows.map(r => r.t + ' → ' + (R[r.k] != null ? P.cols[R[r.k]] : '—')).join('\n');
+    case 'mmatrix': return P.rows.map(r => r.t + ' → ' + (P.cols.filter((c, ci) => (R[r.k] || {})[ci]).join(' + ') || '—')).join('\n');
+    case 'group': return P.groups.map(g => g.short + ': ' + (g.choices.filter(c => (R[g.g] || {})[c.k]).map(c => c.t).join('; ') || '—')).join('\n');
+    case 'calc': return String(R).trim() + (P.unit ? ' ' + P.unit : '');
     case 'cloze': return P.segs.map(s => s.opts ? '[' + ((s.opts.find(o => o.k === R[s.blank]) || {}).t || '—') + ']' : s.text).join('');
     case 'bow': return P.groups.map(g => { const r = R[g.g]; const pick = r == null ? [] : g.multi ? g.choices.filter(c => r[c.k]) : g.choices.filter(c => c.k === r); return g.short + ': ' + (pick.map(c => c.t).join('; ') || '—'); }).join('\n');
   }
@@ -801,7 +977,7 @@ function cardFront(b) {
     const sentence = (b.parts || []).map(p => typeof p === 'string' ? p : '(' + (++n) + ') ________').join('');
     stem = sentence;
     n = 0;
-    (b.parts || []).forEach(p => { if (p && typeof p === 'object') { n++; groups.push({ h: 'Blank (' + n + ') — pick one', items: mix(p.o, b.id + '|' + n) }); } });
+    (b.parts || []).forEach(p => { if (p && typeof p === 'object') { n++; groups.push({ h: 'Blank (' + n + ') — pick one', items: mix(p.o || b.tokens || [], b.id + '|' + n) }); } });
   } else if (b.kind === 'single' || b.kind === 'sata') {
     groups.push({ h: b.kind === 'sata' ? 'Options — select all that apply' : 'Options — choose one', items: mix(b.o || [], b.id).map((t, i) => b.src === 'hot' ? t : LET[i] + '. ' + t) });
   } else if (b.kind === 'order') {
@@ -881,7 +1057,7 @@ function inferWhy(P, R, b) {
   const sel = (c, isSel) => isSel(c);
   switch (P.kind) {
     case 'single': { const isSel = c => c.k === R; choiceWhy(P.choices.filter(c => sel(c, isSel) && !c.c), [], P.choices.filter(c => c.c)); break; }
-    case 'sata': { const isSel = c => !!R[c.k]; choiceWhy(P.choices.filter(c => isSel(c) && !c.c), P.choices.filter(c => !isSel(c) && c.c), P.choices.filter(c => c.c)); break; }
+    case 'sata': case 'hl': case 'selectn': { const isSel = c => !!R[c.k]; choiceWhy(P.choices.filter(c => isSel(c) && !c.c), P.choices.filter(c => !isSel(c) && c.c), P.choices.filter(c => c.c)); break; }
     case 'order': {
       const seq = Array.isArray(R) ? R : [];
       const bad = P.choices.slice().sort((a, b) => a.rank - b.rank).find(c => seq.indexOf(c.k) !== c.rank);
@@ -895,6 +1071,17 @@ function inferWhy(P, R, b) {
       if (P.phys) add('mech', 'The idea behind every row: ' + firstSentences(P.phys, 1));
       break;
     }
+    case 'mmatrix': {
+      const bad = P.rows.filter(r => !rowOk(P, r, R));
+      if (bad[0]) add(CUE_STEM.test(q) ? 'cue' : 'mech', qt(bad[0].t) + ' goes with ' + bad[0].a.map(ci => P.cols[ci]).join(' and ') + ': ' + why(bad[0]) + (bad.length > 1 ? ' (' + (bad.length - 1) + ' more row' + (bad.length > 2 ? 's' : '') + ' below.)' : ''));
+      if (P.phys) add('mech', 'The idea behind every row: ' + firstSentences(P.phys, 1));
+      break;
+    }
+    case 'group': P.groups.forEach(g => {
+      const r = R[g.g] || {}, w = g.choices.find(c => r[c.k] && !c.c), m = g.choices.find(c => !r[c.k] && c.c), c = w || m;
+      if (c) add(CUE_STEM.test(q) ? 'cue' : 'do', g.short + ': ' + (w ? 'you chose ' : 'you left out ') + qt(c.t) + ' — ' + why(c));
+    }); break;
+    case 'calc': add('calc', 'Set it up again: ' + (P.work || '') + ' The answer is ' + P.ans + (P.unit ? ' ' + P.unit : '') + '.'); break;
     case 'cloze': {
       let n = 0, bad = null, bn = 0;
       P.segs.forEach(sg => { if (!sg.opts) return; n++; const o = sg.opts.find(o => o.k === R[sg.blank]); if (!bad && !(o && o.c)) { bad = sg; bn = n; } });
@@ -930,7 +1117,10 @@ function breakdown(P, R) {
   const choiceItems = (choices, isSel, multi) => choices.map(c => { const sel = isSel(c); return fbItem(c.t, c.c, pickTag(sel, c.c, multi), c.r, sel && c.c); });
   switch (P.kind) {
     case 'single': return { optHead: 'Every option, explained', groups: [{ hasLabel: false, items: choiceItems(P.choices, c => c.k === R, false) }] };
-    case 'sata': return { optHead: 'Every option, explained', groups: [{ hasLabel: false, items: choiceItems(P.choices, c => !!R[c.k], true) }] };
+    case 'sata': case 'hl': case 'selectn': return { optHead: P.kind === 'hl' ? 'Every highlightable part, explained' : 'Every option, explained', groups: [{ hasLabel: false, items: choiceItems(P.choices, c => !!R[c.k], true) }] };
+    case 'mmatrix': return { optHead: 'Each row, explained', groups: [{ hasLabel: false, items: P.rows.map(r => { const ok = rowOk(P, r, R), mine = P.cols.filter((c, ci) => (R[r.k] || {})[ci]); return fbItem(r.t + ' → ' + r.a.map(ci => P.cols[ci]).join(' + '), ok, ok ? '' : 'You said: ' + (mine.join(' + ') || '—'), r.r); }) }] };
+    case 'group': return { optHead: 'Every choice, explained', groups: P.groups.map(g => { const r = R[g.g] || {}; return { hasLabel: true, label: g.short, items: choiceItems(g.choices, c => !!r[c.k], true) }; }) };
+    case 'calc': { const ok = calcOk(P, R); return { optHead: 'The math, step by step', groups: [{ hasLabel: false, items: [fbItem(P.ans + (P.unit ? ' ' + P.unit : ''), ok, ok ? '' : 'You typed: ' + (String(R == null ? '' : R).trim() || '—'), P.work)] }] }; }
     case 'order': {
       const seq = Array.isArray(R) ? R : [];
       const items = P.choices.slice().sort((a, b) => a.rank - b.rank).map(c => { const at = seq.indexOf(c.k), ok = at === c.rank; return fbItem((c.rank + 1) + '. ' + c.t, ok, ok ? '' : at < 0 ? 'Not placed' : 'You put it #' + (at + 1), c.r); });
@@ -940,7 +1130,7 @@ function breakdown(P, R) {
     case 'cloze': {
       let n = 0;
       const items = P.segs.filter(sg => sg.opts).map(sg => { n++; const right = sg.opts.find(o => o.c), mine = sg.opts.find(o => o.k === R[sg.blank]); const ok = !!(mine && mine.c); return fbItem('Blank ' + n + ': ' + right.t, ok, ok ? '' : 'You chose: ' + (mine ? mine.t : '—'), sg.r); });
-      return { optHead: 'Each blank, explained', groups: [{ hasLabel: false, items }] };
+      return { optHead: P.rat ? 'Each blank, explained — they are linked, so a pair scores only when both are right' : 'Each blank, explained', groups: [{ hasLabel: false, items }] };
     }
     case 'bow': return { optHead: 'Every choice, explained', groups: P.groups.map(g => { const r = R[g.g]; return { hasLabel: true, label: g.label, items: choiceItems(g.choices, c => r == null ? false : g.multi ? !!r[c.k] : c.k === r, g.multi) }; }) };
   }
@@ -975,7 +1165,7 @@ function termsFor(P) {
 // ---------- Mastery test: one adaptive test, follow-ups on misses, a report and a study map ----------
 const LENS = [20, 40, 60];
 const REDO_N = 10; // misses per redo round
-const FMT_LABEL = { ngn: 'NGN', trad: 'Traditional', drug: 'Drug question', myth: 'Myth check', recall: 'Active recall' };
+const FMT_LABEL = { ngn: 'NGN', trad: 'Traditional', case: 'Case study', drug: 'Drug question', myth: 'Myth check', recall: 'Active recall' };
 // The mix a test aims for, so every format keeps coming up.
 const MIX = { ngn: 0.30, trad: 0.28, drug: 0.22, myth: 0.08, recall: 0.12 };
 const NODE_NAME = {}; NODES.forEach(n => { NODE_NAME[n[0]] = n[1]; });
@@ -998,7 +1188,7 @@ const MCOL = {
 const eff = (T, id) => (T.scores[id] || 0) * (T.conf[id] === 'guess' ? 0.5 : 1);
 
 class Component extends DCLogic {
-  state = { ready: false, S: null, draft: '', missNote: '' };
+  state = { ready: false, S: null, draft: '', missNote: '', slot: null };
 
   componentDidMount() {
     const t0 = Date.now();
@@ -1075,6 +1265,12 @@ class Component extends DCLogic {
       (window.EXTRA_Q[ch] || []).forEach((x, i) => push(x, ch + '|x|' + i, ch, x.f || 'mcq'));
     });
     (window.NGN_EXTRA['33'] || []).forEach((x, i) => { if (to34(x, 'n')) push(x, '33|n|' + i, '34', x.f); });
+    // Unfolding case studies: six items on one client, asked in order; the chart grows as the story unfolds.
+    // They run only as a case (startCase), never mixed into a regular test.
+    (window.CASES || []).forEach(cs => cs.steps.forEach((x, i) => {
+      push(Object.assign({}, x, { ex: caseEx(cs, i).concat(x.ex || []) }), 'cs|' + cs.id + '|' + i, cs.ch, x.f || 'mcq');
+      Object.assign(bank[bank.length - 1], { cs: cs.id, csStep: i });
+    }));
     ((window.RECALL_EXTRA['33'] || {}).nclex || []).forEach((x, i) => { if (to34(x, 'c')) push(x, '33|c|' + i, '34', 'mcq'); });
 
     // Every drug, with its broken-down explanation layered on.
@@ -1086,18 +1282,19 @@ class Component extends DCLogic {
       return names.length ? { d, re: new RegExp('\\b(' + [...new Set(names)].map(esc).join('|') + ')\\b', 'i') } : null;
     }).filter(Boolean);
     bank.forEach(b => {
-      const txt = [b.t, b.q, JSON.stringify(b.o || b.rows || b.parts || [b.cond, b.act, b.mon]), b.rule0, b.phys0].join(' ');
-      b.txt = txt; b.words = words(b.t + ' ' + b.q + ' ' + b.rule0 + ' ' + b.phys0 + ' ' + JSON.stringify(b.o || b.rows || b.parts || ''));
+      const body = JSON.stringify(b.o || b.rows || b.parts || b.groups || [b.cond, b.act, b.mon]) + (b.tokens ? ' ' + b.tokens.join(' ') : '');
+      const txt = [b.t, b.q, body, b.rule0, b.phys0].join(' ');
+      b.txt = txt; b.words = words(b.t + ' ' + b.q + ' ' + b.rule0 + ' ' + b.phys0 + ' ' + body);
       const k = b.src;
-      b.kind = ['sata', 'matrix', 'order', 'bow', 'cloze'].includes(k) ? k : (Array.isArray(b.a) && b.a.length > 1 ? 'sata' : 'single');
-      b.fmt = b.id.indexOf('|n|') > 0 ? 'ngn' : 'trad';
+      b.kind = KIND_OF[k] || (Array.isArray(b.a) && b.a.length > 1 ? 'sata' : 'single');
+      b.fmt = b.cs ? 'case' : b.id.indexOf('|n|') > 0 ? 'ngn' : 'trad';
       b.drugs = drugRe.filter(x => x.re.test(txt)).map(x => x.d);
       b.skill = (b.drugs.length || CLASS_RE.test(txt)) ? SKILLS[0]
         : (b.kind === 'order' || b.kind === 'bow' || /priorit|first|immediate|best action|which client|sees? first|unsafe|report/i.test(b.q)) ? SKILLS[2]
         : (b.kind === 'cloze' || b.kind === 'matrix' || /\bwhy\b|mechanism|because|caus|explain/i.test(b.q)) ? SKILLS[1] : SKILLS[3];
       b.topics = this.topicsFor(txt, b.ch); b.nodes = this.nodesFor(txt, b.ch);
     });
-    const pool = bank.slice();
+    const caseItems = bank.filter(b => b.cs), pool = bank.filter(b => !b.cs);
 
     // Drug questions, generated fresh each time (new wrong options every time you see one).
     DRUGS.forEach(d => {
@@ -1130,7 +1327,7 @@ class Component extends DCLogic {
 
     // Subtopics and the off-guide check use what a question actually asks — stem, right answer(s), rule — not its wrong options.
     const coreTxt = x => !x.bank ? (x.txt || '') : [x.t, x.q, (x.o || []).filter((o, i) => (Array.isArray(x.a) ? x.a : [x.a]).includes(i)).join(' '), x.rule0, x.phys0,
-      x.rows ? x.rows.map(r => r.t).join(' ') : '', x.parts ? JSON.stringify(x.parts) : '', x.cond ? JSON.stringify([x.cond, x.act, x.mon]) : ''].join(' ');
+      x.rows ? x.rows.map(r => r.t || (r.cells || []).join(' ')).join(' ') : '', x.parts ? JSON.stringify(x.parts) : '', x.cond ? JSON.stringify([x.cond, x.act, x.mon]) : '', x.groups ? JSON.stringify(x.groups) : ''].join(' ');
     pool.forEach(x => {
       const c = coreTxt(x); x.guide = [];
       (x.chs || [x.ch]).forEach(ch => (GUIDE[ch] || []).forEach((g, i) => {
@@ -1139,7 +1336,16 @@ class Component extends DCLogic {
       }));
     });
     pool.forEach(x => { const c = coreTxt(x); x.sub = []; x.guide.forEach(k => (GUIDE_SUB[k] || []).forEach((g, i) => { if (g[1].test(c)) x.sub.push(k + '/' + i); })); });
-    this.byId = {}; pool.forEach(x => { this.byId[x.id] = x; });
+    caseItems.forEach(x => { x.guide = []; x.sub = []; });
+    // Each question's clinical judgment skill, Client Needs category and the strategies that crack it (data/…cj-tags.js).
+    const TAGS = window.CJ_TAGS || {};
+    pool.concat(caseItems).forEach(x => {
+      const t = TAGS[x.id] ? TAGS[x.id].split(' ') : x.cj ? [x.cj, x.cn, (x.st || []).join(',')] : null;
+      if (t) { x.cj = t[0]; x.cn = t[1] && t[1] !== '-' ? t[1] : ''; x.st = t[2] ? t[2].split(',') : []; return; }
+      if (x.gen) { const g = GEN_TAGS[x.tpl] || GEN_TAGS.use; x.cj = g[0]; x.cn = 'pharm'; x.st = g[1]; return; }
+      if (x.fmt === 'myth') { x.cj = 'ac'; x.cn = ''; x.st = ['absolute']; }
+    });
+    this.byId = {}; pool.forEach(x => { this.byId[x.id] = x; }); caseItems.forEach(x => { this.byId[x.id] = x; });
     const F = window.E2Focus, on = !!(F && F.active()), ids = on ? F.ids() : [];
     // A map focus that is the study-guide set runs the study-guide test itself (all 17 items, nothing off the guide).
     const sg = F && F.studyGuideIds ? F.studyGuideIds() : [];
@@ -1162,15 +1368,36 @@ class Component extends DCLogic {
   presentB(b) {
     const P = { id: b.id, ch: b.ch, kind: b.kind, t: b.t || '', q: b.q || '', rule: b.rule || '', phys: b.phys || '', ex: b.ex || null, fig: b.fig || null, ask: b.ask || '', cues: b.cues || [] };
     const corr = Array.isArray(b.a) ? b.a : [b.a];
-    if (b.kind === 'single' || b.kind === 'sata') P.choices = shuffle(b.o.map((t, i) => ({ k: i, t, r: (b.r || [])[i] || '', c: corr.includes(i) })));
+    if (b.kind === 'single' || b.kind === 'sata' || b.kind === 'selectn') P.choices = shuffle(b.o.map((t, i) => ({ k: i, t, r: (b.r || [])[i] || '', c: corr.includes(i) })));
+    if (b.kind === 'selectn') P.n = corr.length;
+    if (b.kind === 'hl') {
+      // Highlight: the parts you can tap are the choices, in reading order.
+      P.choices = []; const pickable = (t, c, r) => { P.choices.push({ k: P.choices.length, t, c: !!c, r: r || '' }); return P.choices.length - 1; };
+      if (b.parts) P.hlSegs = b.parts.map(p => typeof p === 'string' ? { text: p } : { k: pickable(p.h, p.c, p.r) });
+      else P.hlTable = { head: b.head || [], rows: b.rows.map(r => ({ cells: r.cells, k: pickable(r.cells.join(' · '), r.c, r.r) })) };
+    }
+    if (b.kind === 'group') P.groups = b.groups.map((x, i) => ({ g: 'g' + i, short: x.h, multi: true, need: x.a.length, label: x.h + ' — select all that apply', choices: shuffle(x.o.map((t, j) => ({ k: j, t, r: (x.r || [])[j] || '', c: x.a.includes(j) }))) }));
+    if (b.kind === 'calc') Object.assign(P, { ans: b.ans, unit: b.unit || '', dp: b.dp, work: b.work || '' });
+    P.trend = !!b.trend;
     if (b.kind === 'order') P.choices = shuffle(b.o.map((t, i) => ({ k: i, t, r: (b.r || [])[i] || '', rank: b.a.indexOf(i) })));
-    if (b.kind === 'matrix') { P.cols = b.cols; P.rows = b.rows.map((r, i) => ({ k: i, t: r.t, a: r.a, r: r.r || '' })); }
-    if (b.kind === 'cloze') P.segs = b.parts.map((p, i) => typeof p === 'string' ? { text: p } : { blank: i, r: p.r || '', opts: shuffle(p.o.map((t, j) => ({ k: j, t, c: j === p.a }))) });
+    if (b.kind === 'matrix' || b.kind === 'mmatrix') { P.cols = b.cols; P.rows = b.rows.map((r, i) => ({ k: i, t: r.t, a: r.a, r: r.r || '' })); }
+    if (b.kind === 'cloze') {
+      // Drag and drop: every blank draws from one shared word pool. Drop-down in table: the blanks sit in table cells.
+      if (b.tokens) { P.dnd = true; P.pool = shuffle(b.tokens.map((t, j) => ({ k: j, t }))); }
+      const blank = (p, i) => ({ blank: i, r: p.r || '', opts: b.tokens ? b.tokens.map((t, j) => ({ k: j, t, c: j === p.a })) : shuffle(p.o.map((t, j) => ({ k: j, t, c: j === p.a }))) });
+      if (b.head) {
+        let j = 100; P.table = true; P.thead = b.head; P.segs = [];
+        P.trows = b.rows.map(row => ({ cells: row.map(cell => { const sg = typeof cell === 'string' ? { text: cell + ' ' } : blank(cell, j++); P.segs.push(sg); return sg; }) }));
+        P.trows.forEach((r, i) => { if (i) P.segs.splice(P.segs.indexOf(r.cells[0]), 0, { text: '\n' }); });
+      } else P.segs = b.parts.map((p, i) => typeof p === 'string' ? { text: p } : blank(p, i));
+      P.rat = b.f === 'ddr' || b.f === 'dndr';
+    }
     if (b.kind === 'bow') P.groups = [['cond', 'Condition most likely', 'Condition', false], ['act', 'Actions to take', 'Actions', true], ['mon', 'Parameters to monitor', 'Monitor', true]].filter(g => b[g[0]]).map(([g, label, short, multi]) => {
       const x = b[g]; const a = Array.isArray(x.a) ? x.a : [x.a];
       return { g, short, multi, need: a.length, label: multi ? label + ' — choose ' + a.length : label, choices: shuffle(x.o.map((t, i) => ({ k: i, t, r: (x.r || [])[i] || '', c: a.includes(i) }))) };
     });
-    if (b.kind === 'cloze' && /^complete the statement\.?$/i.test(P.q.trim())) P.q = 'Pick the right choice for each blank in the sentence below.';
+    if (b.kind === 'cloze' && !b.tokens && !b.head && /^complete the statement\.?$/i.test(P.q.trim())) P.q = 'Pick the right choice for each blank in the sentence below.';
+    if (b.cs) { const cs = (window.CASES || []).find(c => c.id === b.cs); P.cs = { title: cs.title, n: b.csStep + 1, of: cs.steps.length }; }
     return P;
   }
   present(it) {
@@ -1306,7 +1533,7 @@ class Component extends DCLogic {
   // kind: 'next' carries on with the misses not tried yet, 'shaky' redoes the ones still shaky, 'all' starts over.
   redoState() {
     const S = this.state.S, R = S.report; if (!R) return null;
-    const onGuide = id => !this.guideMode || (this.byId[id].guide || []).length || this.byId[id].bank && OFF_GUIDE_PICKS[this.byId[id].ch];
+    const onGuide = id => !this.guideMode || !!this.byId[id].cs || (this.byId[id].guide || []).length || this.byId[id].bank && OFF_GUIDE_PICKS[this.byId[id].ch];
     const all = (R.recs || []).filter(r => r.e < 1).sort((a, b) => a.e - b.e).map(r => r.id).filter(id => this.byId[id] && onGuide(id));
     const P = S.practice && S.practice.from === R.no && Array.isArray(S.practice.rest) ? S.practice : null;
     return { R, all, P, rest: P ? P.rest.filter(id => this.byId[id]) : all, shaky: P ? P.shaky.filter(id => this.byId[id]) : [], fixed: P ? P.fixed : [] };
@@ -1349,7 +1576,7 @@ class Component extends DCLogic {
     const L = S.log[x.id] || {}, n = T.items.length || 1;
     const share = T.items.filter(p => (this.byId[p.id] || {}).fmt === x.fmt).length / n;
     // The case-style NGN items (matrix, cloze, bow-tie, ordering) are few, so they get a nudge to keep turning up.
-    const caseBonus = ['matrix', 'cloze', 'bow', 'order'].includes(x.kind) ? 1.8 : 0;
+    const caseBonus = ['matrix', 'mmatrix', 'cloze', 'bow', 'order', 'hl', 'selectn', 'group', 'calc'].includes(x.kind) ? 1.8 : 0;
     return caseBonus + Math.random() * 1.5 - (L.seen || 0) * 1.0 - (L.lastTest && L.lastTest === T.no - 1 ? 4 : 0) - (L.last === 1 && (L.seen || 0) >= 2 ? 2.5 : 0) + 6 * ((MIX[x.fmt] || 0.1) - (T.items.length ? share : 0));
   }
 
@@ -1407,7 +1634,21 @@ class Component extends DCLogic {
     return P;
   }
 
+  // An unfolding case study: its six items in order, no follow-ups in between (the report still lists the misses).
+  startCase(id) {
+    const cs = (window.CASES || []).find(c => c.id === id); if (!cs) return;
+    if (this.state.S.test && !window.confirm('Discard the test in progress and start this case study?')) return;
+    this.upd(S => {
+      S.testNo = (S.testNo || 0) + 1;
+      const T = { no: S.testNo, cs: id, len: cs.steps.length, base: 0, items: [], resp: {}, scores: {}, checked: {}, conf: {}, why: {}, follow: {}, depth: {}, revealed: {}, queue: [], followN: 0, focus: 'Case study · ' + cs.title, at: Date.now() };
+      const P = this.nextItem(S, T); if (P) T.items.push(P);
+      S.test = T; S.phase = 'test';
+    });
+    this.setState({ draft: '', missNote: '', slot: null }); window.scrollTo(0, 0);
+  }
+
   pickBase(S, T) {
+    if (T.cs) { const it = this.byId['cs|' + T.cs + '|' + T.base]; return it ? this.present(it) : null; }
     if (T.redo) { const it = this.byId[T.redo[T.base]]; if (!it) return null; const P = this.present(it); T.root[P.id] = it.id; return P; }
     if (this.guideMode || T.drill) {
       const P = this.pickGuide(S, T); if (P) return P;
@@ -1437,7 +1678,10 @@ class Component extends DCLogic {
     const X = this.fresh(P); R = R == null ? {} : R; const parts = [];
     const add = c => parts.push(c.t + ' ' + (c.r || ''));
     if (P.kind === 'single') X.choices.forEach(c => { if ((c.k === R) !== c.c) add(c); });
-    else if (P.kind === 'sata') X.choices.forEach(c => { if (!!R[c.k] !== c.c) add(c); });
+    else if (P.kind === 'sata' || P.kind === 'hl' || P.kind === 'selectn') X.choices.forEach(c => { if (!!R[c.k] !== c.c) add(c); });
+    else if (P.kind === 'mmatrix') X.rows.forEach(r => { if (!rowOk(P, r, R)) add(r); });
+    else if (P.kind === 'group') X.groups.forEach(g => { const r = R[g.g] || {}; g.choices.forEach(c => { if (!!r[c.k] !== c.c) add(c); }); });
+    else if (P.kind === 'calc') parts.push(P.q + ' ' + (X.work || ''));
     else if (P.kind === 'order') X.choices.forEach(c => { if ((Array.isArray(R) ? R.indexOf(c.k) : -1) !== c.rank) add(c); });
     else if (P.kind === 'matrix') X.rows.forEach(r => { if (R[r.k] !== r.a) add(r); });
     else if (P.kind === 'cloze') X.segs.forEach(sg => { if (sg.opts) { const o = sg.opts.find(o => o.k === R[sg.blank]); if (!(o && o.c)) parts.push(sg.opts.find(o => o.c).t + ' ' + (sg.r || '')); } });
@@ -1477,7 +1721,14 @@ class Component extends DCLogic {
 
   cur() { const T = this.state.S.test; return T ? T.items[T.items.length - 1] : null; }
   setResp(fn) { this.upd(S => { const P = S.test.items[S.test.items.length - 1]; if (S.test.checked[P.id]) return; S.test.resp[P.id] = fn(S.test.resp[P.id], P); }); }
-  pick(P, k) { this.setResp(r => P.kind === 'single' ? k : Object.assign({}, r || {}, { [k]: !(r || {})[k] })); }
+  pick(P, k) {
+    this.setResp(r => {
+      if (P.kind === 'single') return k;
+      const n = Object.assign({}, r || {});
+      if (!n[k] && P.kind === 'selectn' && Object.values(n).filter(Boolean).length >= P.n) return n;
+      n[k] = !n[k]; return n;
+    });
+  }
   setConf(k) { this.upd(S => { const P = S.test.items[S.test.items.length - 1]; if (!S.test.checked[P.id]) S.test.conf[P.id] = k; }); }
 
   check() {
@@ -1533,6 +1784,7 @@ class Component extends DCLogic {
       if (e < 1 && T.tries[r] < 3) { const f = this.makeFollow(S, T, P, 0); f.root = r; f.due = done + 2; T.queue.push(f); }
       return;
     }
+    if (T.cs) return;
     const cap = Math.ceil(T.len * 0.6), depth = T.depth[P.id] || 0;
     // Off-guide chapters (Ch 23 and 33): a miss there gets no follow-ups, so they stay a few questions.
     const offGuide = this.guideMode && !(it.guide || []).length && OFF_CHS.includes(P.ch);
@@ -1545,7 +1797,7 @@ class Component extends DCLogic {
     const P = this.cur(); if (!P || !this.state.S.test.checked[P.id]) return;
     let done = false;
     this.upd(S => { const N = this.nextItem(S, S.test); if (N) S.test.items.push(N); else done = true; });
-    this.setState({ draft: '', missNote: '' });
+    this.setState({ draft: '', missNote: '', slot: null });
     if (done) this.finish(); else window.scrollTo(0, 0);
   }
 
@@ -1573,19 +1825,20 @@ class Component extends DCLogic {
       const cov = new Set(), covSub = new Set(); done.forEach(p => { const x = this.byId[p.id] || {}; (x.guide || []).forEach(k => cov.add(k)); (x.sub || []).forEach(s => { if (!T.drill || s.indexOf(T.drill + '/') === 0) covSub.add(s); }); });
       const subsOf = T.drill ? new Set((this.byGuide[T.drill] || []).flatMap(x => (x.sub || []).filter(s => s.indexOf(T.drill + '/') === 0))).size : this.subTotal;
       S.report = { at: Date.now(), no: T.no, n: done.length, base: T.base, follows: done.filter(p => T.follow[p.id]).length, pct, raw: Math.round(100 * raw / done.length), focus: T.focus, looked, guide: T.plan ? cov.size : null, drill: T.drill ? guideName(T.drill) : null, subs: T.plan ? covSub.size : null, subsOf, recs: done.map(P => this.record(T, P)) };
-      S.history.push({ at: Date.now(), pct, n: done.length });
+      if (T.cs) { S.report.cs = T.focus; S.caseLog = S.caseLog || {}; S.caseLog[T.cs] = { at: Date.now(), pct }; }
+      else S.history.push({ at: Date.now(), pct, n: done.length });
       S.test = null; S.phase = 'home';
     });
     window.scrollTo(0, 0);
   }
   record(T, P) {
     const it = this.byId[P.id] || {}, e = eff(T, P.id);
-    const r = { id: P.id, ch: P.ch, fmt: it.fmt, topics: it.topics || [], nodes: it.nodes || [], drugs: (it.drugs || []).map(d => d.id), e, sc: T.scores[P.id] || 0, conf: T.conf[P.id] };
+    const r = { id: P.id, ch: P.ch, fmt: it.fmt, topics: it.topics || [], nodes: it.nodes || [], drugs: (it.drugs || []).map(d => d.id), e, sc: T.scores[P.id] || 0, conf: T.conf[P.id], cj: it.cj || '', cn: it.cn || '' };
     if (e >= 1) return r;
     const X = this.fresh(P), RR = P.kind === 'recall' ? (T.resp[P.id] || {}) : {};
     if (RR.pts && (RR.pts.length || RR.note)) r.missed = RR.pts.concat(RR.note ? [RR.note] : []);
     return Object.assign(r, {
-      q: P.kind === 'recall' ? P.q : it.bank && it.kind === 'cloze' ? cardFront(it).stem : P.q,
+      q: P.kind === 'recall' ? P.q : it.bank && it.kind === 'cloze' && it.parts ? cardFront(it).stem : P.q,
       your: P.kind === 'recall' ? (RR.typed || (RR.pts ? 'Answered out loud' : ['Didn’t know', 'Partly'][T.scores[P.id] ? 1 : 0])) : yourText(P, T.resp[P.id]),
       correct: P.kind === 'recall' ? P.ans : correctText(P), rule: X.rule || '', why: T.why[P.id] || []
     });
@@ -1599,7 +1852,7 @@ class Component extends DCLogic {
     if (e.key === 'Enter') { e.preventDefault(); if (ck) this.next(); else this.check(); }
     else if (!ck && (e.key === 'k' || e.key === 'K')) this.setConf('sure');
     else if (!ck && (e.key === 'g' || e.key === 'G')) this.setConf('guess');
-    else if (!ck && /^[1-9]$/.test(e.key) && P.choices && (P.kind === 'single' || P.kind === 'sata')) { const c = P.choices[+e.key - 1]; if (c) this.pick(P, c.k); }
+    else if (!ck && /^[1-9]$/.test(e.key) && P.choices && (P.kind === 'single' || P.kind === 'sata' || P.kind === 'selectn')) { const c = P.choices[+e.key - 1]; if (c) this.pick(P, c.k); }
   }
 
   // ---------- What the page shows ----------
@@ -1610,7 +1863,7 @@ class Component extends DCLogic {
     const S = this.state.S, ready = this.state.ready && S;
     const A = 'var(--color-accent)', N = 'var(--color-neutral-700)';
     const v = { loading: !ready, isHome: !!ready && (S.phase !== 'test' || !S.test), isTest: !!ready && S.phase === 'test' && !!S.test };
-    v.title = v.isTest && S.test.redo ? 'Redo my misses — until each one sticks' : v.isTest && S.test.drill ? 'Drill: ' + guideName(S.test.drill) : 'One adaptive test that follows your mistakes';
+    v.title = v.isTest && S.test.redo ? 'Redo my misses — until each one sticks' : v.isTest && S.test.drill ? 'Drill: ' + guideName(S.test.drill) : v.isTest && S.test.cs ? 'Unfolding case study' : 'One adaptive test that follows your mistakes';
     if (!ready) return Object.assign(v, { q: {}, fb: {}, rp: {}, pr: { shaky: [] }, drillOpts: [], dots: [], lenOpts: [], history: [], studyMap: [], nodeMap: [], legend: [], confOpts: [], howItWorks: [] });
     v.goHome = () => this.upd(S => { S.phase = 'home'; });
     v.start = () => this.startTest(); v.check = () => this.check(); v.next = () => this.next(); v.finish = () => this.finish();
@@ -1632,8 +1885,11 @@ class Component extends DCLogic {
       label: 'Ch ' + ch + ' · ' + o.g[0] + ' · ' + Math.min(len, this.byGuide[o.k].length) + ' Qs', onClick: () => this.startTest(o.k) })));
     const weak = Object.keys(S.mastery.topics).filter(t => this.byTopic[t] && S.mastery.topics[t].m != null).sort((a, b) => S.mastery.topics[a].m - S.mastery.topics[b].m).slice(0, 3).filter(t => S.mastery.topics[t].m < 0.85);
     v.leanNote = weak.length ? 'Leans toward your weakest: ' + weak.map(t => this.topicTitle(t)).join(' · ') : 'Your first test samples every topic; later tests lean toward what you miss.';
+    const CL = S.caseLog || {};
+    v.cases = (window.CASES || []).map(cs => ({ title: cs.title, sub: 'Ch ' + cs.ch + ' · ' + cs.steps.length + ' items · ' + (CL[cs.id] ? 'last time ' + CL[cs.id].pct + '%' : 'not tried yet'), onClick: () => this.startCase(cs.id) }));
+    v.hasCases = v.cases.length > 0;
     v.howItWorks = [
-      { k: 'One test', t: 'NCLEX questions in both formats — single answer, select all, matrix, cloze, bow-tie, ordering, exhibits — plus drug questions built fresh each time, myth checks and recall prompts.' },
+      { k: 'One test', t: 'Every NCLEX format — single answer, select all, select N, matrix, drop-down and drag-and-drop cloze, rationale, highlight, grouping, bow-tie, trend, ordering, calculations, exhibits — scored the way the NCLEX scores each, plus drug questions built fresh each time, myth checks and recall prompts.' },
       { k: 'Know it or guessing', t: 'Before you check, say whether you knew it. A guess counts half, even when it’s right. Stuck on an abbreviation? Tap 🔊 Words, then the word — the report lists every word you looked up.' },
       { k: 'Follow-ups', t: 'Miss one or guess and a new question on that exact point comes up two questions later — never the same question again.' },
       { k: 'Report + study map', t: 'What you struggled with, what to study in order with links to the Map, and every topic colored by mastery. The next test leans toward the weak ones.' }
@@ -1641,7 +1897,7 @@ class Component extends DCLogic {
     v.hasHistory = S.history.length > 0;
     v.history = S.history.slice(-8).reverse().map(h => ({ label: h.at ? new Date(h.at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'Earlier', pct: h.pct, n: h.n || '—', w: h.pct + '%' }));
     const c = this.counts || {};
-    v.bankNote = 'Pool: ' + (c.ngn || 0) + ' NGN · ' + (c.trad || 0) + ' traditional · ' + (c.drug || 0) + ' drug questions (new wrong options each time) · ' + (c.myth || 0) + ' myth checks · ' + (c.recall || 0) + ' recall prompts.';
+    v.bankNote = 'Pool: ' + (c.ngn || 0) + ' NGN · ' + (c.trad || 0) + ' traditional · ' + (c.drug || 0) + ' drug questions (new wrong options each time) · ' + (c.myth || 0) + ' myth checks · ' + (c.recall || 0) + ' recall prompts' + (v.hasCases ? ' · ' + v.cases.length + ' case studies' : '') + '.';
 
     // Report and study map (stay on the home screen until the next test)
     const M = S.mastery;
@@ -1692,6 +1948,11 @@ class Component extends DCLogic {
           again: () => this.startRedo('shaky'), againLabel: 'Redo ' + nShaky + ' shaky one' + (nShaky === 1 ? '' : 's') + ' →',
           showAgain: st.rest.length > 0 && st.shaky.length > 0 };
       }
+      const NC = window.NCJMM || { skills: [], needs: [] };
+      const bars = (list, key) => list.map(x => { const rs = recs.filter(r => r[key] === x[0]); if (!rs.length) return null; const p = Math.round(100 * rs.reduce((a, r) => a + r.e, 0) / rs.length); return { name: x[1], p, pct: p + '%', w: p + '%', n: rs.length, col: p >= 85 ? 'var(--color-accent)' : p >= 60 ? 'var(--color-accent-600)' : 'var(--color-neutral-400)' }; }).filter(Boolean);
+      const skills = bars(NC.skills, 'cj'), needs = bars(NC.needs, 'cn'), low = skills.slice().sort((a, b) => a.p - b.p)[0];
+      const rpCj = { skills, needs, hasSkills: skills.length > 0, hasNeeds: needs.length > 0 };
+      rpCj.skillNote = low && low.p < 85 ? 'Weakest step: ' + low.name + '. The NCLEX reports a score for each of these six, so practise it on purpose — the strategies page shows what each step asks.' : 'Every step you were asked about is strong.';
       const verdict = R.pct >= 90 ? 'Exam-ready on what this test covered.' : R.pct >= 75 ? 'Close — tighten the topics below.' : 'The topics below are where the points are.';
       v.rp = {
         when: 'Test ' + R.no + ' · ' + new Date(R.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
@@ -1705,6 +1966,8 @@ class Component extends DCLogic {
         hasMoreProblems: missed.length > 5, moreLabel: this.state.allProblems ? 'Show only the worst 5' : 'Show all ' + missed.length,
         toggleProblems: () => this.setState({ allProblems: !this.state.allProblems })
       };
+      Object.assign(v.rp, rpCj);
+      if (R.cs) v.rp.when = R.cs + ' · ' + v.rp.when.replace(/^Test \d+ · /, '');
     }
 
     // Test
@@ -1724,21 +1987,23 @@ class Component extends DCLogic {
       const hidden = !ck && !isRecall && rf && (P.kind === 'single' || P.kind === 'sata') && !T.revealed[P.id] && R == null;
       v.checked = ck; v.askConf = !ck && !isRecall; v.showCheck = !ck && !isRecall;
       v.cantCheck = !answered(P, R) || (!T.conf[P.id] && !T.redo);
-      v.checkLabel = !answered(P, R) || T.redo ? 'Check answer' : !T.conf[P.id] ? 'Pick: know it or guessing' : 'Check answer';
+      v.checkLabel = !answered(P, R) ? (P.kind === 'selectn' ? 'Select ' + P.n + ' to check' : P.kind === 'bow' ? 'Choose the number asked in each list' : 'Check answer') : T.redo ? 'Check answer' : !T.conf[P.id] ? 'Pick: know it or guessing' : 'Check answer';
       v.confOpts = [['sure', 'I know this'], ['guess', 'I’m guessing']].map(([k, label]) => { const on = T.conf[P.id] === k; return { label, bg: on ? 'var(--color-accent-900)' : 'transparent', bd: on ? A : N, onClick: () => this.setConf(k) }; });
       const mark = (sel, multi, isC) => {
         if (!ck) return { bg: sel ? 'var(--color-accent-900)' : 'transparent', bd: sel ? A : N, mr: multi ? '4px' : '50%', mf: sel ? A : 'transparent' };
         return { bg: isC ? 'var(--color-accent-900)' : 'transparent', bd: isC ? 'var(--color-accent-300)' : (sel ? 'var(--color-neutral-300)' : N), mr: multi ? '4px' : '50%', mf: sel ? (isC ? A : 'var(--color-neutral-400)') : 'transparent' };
       };
       const note = (sel, isC, i) => !ck ? { n: i == null ? '' : i + 1, nfg: 'var(--color-neutral-500)' } : { n: isC ? (sel ? 'Correct' : 'Missed') : (sel ? 'Your pick' : ''), nfg: isC ? 'var(--color-accent-200)' : 'var(--color-neutral-300)' };
-      const q = { q: P.q, kindLabel: isRecall ? 'Active recall — answer from memory' : KIND_LABEL[P.kind], fmt: FMT_LABEL[it.fmt] || '', topic: (it.topics || [])[0] ? this.topicTitle(it.topics[0]) + ' · Ch ' + it.topics[0].slice(0, 2) : 'Ch ' + P.ch,
+      const q = { q: P.q, kindLabel: isRecall ? 'Active recall — answer from memory' : (P.trend ? 'Trend · ' : '') + kindLabel(P), fmt: FMT_LABEL[it.fmt] || '', topic: (it.topics || [])[0] ? this.topicTitle(it.topics[0]) + ' · Ch ' + it.topics[0].slice(0, 2) : 'Ch ' + P.ch,
         isFollow: !!T.follow[P.id], followLabel: T.follow[P.id] || '', hidden, hideHint: P.kind === 'sata' ? 'which of them could be right, and how many?' : 'what would you choose, and why?',
         reveal: () => this.upd(S => { S.test.revealed[P.id] = true; }),
-        isChoice: !hidden && (P.kind === 'single' || P.kind === 'sata'), isOrder: P.kind === 'order', isMatrix: P.kind === 'matrix', isCloze: P.kind === 'cloze', isBow: P.kind === 'bow', isRecall };
+        isChoice: !hidden && (P.kind === 'single' || P.kind === 'sata' || P.kind === 'selectn'), isOrder: P.kind === 'order', isMatrix: P.kind === 'matrix' || P.kind === 'mmatrix', isCloze: P.kind === 'cloze' && !P.dnd && !P.table, isBow: P.kind === 'bow' || P.kind === 'group', isRecall,
+        isHlText: P.kind === 'hl' && !!P.hlSegs, isHlTable: P.kind === 'hl' && !!P.hlTable, isDnd: P.kind === 'cloze' && !!P.dnd, isDdt: P.kind === 'cloze' && !!P.table, isCalc: P.kind === 'calc',
+        isCase: !!P.cs, caseLine: P.cs ? P.cs.title + ' — item ' + P.cs.n + ' of ' + P.cs.of : '' };
       q.hasEx = !!(P.ex && P.ex.length);
-      q.ex = (P.ex || []).map(e => { const t = e.table || []; return { h: e.h || '', hasTable: t.length > 0, gtc: 'repeat(' + ((t[0] || []).length || 1) + ', minmax(80px,1fr))', rows: t.map((r, i) => ({ cells: r, fg: i === 0 ? 'var(--color-neutral-400)' : 'var(--color-neutral-100)' })), lines: e.lines || [] }; });
+      q.ex = (P.ex || []).map(e => { const t = e.table || []; return { h: e.h || '', hasTable: t.length > 0, gtc: 'repeat(' + ((t[0] || []).length || 1) + ', minmax(' + ((t[0] || []).length > 4 ? 52 : 80) + 'px,1fr))', rows: t.map((r, i) => ({ cells: r, fg: i === 0 ? 'var(--color-neutral-400)' : 'var(--color-neutral-100)' })), lines: e.lines || [] }; });
       q.hasFig = !!P.fig; q.fig = P.fig ? P.fig.join('\n') : '';
-      if (q.isChoice) q.choices = P.choices.map((c, i) => { const sel = P.kind === 'single' ? R === c.k : !!(R && R[c.k]); return Object.assign({ t: c.t, onClick: () => this.pick(P, c.k) }, mark(sel, P.kind === 'sata', c.c), note(sel, c.c, i)); });
+      if (q.isChoice) q.choices = P.choices.map((c, i) => { const sel = P.kind === 'single' ? R === c.k : !!(R && R[c.k]); return Object.assign({ t: c.t, onClick: () => this.pick(P, c.k) }, mark(sel, P.kind !== 'single', c.c), note(sel, c.c, i)); });
       if (q.isOrder) {
         const seq = R || [];
         q.seq = seq.map((k, i) => { const c = P.choices.find(c => c.k === k); const ok = c.rank === i; return { n: i + 1, t: c.t, bd: ck ? (ok ? 'var(--color-accent-300)' : 'var(--color-neutral-400)') : 'var(--color-accent-500)', note: ck ? (ok ? 'Correct' : 'Should be ' + (c.rank + 1)) : '', onClick: () => this.setResp(r => (r || []).filter(x => x !== k)) }; });
@@ -1746,11 +2011,56 @@ class Component extends DCLogic {
         q.hasRest = q.rest.length > 0;
       }
       if (q.isMatrix) {
+        const multi = P.kind === 'mmatrix';
         q.cols = P.cols; q.gtc = 'minmax(0,1fr) repeat(' + P.cols.length + ', 88px)';
-        q.rows = P.rows.map(r => ({ t: r.t, fg: ck && R && R[r.k] !== r.a ? 'var(--color-accent-200)' : 'var(--color-text)', cells: P.cols.map((col, ci) => { const sel = R && R[r.k] === ci, isC = r.a === ci; return { label: r.t + ': ' + col, bd: ck ? (isC ? 'var(--color-accent-300)' : sel ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)') : (sel ? A : 'var(--color-neutral-500)'), mf: sel ? (ck && !isC ? 'var(--color-neutral-400)' : A) : (ck && isC ? 'var(--color-accent-800)' : 'transparent'), onClick: () => this.setResp(x => Object.assign({}, x || {}, { [r.k]: ci })) }; }) }));
+        q.rows = P.rows.map(r => ({ t: r.t, fg: ck && R && (multi ? !rowOk(P, r, R) : R[r.k] !== r.a) ? 'var(--color-accent-200)' : 'var(--color-text)', cells: P.cols.map((col, ci) => {
+          const sel = multi ? !!(R && R[r.k] && R[r.k][ci]) : R && R[r.k] === ci, isC = multi ? r.a.includes(ci) : r.a === ci;
+          return { label: r.t + ': ' + col, mr: multi ? '4px' : '50%', bd: ck ? (isC ? 'var(--color-accent-300)' : sel ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)') : (sel ? A : 'var(--color-neutral-500)'), mf: sel ? (ck && !isC ? 'var(--color-neutral-400)' : A) : (ck && isC ? 'var(--color-accent-800)' : 'transparent'),
+            onClick: () => this.setResp(x => multi ? Object.assign({}, x || {}, { [r.k]: Object.assign({}, (x || {})[r.k] || {}, { [ci]: !((x || {})[r.k] || {})[ci] }) }) : Object.assign({}, x || {}, { [r.k]: ci })) };
+        }) }));
       }
-      if (q.isCloze) q.segs = P.segs.map(s => { if (!s.opts) return { isText: true, isBlank: false, text: s.text }; const has = R && R[s.blank] != null; const ok = has && s.opts.find(o => o.k === R[s.blank]).c; return { isBlank: true, isText: false, locked: ck, val: has ? String(R[s.blank]) : '', bd: ck ? (ok ? 'var(--color-accent-300)' : 'var(--color-neutral-300)') : (has ? A : 'var(--color-neutral-500)'), opts: s.opts.map(o => ({ v: String(o.k), t: o.t })), onChange: e => { const val = e.target.value; this.setResp(x => { const n = Object.assign({}, x || {}); if (val === '') delete n[s.blank]; else n[s.blank] = +val; return n; }); } }; });
-      if (q.isBow) q.groups = P.groups.map(g => ({ label: g.label, choices: g.choices.map(c => { const r = R && R[g.g]; const sel = g.multi ? !!(r && r[c.k]) : r === c.k; return Object.assign({ t: c.t, onClick: () => this.setResp(x => { const n = Object.assign({}, x || {}); n[g.g] = g.multi ? Object.assign({}, n[g.g] || {}, { [c.k]: !((n[g.g] || {})[c.k]) }) : c.k; return n; }) }, mark(sel, g.multi, c.c), note(sel, c.c, null)); }) }));
+      const blankView = s => { const has = R && R[s.blank] != null; const ok = has && s.opts.find(o => o.k === R[s.blank]).c; return { isBlank: true, isText: false, locked: ck, val: has ? String(R[s.blank]) : '', bd: ck ? (ok ? 'var(--color-accent-300)' : 'var(--color-neutral-300)') : (has ? A : 'var(--color-neutral-500)'), opts: s.opts.map(o => ({ v: String(o.k), t: o.t })), onChange: e => { const val = e.target.value; this.setResp(x => { const n = Object.assign({}, x || {}); if (val === '') delete n[s.blank]; else n[s.blank] = +val; return n; }); } }; };
+      if (q.isCloze) q.segs = P.segs.map(s => s.opts ? blankView(s) : { isText: true, isBlank: false, text: s.text });
+      if (q.isBow) q.groups = P.groups.map(g => ({ label: g.label, choices: g.choices.map(c => { const r = R && R[g.g]; const sel = g.multi ? !!(r && r[c.k]) : r === c.k; return Object.assign({ t: c.t, onClick: () => this.setResp(x => { const n = Object.assign({}, x || {}); if (!g.multi) { n[g.g] = c.k; return n; } const cur = Object.assign({}, n[g.g] || {}); if (!cur[c.k] && P.kind === 'bow' && Object.values(cur).filter(Boolean).length >= g.need) return n; cur[c.k] = !cur[c.k]; n[g.g] = cur; return n; }) }, mark(sel, g.multi, c.c), note(sel, c.c, null)); }) }));
+      // Highlight: tap the words (or table rows) that apply; after checking, right ones stay lit and missed ones are outlined.
+      const hlLook = k => {
+        const c = P.choices[k], sel = !!(R && R[k]);
+        if (!ck) return { bg: sel ? 'rgba(245,196,0,.26)' : 'transparent', bd: sel ? A : 'var(--color-neutral-600)', bs: sel ? 'solid' : 'dashed', note: '' };
+        return { bg: sel ? (c.c ? 'rgba(245,196,0,.26)' : 'rgba(255,255,255,.07)') : 'transparent', bd: c.c ? 'var(--color-accent-300)' : sel ? 'var(--color-neutral-400)' : 'var(--color-neutral-700)', bs: c.c || sel ? 'solid' : 'dashed', note: c.c ? (sel ? ' ✓' : ' ← missed') : (sel ? ' ✗' : '') };
+      };
+      if (q.isHlText) q.hlSegs = P.hlSegs.map(sg => sg.text != null ? { isText: true, isPick: false, text: sg.text } : Object.assign({ isText: false, isPick: true, t: P.choices[sg.k].t, onClick: () => this.pick(P, sg.k) }, hlLook(sg.k)));
+      if (q.isHlTable) {
+        q.hlHead = P.hlTable.head; q.hlGtc = 'repeat(' + Math.max(1, (P.hlTable.rows[0] || { cells: [] }).cells.length) + ', minmax(64px,1fr))';
+        q.hlRows = P.hlTable.rows.map(r => Object.assign({ cells: r.cells, onClick: () => this.pick(P, r.k) }, hlLook(r.k)));
+      }
+      // Drag and drop (tap to place): tap a blank to choose it, then tap a word from the pool.
+      if (q.isDnd) {
+        const filled = R || {}, used = new Set(Object.values(filled));
+        const firstEmpty = (P.segs.find(sg => sg.opts && filled[sg.blank] == null) || {}).blank;
+        const act = this.state.slot != null && filled[this.state.slot] == null ? this.state.slot : firstEmpty;
+        q.dsegs = P.segs.map(sg => {
+          if (!sg.opts) return { isText: true, isBlank: false, text: sg.text };
+          const has = filled[sg.blank] != null, o = has ? sg.opts.find(o => o.k === filled[sg.blank]) : null, ok = !!(o && o.c);
+          return { isText: false, isBlank: true, label: o ? o.t + (ck && !ok ? ' ✗' : '') : '______', bs: has ? 'solid' : 'dashed', bg: has ? 'var(--color-accent-900)' : 'transparent',
+            bd: ck ? (ok ? 'var(--color-accent-300)' : 'var(--color-neutral-300)') : (sg.blank === act ? A : has ? 'var(--color-accent-600)' : 'var(--color-neutral-500)'),
+            onClick: () => { if (ck) return; if (has) this.setResp(x => { const n = Object.assign({}, x || {}); delete n[sg.blank]; return n; }); this.setState({ slot: sg.blank }); } };
+        });
+        q.pool = P.pool.map(t => ({ t: t.t, op: used.has(t.k) ? '0.35' : '1', onClick: () => {
+          if (ck || act == null) return;
+          this.setResp(x => { const n = Object.assign({}, x || {}); Object.keys(n).forEach(b => { if (n[b] === t.k) delete n[b]; }); n[act] = t.k; return n; });
+          this.setState({ slot: null });
+        } }));
+        q.dndHint = ck ? '' : act == null ? 'Every blank is filled — tap one to empty it.' : 'Tap a word to put it in the highlighted blank. Tap a filled blank to empty it.';
+      }
+      if (q.isDdt) {
+        q.thead = P.thead; q.tgtc = 'repeat(' + P.thead.length + ', minmax(96px,1fr))';
+        q.trows = P.trows.map(r => ({ cells: r.cells.map(c => c.opts ? blankView(c) : { isText: true, isBlank: false, text: c.text }) }));
+      }
+      if (q.isCalc) {
+        q.calcVal = R == null ? '' : String(R); q.unit = P.unit; q.calcLocked = ck;
+        q.onCalc = e => { const val = e.target.value; this.setResp(() => val); };
+        q.roundNote = P.dp == null ? '' : P.dp === 0 ? 'Round to a whole number.' : 'Round to ' + P.dp + ' decimal place' + (P.dp > 1 ? 's' : '') + '.';
+      }
       if (isRecall) {
         const shown = !!T.revealed[P.id] || ck;
         q.draft = this.state.draft; q.onDraft = e => this.setState({ draft: e.target.value });
@@ -1789,7 +2099,12 @@ class Component extends DCLogic {
           const auto = full ? [] : inferWhy(X, R, it);
           const diag = auto.filter(x => why.includes(x.k)).concat(why.filter(k => !auto.some(x => x.k === k)).map(k => ({ k, line: 'You added: ' + RLABEL[k].toLowerCase() + '.' })));
           const chain = chainOf(X.phys);
+          const NC = window.NCJMM || { skills: [], needs: [], scoring: {}, strategies: {} }, [got, max, rule] = points(P, R), SR = NC.scoring[rule];
+          const sk = NC.skills.find(x => x[0] === it.cj), nd = NC.needs.find(x => x[0] === it.cn);
+          const tags = [].concat(sk ? [{ h: 'Clinical judgment step', t: sk[1] + ' (' + sk[2].toLowerCase() + ') — ' + sk[3] }] : [], nd ? [{ h: 'Client Needs', t: nd[1] + ' — ' + nd[3] + ' of the NCLEX' }] : [],
+            (it.st || []).filter(k => NC.strategies[k]).map(k => ({ h: 'Strategy', t: NC.strategies[k][0] + ' — ' + NC.strategies[k][1] })));
           v.fb = Object.assign(fbBase, {
+            scoreLine: 'NCLEX scoring: ' + got + ' of ' + max + ' point' + (max === 1 ? '' : 's') + (SR ? ' · ' + SR[0] + ' — ' + SR[1] : ''), hasScore: true, tags, hasTags: tags.length > 0,
             terms, hasTerms: terms.length > 0, ask: X.ask, hasAsk: !!X.ask, cues: (X.cues || []).map(t => ({ t })), hasCues: !!(X.cues || []).length,
             optHead: bd.optHead, groups: bd.groups, chain, hasChain: chain.length > 0, rule: X.rule || '', hasRule: !!X.rule,
             askWhy: !full, diag: diag.map(x => ({ head: RLABEL[x.k].split(' — ')[0].split(' (')[0], line: x.line })),

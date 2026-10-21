@@ -18,6 +18,7 @@ cfg.CHS.forEach(ch => {
   const f = path.join(ROOT, 'data/e3/q', ch + '.js');
   if (fs.existsSync(f)) vm.runInContext(fs.readFileSync(f, 'utf8'), ctx, { filename: f });
 });
+['q/more.js', 'cases.js', 'cj-tags.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/e3', f), 'utf8'), ctx, { filename: f }));
 ['drugs-gi.js', 'drugs-endo.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/e3', f), 'utf8'), ctx));
 
 let errors = 0;
@@ -36,6 +37,7 @@ function checkItem(id, x) {
   ['t', 'q', 'ask', 'phys', 'rule'].forEach(k => { if (!filled(x[k])) err(id, 'missing ' + k); });
   if (!Array.isArray(x.cues) || !x.cues.length || !x.cues.every(filled)) err(id, 'missing cues');
   const f = x.f || 'mcq';
+  if (x.st && (!Array.isArray(x.st) || !x.st.length)) err(id, 'st must be a list of strategies');
   if (['mcq', 'sata', 'exhibit', 'hot'].includes(f)) {
     checkChoices(id, x.o, x.a, x.r, true);
     if (f === 'sata' && !(Array.isArray(x.a) && x.a.length > 1)) err(id, 'select-all needs 2+ answers');
@@ -54,6 +56,49 @@ function checkItem(id, x) {
     const bl = (x.parts || []).filter(p => p && typeof p === 'object');
     if (bl.length < 2) err(id, 'cloze needs 2+ blanks');
     bl.forEach((p, i) => { if (!Array.isArray(p.o) || !idxOk(p.a, p.o.length) || !filled(p.r)) err(id, 'cloze blank ' + i + ' incomplete'); });
+  } else if (f === 'hl') {
+    const pk = (x.parts || []).filter(p => p && typeof p === 'object');
+    if (pk.length < 4) err(id, 'highlight needs 4+ highlightable parts');
+    if (!pk.some(p => p.c) || pk.every(p => p.c)) err(id, 'highlight needs some right and some wrong parts');
+    pk.forEach((p, i) => { if (!filled(p.h) || !filled(p.r) || ![0, 1].includes(p.c)) err(id, 'highlight part ' + i + ' needs h, c (0/1) and r'); });
+  } else if (f === 'hlt') {
+    if (!Array.isArray(x.head) || x.head.length < 2) err(id, 'highlight table needs a header row');
+    if (!Array.isArray(x.rows) || x.rows.length < 4) err(id, 'highlight table needs 4+ rows');
+    (x.rows || []).forEach((rw, i) => { if (!Array.isArray(rw.cells) || rw.cells.length !== (x.head || []).length || !filled(rw.r) || ![0, 1].includes(rw.c)) err(id, 'highlight row ' + i + ' incomplete'); });
+    if (!(x.rows || []).some(r => r.c)) err(id, 'highlight table has nothing to highlight');
+  } else if (f === 'selectn') {
+    checkChoices(id, x.o, x.a, x.r, true);
+    const n = (x.a || []).length, word = ['', 'one', 'two', 'three', 'four', 'five'][n];
+    if (n < 2 || !new RegExp('select (the )?(' + n + '|' + word + ')\\b', 'i').test(x.q)) err(id, 'select-N stem must say “Select the ' + n + '”');
+  } else if (f === 'mmatrix') {
+    if (!Array.isArray(x.cols) || x.cols.length < 2) err(id, 'matrix needs columns');
+    if (!Array.isArray(x.rows) || x.rows.length < 4) err(id, 'matrix needs 4+ rows');
+    (x.rows || []).forEach((rw, i) => { if (!filled(rw.t) || !Array.isArray(rw.a) || !rw.a.length || !rw.a.every(a => idxOk(a, (x.cols || []).length)) || !filled(rw.r)) err(id, 'matrix row ' + i + ' incomplete'); });
+    if (!(x.rows || []).some(r => r.a.length > 1)) err(id, 'a multiple-response matrix should have a row with 2+ answers');
+  } else if (f === 'group') {
+    if (!Array.isArray(x.groups) || x.groups.length < 2) err(id, 'grouping needs 2+ groups');
+    (x.groups || []).forEach((g, i) => { if (!filled(g.h)) err(id, 'group ' + i + ' needs h'); checkChoices(id + ' g' + i, g.o, g.a, g.r, true); });
+  } else if (f === 'dnd' || f === 'dndr' || f === 'ddr') {
+    const bl = (x.parts || []).filter(p => p && typeof p === 'object');
+    if (f !== 'dnd' && (bl.length < 2 || bl.length > 3)) err(id, 'rationale needs 2 or 3 linked blanks');
+    if (f === 'dnd' && bl.length < 2) err(id, 'drag and drop needs 2+ blanks');
+    if (f === 'ddr') bl.forEach((p, i) => { if (!Array.isArray(p.o) || !idxOk(p.a, p.o.length) || !filled(p.r)) err(id, 'blank ' + i + ' incomplete'); });
+    else {
+      if (!Array.isArray(x.tokens) || x.tokens.length <= bl.length || new Set(x.tokens).size !== x.tokens.length) err(id, 'needs more unique tokens than blanks');
+      bl.forEach((p, i) => { if (!idxOk(p.a, (x.tokens || []).length) || !filled(p.r)) err(id, 'blank ' + i + ' incomplete'); });
+      if (new Set(bl.map(p => p.a)).size !== bl.length) err(id, 'two blanks share a token');
+    }
+  } else if (f === 'ddt') {
+    if (!Array.isArray(x.head) || !Array.isArray(x.rows) || x.rows.length < 2) err(id, 'drop-down table needs head and 2+ rows');
+    const bl = [].concat(...(x.rows || [])).filter(c => c && typeof c === 'object');
+    if (bl.length < 3) err(id, 'drop-down table needs 3+ blanks');
+    (x.rows || []).forEach((row, i) => { if (row.length !== (x.head || []).length) err(id, 'row ' + i + ' has the wrong number of cells'); });
+    bl.forEach((p, i) => { if (!Array.isArray(p.o) || !idxOk(p.a, p.o.length) || !filled(p.r)) err(id, 'table blank ' + i + ' incomplete'); });
+  } else if (f === 'calc') {
+    if (typeof x.ans !== 'number' || !isFinite(x.ans)) err(id, 'calc needs a numeric ans');
+    if (!Number.isInteger(x.dp) || Math.round(x.ans * Math.pow(10, x.dp)) / Math.pow(10, x.dp) !== x.ans) err(id, 'calc ans must already be rounded to dp');
+    if (!filled(x.work) || !filled(x.unit)) err(id, 'calc needs work and unit');
+    if (!/round|whole number|decimal place/i.test(x.q)) err(id, 'calc stem must say how to round');
   } else if (f === 'bow') {
     checkChoices(id + ' cond', (x.cond || {}).o, (x.cond || {}).a, (x.cond || {}).r, false);
     ['act', 'mon'].forEach(g => { const y = x[g] || {}; checkChoices(id + ' ' + g, y.o, y.a, y.r, true); if (!Array.isArray(y.a) || y.a.length < 2) err(id, g + ' needs 2 answers'); });
@@ -61,9 +106,9 @@ function checkItem(id, x) {
 }
 
 // The text a question is matched on, as the test page builds it (all of it for topics; what it asks for subtopics).
-const fullTxt = b => [b.t, b.q, JSON.stringify(b.o || b.rows || b.parts || [b.cond, b.act, b.mon]), b.rule || '', b.phys || ''].join(' ');
+const fullTxt = b => [b.t, b.q, JSON.stringify(b.o || b.rows || b.parts || b.groups || [b.cond, b.act, b.mon]) + (b.tokens ? ' ' + b.tokens.join(' ') : ''), b.rule || '', b.phys || ''].join(' ');
 const coreTxt = b => [b.t, b.q, (b.o || []).filter((o, i) => (Array.isArray(b.a) ? b.a : [b.a]).includes(i)).join(' '), b.rule || '', b.phys || '',
-  b.rows ? b.rows.map(r => r.t).join(' ') : '', b.parts ? JSON.stringify(b.parts) : '', b.cond ? JSON.stringify([b.cond, b.act, b.mon]) : ''].join(' ');
+  b.rows ? b.rows.map(r => r.t || (r.cells || []).join(' ')).join(' ') : '', b.parts ? JSON.stringify(b.parts) : '', b.cond ? JSON.stringify([b.cond, b.act, b.mon]) : '', b.groups ? JSON.stringify(b.groups) : ''].join(' ');
 const perTopic = {}, perSub = {}, noTopic = [], noSub = [];
 function tag(ch, id, txt, core) {
   const g = (cfg.GUIDE[ch] || []).map((x, i) => [ch + ':' + i, x]).filter(([k, x]) => x[1].test(txt)).map(([k]) => k);
@@ -90,6 +135,20 @@ cfg.CHS.forEach(ch => {
   if (new Set(mc.map(x => x[1])).size !== mc.length) err(ch, 'two myths share the same fact');
   if (!(win.EXPLAIN_CH || {})[ch]) err(ch, 'EXPLAIN_CH not set');
 });
+// Unfolding case studies: six steps, one per clinical judgment step in order, each a well-formed question.
+const ORDER = ['rc', 'ac', 'ph', 'gs', 'ta', 'eo'];
+(win.CASES || []).forEach(cs => {
+  if (!cfg.CHS.includes(cs.ch) || !filled(cs.title) || !filled(cs.id)) err('case ' + cs.id, 'needs id, title and an exam chapter');
+  if (!Array.isArray(cs.steps) || cs.steps.length !== 6) err('case ' + cs.id, 'needs 6 steps');
+  (cs.steps || []).forEach((x, i) => {
+    const id = 'cs|' + cs.id + '|' + i;
+    if (x.cj !== ORDER[i]) err(id, 'step ' + (i + 1) + ' should test ' + ORDER[i] + ' (has ' + x.cj + ')');
+    if (!Array.isArray(x.add)) err(id, 'needs add (chart sections, may be empty)');
+    (x.add || []).forEach(e => { if (!filled(e.h) || !(Array.isArray(e.lines) || Array.isArray(e.table))) err(id, 'chart section needs h and lines or table'); });
+    checkItem(id, x); tag(cs.ch, id, fullTxt(x), coreTxt(x));
+  });
+});
+console.log('Case studies: ' + (win.CASES || []).length + ' (' + (win.CASES || []).reduce((a, c) => a + c.steps.length, 0) + ' items)');
 // Generated drug questions are matched on the drug's name, use and mechanism.
 (win.DRUG_DATA.drugs || []).forEach(d => {
   const chs = (String(d.ch).match(/\d\d/g) || []).filter(c => cfg.CHS.includes(c)); if (!chs.length) return;

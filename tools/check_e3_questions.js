@@ -12,6 +12,8 @@ const list = process.argv.includes('--list');
 
 const cfgSrc = fs.readFileSync(path.join(__dirname, 'e3-mastery-cfg.js'), 'utf8');
 const cfg = vm.runInNewContext(cfgSrc + '\n({ CHS, GUIDE, GUIDE_SUB, GUIDE_OFF });', {});
+// A chapter the study guide narrows (it has a GUIDE_OFF entry) is expected to have questions on nothing it lists.
+const narrowed = ch => !!(cfg.GUIDE_OFF || {})[ch];
 const win = {};
 const ctx = vm.createContext({ window: win });
 cfg.CHS.forEach(ch => {
@@ -109,10 +111,10 @@ function checkItem(id, x) {
 const fullTxt = b => [b.t, b.q, JSON.stringify(b.o || b.rows || b.parts || b.groups || [b.cond, b.act, b.mon]) + (b.tokens ? ' ' + b.tokens.join(' ') : ''), b.rule || '', b.phys || ''].join(' ');
 const coreTxt = b => [b.t, b.q, (b.o || []).filter((o, i) => (Array.isArray(b.a) ? b.a : [b.a]).includes(i)).join(' '), b.rule || '', b.phys || '',
   b.rows ? b.rows.map(r => r.t || (r.cells || []).join(' ')).join(' ') : '', b.parts ? JSON.stringify(b.parts) : '', b.cond ? JSON.stringify([b.cond, b.act, b.mon]) : '', b.groups ? JSON.stringify(b.groups) : ''].join(' ');
-const perTopic = {}, perSub = {}, noTopic = [], noSub = [];
+const perTopic = {}, perSub = {}, noTopic = [], noSub = [], offGuide = [];
 function tag(ch, id, txt, core) {
   const g = (cfg.GUIDE[ch] || []).map((x, i) => [ch + ':' + i, x]).filter(([k, x]) => x[1].test(txt)).map(([k]) => k);
-  if (!g.length) noTopic.push(id + ' · ' + txt.slice(0, 90));
+  if (!g.length) (narrowed(ch) ? offGuide : noTopic).push(id + ' · ' + txt.slice(0, 90));
   g.forEach(k => {
     perTopic[k] = (perTopic[k] || 0) + 1;
     const subs = (cfg.GUIDE_SUB[k] || []).map((x, i) => [k + '/' + i, x]).filter(([s, x]) => x[1].test(core || txt));
@@ -137,18 +139,20 @@ cfg.CHS.forEach(ch => {
 });
 // Unfolding case studies: six steps, one per clinical judgment step in order, each a well-formed question.
 const ORDER = ['rc', 'ac', 'ph', 'gs', 'ta', 'eo'];
+const kept = (win.CASES || []).filter(cs => !cfg.CHS.includes(cs.ch)).map(cs => cs.id + ' (Ch ' + cs.ch + ')');
 (win.CASES || []).forEach(cs => {
-  if (!cfg.CHS.includes(cs.ch) || !filled(cs.title) || !filled(cs.id)) err('case ' + cs.id, 'needs id, title and an exam chapter');
+  const on = cfg.CHS.includes(cs.ch);
+  if (!filled(cs.title) || !filled(cs.id) || !/^\d\d$/.test(cs.ch)) err('case ' + cs.id, 'needs id, title and a chapter');
   if (!Array.isArray(cs.steps) || cs.steps.length !== 6) err('case ' + cs.id, 'needs 6 steps');
   (cs.steps || []).forEach((x, i) => {
     const id = 'cs|' + cs.id + '|' + i;
     if (x.cj !== ORDER[i]) err(id, 'step ' + (i + 1) + ' should test ' + ORDER[i] + ' (has ' + x.cj + ')');
     if (!Array.isArray(x.add)) err(id, 'needs add (chart sections, may be empty)');
     (x.add || []).forEach(e => { if (!filled(e.h) || !(Array.isArray(e.lines) || Array.isArray(e.table))) err(id, 'chart section needs h and lines or table'); });
-    checkItem(id, x); tag(cs.ch, id, fullTxt(x), coreTxt(x));
+    checkItem(id, x); if (on) tag(cs.ch, id, fullTxt(x), coreTxt(x));
   });
 });
-console.log('Case studies: ' + (win.CASES || []).length + ' (' + (win.CASES || []).reduce((a, c) => a + c.steps.length, 0) + ' items)');
+console.log('Case studies: ' + (win.CASES || []).length + (kept.length ? ' — ' + kept.length + ' on chapters off this exam, kept for later and not offered: ' + kept.join(', ') : ''));
 // Generated drug questions are matched on the drug's name, use and mechanism.
 (win.DRUG_DATA.drugs || []).forEach(d => {
   const chs = (String(d.ch).match(/\d\d/g) || []).filter(c => cfg.CHS.includes(c)); if (!chs.length) return;
@@ -165,6 +169,7 @@ Object.keys(cfg.GUIDE).forEach(ch => cfg.GUIDE[ch].forEach((g, i) => {
   console.log('      ' + (cfg.GUIDE_SUB[k] || []).map((s, j) => s[0] + ' ' + (perSub[k + '/' + j] || 0)).join(' · '));
 }));
 if (noTopic.length) { console.log('\nTied to no topic (never asked in an Everything test): ' + noTopic.length); noTopic.forEach(x => console.log('  ' + x)); }
+if (offGuide.length) console.log('\nOff the study guide (kept for the map, not asked in an Everything test): ' + offGuide.length + (list ? '\n  ' + offGuide.join('\n  ') : ' (--list shows them)'));
 if (list && noSub.length) { console.log('\nOn a topic but no subtopic: ' + noSub.length); noSub.forEach(x => console.log('  ' + x)); }
 console.log('\n' + (errors ? errors + ' error(s)' : 'No format errors.') + (noTopic.length ? ' ' + noTopic.length + ' item(s) tie to no topic.' : ''));
 process.exitCode = errors || noTopic.length ? 1 : 0;

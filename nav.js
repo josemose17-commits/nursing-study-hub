@@ -7,10 +7,11 @@
   var em = /^Exam (\d+) /.exec(here), EXAM = em ? em[1] : '';
   try { if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = localStorage.getItem('hub-exam') || ''; } catch (e) {}
   // Pages each exam has so far; a missing one gets no tab.
-  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Map', 'Drugs', 'Mastery'] };
+  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Route', 'Map', 'Drugs', 'Mastery'] };
   if (!HAS[EXAM]) EXAM = '2';
   var TABS = [
     ['index.html', 'Home', 'M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z'],
+    ['Exam ' + EXAM + ' Route.html', 'Route', 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm3 11 2.5 2.5L16 12'],
     ['Exam ' + EXAM + ' Map.html', 'Map', 'M6 6h.01M18 6h.01M12 18h.01M6 6l6 12 6-12M6 6h12'],
     ['Exam ' + EXAM + ' Drug Cards.dc.html', 'Drugs', 'M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7'],
     ['Exam ' + EXAM + ' Mastery Loop.dc.html', 'Mastery', 'M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5'],

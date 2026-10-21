@@ -2,30 +2,29 @@
 // Exam 3's block for the Mastery test. tools/build_e3_mastery.js puts it in place of Exam 2's block and writes
 // Exam 3 Mastery Loop.dc.html, so both exams run the same engine. Edit here, then run: node tools/build_e3_mastery.js
 //
-// PROVISIONAL until the professor's Exam 3 study guide arrives: BP gives each chapter a share of a 60-question exam
-// by its size, and GUIDE lists the main topics of each chapter (20 in all, so even a 20-question test asks each one).
-// When the study guide comes, replace BP and GUIDE (and GUIDE_SUB) with what it names.
-const CHS = ['45', '46', '47', '48', '49', '53', '55', '56'];
-const BP = { '45': 6, '46': 7, '47': 7, '48': 7, '49': 8, '53': 6, '55': 8, '56': 11 };
-// No off-guide chapters yet: every chapter is on the provisional guide.
+// From the professor's Exam 3 study guide: BP gives each chapter its share of the 60-question exam, GUIDE lists the
+// study-guide topics (17 in all, so even a 20-question test asks each one), and GUIDE_OFF marks what the guide leaves
+// out of the chapters it narrows (53, 45, 46).
+// Chapters 48 and 49 are not on Exam 3 (the professor said so); their notes stay on the map.
+const CHS = ['45', '46', '47', '53', '55', '56'];
+// The professor's Exam 3 study guide (60 questions): ch 53 → 5, 56 → 20, 55 → 10, 45 → 5, 46 → 10, 47 → 10.
+const BP = { '45': 5, '46': 10, '47': 10, '53': 5, '55': 10, '56': 20 };
 const OFF_GUIDE_PICKS = {};
 const SKILLS = ['Drugs & mechanisms', 'Pathophysiology', 'Priority & safety', 'Recognizing cues'];
-// The provisional guide: each chapter's main topics, and the words that tie a question to each.
+// The study guide: for 53, 45 and 46 the items it names; 47, 55 and 56 are on it whole (their main topics).
+// The words after each name tie a question to it.
 // With "Everything" selected, every test asks each topic at least once, in the chapter mix (BP).
 const GUIDE = {
-  '45': [['Abdominal assessment & GI labs', /history|PQRST|inspect|auscultat|palpat|percuss|bowel sounds|borborygm|bruit|pulsat|quadrant|guarding|rigid|tympan|flatus|aging|older adult|age-related|hypochlorhydria|steatorrhea|\bALT\b|\bAST\b|alkaline phosphatase|albumin|ammonia|amylase|lipase|bilirubin|prothrombin|\bCEA\b|CA 19-9|occult|guaiac|\bFIT\b|FOBT|stool DNA|Cologuard|ova and parasites|fecal fat|difficile|lactose/i],
-         ['Endoscopy, colonoscopy & bowel prep', /endoscop|\bEGD\b|ERCP|capsule|colonoscop|sigmoidoscop|colonography|bowel prep|clear liquid|sedation|midazolam|fentanyl|propofol|gag reflex|capnograph|sternal rub|perforat|contrast|\bCT\b|\bMRI\b|ultrasound|x-ray|polyp|biops|screening/i]],
-  '46': [['Stomatitis & oral cancer', /stomatitis|mucositis|candid|thrush|aphthous|herpe|oral (care|hygiene|lesion|cancer|tumor)|mouth|mucosa|nystatin|clotrimazole|lidocaine|chlorhexidine|leukoplakia|erythroplakia|tongue|lip|salivary|xerostomia|sialadenitis|mandibulectomy|glossectomy|tracheostomy|neck dissection|chemotherapy|radiation/i],
-         ['GERD, hiatal hernia & esophageal cancer', /GERD|reflux|heartburn|pyrosis|dyspepsia|regurgitat|water brash|eructation|esophag|Barrett|lower esophageal sphincter|\bLES\b|stricture|dysphagia|odynophagia|hiatal|paraesophageal|fundoplication|Nissen|gas bloat|proton pump|\bPPI\b|omeprazole|pantoprazole|famotidine|\bH2\b|antacid|alginate|metoclopramide|head of (the )?bed|Boerhaave|Mallory|caustic/i]],
+  '45': [['GI changes with aging', /aging|older adult|age-related|elderly|\b[6-9]\d-year-old|achlorhydria|hypochlorhydria|presbyesophagus|lipase|impaction/i],
+         ['Organs by quadrant (Table 45.1)', /quadrant|\bRUQ\b|\bLUQ\b|\bRLQ\b|\bLLQ\b|right upper|left upper|right lower|left lower|midline|Table 45\.1/i]],
+  '46': [['Healthy mouth & oral care (Boxes 46.1–46.2)', /oral (care|hygiene|cavity)|mouth care|mouth rinse|self-exam|floss|toothbrush|brush|dentures?|dentist|stomatitis|mucositis|chlorhexidine|clotrimazole|nystatin|viscous lidocaine|Box 46\.[12]/i],
+         ['GERD', /GERD|reflux|heartburn|pyrosis|dyspepsia|regurgitat|water brash|eructation|Barrett|lower esophageal sphincter|\bLES\b|proton pump|\bPPI\b|omeprazole|pantoprazole|esomeprazole|famotidine|\bH2\b|antacid|alginate|Stretta|LINX/i],
+         ['Hiatal hernia', /hiatal|sliding hernia|paraesophageal|rolling hernia|fundoplication|Nissen|gas bloat/i]],
   '47': [['Gastritis & peptic ulcer disease', /gastritis|peptic|ulcer|\bPUD\b|duodenal|H\. pylori|Helicobacter|urea breath|NSAID|aspirin|alcohol|stress ulcer|intrinsic factor|B₁₂|B12|pernicious|proton pump|\bPPI\b|omeprazole|pantoprazole|famotidine|\bH2\b|antacid|sucralfate|misoprostol|bismuth|clarithromycin|amoxicillin|metronidazole|tetracycline|epigastric/i],
          ['Upper GI bleeding & gastric cancer', /bleed|hemorrhag|hematemesis|melena|coffee[- ]ground|hypovolem|shock|transfus|large-bore|perforat|rigid|boardlike|peritonitis|pyloric|obstruct|octreotide|endoscop|gastric cancer|stomach cancer|gastrectomy|Billroth|dumping|postprandial|anastomo|bile reflux/i]],
-  '48': [['IBS, hernias & hemorrhoids', /irritable bowel|\bIBS\b|hydrogen breath|alosetron|lubiprostone|linaclotide|rifaximin|FODMAP|psyllium|fiber|hernia|inguinal|femoral|umbilical|incisional|reduc|incarcerat|strangulat|truss|herniorrhaphy|hernioplasty|hemorrhoid|sitz|witch hazel|banding|stool softener|docusate|strain/i],
-         ['Colorectal cancer & ostomies', /colorectal|colon cancer|rectal cancer|polyp|adenoma|\bFAP\b|Lynch|screening|colonoscop|\bFIT\b|FOBT|stool DNA|\bCEA\b|colostomy|ostomy|stoma|pouch|abdominoperineal|perineal|chemotherap|fluorouracil|bevacizumab|radiation|resection|anastomo/i],
-         ['Intestinal obstruction & NG tubes', /obstruct|ileus|adhesion|volvulus|intussusception|impaction|distention|strangulat|feculent|\bNG\b|NGT|nasogastric|suction|decompress|alvimopan|metoclopramide|hypokal|potassium|metabolic alkalosis|bowel sounds|flatus|trauma|blunt|penetrating|Cullen|Kehr/i]],
-  '49': [['Appendicitis, peritonitis & gastroenteritis', /appendic|McBurney|rebound|psoas|periton|perforat|rigid|boardlike|sepsis|third-spac|gastroenteritis|norovirus|rotavirus|E\. coli|Shigella|Campylobacter|Salmonella|oral rehydration|hand ?hygiene|loperamide|diphenoxylate/i],
-         ['Ulcerative colitis & Crohn’s disease', /ulcerative colitis|\bUC\b|Crohn|inflammatory bowel|\bIBD\b|fistula|J-pouch|ileostomy|ileal pouch|proctocolectomy|toxic megacolon|bloody diarrhea|tenesmus|aminosalicylate|5-ASA|sulfasalazine|mesalamine|corticosteroid|prednisone|budesonide|azathioprine|infliximab|adalimumab|vedolizumab|natalizumab|biologic|TNF|immunosuppress|stricture|malabsorption|B₁₂|B12/i],
-         ['Diverticular disease, celiac & parasites', /diverticul|LLQ|left lower|celiac|gluten|wheat|barley|\brye\b|parasit|Giardia|amebi|Cryptosporidi|paromomycin|ova and parasites/i]],
-  '53': [['Endocrine glands, assessment & tests', /endocrin|hormone|gland|pituitar|hypothalam|feedback|thyroid|parathyroid|adrenal|cortisol|aldosterone|catecholamine|pancrea|insulin|glucagon|islet|ADH|TSH|ACTH|growth hormone|history|physical|palpat|aging|older adult|COVID|stimulation test|suppression test|24-hour urine|saliva|imaging|specimen/i]],
+  '53': [['Pancreas, thyroid & parathyroid', /pancrea|insulin|glucagon|islet|somatostatin|thyroid|\bT3\b|\bT4\b|\bTSH\b|\bTRH\b|calcitonin|iodine|goiter|parathyroid|\bPTH\b|calcium/i],
+         ['Endocrine changes with aging', /aging|older adult|age-related|elderly|\b[6-9]\d-year-old|menopaus/i],
+         ['24-hour urine test', /24-hour|24 hours?|urine (collection|specimen|test)|preservative|timed (urine|collection)/i]],
   '55': [['Hypothyroidism & myxedema coma', /hypothyroid|myxedema|Hashimoto|levothyroxine|cold intoleran|weight gain|lethargy|constipat|bradycard|hypotherm|hypoventilat|TSH (high|elevated|rises)|sensitive to (sedat|opioid)|thyroid hormone replacement/i],
          ['Hyperthyroidism, thyroidectomy & thyroid storm', /hyperthyroid|Graves|exophthalm|goiter|thyroid storm|thyrotoxic|thyroidectomy|methimazole|propylthiouracil|\bPTU\b|iodine|SSKI|radioactive|\bRAI\b|propranolol|beta[- ]?blocker|heat intoleran|tachycard|eye (protect|care)|laryngeal|stridor|thyroiditis|thyroid cancer/i],
          ['Parathyroid disorders & calcium', /parathyroid|\bPTH\b|calcium|hypocalc|hypercalc|phosph|tetany|Chvostek|Trousseau|tingling|stones|bones|groans|calcitriol|vitamin D|cinacalcet|calcium gluconate|parathyroidectomy/i]],
@@ -36,34 +35,29 @@ const GUIDE = {
 };
 const GUIDE_N = Object.keys(GUIDE).reduce((a, c) => a + GUIDE[c].length, 0);
 // Chapter content that is not on the study guide. Empty until the study guide names what is left out.
-const GUIDE_OFF = {};
+// What the study guide leaves out of the chapters it narrows: a question about the first pattern is off the guide
+// unless it is also about the second.
+const GUIDE_OFF = {
+  '45': [/colonoscop|sigmoidoscop|bowel prep|\bEGD\b|\bERCP\b|capsule|endoscop|\bCT\b|\bMRI\b|ultrasound|x-ray|\bALT\b|\bAST\b|bilirubin|amylase|occult|\bFIT\b|stool DNA|\bCEA\b|sedation/i, /aging|older adult|age-related|quadrant|RUQ|LUQ|RLQ|LLQ/i],
+  '46': [/oral cancer|leukoplakia|erythroplakia|squamous|esophageal cancer|esophagectomy|esophageal (trauma|injur|perforation)|Boerhaave|caustic|salivary|sialadenitis|xerostomia|mandibulectomy|glossectomy/i, /GERD|reflux|hiatal|fundoplication|oral care|mouth care|stomatitis|dentures|floss/i],
+  '53': [/adrenal|aldosterone|cortisol|catecholamine|epinephrine|\bACTH\b|growth hormone|gonad|testes|ovar|COVID|palpat|inspect|auscultat/i, /pancrea|insulin|glucagon|thyroid|parathyroid|calcium|aging|older adult|24-hour|first morning void|cooler|preservative/i]
+};
 const guideName = k => { const [c, i] = k.split(':'); return (GUIDE[c] || [])[+i] ? GUIDE[c][+i][0] : k; };
 // The subtopics inside each topic (keyed chapter:item), so a test spreads a topic's questions across them
 // and rotates to the ones you've seen least. A question can sit in more than one.
 const GUIDE_SUB = {
-  '45:0': [['History & PQRST', /history|PQRST|precipitat|radiat|severity|timing|diary|lactose|family|travel|camping|weight (loss|change)/i],
-           ['Exam order & bowel sounds', /inspect|auscultat|palpat|percuss|bowel sounds|borborygm|hypoactive|hyperactive|quadrant|flatus|order/i],
-           ['Findings you must not touch', /pulsat|bruit|aneurysm|rigid|guarding|peristaltic wave|appendicitis/i],
-           ['Aging changes', /aging|older adult|age-related|hypochlorhydria|steatorrhea|constipat|impaction|drug (metabolism|clearance|toxicity)/i],
-           ['Liver & pancreas labs', /\bALT\b|\bAST\b|alkaline phosphatase|albumin|ammonia|amylase|lipase|bilirubin|prothrombin|\bPT\b/i],
-           ['Stool tests & tumor markers', /stool|occult|guaiac|\bFIT\b|FOBT|DNA|Cologuard|\bCEA\b|CA 19-9|parasite|fecal fat|difficile/i]],
-  '45:1': [['EGD & the gag reflex', /\bEGD\b|esophagogastro|gag|throat|aspirat|lozenge/i], ['ERCP', /ERCP|papillotomy|bile duct|pancreatitis|biloma/i],
-           ['Colonoscopy & screening', /colonoscop|sigmoidoscop|polyp|screening|age 45|colonography/i], ['Bowel prep', /bowel prep|prep\b|clear liquid|purple|red|electrolyte|polyethylene/i],
-           ['Sedation safety', /sedation|midazolam|fentanyl|propofol|respiratory rate|capnograph|sternal rub|atropine|vasovagal|flumazenil/i],
-           ['Imaging & contrast', /\bCT\b|\bMRI\b|ultrasound|x-ray|contrast|metallic|implant|capsule|free air/i],
-           ['Complications after a scope', /perforat|bleed|fever|guarding|hemorrhag|shock|driver|drive/i]],
-  '46:0': [['Causes & recognizing stomatitis', /stomatitis|mucositis|aphthous|herpe|candid|thrush|white patch|plaque|chemotherap|radiation|immunosuppress/i],
-           ['Mouth care & mouth drugs', /mouth care|oral care|rinse|saline|bicarbonate|toothbrush|alcohol|lemon|glycerin|nystatin|clotrimazole|lidocaine|chlorhexidine|swish/i],
-           ['Oral cancer: signs & risk', /oral cancer|leukoplakia|erythroplakia|squamous|tobacco|chew|alcohol|HPV|sore that|lump|risk/i],
-           ['Oral cancer surgery & airway', /airway|tracheostomy|mandibulectomy|glossectomy|neck dissection|flap|suction|swallow|speech|communicat/i],
-           ['Salivary glands & dry mouth', /salivary|xerostomia|sialadenitis|dry mouth|saliva|sugar-free/i]],
+  '45:0': [['What changes with age', /achlorhydria|hypochlorhydria|lipase|presbyesophagus|motility|liver|drug|B12|B₁₂|iron|calcium/i],
+           ['What to watch & teach', /constipat|impaction|fiber|fluid|teach|fall|appetite|older adult/i]],
+  '45:1': [['Which organ, which quadrant', /quadrant|RUQ|LUQ|RLQ|LLQ|midline|right upper|left upper|right lower|left lower/i]],
+  '46:0': [['Keeping the mouth healthy (Box 46.1)', /self-exam|floss|brush|dentist|dentures?|water|tobacco|alcohol|diet|sun/i],
+           ['Caring for a sore mouth (Box 46.2)', /oral care|mouth care|rinse|saline|chlorhexidine|lidocaine|soft|toothbrush|every 2 hours|stomatitis|candid|nystatin|clotrimazole/i]],
   '46:1': [['GERD: why & what you see', /GERD|reflux|heartburn|pyrosis|regurgitat|water brash|eructation|lower esophageal sphincter|\bLES\b|cough|hoarse|dental/i],
            ['GERD complications', /Barrett|stricture|esophagitis|dysphagia|adenocarcinoma|aspiration/i],
            ['Diet & lifestyle', /meal|eat|bedtime|head of (the )?bed|elevat|weight|chocolate|caffeine|fatty|peppermint|alcohol|smok|tight|bend|lie down/i],
-           ['GERD drugs', /proton pump|\bPPI\b|omeprazole|pantoprazole|esomeprazole|famotidine|\bH2\b|antacid|alginate|metoclopramide/i],
-           ['Hiatal hernia & fundoplication', /hiatal|paraesophageal|sliding|fundoplication|Nissen|gas bloat|NG tube|dysphagia after/i],
-           ['Esophageal cancer & esophagectomy', /esophageal cancer|esophagectomy|anastomo|leak|chest tube|jejunostomy|semi-Fowler|weight loss/i],
-           ['Esophageal trauma', /trauma|perforat|Boerhaave|Mallory|caustic|lye|foreign body|subcutaneous emphysema/i]],
+           ['GERD drugs', /proton pump|\bPPI\b|omeprazole|pantoprazole|esomeprazole|famotidine|\bH2\b|antacid|alginate|metoclopramide/i]],
+  '46:2': [['Sliding vs paraesophageal', /sliding|paraesophageal|rolling|type (I|II)|volvulus|strangulat/i],
+           ['Fundoplication care', /fundoplication|Nissen|gas bloat|dysphagia|\bNG\b|post-?op|semi-Fowler|ambulat/i],
+           ['Living with it', /upright|meals|bend|lift|weight|head of (the )?bed|small/i]],
   '47:0': [['Gastritis', /gastritis|atrophic|erosive|alcohol|intrinsic factor|B₁₂|B12|pernicious/i],
            ['H. pylori & triple therapy', /H\. pylori|Helicobacter|urea breath|clarithromycin|amoxicillin|metronidazole|tetracycline|bismuth|triple|quadruple/i],
            ['NSAIDs & stress ulcers', /NSAID|ibuprofen|aspirin|naproxen|stress ulcer|Curling|Cushing|misoprostol/i],
@@ -74,43 +68,13 @@ const GUIDE_SUB = {
            ['Perforation & obstruction', /perforat|rigid|boardlike|peritonitis|pyloric|obstruct|vomit/i],
            ['Gastric cancer', /gastric cancer|stomach cancer|indigestion|early satiety|weight loss|Virchow|adenocarcinoma/i],
            ['After gastrectomy & dumping', /gastrectomy|dumping|postprandial|lie down|small(er)? (frequent )?meals|fluids? (between|with) meals|B₁₂|B12|bile reflux|anastomo/i]],
-  '48:0': [['IBS: tests & drugs', /irritable bowel|\bIBS\b|hydrogen breath|lactulose|alosetron|lubiprostone|linaclotide|rifaximin|FODMAP|stress/i],
-           ['Hernias: types & danger signs', /hernia|inguinal|femoral|umbilical|incisional|reduc|incarcerat|strangulat|truss/i],
-           ['Hernia repair care', /herniorrhaphy|hernioplasty|cough|splint|scrotal|ice|void|lift/i],
-           ['Hemorrhoids', /hemorrhoid|sitz|witch hazel|banding|fiber|stool softener|docusate|strain/i]],
-  '48:1': [['Risk & screening', /risk|polyp|adenoma|\bFAP\b|Lynch|screening|colonoscop|\bFIT\b|FOBT|stool DNA|red meat|age 45/i],
-           ['Signs & diagnosis', /rectal bleeding|blood in|anemia|change in (bowel|stool)|\bCEA\b|biopsy|stage/i],
-           ['Surgery & the stoma', /colostomy|stoma|ostomy|pouch|abdominoperineal|perineal|resection|anastomo|leak/i],
-           ['Ostomy teaching', /empty|irrigat|odor|skin barrier|wafer|diet|gas|body image|sex/i],
-           ['Chemotherapy & radiation', /chemotherap|fluorouracil|bevacizumab|radiation|neutropen|hand-foot|mucositis/i]],
-  '48:2': [['Mechanical vs paralytic', /mechanical|paralytic|adynamic|ileus|adhesion|volvulus|intussusception|impaction|tumor/i],
-           ['Recognizing obstruction', /distention|vomit|feculent|high-pitched|borborygm|absent bowel|cramp|obstipation/i],
-           ['Strangulation & perforation', /strangulat|fever|rising pulse|rigid|perforat|peritonitis|ischem/i],
-           ['NG tube & suction care', /\bNG\b|NGT|nasogastric|suction|decompress|irrigat|placement|pH|patency/i],
-           ['Fluids & electrolytes', /potassium|hypokal|sodium|metabolic alkalosis|dehydrat|IV fluid|daily weight|intake and output/i],
-           ['Abdominal trauma', /trauma|blunt|penetrating|stab|gunshot|seat ?belt|Cullen|Kehr|hemorrhag/i]],
-  '49:0': [['Appendicitis', /appendic|McBurney|rebound|psoas|RLQ|right lower/i],
-           ['Peritonitis', /periton|rigid|boardlike|perforat|sepsis|third-spac|septic/i],
-           ['Pre- & postop care', /heat|laxative|enema|NPO|semi-Fowler|drain|antibiotic|surgery|laparoscop/i],
-           ['Gastroenteritis', /gastroenteritis|norovirus|rotavirus|E\. coli|Shigella|Campylobacter|Salmonella|travel/i],
-           ['Dehydration & fluids', /dehydrat|oral rehydration|fluid|electrolyte|potassium|orthostatic|mucous membrane|skin turgor|urine output/i],
-           ['Stopping the spread', /hand ?hygiene|hand ?wash|alcohol-based|bleach|isolation|contact precaution|food handl/i]],
-  '49:1': [['UC vs Crohn’s', /ulcerative colitis|\bUC\b|Crohn|continuous|skip lesion|transmural|rectum|terminal ileum|cobblestone|fistula|compare/i],
-           ['Flares: bleeding & complications', /bloody|bleed|toxic megacolon|perforat|hemorrhag|anemia|stools (a|per) day|fever|tenesmus/i],
-           ['IBD drugs', /aminosalicylate|5-ASA|sulfasalazine|mesalamine|corticosteroid|prednisone|budesonide|azathioprine|infliximab|adalimumab|vedolizumab|natalizumab|biologic|TNF|immunosuppress/i],
-           ['Nutrition & malabsorption', /nutrition|diet|malabsorption|B₁₂|B12|parenteral|\bTPN\b|low-residue|weight|NPO|bowel rest/i],
-           ['Surgery & ostomy care', /J-pouch|ileostomy|ileal pouch|proctocolectomy|stoma|ostomy|output|dehydrat/i],
-           ['Fistulas & strictures', /fistula|stricture|abscess|skin|wound/i]],
-  '49:2': [['Diverticulosis vs diverticulitis', /diverticul|pouch|LLQ|left lower|fever|WBC|abscess|perforat/i],
-           ['Fiber & what to eat', /fiber|bran|seeds|nuts|popcorn|clear liquid|low-fiber|high-fiber|diet/i],
-           ['Celiac disease', /celiac|gluten|wheat|barley|\brye\b|oats|villi|dermatitis herpetiformis/i],
-           ['Parasites & stool tests', /parasit|Giardia|amebi|Cryptosporidi|ova and parasites|metronidazole|paromomycin|water/i]],
-  '53:0': [['Feedback loops & the pituitary', /feedback|hypothalam|pituitar|TSH|ACTH|growth hormone|ADH|vasopressin|target|tropic|negative/i],
-           ['Adrenal hormones', /adrenal|cortisol|aldosterone|catecholamine|epinephrine|norepinephrine|stress|sodium|potassium/i],
-           ['Thyroid, parathyroid & pancreas', /thyroid|T3|T4|parathyroid|\bPTH\b|calcium|insulin|glucagon|islet|glucose/i],
-           ['History & physical exam', /history|physical|palpat|thyroid (exam|palpat)|behind|weight|skin|hair|vital|fat distribution|vision/i],
-           ['Aging & COVID-19', /aging|older adult|age-related|COVID/i],
-           ['Tests & the nurse’s job', /stimulation|suppression|24-hour urine|saliva|specimen|timing|fasting|imaging|\bCT\b|\bMRI\b|test/i]],
+  '53:0': [['Pancreas: insulin & glucagon', /pancrea|insulin|glucagon|islet|somatostatin|beta cell|alpha cell/i],
+           ['Thyroid hormones', /thyroid|\bT3\b|\bT4\b|\bTSH\b|\bTRH\b|calcitonin|iodine|goiter/i],
+           ['Parathyroid & calcium', /parathyroid|\bPTH\b|calcium|vitamin D|phosph/i]],
+  '53:1': [['Less ADH & fluids', /\bADH\b|vasopressin|dehydrat|thirst|fluid/i],
+           ['Less estrogen', /estrogen|bone|cystitis|perineal|menopaus/i],
+           ['Glucose tolerance', /glucose|diabetes|wound|candid|yeast/i]],
+  '53:2': [['Collecting it right', /24-hour|discard|void|preservative|ice|cooler|container|exact/i]],
   '55:0': [['Why it happens & what you see', /hypothyroid|Hashimoto|cold intoleran|weight gain|lethargy|fatigue|constipat|dry skin|brittle|bradycard|slow|TSH|T4/i],
            ['Levothyroxine', /levothyroxine|thyroid hormone replacement|empty stomach|start low|chest pain|angina|lifelong/i],
            ['Myxedema coma', /myxedema|coma|hypotherm|hypoventilat|hyponatremia|IV levothyroxine|mechanical ventilation|airway/i],

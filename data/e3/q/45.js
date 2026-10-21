@@ -102,7 +102,47 @@ window.NGN_EXTRA['45'] = [
     ask: 'Which way does aging move the GI tract — more or less?',
     cues: ['Aging = less acid, less motility, less lipase, less liver enzyme'],
     phys: 'Aging tissue atrophies and slows → the stomach makes less acid (poor B₁₂ and iron absorption) → the bowel moves more slowly (constipation) → the pancreas makes less lipase (steatorrhea) → the liver metabolizes drugs more slowly (toxicity).',
-    rule: 'Aging GI = less of everything: acid, motility, lipase, liver enzymes. Expect constipation, steatorrhea, poor B₁₂/iron absorption and slower drug clearance.' }
+    rule: 'Aging GI = less of everything: acid, motility, lipase, liver enzymes. Expect constipation, steatorrhea, poor B₁₂/iron absorption and slower drug clearance.' },
+
+  { f: 'matrix', t: 'Which quadrant? (Table 45.1)', q: 'The nurse documents abdominal findings by quadrant. For each structure, indicate the quadrant it lies in.',
+    cols: ['RUQ', 'LUQ', 'RLQ', 'LLQ'],
+    rows: [{ t: 'Appendix', a: 2, r: 'RLQ. The appendix hangs from the cecum, the start of the colon, in the right lower quadrant.' },
+      { t: 'Spleen', a: 1, r: 'LUQ. The spleen lies high on the left; dullness at the left anterior axillary line suggests it is enlarged.' },
+      { t: 'Head of the pancreas', a: 0, r: 'RUQ. The head sits in the curve of the duodenum on the right; only the body and tail reach across to the left.' },
+      { t: 'Sigmoid colon', a: 3, r: 'LLQ. The descending colon runs down the left side and becomes the sigmoid colon in the left lower quadrant, just before the rectum.' },
+      { t: 'Gallbladder', a: 0, r: 'RUQ. The gallbladder sits under the liver, most of which is in the right upper quadrant.' },
+      { t: 'Body and tail of the pancreas', a: 1, r: 'LUQ. The body and tail stretch left from the head toward the spleen.' }],
+    ask: 'Can you place each organ under the quadrant where you would find it?',
+    cues: ['Right upper: liver, gallbladder, duodenum, pancreas head', 'Left upper: stomach, spleen, pancreas body and tail', 'Right lower: cecum and appendix · left lower: sigmoid colon'],
+    phys: 'Two lines crossing at the umbilicus divide the abdomen into four quadrants → each organ lies beneath a predictable quadrant → pain, a mass or asymmetry in one quadrant points to the structures under it.',
+    rule: 'RUQ: liver, gallbladder, duodenum, pancreas head. LUQ: stomach, spleen, pancreas body and tail. RLQ: cecum, appendix. LLQ: sigmoid colon. Midline: aorta, enlarged uterus, distended bladder (Table 45.1).' },
+
+  { f: 'matrix', t: 'Aging or abnormal?', q: 'The nurse reviews the GI assessment of an 82-year-old man admitted after a fall. For each finding, indicate whether it fits expected aging changes or is not explained by aging and needs follow-up.',
+    cols: ['Fits expected aging', 'Not explained by aging — follow up'],
+    rows: [{ t: 'ALT 39 units/L (adult range 4–36)', a: 0, r: 'Fits aging. ALT may run slightly higher in older adults and in men, so a value just above the adult range can be his normal.' },
+      { t: 'Total calcium 5.8 mg/dL', a: 1, r: 'Follow up now. Calcium may run slightly lower in older adults, but below 6 mg/dL is a critical value.' },
+      { t: 'Says it takes longer to feel the urge to have a bowel movement', a: 0, r: 'Fits aging. Peristalsis slows and nerve impulses dull with age, so the urge to defecate weakens — which is why older adults are prone to constipation and impaction.' },
+      { t: 'Black, tarry stools for 2 days', a: 1, r: 'Follow up. Tarry stool means bleeding high in the GI tract — never an aging change. GI bleeding is the most frequent cause of anemia in adults.' },
+      { t: 'Unintended 4.5-kg (10-lb) weight loss over 2 months', a: 1, r: 'Follow up. Unintended weight loss can be how some GI cancers first show, and stomach cancer is more common in older adults.' },
+      { t: 'Slower clearance of a drug that the liver metabolizes', a: 0, r: 'Fits aging. Fewer, smaller liver cells and lower enzyme activity slow drug metabolism — expected, but it means watching for toxicity.' }],
+    ask: 'Can you separate what aging explains from what it never explains?',
+    cues: ['82-year-old → less acid, motility, lipase and liver enzyme; lab ranges shift slightly', 'A critical value, bleeding or unintended weight loss is never “just aging”'],
+    phys: 'Aging tissue atrophies and slows → duller nerve signals weaken the urge to defecate → a smaller liver clears drugs more slowly → reference ranges drift a little (ALT up, calcium down) → but bleeding, a critical calcium or weight loss come from disease, not age.',
+    rule: 'Older adults: a slightly high ALT, AST, alkaline phosphatase or amylase, or a slightly low calcium, can be normal for age. Critical values (calcium < 6 or > 13 mg/dL), tarry stools and unintended weight loss are never aging — report them.' },
+
+  { f: 'sata', t: 'Right after an EGD', q: 'A client is in the recovery area 10 minutes after an EGD done under moderate sedation with a topical throat spray. Which actions should the nurse take? Select all that apply.',
+    o: ['Check vital signs every 15–30 minutes until the sedation wears off', 'Keep the side rails raised', 'Withhold food and fluids until the gag reflex returns', 'Discontinue the IV now that the procedure is over', 'Check vital signs every hour until discharge', 'Confirm that someone will drive the client home', 'Tell the client it is safe to drive after 4 hours if fully awake'], a: [0, 1, 2, 5],
+    r: ['Correct. Sedation can still depress breathing and blood pressure, so vital signs are checked every 15–30 minutes until it wears off.',
+      'Correct. A drowsy client can fall; the side rails stay raised while sedation wears off.',
+      'Correct. The spray numbs the gag reflex (usually back in 30–60 minutes); anything by mouth before then can be aspirated — preventing aspiration is the priority after EGD.',
+      'Incorrect. IV fluids continue until the client tolerates oral fluids without nausea or vomiting.',
+      'Incorrect. Hourly checks are too far apart while sedation is wearing off; check every 15–30 minutes.',
+      'Correct. EGD is usually an ambulatory procedure under moderate sedation, so the client needs someone to drive them home.',
+      'Incorrect. After sedation the client must not drive for at least 12–18 hours.'],
+    ask: 'What keeps a client safe while sedation and throat numbing wear off?',
+    cues: ['Moderate sedation → breathing, falls, judgment', 'Throat spray → no gag reflex → aspiration'],
+    phys: 'Midazolam, fentanyl or propofol depress breathing and alertness → frequent vital signs and raised rails guard against hypoventilation and falls → the topical anesthetic blocks the gag reflex → nothing by mouth until it returns → judgment stays impaired for hours → no driving for 12–18 hours.',
+    rule: 'After EGD: VS every 15–30 min until sedation wears off, side rails up, NPO until the gag reflex returns, IV until oral fluids stay down, a driver home, no driving for 12–18 h.' }
 ];
 
 window.RECALL_EXTRA['45'] = {
@@ -166,7 +206,31 @@ window.RECALL_EXTRA['45'] = {
       r: ['Correct. A past contrast reaction or severe drug allergies changes the plan (premedication or no contrast).', 'Incorrect. Not a safety issue for CT.', 'Incorrect. Not related to the contrast risk.', 'Incorrect. Not related to CT safety.'],
       ask: 'What part of this test can cause a reaction?', cues: ['IV contrast → allergy and kidney risk'],
       phys: 'Contrast enters the blood → in a sensitized client mast cells release histamine (hives to anaphylaxis) → the kidneys must also clear the dye.',
-      rule: 'Before CT with contrast: ask about contrast reactions and allergies, NPO ≥ 4 h, IV access; warn of a warm, flushed feeling or metallic taste.' }
+      rule: 'Before CT with contrast: ask about contrast reactions and allergies, NPO ≥ 4 h, IV access; warn of a warm, flushed feeling or metallic taste.' },
+    { t: 'Home kit or colonoscopy?', q: 'Several clients ask about using a mailed stool DNA (mt-sDNA) kit instead of a colonoscopy. For which clients should the nurse explain that a colonoscopy is preferred? Select all that apply.',
+      o: ['A 52-year-old whose brother had colon cancer at age 48', 'A 47-year-old being treated for ulcerative colitis', 'A 60-year-old whose FIT was positive last year', 'A 46-year-old with no symptoms or risk factors who dreads bowel prep', 'A 55-year-old with lactose intolerance', 'A 58-year-old whose colonoscopy 10 years ago was normal'], a: [0, 1, 2],
+      r: ['Correct. A family history of colon cancer calls for a colonoscopy rather than a home test.', 'Correct. Inflammatory bowel disease (ulcerative colitis or Crohn’s) raises colon cancer risk, so colonoscopy is preferred.', 'Correct. After a previous positive screening test, a home test is not enough — the client needs a colonoscopy.', 'Incorrect. An average-risk adult from age 45 may choose a home test; it needs no bowel prep, which can encourage people who fear colonoscopy.', 'Incorrect. Lactose intolerance does not raise colon cancer risk.', 'Incorrect. A past normal colonoscopy is not a risk factor; an average-risk client who is due can choose any recommended option.'],
+      ask: 'Who has a high enough risk that a home test is not enough?', cues: ['Family history, IBD, a past positive test → colonoscopy', 'Average risk + fear of prep → a home test is a fair choice'],
+      phys: 'Home stool tests look for blood or tumor DNA shed into the stool → they can miss lesions and can’t remove polyps → in people more likely to have cancer, a miss matters more → colonoscopy sees the whole colon and treats what it finds.',
+      rule: 'Colonoscopy, not a home stool test, for a personal or family history of colon cancer, inflammatory bowel disease (Crohn’s or ulcerative colitis), or a previous positive screening test. Any positive home test → colonoscopy.' },
+    { t: 'Aging liver and drugs', q: 'A 79-year-old client starts a drug that is metabolized by the liver. Which age-related GI change makes the nurse monitor closely for drug toxicity?',
+      o: ['Fewer, smaller liver cells with lower enzyme activity', 'More hydrochloric acid, which speeds drug absorption', 'Faster peristalsis, which shortens drug transit time', 'More pancreatic lipase, which boosts absorption of fat-soluble drugs'], a: [0],
+      r: ['Correct. With aging, liver cells shrink in number and size, fibrous tissue increases and enzyme activity falls — drugs are metabolized more slowly and can build up to toxic levels.', 'Incorrect. The gastric mucosa atrophies with age, so acid falls (hypochlorhydria); it does not rise.', 'Incorrect. Peristalsis slows with age, which leads to constipation, not faster transit.', 'Incorrect. Lipase production falls with age, causing poorer fat digestion and steatorrhea.'],
+      ask: 'Which way does the aging liver change drug handling?', cues: ['79-year-old + liver-metabolized drug → slower clearance', 'Aging means less, never more'],
+      phys: 'The aging liver loses cells and mass and gains fibrous tissue → less enzyme activity → each dose is broken down more slowly → levels climb with repeated doses → toxicity.',
+      rule: 'Aging liver: fewer, smaller cells and lower enzyme activity → slower drug metabolism → watch older adults for drug accumulation and toxicity.' },
+    { t: 'Aging stomach, B₁₂ and iron', q: 'An 84-year-old client asks why the provider checks vitamin B₁₂ and iron levels at every annual visit. Which age-related GI change should the nurse explain?',
+      o: ['The stomach lining thins and makes less acid, so less B₁₂ and iron are absorbed', 'The pancreas makes less lipase, so fat passes into the stool', 'The bowel moves more slowly, so stool stays longer in the colon', 'The liver stores more iron and B₁₂ with age, which hides a deficiency'], a: [0],
+      r: ['Correct. Atrophy of the gastric mucosa lowers hydrochloric acid (hypochlorhydria), which reduces absorption of iron and vitamin B₁₂ and lets bacteria overgrow (atrophic gastritis).', 'Incorrect. Less lipase is a real aging change, but it causes poor fat digestion and steatorrhea, not low B₁₂ or iron.', 'Incorrect. Slower peristalsis is real, but it leads to constipation and impaction, not poor B₁₂ and iron absorption.', 'Incorrect. The liver does store iron and B₁₂, but it shrinks with age; it does not store more.'],
+      ask: 'Which aging change affects what the stomach does for absorption?', cues: ['B₁₂ + iron → stomach acid', 'Two wrong options are real aging changes with different effects'],
+      phys: 'The gastric mucosa atrophies with age → parietal cells make less hydrochloric acid → less iron and B₁₂ are absorbed → less acid also lets swallowed bacteria survive and overgrow → atrophic gastritis.',
+      rule: 'Aging stomach: mucosal atrophy → hypochlorhydria → less iron and B₁₂ absorbed and bacterial overgrowth (atrophic gastritis).' },
+    { t: 'Which lab to report now', q: 'A client with short-bowel syndrome has these results. Which one should the nurse report to the provider immediately?',
+      o: ['Total calcium 5.8 mg/dL', 'D-xylose 18 mg/dL at 60 minutes', 'Albumin 3.3 g/dL', 'Potassium 3.3 mEq/L'], a: [0],
+      r: ['Correct. Calcium below 6 mg/dL is a critical value (critical < 6 or > 13 mg/dL). Calcium is absorbed in the gut, so malabsorption can drive it this low.', 'Incorrect. A low D-xylose (normal 20–57 mg/dL at 60 minutes) is expected with short-bowel syndrome; it confirms malabsorption but is not an emergency.', 'Incorrect. Albumin is slightly low (normal 3.5–5.0 g/dL), as expected with undernutrition; it needs attention but is not critical.', 'Incorrect. Potassium is slightly low (normal 3.5–5.0 mEq/L) but above the critical value of 3 mEq/L.'],
+      ask: 'Which value crosses a critical limit, not just the normal range?', cues: ['Short-bowel syndrome → malabsorption → several low values', 'Critical calcium < 6 mg/dL; critical potassium < 3 mEq/L'],
+      phys: 'A shortened small intestine has less surface to absorb → calcium, protein and sugars such as D-xylose are poorly absorbed → blood levels fall → a very low calcium makes nerves and muscles overexcitable, so it is reported at once.',
+      rule: 'Critical values in Table 45.2: calcium < 6 or > 13 mg/dL, potassium < 3 or > 6.1 mEq/L, total bilirubin > 12 mg/dL. Low D-xylose and low albumin are expected with malabsorption but are not critical.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'Moderate sedation plus throat spray for an EGD → ___ → so the nurse ___ until ___.',
@@ -198,7 +262,17 @@ window.RECALL_EXTRA['45'] = {
       'Less B₁₂ and iron absorbed and bacterial overgrowth; constipation and impaction; steatorrhea (fatty stools); slower drug metabolism and toxicity risk.',
       'Atrophy and slowing affect every part of the tract.',
       'Ask about bowel pattern and review drug doses in older adults.',
-      'Aging never means more lipase or more frequent stools.']
+      'Aging never means more lipase or more frequent stools.'],
+    ['Direct recall', 1, 'Name the main structures in each abdominal quadrant and the midline (Table 45.1).',
+      'RUQ: most of the liver, gallbladder, duodenum, head of the pancreas, hepatic flexure. LUQ: left lobe of the liver, stomach, spleen, body and tail of the pancreas, splenic flexure. RLQ: cecum, appendix, right ureter, right ovary and tube, right spermatic cord. LLQ: sigmoid colon, part of the descending colon, left ureter, left ovary and tube, left spermatic cord. Midline: abdominal aorta, uterus if enlarged, bladder if distended.',
+      'A finding in one quadrant points to the organs beneath it.',
+      'Inspect from the RUQ around to the RLQ, auscultate from the RLQ, and examine painful quadrants last.',
+      'The pancreas spans two quadrants: head in the RUQ, body and tail in the LUQ.'],
+    ['Direct recall', 1, 'What does the nurse teach a client having video capsule endoscopy, from fasting to follow-up?',
+      'Nothing to eat or drink, including water, for 12 hours before and for the first 2 hours of the test; clear liquids after 2 hours, a light lunch after 4 hours. Sensors go on the abdomen and a belt with a data recorder is worn; swallow the capsule with water; normal but not vigorous activity for about 8 hours; return the equipment. The single-use capsule passes in the stool and is discarded. Report signs of obstruction, fever, chest pain, trouble breathing, or a capsule not passed within 2 weeks.',
+      'The capsule photographs the small bowel as peristalsis carries it; food would block the view, and the battery lasts about 10 hours, so it is not used for the colon.',
+      'Have the client teach back the fasting times and when to call.',
+      'The capsule is not saved — the pictures are on the recorder. The deadline for passing it is 2 weeks, not a few days.']
   ],
   mc: [
     ['Bowel sounds are the best sign that peristalsis is back after surgery.', 'The most reliable sign is passing flatus within 8 hours or a stool within 12–24 hours.', 'Advancing the diet too early can cause distention and vomiting.', 'Bowel sounds can come from small local movements; flatus proves the whole bowel is moving.'],
@@ -206,7 +280,8 @@ window.RECALL_EXTRA['45'] = {
     ['A high CEA level confirms colon cancer.', 'CEA monitors treatment and detects recurrence; benign conditions raise it too, so it can’t diagnose.', 'False alarm or false reassurance from the wrong test.', 'Inflammation, cirrhosis, Crohn’s, pancreatitis and smoking all raise CEA.'],
     ['After an EGD, give water as soon as the client is awake.', 'Nothing by mouth until the gag reflex returns, usually 30–60 minutes.', 'The client can aspirate water into the lungs.', 'The throat spray numbs the gag reflex, and sedation slows protective reflexes.'],
     ['A FIT stool test needs the same diet and drug rules as a guaiac test.', 'FIT has no food or drug limits; only gFOBT restricts NSAIDs, red meat and vitamin C.', 'Needless rules make clients skip screening.', 'FIT antibodies bind only human hemoglobin.'],
-    ['Red gelatin is fine during bowel prep because it is a clear liquid.', 'No red, orange or purple liquids or gelatin during bowel prep.', 'The dye can look like blood on camera and confuse the exam.', 'Clear liquids must also be free of colors that mimic blood.']
+    ['Red gelatin is fine during bowel prep because it is a clear liquid.', 'No red, orange or purple liquids or gelatin during bowel prep.', 'The dye can look like blood on camera and confuse the exam.', 'Clear liquids must also be free of colors that mimic blood.'],
+    ['A negative home stool DNA test rules out colon cancer.', 'Home stool tests can miss cancer (false negatives) as well as give false positives; the DNA kit detects less than a colonoscopy, so it is repeated every 3 years, and high-risk clients need a colonoscopy instead.', 'False reassurance can delay the diagnosis of a cancer the kit missed.', 'The kit finds blood and abnormal DNA shed into the stool; a lesion that isn’t shedding at the time can be missed, and a home test can’t remove polyps.']
   ]
 };
 window.EXPLAIN_CARDS['45'] = { mc: Object.fromEntries(window.RECALL_EXTRA['45'].mc.map((x, i) => [i, { why: x[3] }])) };

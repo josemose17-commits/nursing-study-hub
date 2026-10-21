@@ -860,6 +860,7 @@ const REASONS = [
   ['guess', 'Never learned this — pure guess', -1]
 ];
 const RLABEL = {}; REASONS.forEach(r => { RLABEL[r[0]] = r[1]; });
+const casesOn = () => (window.CASES || []).filter(cs => CHS.includes(cs.ch));
 // Drug questions built from templates: the clinical judgment skill and strategies each template tests.
 const GEN_TAGS = { use: ['ac', ['pharm', 'subject']], how: ['ac', ['pharm']], check: ['rc', ['pharm', 'assess']], se: ['eo', ['pharm']], sae: ['rc', ['pharm', 'abnormal']], rescue: ['ta', ['pharm', 'safety']] };
 // A case study's chart at step i: every section added so far, merged by heading; what this step adds is marked.
@@ -1266,8 +1267,8 @@ class Component extends DCLogic {
     });
     (window.NGN_EXTRA['33'] || []).forEach((x, i) => { if (to34(x, 'n')) push(x, '33|n|' + i, '34', x.f); });
     // Unfolding case studies: six items on one client, asked in order; the chart grows as the story unfolds.
-    // They run only as a case (startCase), never mixed into a regular test.
-    (window.CASES || []).forEach(cs => cs.steps.forEach((x, i) => {
+    // They run only as a case (startCase), never mixed into a regular test; a case on a chapter off this exam isn't offered.
+    casesOn().forEach(cs => cs.steps.forEach((x, i) => {
       push(Object.assign({}, x, { ex: caseEx(cs, i).concat(x.ex || []) }), 'cs|' + cs.id + '|' + i, cs.ch, x.f || 'mcq');
       Object.assign(bank[bank.length - 1], { cs: cs.id, csStep: i });
     }));
@@ -1636,7 +1637,7 @@ class Component extends DCLogic {
 
   // An unfolding case study: its six items in order, no follow-ups in between (the report still lists the misses).
   startCase(id) {
-    const cs = (window.CASES || []).find(c => c.id === id); if (!cs) return;
+    const cs = casesOn().find(c => c.id === id); if (!cs) return;
     if (this.state.S.test && !window.confirm('Discard the test in progress and start this case study?')) return;
     this.upd(S => {
       S.testNo = (S.testNo || 0) + 1;
@@ -1826,7 +1827,8 @@ class Component extends DCLogic {
       const subsOf = T.drill ? new Set((this.byGuide[T.drill] || []).flatMap(x => (x.sub || []).filter(s => s.indexOf(T.drill + '/') === 0))).size : this.subTotal;
       S.report = { at: Date.now(), no: T.no, n: done.length, base: T.base, follows: done.filter(p => T.follow[p.id]).length, pct, raw: Math.round(100 * raw / done.length), focus: T.focus, looked, guide: T.plan ? cov.size : null, drill: T.drill ? guideName(T.drill) : null, subs: T.plan ? covSub.size : null, subsOf, recs: done.map(P => this.record(T, P)) };
       if (T.cs) { S.report.cs = T.focus; S.caseLog = S.caseLog || {}; S.caseLog[T.cs] = { at: Date.now(), pct }; }
-      else S.history.push({ at: Date.now(), pct, n: done.length });
+      // Each test's chapters too ({ ch: [percent, answered] }), so the study route can tell which chapters a test covered.
+      else S.history.push({ at: Date.now(), pct, n: done.length, len: T.len, focus: T.focus || '', ch: Object.keys(byCh).reduce((o, c) => { o[c] = [Math.round(100 * byCh[c].s / byCh[c].n), byCh[c].n]; return o; }, {}) });
       S.test = null; S.phase = 'home';
     });
     window.scrollTo(0, 0);
@@ -1886,7 +1888,7 @@ class Component extends DCLogic {
     const weak = Object.keys(S.mastery.topics).filter(t => this.byTopic[t] && S.mastery.topics[t].m != null).sort((a, b) => S.mastery.topics[a].m - S.mastery.topics[b].m).slice(0, 3).filter(t => S.mastery.topics[t].m < 0.85);
     v.leanNote = weak.length ? 'Leans toward your weakest: ' + weak.map(t => this.topicTitle(t)).join(' · ') : 'Your first test samples every topic; later tests lean toward what you miss.';
     const CL = S.caseLog || {};
-    v.cases = (window.CASES || []).map(cs => ({ title: cs.title, sub: 'Ch ' + cs.ch + ' · ' + cs.steps.length + ' items · ' + (CL[cs.id] ? 'last time ' + CL[cs.id].pct + '%' : 'not tried yet'), onClick: () => this.startCase(cs.id) }));
+    v.cases = casesOn().map(cs => ({ title: cs.title, sub: 'Ch ' + cs.ch + ' · ' + cs.steps.length + ' items · ' + (CL[cs.id] ? 'last time ' + CL[cs.id].pct + '%' : 'not tried yet'), onClick: () => this.startCase(cs.id) }));
     v.hasCases = v.cases.length > 0;
     v.howItWorks = [
       { k: 'One test', t: 'Every NCLEX format — single answer, select all, select N, matrix, drop-down and drag-and-drop cloze, rationale, highlight, grouping, bow-tie, trend, ordering, calculations, exhibits — scored the way the NCLEX scores each, plus drug questions built fresh each time, myth checks and recall prompts.' },

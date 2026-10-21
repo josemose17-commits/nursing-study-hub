@@ -117,7 +117,44 @@ window.NGN_EXTRA['55'] = [
     r: ['Correct. Low TSH with high T4 means the gland (or an antibody) is driving the excess; a positive TRAb confirms Graves — and only Graves causes exophthalmos.', 'Incorrect. Primary hypothyroidism has high TSH and low T4.', 'Incorrect. Secondary hypothyroidism has low TSH and low T4.', 'Incorrect. Both values are abnormal.'],
     ask: 'What is the pituitary doing when T4 is high?', cues: ['TSH low + T4 high → gland-driven excess', 'TRAb + exophthalmos → Graves'],
     phys: 'Antibodies (TSIs) bind the TSH receptor and drive the gland → T4 rises → negative feedback shuts the pituitary down → TSH falls almost to zero.',
-    rule: 'TSH moves opposite to thyroid hormone when the gland is the problem: high TSH + low T4 = primary hypo; low TSH + high T4 = Graves (TRAb +).' }
+    rule: 'TSH moves opposite to thyroid hormone when the gland is the problem: high TSH + low T4 = primary hypo; low TSH + high T4 = Graves (TRAb +).' },
+
+  { f: 'exhibit', t: 'Thyroid labs at 64', q: 'A 64-year-old man reports months of fatigue and feeling cold. Review his lab results. Which findings would the nurse expect on assessment? Select all that apply.',
+    ex: [{ h: 'Labs', table: [['Test', 'Result', 'Reference range'], ['Serum T3', '32 ng/dL', '40–180 ng/dL (over 50)'], ['Total T4', '2.9 mcg/dL', '4–12 mcg/dL (men)'], ['Free T4', '0.5 ng/dL', '0.8–2.8 ng/dL'], ['TSH', '16 μU/mL', '0.3–5 μU/mL']] }],
+    o: ['Heart rate below 60 beats/min', 'Constipation', 'Periorbital edema and a thick tongue', 'Exophthalmos', 'Hyperactive deep tendon reflexes', 'Warm, moist skin'], a: [0, 1, 2],
+    r: ['Correct. Low T3 and T4 with a high TSH means primary hypothyroidism; the slowed heart often runs below 60.',
+      'Correct. The gut slows with the metabolic rate.',
+      'Correct. Glycosaminoglycans collect in tissue and hold water (myxedema).',
+      'Incorrect. Exophthalmos occurs only in Graves disease (hyperthyroidism).',
+      'Incorrect. Reflexes are decreased in hypothyroidism; hyperactive reflexes fit hyperthyroidism.',
+      'Incorrect. Hypothyroid skin is cool, dry and coarse; warm, moist skin fits hyperthyroidism.'],
+    ask: 'Which way are the hormones moving, and what is the pituitary doing about it?', cues: ['T3 32, total T4 2.9, free T4 0.5 — all below range', 'TSH 16 — above 0.3–5'],
+    phys: 'The failing gland makes too little T3 and T4 → negative feedback is lost → the pituitary raises TSH → metabolism slows in every organ → slow heart, slow gut, water-holding tissue.',
+    rule: 'Table 55.1: T3 40–180 ng/dL over 50 (70–205 at 20–50); total T4 4–12 mcg/dL men, 5–12 women, 5–11 over 60; free T4 0.8–2.8 ng/dL; TSH 0.3–5 μU/mL. Low T4 + high TSH = primary hypothyroidism.' },
+
+  { f: 'matrix', t: 'Expected or emergency?', q: 'A client with untreated hypothyroidism is admitted with pneumonia. For each finding, indicate whether it is expected with hypothyroidism or a sign of developing myxedema coma that needs immediate action.',
+    cols: ['Expected with hypothyroidism', 'Myxedema coma — act now'],
+    rows: [{ t: 'Heart rate 58 beats/min, unchanged from baseline', a: 0, r: 'Expected. A pulse below 60 is common in hypothyroidism.' },
+      { t: 'BP 138/94 mm Hg', a: 0, r: 'Expected. Diastolic hypertension is a feature of hypothyroidism (Box 55.2); hypotension would be the warning sign.' },
+      { t: 'Dry, coarse skin and constipation', a: 0, r: 'Expected. Slowed metabolism.' },
+      { t: 'Hard to rouse and newly confused', a: 1, r: 'Act now. Falling consciousness is the key cue of myxedema coma; report it promptly.' },
+      { t: 'Serum sodium 124 mEq/L', a: 1, r: 'Act now. Hyponatremia is part of myxedema coma.' },
+      { t: 'Blood glucose 58 mg/dL', a: 1, r: 'Act now. Hypoglycemia is part of myxedema coma.' },
+      { t: 'Temperature 94.8°F (34.9°C) and RR 8', a: 1, r: 'Act now. Hypothermia and hypoventilation — respiratory failure is the most common cause of death.' }],
+    ask: 'Is this the slow baseline of hypothyroidism, or is the slowing now failing organs?', cues: ['Untreated hypothyroidism + acute illness (a trigger)', 'Low LOC, sodium, glucose, temperature, RR'],
+    phys: 'Acute illness stresses a metabolism with nothing in reserve → cardiac output and the drive to breathe fall → the brain gets too little oxygen (falling LOC), heat production fails (hypothermia), fuel runs low (hypoglycemia), water is retained (hyponatremia).',
+    rule: 'Myxedema coma: reduced LOC, respiratory failure, hypotension, hyponatremia, hypothermia, hypoglycemia, bradycardia. Assess hypothyroid clients at least every 8 hours; treat on symptoms (Box 55.3).' },
+
+  { f: 'bow', t: 'Tired, cold and slowing down', q: 'A 52-year-old man reports a year of increasing fatigue, constipation, feeling cold when others are comfortable, and an 18-lb (8-kg) weight gain without eating more. His wife says he seems withdrawn and forgetful. HR 54, T 96.6°F (35.9°C).',
+    cond: { o: ['Hypothyroidism', 'Hyperthyroidism', 'Hypoparathyroidism', 'Hyperparathyroidism'], a: 0,
+      r: ['Correct. Fatigue, constipation, cold intolerance, weight gain, a slow pulse, low temperature and slowed thinking all reflect a slowed metabolism.', 'Incorrect. Hyperthyroidism brings heat intolerance, weight loss and tachycardia.', 'Incorrect. Low calcium causes tingling, twitching and tetany.', 'Incorrect. High calcium causes stones, fractures and GI upset, not cold intolerance and bradycardia.'] },
+    act: { o: ['Teach to take levothyroxine with water on an empty stomach, 30–60 minutes before breakfast', 'Teach the family the signs of myxedema coma, such as increasing drowsiness or confusion', 'Teach to take levothyroxine at bedtime with a calcium supplement', 'Assess for Chvostek sign', 'Explain bisphosphonate therapy'], a: [0, 1],
+      r: ['Correct. Food and minerals change absorption; even absorption lets the dose be adjusted.', 'Correct. Untreated or poorly treated hypothyroidism can progress to myxedema coma, and families often notice change first.', 'Incorrect. Calcium binds levothyroxine; separate them by at least 4 hours.', 'Incorrect. A sign of low calcium, not relevant here.', 'Incorrect. Used for bone loss in hyperparathyroidism.'] },
+    mon: { o: ['Heart rate and rhythm, and chest pain as the dose is raised', 'Sleep and bowel pattern', 'Serum calcium', 'Urine output for kidney stones', 'Temperature for fever'], a: [0, 1],
+      r: ['Correct. Replacement raises myocardial oxygen demand; the pulse should rise above 60 without dysrhythmias or angina.', 'Correct. Less sleep and regular bowels show the dose is working; insomnia and frequent stools suggest too much.', 'Incorrect. Not a thyroid problem.', 'Incorrect. A hyperparathyroidism concern.', 'Incorrect. Fever is a thyroid storm cue; this client runs cold.'] },
+    ask: 'Is every system slowing down — and how will you know replacement is working?', cues: ['Fatigue, constipation, cold intolerance, weight gain', 'HR 54, T 96.6°F', 'Withdrawn, forgetful (family notices)'],
+    phys: 'Too little thyroid hormone → cells burn less fuel → less heat (cold, low temperature), a slower heart, gut and brain → weight gain and myxedema. Replacement restores the rate but raises the heart’s oxygen demand.',
+    rule: 'Hypothyroidism: lifelong levothyroxine on an empty stomach 30–60 min before breakfast, 4 h from iron, calcium and antacids; start low; report chest pain; teach myxedema coma signs; sleep and bowels show the dose.' }
 ];
 
 window.RECALL_EXTRA['55'] = {
@@ -205,7 +242,37 @@ window.RECALL_EXTRA['55'] = {
       r: ['Correct. An autoimmune attack destroys thyroid tissue; anti-TPO antibodies are elevated.', 'Incorrect. The most common cause worldwide, not in the US.', 'Incorrect. A rarer secondary cause.', 'Incorrect. Not the most common cause.'],
       ask: 'Which autoimmune disease destroys the thyroid?', cues: ['US vs worldwide causes'],
       phys: 'Antibodies and lymphocytes attack thyroid tissue → fewer follicular cells → less T3 and T4 → TSH rises → the gland may enlarge (goiter) without making more hormone.',
-      rule: 'Hypothyroidism causes: Hashimoto (US), thyroid surgery or RAI, iodine-poor regions (worldwide), amiodarone, lithium, pituitary disease.' }
+      rule: 'Hypothyroidism causes: Hashimoto (US), thyroid surgery or RAI, iodine-poor regions (worldwide), amiodarone, lithium, pituitary disease.' },
+    { t: 'Still cold on levothyroxine', q: 'A client who started levothyroxine 3 months ago says she is still exhausted and wears a cardigan even on warm days. She takes the pill with breakfast, along with her calcium and iron supplements. Which actions should the nurse take? Select all that apply.',
+      o: ['Take vital signs, including temperature', 'Review the medication record and ask about missed doses', 'Teach her to take levothyroxine alone on an empty stomach, at least 4 hours apart from the calcium and iron', 'Report the findings so the provider can check the TSH', 'Tell her to double the dose until she feels warm', 'Assess her swallowing reflex'], a: [0, 1, 2, 3],
+      r: ['Correct. A slow pulse and low temperature would confirm persisting hypothyroid signs.', 'Correct. Missed doses or wrong timing are common reasons replacement falls short.', 'Correct. Food, calcium and iron reduce absorption, so she is likely absorbing too little.', 'Correct. The final dose is set by the TSH and the client’s response.', 'Incorrect. Never change the dose without the provider; too much too fast stresses the heart.', 'Incorrect. Nothing suggests a swallowing problem.'],
+      ask: 'Is she getting — and absorbing — enough hormone?', cues: ['Fatigue + cold intolerance on replacement', 'Taken with breakfast, calcium and iron'],
+      phys: 'Levothyroxine is absorbed in the small bowel → food, calcium and iron bind or delay it → less hormone reaches the blood → metabolism stays slow → she stays tired and cold, and the TSH stays high.',
+      rule: 'Hypothyroid signs on levothyroxine (more sleep, cold intolerance, constipation): check vital signs and temperature, review the medication record and how it is taken, report for a TSH check; empty stomach, 4 h from iron, calcium and antacids.' },
+    { t: 'Neck pain after a cold', q: 'Two weeks after a cold, a client has a painful, hard, enlarged thyroid, palpitations and heat intolerance. Which statement by the nurse about this subacute thyroiditis is accurate?',
+      o: ['“The overactive phase usually passes; the gland may then be underactive for a while before it returns to normal.”', '“You will need thyroid hormone replacement for the rest of your life.”', '“This is a bacterial infection, so the gland will need to be drained surgically.”', '“A painful thyroid like this is the usual first sign of thyroid cancer.”'], a: [0],
+      r: ['Correct. Viral (subacute, granulomatous) thyroiditis typically runs hyperthyroid → hypothyroid → normal, though function can stay normal.', 'Incorrect. That fits Hashimoto thyroiditis, which is painless and leads to lasting hypothyroidism.', 'Incorrect. Infectious (bacterial) thyroiditis causes sudden one-sided pain and fever and usually resolves with IV antibiotics; this one follows a viral illness.', 'Incorrect. Thyroid cancer usually starts as a single painless nodule.'],
+      ask: 'Which kind of thyroiditis follows a cold and hurts?', cues: ['After a URI', 'Painful, hard, enlarged gland', 'Hyperthyroid signs now'],
+      phys: 'A virus inflames the gland → follicles break open and stored hormone leaks out (hyperthyroid) → the store runs out and damaged cells make little (hypothyroid) → the gland heals (euthyroid).',
+      rule: 'Thyroiditis: subacute = viral, painful, hard gland, hyper → hypo → normal; infectious = bacterial, one-sided pain, fever, IV antibiotics; Hashimoto = painless goiter, dysphagia, anti-TPO, hypothyroidism.' },
+    { t: 'After surgery for thyroid cancer', q: 'A client is going home after a total thyroidectomy with neck lymph node dissection for papillary thyroid cancer. Which statements show correct understanding? Select all that apply.',
+      o: ['“I will take thyroid hormone every day for the rest of my life.”', '“I may get radioactive iodine to destroy any thyroid tissue that is left.”', '“I will report tingling around my mouth or in my fingers right away.”', '“Papillary cancer grows slowly, so this surgery gives me a good chance of cure.”', '“Once my energy is back, I can stop the thyroid pills.”', '“Radioactive iodine is the main treatment for every type of thyroid cancer.”'], a: [0, 1, 2, 3],
+      r: ['Correct. With the whole gland gone, the client is hypothyroid and needs lifelong replacement.', 'Correct. RAI may follow surgery to destroy remaining tissue.', 'Correct. The parathyroids may have been injured; tingling means low calcium.', 'Correct. Papillary cancer is the most common, slow-growing type and is often curable when confined to the thyroid.', 'Incorrect. Replacement is lifelong; stopping it can lead to myxedema coma.', 'Incorrect. RAI is not used for anaplastic cancer, which is treated mainly with external beam radiation and/or chemotherapy.'],
+      ask: 'What does losing the whole thyroid — and the glands beside it — mean at home?', cues: ['Total thyroidectomy', 'Papillary (differentiated) cancer'],
+      phys: 'Removing the gland removes all T3 and T4 → lifelong replacement; the parathyroids sit behind it → calcium can fall; papillary cells still trap iodine → RAI destroys what is left.',
+      rule: 'Thyroid cancer: surgery first (lobectomy, or total thyroidectomy + node dissection); RAI afterward except for anaplastic; lifelong levothyroxine; post-op calcium and airway checks as for any thyroidectomy.' },
+    { t: 'Anaplastic thyroid cancer', q: 'A nurse at a community clinic is planning thyroid cancer outreach for African American adults. Which point should the plan be built around?',
+      o: ['African Americans have a higher risk of anaplastic cancer, a rare and fast-growing type, so removing barriers such as transportation and offering telehealth helps find it early', 'Anaplastic cancer grows slowly, so screening every few years is enough', 'Radioactive iodine after surgery cures anaplastic cancer', 'A painful lump is the usual first sign of thyroid cancer'], a: [0],
+      r: ['Correct. Anaplastic cancer is aggressive and has usually spread by diagnosis, so access to care decides how early it is found.', 'Incorrect. Anaplastic cancer is rapid and aggressive; papillary is the slow-growing type.', 'Incorrect. RAI is not used for anaplastic cancer; external beam radiation and/or chemotherapy are used.', 'Incorrect. The usual first sign is a single painless nodule.'],
+      ask: 'Which thyroid cancer is fastest, and who carries more of its risk?', cues: ['African American adults', 'Outreach = early recognition and access'],
+      phys: 'Anaplastic cells are undifferentiated → they divide fast and invade the trachea, nerves and esophagus (dyspnea, hoarseness, dysphagia) → often found late, after spread → treated with radiation and chemotherapy, not RAI.',
+      rule: 'Health equity: African Americans have a higher risk of anaplastic thyroid cancer; advocate access to care, telehealth and transportation. Anaplastic: rare, rapid, aggressive; no RAI; external radiation and/or chemotherapy.' },
+    { t: 'Hyperparathyroidism without surgery', q: 'A 79-year-old woman with primary hyperparathyroidism and osteoporosis has decided against parathyroidectomy. Which instructions should the nurse include? Select all that apply.',
+      o: ['Walk or do other regular exercise most days', 'Drink plenty of fluids every day', 'Take the prescribed bisphosphonate to protect your bones', 'Keep calcium and vitamin D in your diet moderate — neither cut out nor loaded up', 'Expect regular checks of calcium, kidney function and bone density', 'Rest in bed as much as possible to avoid falls', 'Ask about lithium if your mood is low'], a: [0, 1, 2, 3, 4],
+      r: ['Correct. Activity slows bone loss; prolonged bed rest speeds it.', 'Correct. Hydration keeps urine calcium dilute and helps prevent kidney stones.', 'Correct. Bisphosphonates are preferred for osteoporosis or fracture risk when surgery isn’t done.', 'Correct. Moderate amounts are advised.', 'Correct. Clients who delay surgery need close monitoring of calcium, kidney function and bone density.', 'Incorrect. Prolonged bed rest worsens bone loss and raises calcium.', 'Incorrect. Lithium can raise calcium and should be avoided if possible.'],
+      ask: 'What keeps calcium in the bones and out of the kidneys?', cues: ['Primary hyperparathyroidism, no surgery', 'Osteoporosis, age 79'],
+      phys: 'Excess PTH pulls calcium from bone (osteoporosis, fractures) into the blood and urine (stones) → activity and bisphosphonates protect bone, fluids keep urine calcium dilute, lithium would raise calcium further.',
+      rule: 'Hyperparathyroidism without surgery: exercise, hydration, avoid lithium and prolonged bed rest, moderate calcium and vitamin D, bisphosphonates for bone, cinacalcet for severe disease; monitor calcium, kidney function and bone density; lift sheet.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'Low thyroid hormone → ___ → gland ___ but makes no more hormone → ___ → treated with ___.',
@@ -242,7 +309,17 @@ window.RECALL_EXTRA['55'] = {
       'Sit to urinate, flush 2–3 times with the lid closed; 6 feet from pregnant women, infants and young children for the prescribed time; no shared bed, toothbrush, toothpaste or drinks; don’t prepare food for others; work and travel may wait a few days.',
       'Radioactivity is in urine, saliva and stool for days.',
       'Follow-up tests continue for years.',
-      'Never in pregnancy.']
+      'Never in pregnancy.'],
+    ['Direct recall', 1, 'Give the Table 55.1 normal ranges and how each test moves in hypothyroidism and hyperthyroidism.',
+      'T3 70–205 ng/dL (ages 20–50) or 40–180 ng/dL (over 50); total T4 4–12 mcg/dL (men), 5–12 (women), 5–11 (over 60); free T4 0.8–2.8 ng/dL; TSH 0.3–5 μU/mL. T3, T4 and free T4: low in hypothyroidism, high in hyperthyroidism. TSH: high in primary hypothyroidism and low in Graves disease; the reverse when the pituitary or hypothalamus is the cause.',
+      'When the gland is the problem, TSH moves opposite to T4 (negative feedback).',
+      'Read T4 and TSH together before deciding the direction.',
+      'Ranges shift with age and sex — and vary by lab.'],
+    ['Direct recall', 1, 'Give the Table 55.3 normal ranges and how each moves in hypoparathyroidism and hyperparathyroidism.',
+      'Calcium 9.0–10.5 mg/dL; phosphorus 3–4.5 mg/dL (critical < 1); magnesium 1.3–2.1 mEq/L (critical < 0.5 or > 3); PTH 10–65 pg/mL; vitamin D 25–80 ng/mL. Hypoparathyroidism: calcium, magnesium, PTH and vitamin D down, phosphorus up. Hyperparathyroidism: calcium (primary), magnesium and PTH up, phosphorus down, vitamin D variable.',
+      'PTH keeps calcium and dumps phosphorus, so the two move in opposite directions.',
+      'Calcium is read with albumin; a 24-hour urine calcium follows the diagnosis.',
+      'Vitamin D is variable in hyperparathyroidism — a vitamin D deficiency can be the cause (secondary).']
   ],
   mc: [
     ['Aspirin is a good choice for fever in thyroid storm.', 'Use acetaminophen; aspirin is avoided in thyroid storm.', 'The storm gets worse.', 'Aspirin displaces thyroid hormone from its carrier proteins, raising the free hormone.'],
@@ -251,7 +328,8 @@ window.RECALL_EXTRA['55'] = {
     ['Levothyroxine can be taken with breakfast and a calcium pill.', 'Take levothyroxine on an empty stomach 30–60 minutes before breakfast, 4 hours from iron, calcium and antacids.', 'Absorption becomes uneven and the dose can’t be set.', 'Food, calcium and iron bind or delay it in the gut.'],
     ['An older adult with hypothyroidism should start on a full replacement dose.', 'Start low and go slow in older and cardiac clients.', 'Angina, dysrhythmias or MI.', 'The heart has adapted to a low metabolic demand.'],
     ['Wait for lab confirmation before treating suspected myxedema coma.', 'Treat myxedema coma on the symptoms — don’t wait for labs.', 'Mortality rises with every hour of delay.', 'Respiratory failure and hypotension can kill before results return.'],
-    ['A goiter always means hyperthyroidism.', 'A goiter can occur with too little or too much thyroid hormone.', 'The wrong direction is treated.', 'High TSH in hypothyroidism and antibodies in Graves both make the gland grow.']
+    ['A goiter always means hyperthyroidism.', 'A goiter can occur with too little or too much thyroid hormone.', 'The wrong direction is treated.', 'High TSH in hypothyroidism and antibodies in Graves both make the gland grow.'],
+    ['Levothyroxine can be stopped once the TSH is back to normal.', 'Replacement for hypothyroidism is lifelong; a normal TSH means the dose is right, not that the disease is gone.', 'Hypothyroid symptoms return, and stopping replacement can trigger myxedema coma.', 'The gland still cannot make enough hormone; TSH stays normal only while the pill supplies it.']
   ]
 };
 window.EXPLAIN_CARDS['55'] = { mc: Object.fromEntries(window.RECALL_EXTRA['55'].mc.map((x, i) => [i, { why: x[3] }])) };

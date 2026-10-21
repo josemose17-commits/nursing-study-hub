@@ -1,6 +1,6 @@
 // Exam 3 skills checklists (Exam 3 Skills.html): the bedside skills for the GI and endocrine chapters.
 // Each skill: id, title, ch, when (what it is for), steps [text, why, critical?], mistakes (common errors),
-// stop (findings that mean stop and report), and q (Mastery test or case study ids that use it).
+// stop (findings that mean stop and report), and q (titles of Mastery test questions that use it; 'case:<id>' for a case study).
 // Written in our own words from standard nursing-skills practice (for example Open RN Nursing Skills, 2nd ed., CC BY 4.0)
 // and the med-surg chapters. Where a school or agency checklist differs, follow it for the check-off.
 window.E3_SKILLS = [
@@ -20,7 +20,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Palpating before listening', 'Calling bowel sounds absent after a few seconds', 'Pressing on a pulsating midline mass', 'Deep palpation or percussion beyond your role (these are often the provider’s)'],
     stop: ['A pulsating midline mass or an aortic bruit — don’t touch it; report now', 'A rigid, boardlike abdomen, rebound tenderness or guarding', 'New distention with absent bowel sounds and vomiting'],
-    q: ['45|n|0', '45|n|3', '45|c|0', '45|c|1'] },
+    q: ['Where to listen first', 'Abdominal exam sequence', 'Pulsating mass', 'Return of peristalsis'] },
 
   { id: 'ng', ch: '48', title: 'Inserting an NG tube and checking placement',
     when: 'Decompression for bowel obstruction or ileus; feeding or medications when the client can’t swallow.',
@@ -39,7 +39,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Relying on the air “whoosh” to confirm placement', 'Using the tube before the x-ray result', 'Inserting with the head tipped back', 'Taping so the tube presses on the nostril'],
     stop: ['Coughing, choking, inability to speak or cyanosis during insertion', 'Any NG tube in a client after esophageal or gastric surgery that has moved — don’t reinsert or advance it; call the surgeon', 'Suspected facial or basal skull fracture — NG tubes are not placed through the nose'],
-    q: ['cs|sbo|4', '48|n|3', '46|c|6'] },
+    q: ['case:sbo', 'Caring for the NG tube', 'NG tube after fundoplication'] },
 
   { id: 'ngcare', ch: '48', title: 'NG tube care: suction, irrigation and removal',
     when: 'Every shift for a client with an NG tube to suction.',
@@ -56,7 +56,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Irrigating with water', 'Clamping or capping the Salem sump vent', 'Forgetting to count NG drainage in output', 'Repositioning a tube after gastric or esophageal surgery'],
     stop: ['Drainage stops while distention or nausea returns — check patency and placement, then report', 'Potassium dropping or signs of metabolic alkalosis (slow, shallow breathing, tingling, confusion)', 'Bright red NG drainage that is new'],
-    q: ['48|n|10', '48|n|2', '47|c|5'] },
+    q: ['Small-bowel obstruction on NG suction', 'Day 2 of a bowel obstruction', 'After gastric surgery'] },
 
   { id: 'feed', ch: '48', title: 'Tube feeding and medications through a tube',
     when: 'Clients who can’t eat enough by mouth — after head and neck or esophageal surgery, dysphagia, critical illness.',
@@ -74,7 +74,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Lowering the head of the bed for care while a feeding runs', 'Crushing enteric-coated or extended-release tablets', 'Giving several crushed drugs mixed together', 'Forgetting to count flushes as intake'],
     stop: ['Coughing, dyspnea or a drop in SpO₂ during a feeding — stop it, suction if needed, report', 'Vomiting, distention or high residuals', 'Tube that won’t flush after gentle warm-water flushing'],
-    q: ['48|n|12', '46|c|8'] },
+    q: ['Tube feeding intake', 'J-tube after esophagectomy'] },
 
   { id: 'ostomy', ch: '48', title: 'Changing an ostomy pouch',
     when: 'Every 3–7 days for the wafer, sooner if it leaks; empty the pouch when one-third to one-half full.',
@@ -90,7 +90,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Cutting the opening too large', 'Applying the wafer to damp or lotioned skin', 'Changing the whole wafer every day (it irritates the skin)', 'Letting the pouch get more than half full (it can pull off)'],
     stop: ['Stoma pale, dark purple, gray or black — report now', 'Stoma retracting, prolapsing or bleeding more than a little', 'No output from an ileostomy for several hours with cramping and distention (blockage)', 'Ileostomy output over about 1 L a day or signs of dehydration'],
-    q: ['48|n|7', '48|n|6', '49|n|6', '49|c|14'] },
+    q: ['Changing the pouch', 'Colostomy teaching', 'Living with a new ileostomy', 'New ileostomy stoma'] },
 
   { id: 'stool', ch: '45', title: 'Stool specimens: FIT, guaiac and stool tests for infection',
     when: 'Colorectal cancer screening; checking for GI bleeding; diarrhea that might be infectious.',
@@ -105,7 +105,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Giving guaiac diet rules for a FIT test (or none for a guaiac test)', 'Sending formed stool for C. diff', 'Using alcohol gel after caring for a C. diff client'],
     stop: ['Black, tarry stool or visible blood with dizziness — that is a bleed, not a screening question'],
-    q: ['45|n|6', '45|c|4'] },
+    q: ['Stool tests for blood', 'gFOBT teaching'] },
 
   { id: 'glucose', ch: '56', title: 'Capillary (fingerstick) blood glucose',
     when: 'Before meals and at bedtime for clients on insulin; whenever symptoms suggest low or high glucose.',
@@ -121,7 +121,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Testing a finger with sugar or wet alcohol on it', 'Squeezing hard to get blood', 'Using a meter result to treat a low without checking symptoms when the reading doesn’t fit (CGM alarms are confirmed with a fingerstick)'],
     stop: ['Glucose under 70 mg/dL — start the hypoglycemia protocol', 'Glucose over the agency’s call limit (often over 300) or a “HI” reading — check ketones as ordered and report'],
-    q: ['56|c|1', '56|c|2'] },
+    q: ['CGM low alarm', 'Sharing a meter'] },
 
   { id: 'insulin', ch: '56', title: 'Drawing up and mixing insulin; subcutaneous injection',
     when: 'Insulin by syringe — including mixing a rapid- or short-acting insulin with NPH.',
@@ -139,7 +139,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Drawing up cloudy before clear', 'Shaking NPH', 'Mixing glargine with another insulin', 'Giving rapid-acting insulin when the tray is not coming'],
     stop: ['A dose that doesn’t match the prescription or the glucose — clarify first', 'The client can’t eat (NPO, vomiting) — clarify mealtime and basal doses with the provider'],
-    q: ['56|n|5', '56|n|7', '56|n|6', '56|n|15'] },
+    q: ['Insulin timing and mixing', 'Giving and storing insulin', 'Which kind of insulin?', 'Mealtime plus correction', 'A very thin client'] },
 
   { id: 'pen', ch: '56', title: 'Insulin pen injection',
     when: 'Most clients with diabetes at home — and many hospitals for single-client use.',
@@ -154,7 +154,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Skipping the prime', 'Pulling the needle out right away', 'Sharing a pen “with a new needle”', 'Storing the pen with the needle attached'],
     stop: ['Insulin that looks clumped, frosted or discolored, or a pen past its in-use date'],
-    q: ['56|n|7'] },
+    q: ['Giving and storing insulin'] },
 
   { id: 'hypo', ch: '56', title: 'Hypoglycemia protocol',
     when: 'Glucose under 70 mg/dL, or symptoms of a low (sweaty, shaky, fast pulse, confused) when you can’t check.',
@@ -170,7 +170,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Giving juice to a drowsy client who can’t protect the airway', 'Treating with chocolate or a high-fat snack', 'Forgetting the recheck', 'Treating once when the insulin is long-acting'],
     stop: ['No improvement after two treatments, a seizure, or the client doesn’t wake — call rapid response'],
-    q: ['56|n|3', '56|n|4', '56|n|18', '56|c|10', 'cs|hypo|3'] },
+    q: ['Shaky before lunch', 'The 15-15 rule', 'Low glucose, awake and swallowing', 'Unconscious at home', 'Glucose of 44, still swallowing', 'case:hypo'] },
 
   { id: 'thyroid', ch: '55', title: 'Checks after thyroidectomy (including Chvostek and Trousseau)',
     when: 'Every hour at first, then as ordered, for the first days after thyroid or parathyroid surgery.',
@@ -188,7 +188,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Checking only the front of the dressing', 'Treating new stridor as “just hoarseness”', 'Leaving the room to get emergency equipment', 'Hyperextending the neck'],
     stop: ['Stridor, increasing neck swelling or respiratory distress — call rapid response and stay', 'Tingling, positive Chvostek or Trousseau, or muscle cramps — report and have IV calcium ready'],
-    q: ['55|n|3', '55|n|4', '55|c|6', 'cs|thyroidectomy|0'] },
+    q: ['Tingling after thyroidectomy', 'After thyroidectomy', 'Hoarseness vs stridor', 'case:thyroidectomy'] },
 
   { id: 'foot', ch: '56', title: 'Diabetic foot exam with a monofilament',
     when: 'At least once a year for every client with diabetes, and at every visit for a client with neuropathy or past ulcers.',
@@ -203,7 +203,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Testing over a callus', 'Letting the client watch', 'Sliding or tapping the filament instead of pressing until it bends'],
     stop: ['Any open wound, redness with warmth, or a black area — refer the same day', 'A cold, pale foot with absent pulses'],
-    q: ['56|c|19', '56|n|9', '56|n|20'] },
+    q: ['Monofilament', 'Diabetic foot care', 'Foot care teaching', 'Numb feet, weak pulses'] },
 
   { id: 'urine24', ch: '53', title: '24-hour urine collection',
     when: 'Cortisol, catecholamines, protein, creatinine clearance and other endocrine tests.',
@@ -217,5 +217,5 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Saving the first void', 'Throwing away the last void', 'Not restarting after a lost void'],
     stop: ['A void is lost or contaminated — restart the collection and tell the lab'],
-    q: ['53|n|2', '53|n|8', '53|c|11'] }
+    q: ['24-hour urine', 'A 24-hour urine collection', 'Instructing the AP on the collection'] }
 ];

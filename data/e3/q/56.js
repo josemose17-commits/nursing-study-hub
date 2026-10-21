@@ -159,7 +159,54 @@ window.NGN_EXTRA['56'] = [
       'Incorrect. Premixes contain rapid or short insulin — don’t give them to NPO clients.'],
     ask: 'Which insulin covers the body’s baseline, and which covers food?', cues: ['NPO → no food to cover'],
     phys: 'The liver releases glucose all day and surgery adds stress hormones → basal insulin is still needed → mealtime insulin and secretagogues act on food that isn’t coming → hypoglycemia.',
-    rule: 'NPO: give basal (often reduced), hold rapid/short insulin, amylin and incretin drugs, no premixes; sulfonylureas off 1 day before, metformin ≥ 24 h; pre-op glucose < 200.' }
+    rule: 'NPO: give basal (often reduced), hold rapid/short insulin, amylin and incretin drugs, no premixes; sulfonylureas off 1 day before, metformin ≥ 24 h; pre-op glucose < 200.' },
+
+  { f: 'matrix', t: 'Fuel during a fast', q: 'A client without diabetes has been NPO for 14 hours before surgery, and the fasting glucose is 82 mg/dL. For each process, indicate whether it puts glucose into the blood during the fast or stores fuel or makes a different fuel.',
+    cols: ['Puts glucose into the blood', 'Stores fuel or makes another fuel'],
+    rows: [{ t: 'Glycogenolysis — liver glycogen broken down', a: 0, r: 'Puts glucose in. Glucagon drives the breakdown of stored liver glycogen into glucose — the first defense in a fast.' },
+      { t: 'Gluconeogenesis — new glucose made from amino acids and lactate', a: 0, r: 'Puts glucose in. As glycogen runs low, the liver (and kidneys) build new glucose.' },
+      { t: 'Glycogenesis — glucose stored as glycogen', a: 1, r: 'Stores fuel. Insulin drives it after meals; it lowers blood glucose.' },
+      { t: 'Lipogenesis — excess glucose stored as fat', a: 1, r: 'Stores fuel. It happens when intake exceeds need, not during a fast.' },
+      { t: 'Ketogenesis — fatty acids turned into ketones', a: 1, r: 'Another fuel. Ketones are acids burned when glucose is short; they don’t raise blood glucose.' }],
+    ask: 'Which processes release glucose when no food is coming in?', cues: ['NPO 14 hours → fasting state', 'Insulin low, glucagon high'],
+    phys: 'Fasting (8+ hours) → insulin falls and glucagon rises → the liver breaks down glycogen (glycogenolysis) and builds new glucose from amino acids and lactate (gluconeogenesis) → blood glucose stays in range for the brain.',
+    rule: 'Fasting/NPO: insulin ↓, glucagon ↑ → glycogenolysis + gluconeogenesis prevent a low. Glycogenesis and lipogenesis store fuel; ketogenesis makes an acid fuel, not glucose.' },
+
+  { f: 'cloze', t: 'Alcohol at a wedding', q: 'A woman with type 1 diabetes who uses insulin asks about drinking at a wedding. Complete the nurse’s teaching.',
+    parts: ['She may have up to ', { o: ['1 drink', '2 drinks', '3 drinks'], a: 0, r: 'Up to 1 drink for women and 2 for men, taken with and in addition to the usual meal plan.' },
+      ', and one drink equals ', { o: ['5 oz of wine', '12 oz of wine', '5 oz of distilled spirits'], a: 0, r: 'One drink = 12 oz beer, 5 oz wine or 1½ oz distilled spirits.' },
+      '. She should drink ', { o: ['only with or shortly after a meal', 'on an empty stomach', 'in place of her bedtime snack'], a: 0, r: 'Food alongside the alcohol lowers the risk of a low; alcohol never replaces food.' },
+      ', because the main danger is ', { o: ['delayed hypoglycemia hours later', 'immediate hyperglycemia', 'ketoacidosis within minutes'], a: 0, r: 'Alcohol stops the liver releasing glucose and blunts the hormone response to a low, so the low can come hours later — more likely with insulin or a sulfonylurea.' },
+      ', so she should ', { o: ['have someone with her who can help treat a low', 'take extra rapid-acting insulin to cover the drinks', 'skip glucose checks until morning'], a: 0, r: 'A companion who can recognize and treat a low is the safety net; extra insulin or fewer checks make a severe low more likely.' }, '.'],
+    ask: 'Why does a low after drinking come late?', cues: ['Insulin + alcohol → delayed low', 'Woman → 1 drink'],
+    phys: 'The liver clears alcohol first → glycogen breakdown and gluconeogenesis are held back and the hormone response to a low is blunted → insulin keeps acting → glucose falls hours after drinking.',
+    rule: 'Alcohol: up to 1 drink (women) or 2 (men); 1 drink = 12 oz beer, 5 oz wine or 1½ oz spirits; with or shortly after a meal; expect delayed lows; have someone who can help.' },
+
+  { f: 'sata', t: 'After a type 2 diagnosis', q: 'A 58-year-old with newly diagnosed type 2 diabetes asks how to protect his health. Which instructions should the nurse include? Select all that apply.',
+    o: ['Have your eyes examined by an ophthalmologist every year', 'Have your urine checked for albumin every year', 'Aim for at least 150 minutes of moderate activity a week, spread over 5 days', 'Eat more plant sterols, fiber and omega-3 fats and less saturated animal fat', 'Look at your feet every day and report any sore promptly', 'Cut out all carbohydrates and fats', 'Wear open-toed sandals on long walks so your feet can breathe', 'Wait to see the eye doctor until your vision changes'], a: [0, 1, 2, 3, 4],
+    r: ['Correct. Retinopathy has few symptoms until vision is lost; finding it early lets treatment slow it.',
+      'Correct. A yearly urine albumin finds nephropathy at its earliest stage; in type 2 it starts at diagnosis.',
+      'Correct. At least 150 minutes over 5 days, with no more than 2 days in a row off, plus resistance exercise twice a week.',
+      'Correct. These lower cardiovascular risk, which diabetes greatly raises.',
+      'Correct. Daily inspection catches injuries that neuropathy hides.',
+      'Incorrect. Carbohydrates from vegetables, fruits, whole grains, legumes and dairy belong in a balanced plan; fat quality matters more than amount.',
+      'Incorrect. Open-toed sandals and straps between the toes leave the feet unprotected; wear well-fitted closed shoes.',
+      'Incorrect. Retinopathy is silent until vision is lost — screen every year.'],
+    ask: 'Which habits catch silent complications early?', cues: ['New type 2 → yearly eye exam and urine albumin', 'Cardiovascular risk → diet and activity'],
+    phys: 'Chronic hyperglycemia damages small vessels in the retina, glomerulus and nerves without symptoms and speeds atherosclerosis → yearly eye and urine albumin checks find damage early, while diet, activity and daily foot checks slow it or catch injury.',
+    rule: 'Health promotion: yearly eye exam and urine albumin; 150 min/week of activity over 5 days; plant sterols, fiber, omega-3, less saturated fat; daily foot checks; no smoking; glucose in target.' },
+
+  { f: 'exhibit', t: 'Fever, thirst and a first high glucose', q: 'Review the emergency department note. When the laboratory results return, which two should the nurse check first? Select all that apply.',
+    ex: [{ h: 'ED note', lines: ['69-year-old with no diagnosed diabetes. Daughter reports increasing thirst and urination for 3 months, two vaginal yeast infections this year, and a shin scrape that has not healed in 4 weeks.', 'Today: burning and frequency on urination. T 101.8°F (38.8°C), HR 108, RR 22, BP 108/64. Alert and oriented.', 'Fingerstick glucose 268 mg/dL. Orders: CBC with differential, hemoglobin A1C, urinalysis with culture, lipid panel, TSH.'] }],
+    o: ['White blood cell count', 'Hemoglobin A1C', 'Lipid panel', 'TSH', 'Hematocrit'], a: [0, 1],
+    r: ['Correct. Fever, urinary burning, tachycardia and a fast respiratory rate suggest a urinary infection that may be spreading; the WBC count supports that and guides urgent treatment.',
+      'Correct. Months of thirst, yeast infections and slow healing suggest undiagnosed diabetes; an A1C of 6.5% or higher shows the hyperglycemia predates today’s infection.',
+      'Incorrect. Lipids matter for long-term cardiovascular risk, not today’s priorities.',
+      'Incorrect. Nothing here points to thyroid disease as the acute problem.',
+      'Incorrect. Not a priority here; it matters mainly for meter accuracy and blood loss.'],
+    ask: 'Which two problems does this picture point to — and which results confirm them?', cues: ['Fever + urinary burning + tachycardia → infection', 'Thirst, yeast infections, slow healing → undiagnosed diabetes'],
+    phys: 'Chronic hyperglycemia weakens white cells and feeds microbes → infections start easily and turn serious fast → infection releases stress hormones that push glucose higher → the A1C shows whether high glucose came before the illness.',
+    rule: 'Yeast infections and slow healing are often the first signs of type 2; infection raises glucose. A1C ≥ 6.5% diagnoses diabetes; check the WBC for infection.' }
 ];
 
 window.RECALL_EXTRA['56'] = {
@@ -295,7 +342,37 @@ window.RECALL_EXTRA['56'] = {
       r: ['Correct. Autoimmune beta-cell destruction → absolute insulin lack → ketosis-prone; everyone needs insulin.', 'Incorrect. Typical of type 2.', 'Incorrect. Type 2.', 'Incorrect. Type 2.'],
       ask: 'What happens when there is no insulin at all?', cues: ['Absolute insulin deficiency'],
       phys: 'Autoimmune destruction of beta cells → no insulin → glucose can’t enter cells → fat is burned (weight loss, ketones) → abrupt symptoms.',
-      rule: 'Type 1: autoimmune, abrupt, ketosis-prone, insulin for all. Type 2: insulin resistance then beta-cell decline, gradual, often obese, ketosis-resistant, 90–95% of adults.' }
+      rule: 'Type 1: autoimmune, abrupt, ketosis-prone, insulin for all. Type 2: insulin resistance then beta-cell decline, gradual, often obese, ketosis-resistant, 90–95% of adults.' },
+    { t: 'A very thin client', q: 'A 79-year-old client who is 5 ft 6 in tall and weighs 98 lb (44.5 kg) needs a subcutaneous insulin injection. Which technique should the nurse use?',
+      o: ['Lightly pinch the skin and inject at a 45-degree angle', 'Inject at a 90-degree angle with a 12.7-mm needle without pinching', 'Aspirate for blood before injecting at a 90-degree angle', 'Inject into the deltoid muscle so absorption is more reliable'], a: [0],
+      r: ['Correct. Frail older adults and very thin clients have little subcutaneous tissue; a 45-degree angle keeps the insulin out of muscle.', 'Incorrect. A long needle straight in can reach muscle in a client with little fat; the no-pinch 90-degree technique is for overweight clients using 4–5 mm needles.', 'Incorrect. Aspiration is not needed for insulin.', 'Incorrect. Intramuscular insulin is absorbed faster and is not used for routine doses.'],
+      ask: 'How much subcutaneous tissue does this client have?', cues: ['98 lb at 5 ft 6 in → very thin', 'Older and frail'],
+      phys: 'Insulin is meant for the subcutaneous fat layer → in a very thin client a needle inserted straight in can reach muscle → intramuscular insulin is absorbed faster and less predictably → angling the needle keeps it subcutaneous.',
+      rule: 'Insulin injection: subcutaneous, light pinch, usually 90°; 45° for very thin or frail older adults; 4–5 mm needle at 90° without pinching if overweight; no aspiration; never routine IM.' },
+    { t: 'Glucose of 44, still swallowing', q: 'A client with type 2 diabetes who takes glyburide is found pale, sweaty and drowsy but able to talk and swallow. The fingerstick glucose is 44 mg/dL. What should the nurse do first?',
+      o: ['Give 30 g of fast-acting carbohydrate by mouth', 'Give 15 g of fast-acting carbohydrate by mouth', 'Give glucagon IM', 'Hold the next glyburide dose and notify the provider'], a: [0],
+      r: ['Correct. Below 50 mg/dL the 15-15 rule doubles the dose to 30 g; the client can swallow, so the oral route is fastest and safest. Recheck in 15 minutes.', 'Incorrect. 15 g is for glucose of 50–69; at 44 the client needs 30 g.', 'Incorrect. Glucagon (or IV dextrose) is for a client who can’t swallow or is unconscious.', 'Incorrect. Both may follow, but treating the low comes first.'],
+      ask: 'Can the client swallow — and how low is the glucose?', cues: ['Glucose 44 → below 50', 'Talks and swallows → oral route'],
+      phys: 'A sulfonylurea keeps squeezing insulin out of the beta cells → glucose keeps falling → the brain, which can’t make or store glucose, is running short → a larger dose of fast sugar raises glucose before the confusion deepens.',
+      rule: '15-15 rule: glucose < 70 → 15 g; < 50 → 30 g fast carbohydrate by mouth if able to swallow; recheck in 15 min; can’t swallow → glucagon or IV dextrose.' },
+    { t: 'A1C of 11%', q: 'A client’s A1C is 11%, but the client says, “My meter readings are usually fine.” About what average blood glucose does this A1C reflect?',
+      o: ['269 mg/dL', '154 mg/dL', '183 mg/dL', '126 mg/dL'], a: [0],
+      r: ['Correct. Table 56.4: A1C 11% ≈ 269 mg/dL (12% ≈ 298). The A1C counts the hours the meter never sees — review when and how the client tests.', 'Incorrect. That matches an A1C of 7%, the usual target.', 'Incorrect. That matches an A1C of 8%.', 'Incorrect. That matches an A1C of 6%.'],
+      ask: 'How much average glucose does each 1% of A1C stand for?', cues: ['A1C 11% → far above the < 7% target', '“Fine” meter readings ≠ the 3-month average'],
+      phys: 'Glucose binds hemoglobin for the red cell’s ~120-day life → the A1C reflects the average over months, including the hours between fingersticks → each 1% adds about 28–29 mg/dL to the average.',
+      rule: 'A1C → average glucose (Table 56.4): 6 ≈ 126, 7 ≈ 154, 8 ≈ 183, 9 ≈ 212, 10 ≈ 240, 11 ≈ 269, 12 ≈ 298. Target < 7%.' },
+    { t: 'Metabolic syndrome', q: 'Which client meets the criteria for metabolic syndrome?',
+      o: ['A man with a 41-inch waist, triglycerides of 180 mg/dL and HDL of 36 mg/dL', 'A woman with a 33-inch waist, fasting glucose of 92 mg/dL and BP of 150/94 mm Hg', 'A man with a 38-inch waist, triglycerides of 160 mg/dL and fasting glucose of 96 mg/dL', 'A woman with a 34-inch waist, HDL of 52 mg/dL and triglycerides of 140 mg/dL'], a: [0],
+      r: ['Correct. Three criteria: waist ≥ 40 in (men), triglycerides ≥ 150 and HDL < 40 (men).', 'Incorrect. Only the BP (≥ 140/90) qualifies; the waist is under 35 in and the glucose under 100.', 'Incorrect. Only the triglycerides qualify; the waist is under 40 in and the glucose under 100.', 'Incorrect. None qualify: waist under 35 in, HDL at least 50 and triglycerides under 150.'],
+      ask: 'How many of the five criteria does each client meet?', cues: ['Need at least 3', 'Waist and HDL cutoffs differ for men and women'],
+      phys: 'Abdominal obesity, insulin resistance, high triglycerides, low HDL and high blood pressure cluster together → together they speed atherosclerosis → the risk of type 2 diabetes, heart disease and stroke rises.',
+      rule: 'Metabolic syndrome = at least 3 of: waist ≥ 40 in (men) or ≥ 35 in (women); fasting glucose ≥ 100; BP ≥ 140/90; triglycerides ≥ 150; HDL < 40 (men) or < 50 (women) — or on drugs for any of them.' },
+    { t: 'Numb feet, weak pulses', q: 'During a yearly foot exam, a client with diabetes cannot feel the 10-g monofilament on either foot, and the dorsalis pedis and posterior tibial pulses are weak. There is no history of ulcers. Which plan fits this client’s foot risk category?',
+      o: ['Foot evaluation every 1–3 months, specialist referral and prescription footwear', 'A comprehensive foot exam once a year and footwear advice', 'Foot evaluation every 3–6 months, with a specialist only if a deformity develops', 'No extra follow-up until an ulcer appears'], a: [0],
+      r: ['Correct. Lost protective sensation plus peripheral vascular disease is risk category 2: evaluate every 1–3 months, refer to a specialist, prescribe footwear, consider a vascular consult, and teach.', 'Incorrect. That is category 0 — sensation intact, no vascular disease or deformity.', 'Incorrect. Every 3–6 months is category 1 — lost sensation without vascular disease.', 'Incorrect. The aim is to prevent the ulcer; most amputations begin with one.'],
+      ask: 'What two problems does this foot have?', cues: ['Monofilament not felt → lost protective sensation', 'Weak pulses → peripheral vascular disease'],
+      phys: 'Neuropathy removes the warning that something is injuring the foot → vascular disease slows healing once it is injured → together they make an ulcer both likely and slow to heal → closer follow-up and protective footwear.',
+      rule: 'Foot risk (Table 56.7): 0 (sensation, no PVD) → yearly; 1 (no sensation ± deformity) → every 3–6 months; 2–3 (no sensation + PVD, or prior ulcer/amputation) → every 1–3 months, specialist, prescription footwear.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'No insulin action → ___ → osmotic diuresis → ___ → fat burned → ___ → treated with ___.',
@@ -337,7 +414,12 @@ window.RECALL_EXTRA['56'] = {
       'Rapid (lispro, aspart): onset 10–30 min, peak about 0.5–3 h. Short (regular): onset 30–60 min, peak 1–5 h. Intermediate (NPH): onset 1–2 h, peak 6–14 h. Long (glargine, detemir) and ultra-long (degludec): no peak, 12–24+ h.',
       'Insulins differ only in how fast they get from the site into the blood.',
       'Time the dose so its peak meets the meal.',
-      'NPH’s peak can cause night-time lows — a bedtime snack may be needed.']
+      'NPH’s peak can cause night-time lows — a bedtime snack may be needed.'],
+    ['Direct recall', 0, 'Name the insulin syringe sizes and needle sizes, and say why the patient should always buy the same type of syringe.',
+      'Syringes: 1 mL (100 units), ½ mL (50 units), 3/10 mL (30 units). Needles: 28, 29, 30 or 31 gauge; 6, 8 or 12.7 mm long. The unit scale on the barrel differs by syringe size and manufacturer, so switching types invites dosing errors.',
+      'Same syringe, same scale — fewer measuring errors.',
+      'Very thin or frail → 45° angle; overweight → 4–5 mm needle at 90° without pinching.',
+      'Syringes and needles are single use; discard them uncapped in a puncture-proof container.']
   ],
   mc: [
     ['Skip insulin on a sick day when you can’t eat.', 'Never omit insulin when ill; check glucose and ketones and keep drinking fluids.', 'DKA can develop within hours.', 'Illness raises stress hormones that push glucose up even without food.'],
@@ -347,7 +429,8 @@ window.RECALL_EXTRA['56'] = {
     ['Exercise always lowers blood glucose.', 'With ketones present, exercise raises glucose and ketones — don’t exercise.', 'Exercise can push the client toward DKA.', 'Without insulin, exercise releases glucagon and epinephrine.'],
     ['Rotate insulin injections from arm to thigh to abdomen every day.', 'Rotate within one area so absorption stays steady.', 'Glucose swings unpredictably.', 'Each body area absorbs insulin at a different speed.'],
     ['Better glucose numbers in someone with worsening kidneys is good news.', 'As kidney function falls, insulin lasts longer and lows become more common.', 'Hypoglycemia is missed.', 'The kidneys clear insulin.'],
-    ['Potassium is high in DKA, so it never needs replacing.', 'Total-body potassium is low in DKA; replace once serum K⁺ falls below 5.0 with urine output ≥ 30 mL/hr.', 'Dangerous hypokalemia during treatment.', 'Acidosis shifts potassium out of cells; insulin drives it back in.']
+    ['Potassium is high in DKA, so it never needs replacing.', 'Total-body potassium is low in DKA; replace once serum K⁺ falls below 5.0 with urine output ≥ 30 mL/hr.', 'Dangerous hypokalemia during treatment.', 'Acidosis shifts potassium out of cells; insulin drives it back in.'],
+    ['Every client with diabetes should take an ACE inhibitor to protect the kidneys.', 'ACE inhibitors or ARBs are for persistent albuminuria or advanced nephropathy — not for clients with normal blood pressure and normal albumin excretion.', 'Drug risks such as hyperkalemia with no kidney benefit.', 'They lower the pressure inside the glomerulus, which slows albumin leak and progression once damage has begun.']
   ]
 };
 window.EXPLAIN_CARDS['56'] = { mc: Object.fromEntries(window.RECALL_EXTRA['56'].mc.map((x, i) => [i, { why: x[3] }])) };

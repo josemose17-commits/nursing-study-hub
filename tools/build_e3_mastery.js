@@ -32,7 +32,7 @@ if (first < 0 || focus < first) throw new Error('Data script block not found in 
 const chs = (cfg.match(/const CHS = \[([^\]]*)\]/) || [])[1].match(/\d+/g);
 const v = '?v=' + build;
 const scripts = chs.map(c => '<script src="data/e3/q/' + c + '.js' + v + '"></script>')
-  .concat(['data/e3/drugs-gi.js', 'data/e3/drugs-endo.js', 'data/glossary.js', 'data/e3/glossary.js', 'data/e3/topic-index.js', 'data/e3/focus-rules.js']
+  .concat(['data/e3/q/more.js', 'data/e3/cases.js', 'data/e3/cj-tags.js', 'data/e3/drugs-gi.js', 'data/e3/drugs-endo.js', 'data/glossary.js', 'data/e3/glossary.js', 'data/e3/topic-index.js', 'data/e3/focus-rules.js']
     .map(f => '<script src="' + f + v + '"></script>'));
 s = s.slice(0, first) + scripts.join('\n') + '\n' + s.slice(focus);
 

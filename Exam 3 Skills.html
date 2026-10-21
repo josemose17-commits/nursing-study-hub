@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Exam 3 Skills</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<style>
+  body { padding-bottom: 96px; }
+  main { max-width: 900px; margin: 0 auto; padding: clamp(18px, 3.5vw, 40px) 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-accent-300); }
+  h1 { font-size: clamp(28px, 5.5vw, 44px); margin: 4px 0 0; }
+  h2 { font-size: clamp(21px, 4vw, 28px); margin: 0; }
+  h3 { font-size: 13px; font-weight: 600; margin: 4px 0 6px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400); }
+  .lead { color: var(--color-neutral-300); max-width: 70ch; margin: 0; }
+  .glass { border-radius: var(--radius-lg); background: var(--color-surface); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--shadow-md); padding: 16px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toc a { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); color: inherit; text-decoration: none; font-size: 14px; }
+  .toc a.done { border-color: var(--color-accent-600); color: var(--color-accent-100); }
+  .toc a:hover { border-color: var(--color-accent-700); }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .bar button, .skill button.mode { font: inherit; font-size: 13.5px; color: inherit; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-accent-700); background: none; cursor: pointer; }
+  .bar button[aria-pressed="true"], .skill button.mode[aria-pressed="true"] { background: var(--color-accent-900); border-color: var(--color-accent); }
+  .skill { scroll-margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .skill .head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; }
+  .muted { color: var(--color-neutral-400); font-size: 13px; }
+  ol.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; counter-reset: s; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 9px 12px; border-radius: 12px; background: var(--color-neutral-900); border: 1px solid var(--color-divider); }
+  ol.steps li::before { content: counter(s); width: 22px; height: 22px; border-radius: 50%; background: var(--color-neutral-700); color: var(--color-text); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  ol.steps li.crit { border-color: var(--color-accent-700); }
+  ol.steps li.crit::before { background: var(--color-accent); color: #04160e; }
+  .stxt { font-size: 15px; }
+  .crit-tag { display: inline-block; margin-left: 6px; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-accent-200); border: 1px solid var(--color-accent-700); border-radius: 99px; padding: 0 7px; vertical-align: 2px; }
+  .why { display: none; margin-top: 4px; font-size: 13.5px; color: var(--color-neutral-300); }
+  .show-why .why { display: block; }
+  .hidden-steps li .stxt, .hidden-steps li .why { filter: blur(6px); cursor: pointer; user-select: none; }
+  .hidden-steps li.shown .stxt, .hidden-steps li.shown .why { filter: none; }
+  input[type="checkbox"] { width: 20px; height: 20px; accent-color: #f5c400; margin: 1px 0 0; }
+  .lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 10px; }
+  .lists ul { margin: 0; padding-left: 18px; font-size: 14px; }
+  .lists li { margin: 3px 0; }
+  .stop { border: 1px solid #5a2a2a; background: #1d0f0f; border-radius: 12px; padding: 10px 12px; }
+  .stop h3 { color: #f3c9c9; }
+  .mist { border: 1px solid var(--color-divider); background: var(--color-neutral-900); border-radius: 12px; padding: 10px 12px; }
+  .practice a { display: inline-block; margin: 3px 6px 3px 0; font-size: 13px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--color-neutral-700); text-decoration: none; color: var(--color-accent-200); }
+  .src { font-size: 12.5px; color: var(--color-neutral-500); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">Exam 3 · bedside skills</div>
+    <h1>Skills checklists</h1>
+    <p class="lead">The skills behind the GI and endocrine chapters, step by step. Highlighted steps are critical — the ones a check-off fails you on and that keep the client safe. Tap <b>Why</b> to see the reason for every step, or <b>Test me</b> to hide the steps and recall them one at a time.</p>
+  </header>
+  <nav class="toc glass" id="toc" aria-label="Skills"></nav>
+  <div class="bar"><span class="muted" id="progress"></span></div>
+  <div id="skills" style="display:flex;flex-direction:column;gap:16px"></div>
+  <p class="src">Written in our own words from standard nursing-skills practice (for example, Open RN <i>Nursing Skills</i>, 2nd ed., CC BY 4.0) and the Exam 3 med-surg chapters. Agencies and schools differ in details such as flush volumes and placement checks — for a check-off, follow your school’s checklist.</p>
+</main>
+
+<script src="data/e3/q/45.js?v=202610211300"></script>
+<script src="data/e3/q/46.js?v=202610211300"></script>
+<script src="data/e3/q/47.js?v=202610211300"></script>
+<script src="data/e3/q/48.js?v=202610211300"></script>
+<script src="data/e3/q/49.js?v=202610211300"></script>
+<script src="data/e3/q/53.js?v=202610211300"></script>
+<script src="data/e3/q/55.js?v=202610211300"></script>
+<script src="data/e3/q/56.js?v=202610211300"></script>
+<script src="data/e3/q/more.js?v=202610211300"></script>
+<script src="data/e3/cases.js?v=202610211300"></script>
+<script src="data/e3/skills.js?v=202610211300"></script>
+<script>
+(function () {
+  var KEY = 'e3-skills-v1', S = {};
+  try { S = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { S = {}; }
+  var save = function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+  // Questions by title (ids shift as questions are added), so each skill can point to the questions that use it.
+  // Only questions the Exam 3 Mastery test asks are listed (chapters 48 and 49 are off this exam).
+  var OFF = { '48': 1, '49': 1 }, titles = {};
+  Object.keys(window.NGN_EXTRA || {}).filter(function (ch) { return !OFF[ch]; }).forEach(function (ch) { (window.NGN_EXTRA[ch] || []).concat(((window.RECALL_EXTRA || {})[ch] || {}).nclex || []).forEach(function (x) { titles[x.t] = 1; }); });
+  var qTitle = function (t) {
+    if (t.indexOf('case:') === 0) { var cs = (window.CASES || []).find(function (c) { return c.id === t.slice(5); }); return cs && !OFF[cs.ch] ? 'Case study: ' + cs.title : null; }
+    return titles[t] ? t : null;
+  };
+  var box = document.getElementById('skills'), toc = document.getElementById('toc');
+  window.E3_SKILLS.forEach(function (sk) {
+    var done = S[sk.id] || {};
+    var sec = document.createElement('section'); sec.className = 'skill glass'; sec.id = sk.id;
+    var seen = {};
+    var practice = sk.q.map(qTitle).filter(function (t) { if (!t || seen[t]) return false; seen[t] = 1; return true; });
+    sec.innerHTML = '<div class="head"><h2>' + esc(sk.title) + '</h2><span class="muted">Ch ' + sk.ch + '</span></div>' +
+      '<p class="muted" style="margin:0">' + esc(sk.when) + (OFF[sk.ch] ? ' <b>Chapter ' + sk.ch + ' is not on Exam 3</b>, but this skill comes up in clinicals.' : '') + '</p>' +
+      '<div class="bar"><button type="button" class="mode" data-m="why" aria-pressed="false">Why</button><button type="button" class="mode" data-m="test" aria-pressed="false">Test me</button><span class="muted cnt"></span></div>' +
+      '<ol class="steps">' + sk.steps.map(function (st, i) {
+        return '<li class="' + (st[2] ? 'crit' : '') + '" data-i="' + i + '"><div><span class="stxt">' + esc(st[0]) + (st[2] ? '<span class="crit-tag">critical</span>' : '') + '</span>' +
+          (st[1] ? '<div class="why">' + esc(st[1]) + '</div>' : '') + '</div>' +
+          '<input type="checkbox" aria-label="I can do step ' + (i + 1) + '"' + (done[i] ? ' checked' : '') + '></li>';
+      }).join('') + '</ol>' +
+      '<div class="lists"><div class="mist"><h3>Common mistakes</h3><ul>' + sk.mistakes.map(function (m) { return '<li>' + esc(m) + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="stop"><h3>Stop and report</h3><ul>' + sk.stop.map(function (m) { return '<li>' + esc(m) + '</li>'; }).join('') + '</ul></div></div>' +
+      (practice.length ? '<div class="practice"><h3>Practice it in the Mastery test</h3>' + practice.map(function (t) { return '<a href="Exam 3 Mastery Loop.dc.html">' + esc(t) + '</a>'; }).join('') + '</div>' : '');
+    box.appendChild(sec);
+    var a = document.createElement('a'); a.href = '#' + sk.id; a.textContent = sk.title; toc.appendChild(a);
+    var ol = sec.querySelector('ol'), cnt = sec.querySelector('.cnt');
+    var count = function () {
+      var n = sec.querySelectorAll('input:checked').length;
+      cnt.textContent = n + ' of ' + sk.steps.length + ' steps checked off';
+      a.className = n === sk.steps.length ? 'done' : '';
+      overall();
+    };
+    sec.querySelectorAll('input').forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        var i = cb.closest('li').getAttribute('data-i');
+        S[sk.id] = S[sk.id] || {}; if (cb.checked) S[sk.id][i] = 1; else delete S[sk.id][i];
+        save(); count();
+      });
+    });
+    sec.querySelectorAll('button.mode').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
+        if (b.getAttribute('data-m') === 'why') ol.classList.toggle('show-why', on);
+        else { ol.classList.toggle('hidden-steps', on); ol.querySelectorAll('li').forEach(function (li) { li.classList.remove('shown'); }); }
+      });
+    });
+    ol.addEventListener('click', function (e) {
+      if (!ol.classList.contains('hidden-steps') || e.target.tagName === 'INPUT') return;
+      var li = e.target.closest('li'); if (li) li.classList.add('shown');
+    });
+    count();
+  });
+  function overall() {
+    var all = window.E3_SKILLS.length, n = window.E3_SKILLS.filter(function (sk) { return Object.keys(S[sk.id] || {}).length === sk.steps.length; }).length;
+    document.getElementById('progress').textContent = n + ' of ' + all + ' skills fully checked off. Check a step off once you can do it without looking. Saved in this browser.';
+  }
+  overall();
+  if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+})();
+</script>
+<script src="nav.js?v=202610211300"></script>
+<script src="say.js?v=202610211300"></script>
+</body>
+</html>

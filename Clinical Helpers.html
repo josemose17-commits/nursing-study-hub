@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Clinical Helpers</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<style>
+  body { padding-bottom: 96px; }
+  main { max-width: 900px; margin: 0 auto; padding: clamp(18px, 3.5vw, 40px) 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-accent-300); }
+  h1 { font-size: clamp(28px, 5.5vw, 44px); margin: 4px 0 0; }
+  h2 { font-size: clamp(20px, 4vw, 26px); margin: 0 0 4px; }
+  h3 { font-size: 12.5px; font-weight: 600; margin: 12px 0 4px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400); }
+  .lead { color: var(--color-neutral-300); max-width: 70ch; margin: 0; }
+  .glass { border-radius: var(--radius-lg); background: var(--color-surface); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--shadow-md); padding: 16px; scroll-margin-top: 12px; }
+  .muted { color: var(--color-neutral-400); font-size: 13px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toc a { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); color: inherit; text-decoration: none; font-size: 14px; }
+  .note { border-radius: 12px; padding: 10px 12px; background: var(--color-accent-900); border: 1px solid var(--color-accent-700); font-size: 14px; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 6px; border-top: 1px solid var(--color-divider); vertical-align: top; }
+  th { font-weight: 600; color: var(--color-neutral-400); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; }
+  td.grp { font-weight: 600; color: var(--color-accent-200); padding-top: 12px; }
+  textarea, input[type="text"] { font: inherit; font-size: 14.5px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-neutral-600); border-radius: 10px; padding: 8px 10px; width: 100%; box-sizing: border-box; }
+  textarea { min-height: 64px; resize: vertical; }
+  button.pill { font: inherit; font-size: 13.5px; color: inherit; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-accent-700); background: none; cursor: pointer; }
+  .sbar label { display: block; font-weight: 600; margin-top: 10px; }
+  .sbar .hint { font-size: 13px; color: var(--color-neutral-400); margin: 2px 0 4px; }
+  .res { margin-top: 10px; display: grid; gap: 6px; }
+  .hit { border-radius: 10px; padding: 8px 10px; font-size: 14px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); }
+  .hit.good { border-color: var(--color-accent-700); }
+  .hit.bad { border-color: #6a3030; background: #1d0f0f; }
+  .hit b { display: block; }
+  .ck label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; font-size: 14.5px; border-top: 1px solid var(--color-divider); }
+  input[type="checkbox"] { width: 20px; height: 20px; accent-color: #f5c400; margin: 1px 0 0; flex: none; }
+  details > summary { cursor: pointer; font-weight: 500; font-size: 16px; }
+  .src { font-size: 12.5px; color: var(--color-neutral-500); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">NRS 114 · clinical</div>
+    <h1>Clinical helpers</h1>
+    <p class="lead">Tools for the clinical paperwork in your syllabus: normal lab ranges for the plan of care, SBAR practice, a check for your process-recording lines, and checklists for each written assignment.</p>
+  </header>
+  <div class="note"><b>Your syllabus bans AI-written work.</b> Nothing here writes your papers. These tools only check what you wrote, remind you of the required parts and give reference values — the words have to be yours.</div>
+  <nav class="toc glass" aria-label="Sections"><a href="#labs">Lab ranges</a><a href="#erikson">Erikson</a><a href="#sbar">SBAR</a><a href="#pr">Process recording</a><a href="#lists">Assignment checklists</a><a href="Semester.html">Semester →</a></nav>
+
+  <section class="glass" id="labs">
+    <h2>Lab ranges for the Clinical Reasoning Plan of Care</h2>
+    <p class="muted" style="margin:0 0 8px">Same rows as the plan’s lab tables. Adult ranges; labs differ slightly, so <b>write the range printed on your patient’s report</b> in the “Normal Range” column. Values marked ★ are the ones your med-surg book gives.</p>
+    <div class="table-wrap"><table id="lab-t"></table></div>
+  </section>
+
+  <section class="glass" id="erikson">
+    <h2>Erikson’s stages</h2>
+    <p class="muted" style="margin:0 0 8px">The plan of care asks which stage your patient is in and whether they have reached it. Behaviors on the right show the stage was met; the opposite shows it wasn’t.</p>
+    <div class="table-wrap"><table id="erik-t"></table></div>
+  </section>
+
+  <section class="glass sbar" id="sbar">
+    <h2>SBAR practice</h2>
+    <p class="muted" style="margin:0">The plan of care asks for two SBARs — one to update the provider, one to hand off to the next nurse. Practice here; it saves on this device only. <b>Use initials only — never a real patient’s name or details that identify them.</b></p>
+    <div id="sbar-f"></div>
+    <div class="res" id="sbar-r"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="pill" type="button" id="sbar-check">Check my SBAR</button><button class="pill" type="button" id="sbar-clear">Clear</button></div>
+  </section>
+
+  <section class="glass" id="pr">
+    <h2>Process recording: check a line</h2>
+    <p class="muted" style="margin:0 0 8px">Type one thing you said to your client, exactly as you said it. The checker looks for well-known therapeutic and non-therapeutic patterns. It can’t hear tone or see the whole conversation — use it as a second look, then write the analysis yourself with your textbook.</p>
+    <input type="text" id="pr-in" placeholder="e.g. Why didn’t you take your medicine?" aria-label="Your sentence">
+    <div class="res" id="pr-out"></div>
+    <h3>The template (columns)</h3>
+    <p style="margin:0;font-size:14.5px">Student verbatim · Client verbatim · Therapeutic technique · Non-therapeutic technique · Your analysis / why</p>
+    <h3>From the guidelines</h3>
+    <ul style="margin:0;padding-left:18px;font-size:14.5px">
+      <li>Pick an appropriate time and place; introduce yourself.</li>
+      <li>Record a <b>5-minute</b> segment. Keep it simple — the weather, the news, a holiday, a book, favorite foods. <b>Stay away from religion and politics.</b></li>
+      <li>Note your body language, the client’s, and how engaged the client was.</li>
+      <li>Write it down <b>verbatim</b> right after you leave the room.</li>
+      <li>For every non-therapeutic reply, write what you could have said instead to invite the client’s feelings.</li>
+    </ul>
+  </section>
+
+  <section class="glass ck" id="lists">
+    <h2>Assignment checklists</h2>
+    <p class="muted" style="margin:0 0 6px">The required parts of each written assignment, from the syllabus. Tick them off as you write; ticks save on this device and move with your progress file.</p>
+    <div id="ck"></div>
+  </section>
+  <p class="src">From the NRS 114 Fall 2026 syllabus (clinical guide and assignment guidelines). Lab ranges: ★ values from the med-surg chapters on this site; others are common adult reference ranges. Communication patterns follow standard therapeutic-communication teaching (see <a href="NCLEX Strategies.html#s-comm" style="color:var(--color-accent-300)">Strategies</a>).</p>
+</main>
+<script>
+(function () {
+  var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+  function read(k, d) { try { var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; } catch (e) { return d; } }
+  function write(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+
+  // ---------- Lab ranges: [lab, range, high may mean, low may mean, from the book?] ----------
+  var LABS = [
+    ['Complete Blood Count'],
+    ['WBC', '5,000–10,000/mm³', 'infection, inflammation, steroids, leukemia', 'bone marrow suppression (chemo), overwhelming infection — infection risk', 1],
+    ['Hemoglobin', 'F 12–16, M 14–18 g/dL', 'dehydration, polycythemia, living at altitude', 'anemia or bleeding — fatigue, tachycardia, poor oxygen delivery', 1],
+    ['Platelets', '150,000–400,000/mm³', 'clot risk, inflammation', 'bleeding risk — bleeding precautions', 1],
+    ['Neutrophils %', '55–70%', 'bacterial infection, stress, steroids', 'neutropenia — neutropenic precautions', 0],
+    ['Lymphocytes %', '20–40%', 'viral infection, some leukemias', 'immunosuppression, HIV, steroids', 0],
+    ['Basic Metabolic Panel'],
+    ['Sodium', '136–145 mEq/L', 'dehydration — thirst, confusion', 'fluid excess, SIADH — confusion, seizures', 0],
+    ['Potassium', '3.5–5.0 mEq/L', 'kidney failure, acidosis, K-sparing drugs — peaked T waves, dysrhythmias', 'diuretics, vomiting, NG suction, insulin — weakness, dysrhythmias', 0],
+    ['Glucose (fasting)', '74–106 mg/dL', 'diabetes, stress, steroids, infection', 'under 70 = hypoglycemia — treat now', 1],
+    ['Calcium', '9.0–10.5 mg/dL', 'hyperparathyroidism, cancer — weakness, stones, confusion', 'after thyroid/parathyroid surgery — tingling, tetany, Chvostek/Trousseau', 1],
+    ['Magnesium', '1.3–2.1 mEq/L', 'kidney failure — weak reflexes, slow breathing', 'alcohol use, diarrhea — tremor, dysrhythmias', 0],
+    ['Lactate', '0.5–2.2 mmol/L', 'poor perfusion: sepsis, shock, ischemic bowel', '—', 0],
+    ['BUN', '10–20 mg/dL', 'dehydration, kidney disease, GI bleeding (digested blood)', 'overhydration, liver failure, malnutrition', 0],
+    ['Creatinine', 'F 0.5–1.1, M 0.6–1.2 mg/dL', 'kidney function falling — check drug doses', 'low muscle mass', 0],
+    ['GFR', 'over 90 mL/min', '—', 'under 60 for 3 months = chronic kidney disease; dose drugs by it', 0],
+    ['Urinalysis'],
+    ['Color / clarity', 'pale to amber, clear', 'dark = concentrated; cloudy = infection or protein', '—', 0],
+    ['Specific gravity', '1.005–1.030', 'dehydration', 'overhydration, diabetes insipidus', 0],
+    ['Protein, glucose, ketones, blood', 'negative', 'protein = kidney damage; glucose/ketones = uncontrolled diabetes; blood = stones, infection, trauma', '—', 0],
+    ['Nitrite / leukocyte esterase', 'negative', 'positive = urinary tract infection', '—', 0],
+    ['RBC / WBC (per field)', 'RBC 0–2 · WBC 0–5', 'bleeding · infection', '—', 0],
+    ['Bacteria / epithelial cells', 'none · few', 'infection · contaminated sample (recollect clean catch)', '—', 0],
+    ['Liver panel and GI'],
+    ['Albumin', '3.5–5.0 g/dL', 'dehydration', 'malnutrition, liver disease — edema, poor healing', 0],
+    ['Total bilirubin', '0.3–1.0 mg/dL', 'liver disease, bile duct blockage, hemolysis — jaundice', '—', 0],
+    ['Alkaline phosphatase', '30–120 U/L', 'bile duct blockage, bone disease', '—', 0],
+    ['ALT / AST', 'ALT 4–36 · AST 0–35 U/L', 'liver cell injury (hepatitis, drugs, alcohol)', '—', 0],
+    ['Amylase / lipase', 'amylase 30–110 · lipase 0–160 U/L', 'pancreatitis (lipase stays up longer)', '—', 0],
+    ['Cardiac'],
+    ['Troponin', 'below the lab’s cutoff (often under 0.03 ng/mL)', 'heart muscle injury — MI', '—', 0],
+    ['CK total / CK-MB', 'CK ~30–170 U/L · CK-MB 0–5% of CK', 'muscle injury · heart muscle injury', '—', 0],
+    ['BNP', 'under 100 pg/mL', 'heart failure (ventricles stretched)', '—', 0],
+    ['Coagulation'],
+    ['INR', '0.8–1.1 (2–3 on warfarin)', 'bleeding risk — warfarin, liver disease', '—', 1],
+    ['aPTT', '30–40 s (1.5–2.5× control on heparin)', 'bleeding risk — heparin, clotting factor problems', '—', 1],
+    ['PTT (non-activated)', '60–70 s', 'bleeding risk', '—', 0],
+    ['Arterial blood gases'],
+    ['pH', '7.35–7.45', 'alkalosis', 'acidosis', 1],
+    ['PaO₂', '80–100 mm Hg', 'extra oxygen', 'hypoxemia', 1],
+    ['PaCO₂', '35–45 mm Hg', 'hypoventilation — respiratory acidosis', 'hyperventilation — respiratory alkalosis', 1],
+    ['HCO₃⁻', '21–28 mEq/L', 'metabolic alkalosis (vomiting, NG suction)', 'metabolic acidosis (DKA, diarrhea, kidney failure)', 1],
+    ['O₂ sat', '95–100% (88–92% if ordered for CO₂ retainers)', '—', 'hypoxemia', 1]
+  ];
+  document.getElementById('lab-t').innerHTML = '<tr><th>Lab</th><th>Normal</th><th>High may mean</th><th>Low may mean</th></tr>' + LABS.map(function (r) {
+    return r.length === 1 ? '<tr><td class="grp" colspan="4">' + esc(r[0]) + '</td></tr>' : '<tr><td>' + esc(r[0]) + (r[4] ? ' ★' : '') + '</td><td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td><td>' + esc(r[3]) + '</td></tr>';
+  }).join('');
+
+  // ---------- Erikson ----------
+  var ERIK = [
+    ['Infancy (0–1)', 'Trust vs mistrust', 'trusts caregivers, feeds and sleeps calmly'],
+    ['Toddler (1–3)', 'Autonomy vs shame and doubt', 'tries things alone, makes simple choices'],
+    ['Preschool (3–6)', 'Initiative vs guilt', 'starts play and activities, asks questions'],
+    ['School age (6–12)', 'Industry vs inferiority', 'takes pride in skills and schoolwork'],
+    ['Adolescence (12–18)', 'Identity vs role confusion', 'a sense of who they are, values, future plans'],
+    ['Young adult (18–40)', 'Intimacy vs isolation', 'close relationships, partner and friends'],
+    ['Middle adult (40–65)', 'Generativity vs stagnation', 'work, raising or mentoring others, community'],
+    ['Older adult (65+)', 'Integrity vs despair', 'accepts their life, shares memories, at peace']
+  ];
+  document.getElementById('erik-t').innerHTML = '<tr><th>Age</th><th>Stage</th><th>Achieved when the person…</th></tr>' + ERIK.map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td></tr>'; }).join('');
+
+  // ---------- SBAR ----------
+  var PARTS = [
+    ['s', 'Situation', 'Who you are and where you are calling from, the patient (name, room), and the problem right now in one sentence.', [/\b(i'?m|i am|this is)\b/i, /\broom\b|\bbed\b/i]],
+    ['b', 'Background', 'Admitting diagnosis and date, relevant history, current treatment, allergies and code status if it matters.', [/\badmit|diagnos|history|post[- ]?op|surgery/i]],
+    ['a', 'Assessment', 'Your data: vital signs with numbers, what changed, key labs, and what you think is going on.', [/\d/, /\bi think|concerned|worried|appears|suspect/i]],
+    ['r', 'Recommendation', 'What you need: what you want done, by when, and read back any order you get.', [/\b(would you|could you|i('?d| would) like|i recommend|please|request|order)/i]]
+  ];
+  var sb = read('clin-sbar', {});
+  document.getElementById('sbar-f').innerHTML = PARTS.map(function (p) {
+    return '<label for="sb-' + p[0] + '">' + p[1] + '</label><div class="hint">' + esc(p[2]) + '</div><textarea id="sb-' + p[0] + '" data-k="' + p[0] + '">' + esc(sb[p[0]] || '') + '</textarea>';
+  }).join('');
+  document.getElementById('sbar-f').addEventListener('input', function (e) { var k = e.target.dataset.k; if (!k) return; sb[k] = e.target.value; write('clin-sbar', sb); });
+  document.getElementById('sbar-check').addEventListener('click', function () {
+    var notes = PARTS.map(function (p) {
+      var t = (sb[p[0]] || '').trim();
+      if (!t) return ['bad', p[1] + ' is empty.'];
+      if (p[0] === 's' && !p[3][0].test(t)) return ['bad', 'Situation: say who you are first (“This is ___, the nurse caring for…”).'];
+      if (p[0] === 's' && !p[3][1].test(t)) return ['bad', 'Situation: name the room or bed so the provider knows which patient.'];
+      if (p[0] === 'b' && !p[3][0].test(t)) return ['bad', 'Background: include the admitting diagnosis or surgery.'];
+      if (p[0] === 'a' && !p[3][0].test(t)) return ['bad', 'Assessment: give numbers — vital signs and labs, not just “unstable”.'];
+      if (p[0] === 'a' && !p[3][1].test(t)) return ['bad', 'Assessment: say what you think is happening (“I’m concerned she is bleeding”).'];
+      if (p[0] === 'r' && !p[3][0].test(t)) return ['bad', 'Recommendation: ask for something specific (“Would you like to order…”, “I’d like you to see the patient within 15 minutes”).'];
+      if (t.split(/\s+/).length > 70) return ['bad', p[1] + ' is long — SBAR should be concise; keep only what the listener needs.'];
+      return ['good', p[1] + ' looks complete.'];
+    });
+    document.getElementById('sbar-r').innerHTML = notes.map(function (n) { return '<div class="hit ' + n[0] + '">' + esc(n[1]) + '</div>'; }).join('');
+  });
+  document.getElementById('sbar-clear').addEventListener('click', function () { sb = {}; write('clin-sbar', sb); document.querySelectorAll('#sbar-f textarea').forEach(function (t) { t.value = ''; }); document.getElementById('sbar-r').innerHTML = ''; });
+
+  // ---------- Process recording checker: [therapeutic?, name, pattern, what it does] ----------
+  var PAT = [
+    [0, 'Asking “why”', /(^|[.!?]\s*)why\b/i, 'Puts the client on the defensive — they feel they must justify themselves. Ask “What happened…” or “Tell me about…” instead.'],
+    [0, 'False reassurance', /don'?t worry|(everything|it|you)('?s| is| will| are going to|'?ll) (be )?(fine|ok|okay|alright|all right)|nothing to worry|not a big deal/i, 'Dismisses the feeling and closes the topic. Acknowledge the worry instead (“It sounds like you’re scared about…”).'],
+    [0, 'Giving advice', /\byou (should|need to|have to|must|ought to)\b|\bif i were you\b|\bwhy don'?t you\b/i, 'Tells the client what to do instead of helping them decide. Ask what they think would help.'],
+    [0, 'Approving or disapproving', /\b(that'?s|that is) (good|great|right|wrong|bad)\b|\bgood (job|girl|boy)\b|\bi('?m| am) (proud|disappointed)\b/i, 'Judges the client, so they may say what pleases you. Use neutral acknowledgment.'],
+    [0, 'Claiming to know how they feel', /i know (exactly )?how you feel|i understand exactly|i('?ve| have) been there/i, 'Shifts the focus to you and assumes. Ask how it is for them.'],
+    [0, 'Minimizing / clichés', /\bat least\b|others have it worse|could be worse|hang in there|chin up|happens for a reason|everyone (feels|gets|goes through)/i, 'Belittles the feeling. Validate it instead.'],
+    [0, 'Defending', /\b(the )?(doctor|doctors|nurses?|staff|hospital) (is|are) (very )?(good|great|competent|the best)|they know what they'?re doing/i, 'Defends staff instead of hearing the complaint. Explore the concern.'],
+    [0, 'Closed (yes/no) question', /^\s*(do|did|does|are|is|was|were|can|could|have|has|had|will|would|should)\b[^?]*\?\s*$/i, 'Fine for facts, but it ends the conversation. Open it up: “How…”, “What…”, “Tell me…”.'],
+    [1, 'Open-ended question / broad opening', /^\s*(tell me|how|what|describe|talk about|share)\b|what('?s| is) on your mind|where would you like to (start|begin)/i, 'Invites the client to lead and share in their own words.'],
+    [1, 'Reflecting feelings', /\byou (feel|seem|sound|look) (\w+ )?(sad|scared|afraid|worried|upset|angry|frustrated|anxious|lonely|tired|overwhelmed|hopeless|nervous)|\bit sounds like you\b/i, 'Names the feeling so the client knows you heard it.'],
+    [1, 'Clarifying', /what do you mean|are you saying|help me understand|can you (explain|tell me more)|i'?m not sure i follow/i, 'Checks you understood instead of guessing.'],
+    [1, 'Restating', /\byou said\b|\bso you\b|\byou'?re telling me\b/i, 'Repeats the main idea so the client hears it and can go on.'],
+    [1, 'Offering self', /\bi('?ll| will) (stay|sit|be here|be back)|\bi('?m| am) here (for|with) you\b|\bi have time\b/i, 'Shows you are available without conditions.'],
+    [1, 'Validating', /\b(that|it) (sounds|must be|must have been) (hard|difficult|scary|frightening|painful|tough)|it'?s (okay|ok|normal|understandable) to feel/i, 'Accepts the feeling as real.'],
+    [1, 'General lead / encouraging', /\bgo on\b|\band then\?|\bmm-?hmm\b|\bi see\b|\bplease continue\b/i, 'Encourages the client to keep talking.'],
+    [1, 'Summarizing', /\bso far (we|you)|\bto sum (it )?up|\blet me make sure\b|\bwe talked about\b/i, 'Pulls the main points together and checks them.'],
+    [1, 'Silence', /^\s*\(?\[?(silence|pause|\.\.\.)\]?\)?\s*$/i, 'Gives the client time to think and feel.']
+  ];
+  var prIn = document.getElementById('pr-in'), prOut = document.getElementById('pr-out');
+  prIn.addEventListener('input', function () {
+    var t = prIn.value.trim(); if (!t) { prOut.innerHTML = ''; return; }
+    var hits = PAT.filter(function (p) { return p[2].test(t); });
+    prOut.innerHTML = hits.length ? hits.map(function (p) { return '<div class="hit ' + (p[0] ? 'good' : 'bad') + '"><b>' + (p[0] ? 'Therapeutic: ' : 'Non-therapeutic: ') + esc(p[1]) + '</b>' + esc(p[3]) + '</div>'; }).join('')
+      : '<div class="hit">No known pattern found. Ask yourself: does it invite the client’s feelings, or close the topic, judge, advise or change the subject?</div>';
+  });
+
+  // ---------- Assignment checklists ----------
+  var LISTS = [
+    ['Clinical Reasoning Plan of Care', [
+      'Client data in your own words (nothing copied from the chart): initials, room, age, language, allergies, housing, support system',
+      'Chief complaint / history of present illness; personal, social, medical and surgical history',
+      'Erikson stage — expected and actual, with behaviors that show it',
+      'Current medications, each linked to the disease it treats',
+      'SBAR on the patient',
+      'Initial vital signs and full assessment — and which findings are clinically significant, with rationale',
+      'Clinical reasoning: likely medical problem, its pathophysiology, primary nursing priority, problem statement, interventions, worst complication and the assessments that would catch it',
+      'Medical management: each order with rationale and expected outcome',
+      'Radiology/diagnostics: relevant findings and how they relate to the problem',
+      'Labs: normal range, initial and current values, significance and trends; complications of the abnormal ones',
+      'Fluid and electrolytes: the 2 most relevant abnormal labs — cause, treatment, nursing actions, critical value',
+      'Evaluation 4 hours later: vital signs, reassessment, improved or not, new priorities',
+      'SBAR to the provider and SBAR handoff to the next nurse',
+      'QSEN questions: patient-centered care, teamwork, evidence-based practice, safety (near-miss look-alike label), informatics',
+      'Care plan table: client problem (related to / as evidenced by), interventions, scientific rationale, evaluation, short- and long-term goals',
+      'Scholarly sources cited in APA 7th edition'
+    ]],
+    ['Process recording (therapeutic communication)', [
+      'A 5-minute segment, written verbatim right after the conversation',
+      'Neutral topic — no religion or politics',
+      'Body language (yours and the client’s) and level of engagement noted',
+      'Every line labeled therapeutic or non-therapeutic, with the technique named',
+      'For non-therapeutic lines: what you could have said instead',
+      'Analysis supported by your textbook and the NRS 107 handout'
+    ]],
+    ['Health teaching plan', [
+      'Client (individual, family or group) with a real knowledge deficit',
+      'Brief nursing history that shows the need; strengths and limitations; nursing diagnosis / client problem',
+      'At least 2 specific, client-focused learning objectives',
+      'Topical outline of the content',
+      'Teaching strategies and learning activities',
+      'Time frame for each activity',
+      'Evaluation criteria',
+      'Plan implemented',
+      'Evaluation against the criteria, with adaptations and the rationale for positive or negative responses'
+    ]],
+    ['Perioperative experience paper (if your clinical allows)', [
+      'Patient initials, age, gender, diagnoses or history, name of the procedure',
+      'How needs were met: bacteriological safety, mechanical/thermal safety, oxygen, fluids (every solution used), elimination, pain and comfort (drugs pre- and intra-op)',
+      'Surgical team members and each one’s responsibilities',
+      'PACU nursing actions with a rationale for each, specific to this surgery',
+      'Post-op unit interventions with rationales',
+      '2 potential complications directly related to this procedure',
+      'Discharge and home-care teaching from the literature',
+      'How the surgery changes the anatomy and physiology',
+      'A preoperative teaching plan specific to the surgery observed',
+      'APA format (graded satisfactory/unsatisfactory)'
+    ]],
+    ['Mental health papers', [
+      'Movie paper: a movie about a mental health condition relevant today, in APA format',
+      'Meeting paper: attend an AA, NA, Al-Anon, OA or SA meeting and reflect on it, in APA format'
+    ]]
+  ];
+  var ticks = read('clin-ck', {});
+  document.getElementById('ck').innerHTML = LISTS.map(function (L, i) {
+    var done = L[1].filter(function (x, j) { return ticks[i + '.' + j]; }).length;
+    return '<details' + (i === 0 ? ' open' : '') + ' style="margin-top:10px"><summary>' + esc(L[0]) + ' <span class="muted" data-c="' + i + '">' + done + ' of ' + L[1].length + '</span></summary>' +
+      L[1].map(function (x, j) { return '<label><input type="checkbox" data-k="' + i + '.' + j + '"' + (ticks[i + '.' + j] ? ' checked' : '') + '><span>' + esc(x) + '</span></label>'; }).join('') +
+      '<button class="pill" type="button" data-reset="' + i + '" style="margin-top:8px">Untick all (new paper)</button></details>';
+  }).join('');
+  function count(i) { var n = LISTS[i][1].filter(function (x, j) { return ticks[i + '.' + j]; }).length; document.querySelector('[data-c="' + i + '"]').textContent = n + ' of ' + LISTS[i][1].length; }
+  document.getElementById('ck').addEventListener('change', function (e) { var k = e.target.dataset.k; if (!k) return; ticks[k] = e.target.checked; write('clin-ck', ticks); count(+k.split('.')[0]); });
+  document.getElementById('ck').addEventListener('click', function (e) {
+    var i = e.target.dataset.reset; if (i == null) return;
+    LISTS[i][1].forEach(function (x, j) { delete ticks[i + '.' + j]; }); write('clin-ck', ticks);
+    e.target.closest('details').querySelectorAll('input').forEach(function (c) { c.checked = false; }); count(+i);
+  });
+})();
+</script>
+<script src="nav.js?v=202610220900"></script>
+</body>
+</html>

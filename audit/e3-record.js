@@ -94,6 +94,42 @@ module.exports = {
       management: { status: 'covered', hub: 'full', has: 'Every drug class (Table 56.5); insulin (Table 56.6, Box 56.5); nutrition and exercise (Box 56.7); the 15-15 rule (Box 56.11); DKA and HHS treatment (Table 56.9); sick days (Box 56.12); foot care (Boxes 56.8–56.9, Table 56.7); kidneys; hospital and surgery; pancreas transplant; teaching (Boxes 56.13–56.15).', added: 'Box 56.6 (new item); syringe sizes, needle gauges and lengths; drink equivalents; sulfonylurea vs meglitinide action; TZD heart deaths; insulin analogs and type changes; glulisine, detemir and degludec onsets; injection areas and the reason for rotation; RDN yearly review; Interprofessional Collaboration team (new item); transplant graft and HLA points; older-adult activity details', left: 'Smart-pen app features, meter "code" details' },
       complications: { status: 'covered', hub: 'full', has: 'Hypoglycemia, DKA, HHS, cerebral edema, hypokalemia; retinopathy, nephropathy, neuropathy, foot ulcers and Charcot foot; infection; surgical risks.', added: 'Stroke risk add-ons; sweating while eating (Table 56.1); inpatient causes of lows; symptoms can outlast the low (Box 56.11); caffeine-free sick-day fluids; post-op protein/nitrogen and CVP', left: 'Fig. 56.12 minor electrolytes (Ca, Mg, PO₄)' },
       features: { status: 'covered', hub: 'thin', has: 'Boxes 56.1–56.5 and 56.7–56.15 and Tables 56.1–56.3 and 56.5–56.9 cited.', added: 'Box 56.6; Fig. 56.1, 56.5 and 56.7 content; Interprofessional box; practice for NCLEX 56.1, 56.3, Mastery 2 and 4, and NGN 56.1.3', left: '"Get Ready… Essential Nursing Care Points" is a heading only in the source text (no content to compare)', check: 'Box 56.6 and Table 56.4 (never cited).' }
+    },
+    // Chapters 48–52 are on the final. 48 and 49 were compared again on 2026-10-22 with the chapter text pasted for the
+    // final: every number in their notes is in the chapter (both directions), every Box and Table is cited, and every
+    // Action Alert, Drug Alert and Critical Rescue point is in the notes, so nothing changed. 50–52 were written from it.
+    '50': {
+      checked: '2026-10-22',
+      normal: { status: 'covered', hub: 'full', has: 'What the liver does (400+ functions), portal blood flow and pressure, albumin and oncotic pressure, clotting factors and vitamin K, bilirubin and bile, ammonia clearance.' },
+      assessment: { status: 'covered', hub: 'full', has: 'Exposure and sensitive-history questions, veterans and hepatitis C, early vs late signs (Box 50.3), abdominal girth technique, encephalopathy stages (Box 50.1), alcohol withdrawal, hepatitis signs (Box 50.7) and extrahepatic HCV, psychosocial and stigma.' },
+      conditions: { status: 'covered', hub: 'full', has: 'Cirrhosis (exemplar: types, compensated vs decompensated, portal hypertension, ascites, varices, biliary obstruction, encephalopathy, hepatorenal syndrome, SBP, breathing trouble), NAFLD/NASH, viral hepatitis A–E (exemplar), liver cancer, liver transplant.' },
+      diagnostics: { status: 'covered', hub: 'full', has: 'Table 50.1 in full, AST/ALT ratio, ultrasound and Doppler, transient elastography (5.0 and 13 kPa), transjugular biopsy, EGD, ERCP, hepatitis serology for A–E, ascitic PMN count.' },
+      management: { status: 'covered', hub: 'full', has: 'Sodium restriction, diuretics, paracentesis (Box 50.4), TIPS, propranolol, octreotide, banding, sclerotherapy, balloon tamponade, lactulose, rifaximin and neomycin, pruritus care, home care, Table 50.2 antivirals, hepatitis prevention (Boxes 50.2, 50.5, 50.6), transplant care (Table 50.3).' },
+      complications: { status: 'covered', hub: 'full', has: 'Variceal hemorrhage, encephalopathy, hepatorenal syndrome, SBP, hypovolemia, fulminant hepatitis, HBV reactivation on DAAs, transplant rejection, infection, bile leak, AKI.' },
+      features: { status: 'covered', hub: 'full', has: 'Boxes 50.1–50.7, Tables 50.1–50.3, NCLEX challenges 50.1–50.3, the Action Alerts, health equity, veterans, gender and legal/ethical boxes.' },
+      accuracy: { status: 'covered', hub: 'full', has: 'Every number checked against the chapter; guideline updates marked as such (CDC hepatitis B vaccine for all adults 19–59, one-time HCV screening for all adults, MASLD/MASH names, resmetirom and semaglutide for MASH).' }
+    },
+    '51': {
+      checked: '2026-10-22',
+      normal: { status: 'covered', hub: 'full', has: 'Bile storage and concentration, exocrine (inactive enzymes) and endocrine pancreas, why obstructed bile gives itching, clay stools and dark urine.' },
+      assessment: { status: 'covered', hub: 'full', has: 'Cholecystitis history, pain pattern, older adults, Murphy and Blumberg signs, Box 51.1; pancreatitis pain, Cullen and Turner signs, bowel sounds, vital signs, alcohol history (CAGE); chronic pancreatitis (Box 51.5); pancreatic cancer (Box 51.7).' },
+      conditions: { status: 'covered', hub: 'full', has: 'Calculous, acalculous and chronic cholecystitis; acute pancreatitis (exemplar) with autodigestion and Box 51.3 complications; chronic pancreatitis types; pancreatic cancer.' },
+      diagnostics: { status: 'covered', hub: 'full', has: 'WBC, bilirubin, RUQ ultrasound, HIDA, ERCP and MRCP; Table 51.1 with amylase and lipase timing, ALT ×3 for biliary pancreatitis, calcium for 7–10 days; contrast CT; EUS, CEA and CA 19-9 for cancer.' },
+      management: { status: 'covered', hub: 'full', has: 'Opioids, ketorolac, ursodiol, biliary drains, laparoscopic and open cholecystectomy, NOTES, PCS (Box 51.2); NPO, fluids, PCA, NG, jejunal feeding, ERCP; PERT and diet (Box 51.6); chemotherapy, stents, Whipple care (Table 51.2).' },
+      complications: { status: 'covered', hub: 'full', has: 'Perforation, cholangitis, shock, ARDS, DIC, AKI, ileus, hypocalcemia, abscess, pseudocyst, diabetes, VTE in cancer, anastomotic leak and fistula, third spacing after Whipple.' },
+      features: { status: 'covered', hub: 'full', has: 'Boxes 51.1–51.7, Tables 51.1–51.2, NCLEX challenges 51.1–51.3, the Critical Rescue and Action Alerts, gender and health equity boxes.' },
+      accuracy: { status: 'covered', hub: 'full', has: 'Every number checked against the chapter.' }
+    },
+    '52': {
+      checked: '2026-10-22',
+      normal: { status: 'covered', hub: 'full', has: 'Energy balance, calories before protein, EER, why starvation burns muscle, albumin and edema, refeeding shifts, central fat and adipokines.' },
+      assessment: { status: 'covered', hub: 'full', has: 'Joint Commission 24-hour screen, MNA, Box 52.3, height and weight technique, BMI (Table 52.1) and its limits, BSA (Mosteller), skinfolds, Table 52.2 deficiency signs, older adults (Box 52.5), dysphagia alert, RESPECT, waist and waist-to-hip ratio.' },
+      conditions: { status: 'covered', hub: 'full', has: 'Undernutrition (exemplar): PEU (marasmus, kwashiorkor), starvation, acute and chronic PEU, eating disorders; obesity (exemplar): classes, complications (Box 52.10), causes, genetics.' },
+      diagnostics: { status: 'covered', hub: 'full', has: 'Albumin, prealbumin, transferrin, cholesterol, Hgb/Hct; BMI and BSA math; refeeding electrolytes.' },
+      management: { status: 'covered', hub: 'full', has: 'Box 52.6 meal care, supplements, iron and zinc; TEN (who, ethics, tubes, methods, Boxes 52.7–52.8, complications, refeeding); PPN and TPN (Box 52.9); diets, calorie math, exercise, Table 52.4 drugs, behavior; bariatric room (Table 52.3), surgery and Boxes 52.12–52.13.' },
+      complications: { status: 'covered', hub: 'full', has: 'Aspiration, clogged or dislodged tubes, diarrhea, fluid overload, hyperkalemia and hyponatremia, refeeding syndrome, fat overload, TPN glucose and electrolyte swings; anastomotic leak, dumping, VTE and airway after bariatric surgery.' },
+      features: { status: 'covered', hub: 'full', has: 'Boxes 52.1–52.13, Tables 52.1–52.4, NCLEX challenges 52.1–52.3, the Action Alerts and Critical Rescues, culture, older adult, equity and legal/ethical boxes.' },
+      accuracy: { status: 'covered', hub: 'full', has: 'Every number checked against the chapter; the full MNA scoring and the ASMBS 2022 surgery thresholds are marked as outside sources.' }
     }
   },
   verify: [
@@ -180,7 +216,17 @@ module.exports = {
     { ch: '56', what: 'Box 56.8 prints capillary refill "greater than 25 seconds"; normal refill is under about 3 seconds.',
       hub: 'Says prolonged capillary refill and flags the printed number as doubtful.' },
     { ch: '56', what: 'Metabolic syndrome uses BP ≥ 140/90 (V5), and "most" CGM sensors need two capillary calibrations a day, though many current sensors are factory-calibrated.',
-      hub: 'Both kept as the book gives them; the BP cutoff is flagged.' }
+      hub: 'Both kept as the book gives them; the BP cutoff is flagged.' },
+    { ch: '50', what: 'People vaccinated against hepatitis B are said to have a "positive HBsAg"; after the vaccine it is anti-HBs that is positive.',
+      hub: 'Says anti-HBs = immune (recovered or vaccinated) and notes the misprint.' },
+    { ch: '50', what: 'Hepatitis A is placed in the Enterovirus genus (it is now classed as a Hepatovirus); hepatopulmonary syndrome is defined as dyspnea from ascites pressure (other sources use the term for low oxygen from widened lung vessels); lactulose and the nonabsorbable antibiotics "should not be given together".',
+      hub: 'Genus left out; the book\'s definition kept with a note; the "not together" line kept, with a note that rifaximin is often added to lactulose in practice.' },
+    { ch: '50', what: 'Ledipasvir/sofosbuvir is "for genotype 1 only"; NAFLD has "no approved drugs".',
+      hub: 'Both kept as the book\'s, with newer approvals noted (resmetirom, semaglutide for MASH).' },
+    { ch: '51', what: '"FOLFORINOX" (the regimen is FOLFIRINOX); GLP-1 agonists are called "gliptins" (gliptins are DPP-4 inhibitors); pseudocysts "often rupture spontaneously".',
+      hub: 'Correct spelling with the book\'s noted; both drug classes named correctly; pseudocyst rupture kept as a risk without "often".' },
+    { ch: '52', what: 'A BSA of 3 m² is pictured as a 3 m × 3 m box (that is 9 m²); four obesity drugs are "FDA-approved" but Table 52.4 lists six; the liraglutide row carries an alpha-1-blocker interaction line that belongs to another drug.',
+      hub: 'The box picture and the stray interaction line are left out; all six drugs are in the notes.' }
   ],
   // What the comparison could not check.
   limits: [

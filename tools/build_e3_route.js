@@ -21,8 +21,8 @@ const ORDER = [
   ['46', 'The top of the tract: the mouth and the esophagus.'],
   ['47', 'The stomach: gastritis, ulcers, bleeding and gastric surgery.']
 ];
-// Chapters with notes on the map that are not on this exam: no route tasks.
-const SKIP = ['48', '49'];
+// Chapters with notes on the map that are not on this exam (48–52 are on the final): no route tasks.
+const SKIP = ['48', '49', '50', '51', '52'];
 const FIRST_TEST = { '56': 40, '45': 15 };   // questions in a chapter's first test (otherwise 20, the shortest test); 45 has few guide questions
 const RETESTS = [['endo', 'Endocrine', ['53', '55', '56'], 40], ['gi', 'GI', ['45', '46', '47'], 40]];
 const GAP = 2;                     // days between a chapter's first test and its retest

@@ -1,5 +1,5 @@
 // Builds data/words.js: one entry per word say.js can speak — its full name (for abbreviations), a plain-English
-// meaning, and a drug-card link for drugs. Sources: tools/words-src.js, data/glossary.js, data/drugs-*.js, data/e3/drugs-*.js and the
+// meaning, and a drug-card link for drugs. Sources: tools/words-src.js, data/glossary.js, data/drugs-*.js, data/e3/drugs-*.js (the final's too) and the
 // pronunciation list in say.js. Run: node tools/build_words.js
 const fs = require('fs'), path = require('path');
 const R = path.join(__dirname, '..');
@@ -11,7 +11,10 @@ const E2_DRUGS = window.DRUG_DATA.drugs;
 // Exam 3's drug cards load into the same global, so read them on their own.
 window.DRUG_DATA = { classes: [], drugs: [] };
 ['gi', 'endo'].forEach(f => require(path.join(R, 'data/e3/drugs-' + f + '.js')));
-const E3_DRUGS = window.DRUG_DATA.drugs;
+const E3_DRUGS = window.DRUG_DATA.drugs.slice();
+// The final's cards (chapters 50–52) are on the Exam 3 drug page too.
+require(path.join(R, 'data/e3/drugs-final.js'));
+const FIN_DRUGS = window.DRUG_DATA.drugs.slice(E3_DRUGS.length);
 const { ABBR, DEFS, LIKE3 } = require('./words-src.js');
 const sayAll = fs.readFileSync(path.join(R, 'say.js'), 'utf8');
 const say = sayAll.slice(sayAll.indexOf('var WORDS = ['), sayAll.indexOf('];', sayAll.indexOf('var WORDS = [')));
@@ -48,6 +51,11 @@ E2_DRUGS.forEach(d => {
 E3_DRUGS.forEach(d => {
   const meaning = clean(d.c) + '. ' + clean(d.plain) + ' Used for: ' + clean(d.ind);
   drugNames(d, (x, full) => { const k = x.toLowerCase(); put(x, def[k] && def[k].drug ? { drug3: d.id } : { def: meaning, drug3: d.id, full }); });
+});
+// The final's cards only take names no Exam 3 card has, so propranolol stays the thyroid card, not the one for varices.
+FIN_DRUGS.forEach(d => {
+  const meaning = clean(d.c) + '. ' + clean(d.plain) + ' Used for: ' + clean(d.ind);
+  drugNames(d, (x, full) => { const k = x.toLowerCase(); if (def[k] && def[k].drug3) return; put(x, def[k] && def[k].drug ? { drug3: d.id } : { def: meaning, drug3: d.id, full }); });
 });
 // Abbreviations: full name and meaning; new ones also join the pronunciation list.
 ABBR.forEach(line => {

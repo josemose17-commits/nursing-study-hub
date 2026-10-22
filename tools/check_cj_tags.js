@@ -11,7 +11,7 @@ const N = run(['ncjmm.js']).NCJMM;
 const SK = new Set(N.skills.map(s => s[0])), CN = new Set(N.needs.map(s => s[0])), ST = new Set(Object.keys(N.strategies));
 const exams = {
   'Exam 2': ['data/ngn-22-25.js', 'data/ngn-27-30.js', 'data/ngn-33-34.js', 'data/recall-22-23.js', 'data/recall-24-25.js', 'data/recall-27-28.js', 'data/recall-29-30.js', 'data/recall-33-34.js', 'data/extra-questions.js', 'data/cj-tags.js'],
-  'Exam 3': fs.readdirSync(path.join(ROOT, 'data/e3/q')).filter(f => /^\d+\.js$/.test(f)).map(f => 'data/e3/q/' + f).concat(['data/e3/q/more.js', 'data/e3/cases.js', 'data/e3/cj-tags.js'])
+  'Exam 3 + final': fs.readdirSync(path.join(ROOT, 'data/e3/q')).filter(f => /^\d+\.js$/.test(f)).map(f => 'data/e3/q/' + f).concat(['data/e3/q/more.js', 'data/e3/cases.js', 'data/e3/cj-tags.js'])
 };
 let bad = 0;
 for (const [name, files] of Object.entries(exams)) {

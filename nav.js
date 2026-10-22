@@ -2,9 +2,9 @@
 // page re-renders its body, and marks the current page.
 (function () {
   var here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html');
-  // The Map, Drugs and Mastery tabs open the exam this page belongs to ("Exam 3 Map.html" → Exam 3);
-  // on Home and the reference sheet, the exam visited last.
-  var em = /^Exam (\d+) /.exec(here), EXAM = em ? em[1] : '';
+  // The Map, Drugs and Mastery tabs open the exam this page belongs to ("Exam 3 Map.html" → Exam 3; the final's test
+  // uses the Exam 3 map and drug cards); on Home and the reference sheet, the exam visited last.
+  var em = /^Exam (\d+) /.exec(here), EXAM = em ? em[1] : /^Final /.test(here) ? '3' : '';
   try { if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = localStorage.getItem('hub-exam') || ''; } catch (e) {}
   // Pages each exam has so far; a missing one gets no tab.
   var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Route', 'Map', 'Drugs', 'Mastery'] };
@@ -47,10 +47,10 @@
   if (document.readyState === 'complete') setTimeout(prefetch, 1500); else window.addEventListener('load', function () { setTimeout(prefetch, 1500); });
   new MutationObserver(attach).observe(document.documentElement, { childList: true, subtree: true });
 
-  // Moving progress between devices: everything this site saves (keys starting e2- / e3- / exam2- / sem- / clin-) is packed into a link.
+  // Moving progress between devices: everything this site saves (keys starting e2- / e3- / fin- / exam2- / sem- / clin-) is packed into a link.
   // Opening the link on another device asks first, then replaces that device's progress. The data rides in the
   // part of the address after #, which browsers never send to the server.
-  var SYNC = /^(e2-|e3-|exam2-|sem-|clin-|map-noembed$)/;
+  var SYNC = /^(e2-|e3-|fin-|exam2-|sem-|clin-|map-noembed$)/;
   function b64(bytes) { var s = ''; for (var i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
   function unb64(t) { t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; var s = atob(t), out = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) out[i] = s.charCodeAt(i); return out; }
   function pipe(bytes, stream) { return new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer().then(function (b) { return new Uint8Array(b); }); }
@@ -72,11 +72,11 @@
   }
   function describe(snap) {
     var bits = [];
-    [['2', snap.d['e2-mastery-v3'] || snap.d['e2-mastery-loop-v2']], ['3', snap.d['e3-mastery-v3']]].forEach(function (x) {
+    [['Exam 2', snap.d['e2-mastery-v3'] || snap.d['e2-mastery-loop-v2']], ['Exam 3', snap.d['e3-mastery-v3']], ['Final', snap.d['fin-mastery-v1']]].forEach(function (x) {
       var M = null; try { M = JSON.parse(x[1] || 'null'); } catch (e) {}
-      if (M && M.history && M.history.length) bits.push('Exam ' + x[0] + ': ' + M.history.length + ' test' + (M.history.length > 1 ? 's' : '') + ' taken, last ' + M.history[M.history.length - 1].pct + '%');
+      if (M && M.history && M.history.length) bits.push(x[0] + ': ' + M.history.length + ' test' + (M.history.length > 1 ? 's' : '') + ' taken, last ' + M.history[M.history.length - 1].pct + '%');
       if (M && M.deck && M.deck.length) bits.push(M.deck.length + ' repair cards left');
-      if (M && M.test) bits.push('an Exam ' + x[0] + ' test in progress');
+      if (M && M.test) bits.push((x[0] === 'Final' ? 'a ' : 'an ') + x[0] + ' test in progress');
     });
     if (snap.d['e2-focus'] || snap.d['e3-focus']) bits.push('your focus topics');
     return (bits.length ? bits.join(', ') : 'your saved settings') + ' — saved ' + new Date(snap.at).toLocaleString();
@@ -110,7 +110,7 @@
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610220900';
+  var BUILD = '202610222120';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     fetch(root + 'version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {

@@ -49,9 +49,17 @@
   function order(ch) { return TOPICS.filter(function (t) { return t.ch === ch; }); }
   function kindLabel(t) { return t.kind === 'overview' ? 'Start' : t.kind === 'adpie' ? 'ADPIE' : (t.tag === 'Foundation' ? 'Base' : ''); }
 
-  // Mastery from the mastery test (all tests so far): weak topics are marked on their chips.
+  // Mastery from the mastery test (all tests so far): weak topics are marked on their chips. When a second test asks
+  // about the same notes (X.final, the final's test on the Exam 3 map), a topic's mastery pools the answers from both.
   var MASTERY = {};
-  try { MASTERY = ((JSON.parse(localStorage.getItem(X.store) || 'null') || {}).mastery || {}).topics || {}; } catch (e) {}
+  [X.store].concat(X.final ? [X.final.store] : []).forEach(function (key) {
+    var T = {}; try { T = ((JSON.parse(localStorage.getItem(key) || 'null') || {}).mastery || {}).topics || {}; } catch (e) {}
+    Object.keys(T).forEach(function (id) {
+      var a = MASTERY[id], b = T[id]; if (!b || b.m == null) return;
+      var an = a ? a.n || 1 : 0, bn = b.n || 1;
+      MASTERY[id] = a ? { m: (a.m * an + b.m * bn) / (an + bn), n: an + bn } : b;
+    });
+  });
   function masteryHtml(id) {
     var m = MASTERY[id]; if (!m || m.m == null) return '';
     var pct = Math.round(m.m * 100), lvl = m.m >= 0.85 ? 'strong' : m.m >= 0.6 ? 'ok' : 'weak';
@@ -247,7 +255,7 @@
   }
   window.addEventListener('popstate', function () {
     var h = decodeURIComponent(location.hash.slice(1));
-    if (h === 'weak') { showWeak(); return; }
+    if (h === 'weak' || h === 'final-weak') { showWeak(h); return; }
     if (document.body.classList.contains('weak-mode')) hideWeak();
     if (h.indexOf('n-') === 0 && nodeById[h.slice(2)]) openNode(h.slice(2), true);
     else if (byId[h]) openTopic(h, true, true);
@@ -658,7 +666,9 @@
     }, Promise.resolve());
     return drugsLoaded;
   }
-  function weakPlan() { return window.E2Weak.plan(function (t) { return !!byId[t]; }, X.store); }
+  // W is the test the weak areas come from: the exam's own (#weak) or the final's (#final-weak, when X.final is set).
+  var W = X;
+  function weakPlan() { return window.E2Weak.plan(function (t) { return !!byId[t]; }, W.store); }
   function lines(t) { return esc(t == null ? '' : t); }
   function drugHtml(id) {
     var D = window.DRUG_DATA || { drugs: [] }, d = D.drugs.filter(function (x) { return x.id === id; })[0];
@@ -678,13 +688,14 @@
       '</dl></div>';
   }
   function weakHtml(plan) {
-    if (!plan) return '<div class="wk-head"><div class="kicker">Mastery test</div><h1>Your weak areas, in full</h1><p class="lead">Take the Mastery test first. Afterwards this page shows everything for the topics you missed, in full, on one page.</p><p><a class="pill" href="' + encodeURI(X.mastery) + '">Go to the Mastery test →</a> <button class="pill" data-weak-close>← Back to the map</button></p></div>';
+    var tn = W === X ? 'Mastery test' : W.name + ' Mastery test';
+    if (!plan) return '<div class="wk-head"><div class="kicker">' + esc(tn) + '</div><h1>Your weak areas, in full</h1><p class="lead">Take the ' + esc(tn) + ' first. Afterwards this page shows everything for the topics you missed, in full, on one page.</p><p><a class="pill" href="' + encodeURI(W.mastery) + '">Go to the ' + esc(tn) + ' →</a> <button class="pill" data-weak-close>← Back to the map</button></p></div>';
     var R = plan.R, saveBd = bdMode, saveQuiz = quiz, saveCur = current;
     bdMode = 'full'; quiz = false;
     var when = new Date(R.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-    var h = '<div class="wk-head"><div class="kicker">From Mastery test ' + esc(R.no) + ' · ' + esc(when) + ' · ' + esc(R.pct) + '%</div><h1>Your weak areas, in full</h1>' +
+    var h = '<div class="wk-head"><div class="kicker">From ' + esc(tn) + ' ' + esc(R.no) + ' · ' + esc(when) + ' · ' + esc(R.pct) + '%</div><h1>Your weak areas, in full</h1>' +
       '<p class="lead">Only this test — nothing from earlier tests or the pre-test. For each topic you missed or guessed: what you missed, the notes in full, why it works, the breakdowns and the drugs. Just scroll.</p>' +
-      '<p style="margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px"><a class="pill on" href="' + encodeURI(X.mastery) + '#redo">Redo my misses →</a> <button class="pill" data-weak-close>← Back to the map</button></p></div>';
+      '<p style="margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px"><a class="pill on" href="' + encodeURI(W.mastery) + '#redo">Redo my misses →</a> <button class="pill" data-weak-close>← Back to the map</button></p></div>';
     if (!plan.rank.length) { bdMode = saveBd; quiz = saveQuiz; return h + '<p class="lead">No weak topics in your last test. Nice work.</p>'; }
     h += '<nav class="glass wk-toc" style="padding:12px">' + plan.rank.map(function (t, i) { return '<a href="#weak-' + t + '">' + (i + 1) + '. ' + esc(byId[t].title) + '</a>'; }).join('') + '</nav>';
     if ((R.looked || []).length && window.E2Say) {
@@ -718,9 +729,10 @@
     return h;
   }
   var weakEl = document.getElementById('weak');
-  function showWeak() {
+  function showWeak(hash) {
+    W = hash === 'final-weak' && X.final ? X.final : X;
     if (isOpen()) close(true);
-    try { localStorage.setItem(X.prefix + 'weak-seen', String(Date.now())); } catch (e) {}
+    try { localStorage.setItem(W.prefix + 'weak-seen', String(Date.now())); } catch (e) {}
     document.body.classList.add('weak-mode'); weakEl.hidden = false;
     weakEl.innerHTML = '<p class="lead">Loading your weak areas…</p>';
     loadDrugs().then(function () {
@@ -744,6 +756,6 @@
   buildMap(); refresh();
   var h = decodeURIComponent(location.hash.slice(1));
   try { history.replaceState(null, '', location.pathname + location.search + (h ? '#' + h : '')); } catch (e) {}
-  if (h === 'weak') showWeak(); else if (h.indexOf('n-') === 0) openNode(h.slice(2), true); else if (byId[h]) openTopic(h, false, true);
+  if (h === 'weak' || h === 'final-weak') showWeak(h); else if (h.indexOf('n-') === 0) openNode(h.slice(2), true); else if (byId[h]) openTopic(h, false, true);
   window.addEventListener('storage', function (e) { if (F.storageKeys.indexOf(e.key) >= 0) refresh(); });
 })();

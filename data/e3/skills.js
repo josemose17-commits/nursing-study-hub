@@ -39,7 +39,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Relying on the air “whoosh” to confirm placement', 'Using the tube before the x-ray result', 'Inserting with the head tipped back', 'Taping so the tube presses on the nostril'],
     stop: ['Coughing, choking, inability to speak or cyanosis during insertion', 'Any NG tube in a client after esophageal or gastric surgery that has moved — don’t reinsert or advance it; call the surgeon', 'Suspected facial or basal skull fracture — NG tubes are not placed through the nose'],
-    q: ['case:sbo', 'Caring for the NG tube', 'NG tube after fundoplication'] },
+    q: ['case:sbo', 'Caring for the NG tube', 'NG tube after fundoplication', 'Confirming a new feeding tube'] },
 
   { id: 'ngcare', ch: '48', title: 'NG tube care: suction, irrigation and removal',
     when: 'Every shift for a client with an NG tube to suction.',
@@ -56,7 +56,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Irrigating with water', 'Clamping or capping the Salem sump vent', 'Forgetting to count NG drainage in output', 'Repositioning a tube after gastric or esophageal surgery'],
     stop: ['Drainage stops while distention or nausea returns — check patency and placement, then report', 'Potassium dropping or signs of metabolic alkalosis (slow, shallow breathing, tingling, confusion)', 'Bright red NG drainage that is new'],
-    q: ['Small-bowel obstruction on NG suction', 'Day 2 of a bowel obstruction', 'After gastric surgery'] },
+    q: ['Small-bowel obstruction on NG suction', 'Day 2 of a bowel obstruction', 'After gastric surgery', 'The NG tube after gastroplasty'] },
 
   { id: 'feed', ch: '48', title: 'Tube feeding and medications through a tube',
     when: 'Clients who can’t eat enough by mouth — after head and neck or esophageal surgery, dysphagia, critical illness.',
@@ -74,7 +74,7 @@ window.E3_SKILLS = [
     ],
     mistakes: ['Lowering the head of the bed for care while a feeding runs', 'Crushing enteric-coated or extended-release tablets', 'Giving several crushed drugs mixed together', 'Forgetting to count flushes as intake'],
     stop: ['Coughing, dyspnea or a drop in SpO₂ during a feeding — stop it, suction if needed, report', 'Vomiting, distention or high residuals', 'Tube that won’t flush after gentle warm-water flushing'],
-    q: ['Tube feeding intake', 'J-tube after esophagectomy'] },
+    q: ['Tube feeding intake', 'J-tube after esophagectomy', 'Safe tube feeding', 'Confirming a new feeding tube', 'During a continuous tube feeding', 'Flushing a feeding tube', 'Unclogging a feeding tube', 'Tube feeding problems', 'A G-tube that won’t turn'] },
 
   { id: 'ostomy', ch: '48', title: 'Changing an ostomy pouch',
     when: 'Every 3–7 days for the wafer, sooner if it leaks; empty the pouch when one-third to one-half full.',

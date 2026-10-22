@@ -1,16 +1,19 @@
 // Checks the Exam 3 Mastery test questions (data/e3/q/<chapter>.js) before a release:
 // - every question is well formed (answer keys in range, an explanation for every option, row and blank, plus ask, cues, phys, rule);
 // - every question, recall card, myth check and drug question ties to at least one topic in tools/e3-mastery-cfg.js
+//   (or tools/final-mastery-cfg.js for the final)
 //   (in an "Everything" test only questions on a topic are asked, so one that ties to none would never come up);
 // - how many questions each topic and subtopic has.
 // Run: node tools/check_e3_questions.js            (add --list to print the questions that tie to no subtopic)
+//      node tools/check_e3_questions.js final      (the final's test: tools/final-mastery-cfg.js)
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const ROOT = path.join(__dirname, '..');
 const list = process.argv.includes('--list');
+const FINAL = process.argv.includes('final');
 
-const cfgSrc = fs.readFileSync(path.join(__dirname, 'e3-mastery-cfg.js'), 'utf8');
+const cfgSrc = fs.readFileSync(path.join(__dirname, FINAL ? 'final-mastery-cfg.js' : 'e3-mastery-cfg.js'), 'utf8');
 const cfg = vm.runInNewContext(cfgSrc + '\n({ CHS, GUIDE, GUIDE_SUB, GUIDE_OFF });', {});
 // A chapter the study guide narrows (it has a GUIDE_OFF entry) is expected to have questions on nothing it lists.
 const narrowed = ch => !!(cfg.GUIDE_OFF || {})[ch];
@@ -21,7 +24,7 @@ cfg.CHS.forEach(ch => {
   if (fs.existsSync(f)) vm.runInContext(fs.readFileSync(f, 'utf8'), ctx, { filename: f });
 });
 ['q/more.js', 'cases.js', 'cj-tags.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/e3', f), 'utf8'), ctx, { filename: f }));
-['drugs-gi.js', 'drugs-endo.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/e3', f), 'utf8'), ctx));
+['drugs-gi.js', 'drugs-endo.js'].concat(FINAL ? ['drugs-final.js'] : []).forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/e3', f), 'utf8'), ctx));
 
 let errors = 0;
 const err = (id, msg) => { errors++; console.log('ERROR', id, '—', msg); };

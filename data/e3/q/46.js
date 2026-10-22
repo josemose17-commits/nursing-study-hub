@@ -227,7 +227,14 @@ window.RECALL_EXTRA['46'] = {
       r: ['Correct. Rising sodium and BUN show fluid loss; rehydrating restores saliva and moisture, and soft-brush care with saline rinses keeps the drying mucosa clean.', 'Incorrect. Alcohol dries and stings an already dry mouth.', 'Incorrect. Lemon-glycerin is acidic and drying.', 'Incorrect. Withholding fluids worsens the dehydration and the dryness.'],
       ask: 'What do these lab trends say about the client’s fluid status, and what does that mean for the mouth?', cues: ['Na 151, BUN 27 and climbing → dehydration', 'Vomiting + chemotherapy → fragile, drying mucosa'],
       phys: 'Vomiting loses water → the plasma concentrates (sodium and BUN climb) → less water is available for saliva → the mucosa dries and cracks, on top of a lining already thinned by chemotherapy → ulcers and infection follow unless fluids and mouth care are restored.',
-      rule: 'Protect the mouth: hydrate (IV fluids if needed), soft brush and saline or baking-soda rinses, inspect for lesions, check denture fit, swallow evaluation if swallowing hurts; never alcohol mouthwash or lemon-glycerin.' }
+      rule: 'Protect the mouth: hydrate (IV fluids if needed), soft brush and saline or baking-soda rinses, inspect for lesions, check denture fit, swallow evaluation if swallowing hurts; never alcohol mouthwash or lemon-glycerin.' },
+    { t: 'Steroids after a caustic burn', cj: 'gs', cn: 'pharm', st: ['pharm'],
+      q: 'A client recovering from swallowing a strong alkali is receiving high-dose corticosteroids. The client asks why. Which response by the nurse is best?',
+      o: ['“They calm the inflammation and help keep scar tissue from narrowing your esophagus.”', '“They neutralize any alkali left in your esophagus.”', '“They are your main protection against infection.”', '“They raise your appetite so you can eat again sooner.”'], a: [0],
+      r: ['Correct. High-dose steroids reduce inflammation and help prevent strictures as the burn heals.', 'Incorrect. Nothing is given to neutralize the chemical; the damage happens within minutes.', 'Incorrect. Broad-spectrum antibiotics treat or prevent infection; steroids raise the infection risk.', 'Incorrect. The esophagus is rested (NPO, suction, TPN) for more than a week; appetite is not the goal.'],
+      ask: 'What late complication of a caustic burn do steroids try to prevent?', cues: ['Strong alkali', 'High-dose corticosteroids'],
+      phys: 'Alkali liquefies the esophageal wall → intense inflammation → fibroblasts lay down collagen as it heals → the scar contracts into a stricture; steroids blunt the inflammation that drives the scarring.',
+      rule: 'Caustic injury care: airway first; NPO, suction and esophageal rest > 1 week, TPN, broad-spectrum antibiotics, high-dose steroids (inflammation, strictures), analgesics, viscous lidocaine for mouth burns.' }
   ],
   rq: [
     ['Fill in the chain', 1, 'LES relaxes → ___ → ___ → healing as ___ or ___ → ___.',

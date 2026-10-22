@@ -1,13 +1,22 @@
-// Builds Exam 3 Mastery Loop.dc.html from Exam 2 Mastery Loop.dc.html, so both exams run one test engine.
-// It swaps in Exam 3's config block (tools/e3-mastery-cfg.js), Exam 3's data scripts and Exam 3's page names.
-// Fix the engine in the Exam 2 page, change Exam 3's chapters, weights or topics in tools/e3-mastery-cfg.js,
-// then run:  node tools/build_e3_mastery.js
+// Builds Exam 3 Mastery Loop.dc.html (and the final's test, Final Mastery Loop.dc.html) from Exam 2 Mastery Loop.dc.html,
+// so every test runs one engine. It swaps in the test's config block, its data scripts and its page names.
+// Fix the engine in the Exam 2 page, change a test's chapters, weights or topics in its config
+// (tools/e3-mastery-cfg.js, tools/final-mastery-cfg.js), then run:
+//   node tools/build_e3_mastery.js          → Exam 3 Mastery Loop.dc.html
+//   node tools/build_e3_mastery.js final    → Final Mastery Loop.dc.html
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const SRC = path.join(ROOT, 'Exam 2 Mastery Loop.dc.html');
-const OUT = path.join(ROOT, 'Exam 3 Mastery Loop.dc.html');
-const CFG = path.join(__dirname, 'e3-mastery-cfg.js');
+const FINAL = process.argv[2] === 'final';
+// The final covers the Exam 3 chapters plus 48–52, so it shares Exam 3's map and drug cards.
+const T = FINAL
+  ? { name: 'Final', cfg: 'final-mastery-cfg.js', out: 'Final Mastery Loop.dc.html', drugs: ['drugs-gi.js', 'drugs-endo.js', 'drugs-final.js'],
+      mix: "' topics, in the final’s chapter mix (mostly chapters 48–52).'", example: 'like cirrhosis and its complications' }
+  : { name: 'Exam 3', cfg: 'e3-mastery-cfg.js', out: 'Exam 3 Mastery Loop.dc.html', drugs: ['drugs-gi.js', 'drugs-endo.js'],
+      mix: "' study-guide topics, in the exam’s chapter mix.'", example: 'like hypoglycemia, DKA and HHS' };
+const OUT = path.join(ROOT, T.out);
+const CFG = path.join(__dirname, T.cfg);
 
 let s = fs.readFileSync(SRC, 'utf8');
 const cfg = fs.readFileSync(CFG, 'utf8').trim();
@@ -26,30 +35,33 @@ const a = s.indexOf(START), b = s.indexOf(END);
 if (a < 0 || b < a) throw new Error('Config block markers not found in the Exam 2 page');
 s = s.slice(0, a) + cfg + s.slice(b + END.length);
 
-// 2. The data scripts: Exam 3's question files, drugs, topics and focus rules in place of Exam 2's.
+// 2. The data scripts: the test's question files, drugs, topics and focus rules in place of Exam 2's.
 const first = s.indexOf('<script src="data/recall-22-23.js'), focus = s.indexOf('<script src="focus.js');
 if (first < 0 || focus < first) throw new Error('Data script block not found in the Exam 2 page');
 const chs = (cfg.match(/const CHS = \[([^\]]*)\]/) || [])[1].match(/\d+/g);
 const v = '?v=' + build;
 const scripts = chs.map(c => '<script src="data/e3/q/' + c + '.js' + v + '"></script>')
-  .concat(['data/e3/q/more.js', 'data/e3/cases.js', 'data/e3/cj-tags.js', 'data/e3/drugs-gi.js', 'data/e3/drugs-endo.js', 'data/glossary.js', 'data/e3/glossary.js', 'data/e3/topic-index.js', 'data/e3/focus-rules.js']
+  .concat(['data/e3/q/more.js', 'data/e3/cases.js', 'data/e3/cj-tags.js'].concat(T.drugs.map(f => 'data/e3/' + f), ['data/glossary.js', 'data/e3/glossary.js', 'data/e3/topic-index.js', 'data/e3/focus-rules.js'])
     .map(f => '<script src="' + f + v + '"></script>'));
 s = s.slice(0, first) + scripts.join('\n') + '\n' + s.slice(focus);
 
 // 3. Page names and wording.
 swap('Exam 2 Map.html', 'Exam 3 Map.html');
 swap('Exam 2 Drug Cards.dc.html', 'Exam 3 Drug Cards.dc.html');
-swap('Exam 2 · Mastery test', 'Exam 3 · Mastery test', 1);
-swap('Exam 2 Mastery Loop.dc.html#redo', 'Exam 3 Mastery Loop.dc.html#redo', 1);
-swap("' Exam 2 study-guide items, in the exam’s chapter mix.'", "' study-guide topics, in the exam’s chapter mix.'", 1);
+swap('Exam 2 · Mastery test', T.name + ' · Mastery test', 1);
+swap('Exam 2 Mastery Loop.dc.html#redo', T.out + '#redo', 1);
+swap("' Exam 2 study-guide items, in the exam’s chapter mix.'", T.mix, 1);
+// The final has no study guide yet: its report counts topics. Its weak areas open in the map's final view.
+if (FINAL) swap("' study-guide items' + (R.subs", "' topics' + (R.subs", 1);
+if (FINAL) swap('Exam 3 Map.html#weak"', 'Exam 3 Map.html#final-weak"', 1);
 
 swap('Drill one study-guide item — every subtopic of it, nothing else', 'Drill one topic — every subtopic of it, nothing else', 1);
-swap('A whole test on one item (like ECG analysis)', 'A whole test on one topic (like hypoglycemia, DKA and HHS)', 1);
+swap('A whole test on one item (like ECG analysis)', 'A whole test on one topic (' + T.example + ')', 1);
 if (/Exam 2/.test(s.replace(/<!--[\s\S]*?-->/g, '').replace(/\/\/[^\n]*/g, ''))) {
   const left = s.split('\n').filter(l => /Exam 2/.test(l) && !/^\s*\/\//.test(l)).slice(0, 5);
-  throw new Error('Exam 2 text left in the Exam 3 page:\n' + left.join('\n'));
+  throw new Error('Exam 2 text left in the ' + T.name + ' page:\n' + left.join('\n'));
 }
 
-s = s.replace('<!DOCTYPE html>', '<!DOCTYPE html>\n<!-- Generated by tools/build_e3_mastery.js from Exam 2 Mastery Loop.dc.html and tools/e3-mastery-cfg.js. Edit those and rebuild; do not edit this file. -->');
+s = s.replace('<!DOCTYPE html>', '<!DOCTYPE html>\n<!-- Generated by tools/build_e3_mastery.js' + (FINAL ? ' final' : '') + ' from Exam 2 Mastery Loop.dc.html and tools/' + T.cfg + '. Edit those and rebuild; do not edit this file. -->');
 fs.writeFileSync(OUT, s);
 console.log('Wrote', path.basename(OUT), '·', chs.length, 'chapters ·', scripts.length, 'data scripts · build', build);

@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#04160e">
 <title>Exam 3 Map</title>
 <link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
-<link rel="stylesheet" href="map.css?v=202610220900">
+<link rel="stylesheet" href="map.css?v=202610222120">
 </head>
 <body>
 <main>
@@ -29,6 +29,7 @@
     </div>
     <div class="row" id="practice" hidden>
       <a class="pill" href="Exam 3 Mastery Loop.dc.html">Mastery Loop →</a>
+      <a class="pill" href="Final Mastery Loop.dc.html">Final Mastery test →</a>
     </div>
     <div class="pickhint">Picking: tap topics to add or remove them. Gold = in your focus. Tap <b>Pick topics</b> again when you're done.</div>
   </div>
@@ -148,35 +149,37 @@
 </aside>
 <div class="pop glass" id="pop" role="tooltip"></div>
 
-<script src="data/e3/info-topics.js?v=202610220900"></script>
-<script src="data/e3/notes-short.js?v=202610220900"></script>
-<script src="data/e3/basics.js?v=202610220900"></script>
-<script src="data/e3/nodes-gi.js?v=202610220900"></script>
-<script src="data/e3/nodes-endo.js?v=202610220900"></script>
-<script src="data/e3/nodes-mech.js?v=202610220900"></script>
-<script src="data/e3/images.js?v=202610220900"></script>
-<script src="data/e3/videos.js?v=202610220900"></script>
-<script src="weak.js?v=202610220900"></script>
-<script src="data/glossary.js?v=202610220900"></script>
-<script src="data/e3/glossary.js?v=202610220900"></script>
-<script src="data/e3/focus-rules.js?v=202610220900"></script>
-<script src="focus.js?v=202610220900"></script>
+<script src="data/e3/info-topics.js?v=202610222120"></script>
+<script src="data/e3/notes-short.js?v=202610222120"></script>
+<script src="data/e3/basics.js?v=202610222120"></script>
+<script src="data/e3/nodes-gi.js?v=202610222120"></script>
+<script src="data/e3/nodes-endo.js?v=202610222120"></script>
+<script src="data/e3/nodes-mech.js?v=202610222120"></script>
+<script src="data/e3/images.js?v=202610222120"></script>
+<script src="data/e3/videos.js?v=202610222120"></script>
+<script src="weak.js?v=202610222120"></script>
+<script src="data/glossary.js?v=202610222120"></script>
+<script src="data/e3/glossary.js?v=202610222120"></script>
+<script src="data/e3/focus-rules.js?v=202610222120"></script>
+<script src="focus.js?v=202610222120"></script>
 <script>
 window.EXAM_MAP = {
   name: 'Exam 3', prefix: 'e3-', store: 'e3-mastery-v3', mastery: 'Exam 3 Mastery Loop.dc.html',
   systems: [
     { name: 'Digestion & elimination', why: 'Taking food in, breaking it down, absorbing it, and getting rid of the rest.', chs: ['45', '46', '47'] },
     { name: 'Hormones & glucose', why: 'Chemical messengers that keep metabolism, fluids, calcium and blood sugar in range.', chs: ['53', '55', '56'] },
-    { name: 'Not on Exam 3', why: 'Your professor left chapters 48 and 49 off this exam. Their notes stay here for later; the route and the Mastery test skip them.', chs: ['48', '49'] }
+    { name: 'On the final', why: 'Not on Exam 3: your professor left chapters 48 and 49 off it, and 50–52 (liver, gallbladder and pancreas, nutrition) come after it. All five are on the final. The Exam 3 route and Mastery test skip them; the Final Mastery test covers them along with the Exam 3 chapters.', chs: ['48', '49', '50', '51', '52'] }
   ],
-  examQ: { '45': 5, '46': 10, '47': 10, '53': 5, '55': 10, '56': 20 }, offLabel: 'Not on Exam 3',
+  examQ: { '45': 5, '46': 10, '47': 10, '53': 5, '55': 10, '56': 20 }, offLabel: 'On the final',
+  // The final's test asks about these notes too: its results show on the chips and at #final-weak.
+  final: { name: 'Final', prefix: 'fin-', store: 'fin-mastery-v1', mastery: 'Final Mastery Loop.dc.html' },
   mechNote: 'The same few molecules explain drugs and symptoms across both systems.',
   whyBooks: 'A&P, chemistry, microbiology, pharmacology, psychology, sociology, fundamentals of nursing and pathophysiology',
-  drugFiles: ['data/e3/drugs-gi.js?v=202610220900', 'data/e3/drugs-endo.js?v=202610220900']
+  drugFiles: ['data/e3/drugs-gi.js?v=202610222120', 'data/e3/drugs-endo.js?v=202610222120', 'data/e3/drugs-final.js?v=202610222120']
 };
 </script>
-<script src="map.js?v=202610220900"></script>
-<script src="nav.js?v=202610220900"></script>
-<script src="say.js?v=202610220900"></script>
+<script src="map.js?v=202610222120"></script>
+<script src="nav.js?v=202610222120"></script>
+<script src="say.js?v=202610222120"></script>
 </body>
 </html>

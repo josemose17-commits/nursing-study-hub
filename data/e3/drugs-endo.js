@@ -350,7 +350,7 @@ const D = [
     nclex: 'Pancreatitis warning.', trap: 'Expecting it to cause lows on its own.',
     anchor: '"Gliptins Guard the gut hormones."', conn: 'Incretins (ch 56 physiology).', cmp: 'GLP-1 agonists are stronger, injected and cause weight loss.',
     brands: 'Januvia; with metformin: Janumet', look: ['Beige round tablets (25, 50, 100 mg)'], hosp: ['Oral, once daily'] },
-  { id: 'semaglutide', k: 'glp1', ch: '56', hy: 1, n: 'Semaglutide', g: 'semaglutide', b: 'Ozempic (injection), Rybelsus (oral)', c: 'GLP-1 agonist (incretin mimetic)', p: 'Semaglutide',
+  { id: 'semaglutide', k: 'glp1', ch: '56, 52', hy: 1, n: 'Semaglutide', g: 'semaglutide', b: 'Ozempic (injection), Rybelsus (oral)', c: 'GLP-1 agonist (incretin mimetic)', p: 'Semaglutide',
     ind: 'Type 2 diabetes; also cardiovascular risk reduction and weight management (other brand).', fix: 'High after-meal glucose and excess glucagon.',
     moa: 'GLP-1 receptor agonist: glucose-dependent insulin release, less glucagon, slower gastric emptying, central satiety.', plain: 'Acts like the gut hormone that tells the body food has arrived — more insulin, less appetite.',
     steps: ['Binds GLP-1 receptors', 'More insulin only when glucose is high', 'Less glucagon and slower stomach emptying', 'Lower glucose and less hunger'],

@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610021900"></script>
-<script src="./nav.js?v=202610220900"></script>
-<script src="./say.js?v=202610220900"></script>
+<script src="./nav.js?v=202610222120"></script>
+<script src="./say.js?v=202610222120"></script>
 </head>
 <body>
 <x-dc>
@@ -34,9 +34,10 @@
   .drow { grid-template-columns: minmax(130px, 190px) minmax(0, 1fr); }
   @media (max-width: 560px) { .drow { grid-template-columns: minmax(0, 1fr); gap: 3px !important; } }
 </style>
-<script src="data/e3/drugs-gi.js?v=202610220900"></script>
-<script src="data/e3/drugs-endo.js?v=202610220900"></script>
-<script src="data/e3/drug-pics.js?v=202610220900"></script>
+<script src="data/e3/drugs-gi.js?v=202610222120"></script>
+<script src="data/e3/drugs-endo.js?v=202610222120"></script>
+<script src="data/e3/drugs-final.js?v=202610222120"></script>
+<script src="data/e3/drug-pics.js?v=202610222120"></script>
 </helmet>
 
 <div style="background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:16px;line-height:1.55;min-height:100vh">
@@ -197,7 +198,8 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}">
 const SYS = [
   { id: 'gi', name: 'Digestive', chapters: 'Chapters 45 · 46 · 47 · 48 · 49' },
-  { id: 'endo', name: 'Endocrine', chapters: 'Chapters 53 · 55 · 56' }
+  { id: 'endo', name: 'Endocrine', chapters: 'Chapters 53 · 55 · 56' },
+  { id: 'fin', name: 'Liver, pancreas & nutrition', tab: 'Final', chapters: 'Chapters 50 · 51 · 52 · on the final' }
 ];
 // An opened card reads top to bottom in the order you would think about the drug.
 const SECTIONS = [
@@ -309,7 +311,7 @@ class Component extends DCLogic {
     return {
       query: this.state.query,
       onQuery: e => this.setState({ query: e.target.value }),
-      sysTabs: [tab('all', 'All')].concat(SYS.map(s => tab(s.id, s.name.split(' ')[0]))),
+      sysTabs: [tab('all', 'All')].concat(SYS.map(s => tab(s.id, s.tab || s.name.split(' ')[0]))),
       toggleAll: () => this.setState({ all: !this.state.all }),
       allLabel: this.state.all ? 'Collapse all' : 'Expand all',
       countLabel: shown + ' of ' + D.drugs.length + ' drugs · ' + D.classes.length + ' classes',

@@ -60,39 +60,43 @@
   <p class="src">Written in our own words from standard nursing-skills practice (for example, Open RN <i>Nursing Skills</i>, 2nd ed., CC BY 4.0) and the Exam 3 med-surg chapters. Agencies and schools differ in details such as flush volumes and placement checks — for a check-off, follow your school’s checklist.</p>
 </main>
 
-<script src="data/e3/q/45.js?v=202610220900"></script>
-<script src="data/e3/q/46.js?v=202610220900"></script>
-<script src="data/e3/q/47.js?v=202610220900"></script>
-<script src="data/e3/q/48.js?v=202610220900"></script>
-<script src="data/e3/q/49.js?v=202610220900"></script>
-<script src="data/e3/q/53.js?v=202610220900"></script>
-<script src="data/e3/q/55.js?v=202610220900"></script>
-<script src="data/e3/q/56.js?v=202610220900"></script>
-<script src="data/e3/q/more.js?v=202610220900"></script>
-<script src="data/e3/cases.js?v=202610220900"></script>
-<script src="data/e3/skills.js?v=202610220900"></script>
+<script src="data/e3/q/45.js?v=202610222120"></script>
+<script src="data/e3/q/46.js?v=202610222120"></script>
+<script src="data/e3/q/47.js?v=202610222120"></script>
+<script src="data/e3/q/48.js?v=202610222120"></script>
+<script src="data/e3/q/49.js?v=202610222120"></script>
+<script src="data/e3/q/50.js?v=202610222120"></script>
+<script src="data/e3/q/51.js?v=202610222120"></script>
+<script src="data/e3/q/52.js?v=202610222120"></script>
+<script src="data/e3/q/53.js?v=202610222120"></script>
+<script src="data/e3/q/55.js?v=202610222120"></script>
+<script src="data/e3/q/56.js?v=202610222120"></script>
+<script src="data/e3/q/more.js?v=202610222120"></script>
+<script src="data/e3/cases.js?v=202610222120"></script>
+<script src="data/e3/skills.js?v=202610222120"></script>
 <script>
 (function () {
   var KEY = 'e3-skills-v1', S = {};
   try { S = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { S = {}; }
   var save = function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
-  // Questions by title (ids shift as questions are added), so each skill can point to the questions that use it.
-  // Only questions the Exam 3 Mastery test asks are listed (chapters 48 and 49 are off this exam).
-  var OFF = { '48': 1, '49': 1 }, titles = {};
-  Object.keys(window.NGN_EXTRA || {}).filter(function (ch) { return !OFF[ch]; }).forEach(function (ch) { (window.NGN_EXTRA[ch] || []).concat(((window.RECALL_EXTRA || {})[ch] || {}).nclex || []).forEach(function (x) { titles[x.t] = 1; }); });
+  // Questions by title (ids shift as questions are added), so each skill can point to the questions that use it, each on
+  // the test that asks it: the Exam 3 Mastery test, or for chapters 48–52 (off Exam 3, on the final) the Final Mastery test.
+  var OFF = { '48': 1, '49': 1, '50': 1, '51': 1, '52': 1 }, E3 = 'Exam 3 Mastery Loop.dc.html', FIN = 'Final Mastery Loop.dc.html', titles = {};
+  Object.keys(window.NGN_EXTRA || {}).forEach(function (ch) { (window.NGN_EXTRA[ch] || []).concat(((window.RECALL_EXTRA || {})[ch] || {}).nclex || []).forEach(function (x) { if (titles[x.t] !== E3) titles[x.t] = OFF[ch] ? FIN : E3; }); });
   var qTitle = function (t) {
-    if (t.indexOf('case:') === 0) { var cs = (window.CASES || []).find(function (c) { return c.id === t.slice(5); }); return cs && !OFF[cs.ch] ? 'Case study: ' + cs.title : null; }
-    return titles[t] ? t : null;
+    if (t.indexOf('case:') === 0) { var cs = (window.CASES || []).find(function (c) { return c.id === t.slice(5); }); return cs ? { t: 'Case study: ' + cs.title, href: OFF[cs.ch] ? FIN : E3 } : null; }
+    return titles[t] ? { t: t, href: titles[t] } : null;
   };
   var box = document.getElementById('skills'), toc = document.getElementById('toc');
   window.E3_SKILLS.forEach(function (sk) {
     var done = S[sk.id] || {};
     var sec = document.createElement('section'); sec.className = 'skill glass'; sec.id = sk.id;
     var seen = {};
-    var practice = sk.q.map(qTitle).filter(function (t) { if (!t || seen[t]) return false; seen[t] = 1; return true; });
+    var practice = sk.q.map(qTitle).filter(function (p) { if (!p || seen[p.t]) return false; seen[p.t] = 1; return true; });
+    var onE3 = practice.some(function (p) { return p.href === E3; });
     sec.innerHTML = '<div class="head"><h2>' + esc(sk.title) + '</h2><span class="muted">Ch ' + sk.ch + '</span></div>' +
-      '<p class="muted" style="margin:0">' + esc(sk.when) + (!OFF[sk.ch] ? '' : practice.length ? ' <b>Taught in Chapter ' + sk.ch + ', which is not on Exam 3</b> — but the Exam 3 questions below use it.' : ' <b>Chapter ' + sk.ch + ' is not on Exam 3</b>, but this skill comes up in clinicals.') + '</p>' +
+      '<p class="muted" style="margin:0">' + esc(sk.when) + (!OFF[sk.ch] ? '' : onE3 ? ' <b>Taught in Chapter ' + sk.ch + ', which is on the final, not Exam 3</b> — but Exam 3 questions below use it too.' : ' <b>Chapter ' + sk.ch + ' is on the final, not Exam 3</b>, and this skill comes up in clinicals.') + '</p>' +
       '<div class="bar"><button type="button" class="mode" data-m="why" aria-pressed="false">Why</button><button type="button" class="mode" data-m="test" aria-pressed="false">Test me</button><span class="muted cnt"></span></div>' +
       '<ol class="steps">' + sk.steps.map(function (st, i) {
         return '<li class="' + (st[2] ? 'crit' : '') + '" data-i="' + i + '"><div><span class="stxt">' + esc(st[0]) + (st[2] ? '<span class="crit-tag">critical</span>' : '') + '</span>' +
@@ -101,7 +105,7 @@
       }).join('') + '</ol>' +
       '<div class="lists"><div class="mist"><h3>Common mistakes</h3><ul>' + sk.mistakes.map(function (m) { return '<li>' + esc(m) + '</li>'; }).join('') + '</ul></div>' +
       '<div class="stop"><h3>Stop and report</h3><ul>' + sk.stop.map(function (m) { return '<li>' + esc(m) + '</li>'; }).join('') + '</ul></div></div>' +
-      (practice.length ? '<div class="practice"><h3>Practice it in the Mastery test</h3>' + practice.map(function (t) { return '<a href="Exam 3 Mastery Loop.dc.html">' + esc(t) + '</a>'; }).join('') + '</div>' : '');
+      (practice.length ? '<div class="practice"><h3>Practice it in the Mastery test</h3>' + practice.map(function (p) { return '<a href="' + p.href + '">' + esc(p.t) + (p.href === FIN ? ' <span class="muted">· Final</span>' : '') + '</a>'; }).join('') + '</div>' : '');
     box.appendChild(sec);
     var a = document.createElement('a'); a.href = '#' + sk.id; a.textContent = sk.title; toc.appendChild(a);
     var ol = sec.querySelector('ol'), cnt = sec.querySelector('.cnt');
@@ -139,7 +143,7 @@
   if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
 })();
 </script>
-<script src="nav.js?v=202610220900"></script>
-<script src="say.js?v=202610220900"></script>
+<script src="nav.js?v=202610222120"></script>
+<script src="say.js?v=202610222120"></script>
 </body>
 </html>

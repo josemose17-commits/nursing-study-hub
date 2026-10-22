@@ -35,10 +35,25 @@
   .exam { display: flex; flex-direction: column; gap: 18px; }
   .exam[hidden] { display: none; }
   .tile.soon { opacity: .55; pointer-events: none; }
+  a.soon { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; text-decoration: none; color: var(--color-text); border: 1px solid var(--color-accent-700); }
+  a.soon[hidden] { display: none; }
+  .soon-h { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .soon-wk { font-size: 13px; color: var(--color-neutral-300); }
+  .soon-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 8px; }
+  .soon-i { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 12px; background: var(--color-neutral-900); }
+  .soon-i b { font-size: 22px; font-weight: 600; color: var(--color-accent-200); min-width: 30px; text-align: center; }
+  .soon-i span { font-size: 13.5px; line-height: 1.25; }
+  .soon-i small { display: block; color: var(--color-neutral-400); font-size: 12px; }
+  .soon-go { font-size: 13px; color: var(--color-accent-300); }
 </style>
 </head>
 <body>
 <main>
+  <a class="glass soon" id="soon" href="Semester.html" hidden>
+    <div class="soon-h"><span class="kicker">Coming up</span><span class="soon-wk" id="soon-wk"></span></div>
+    <div class="soon-list" id="soon-list"></div>
+    <span class="soon-go">Semester: countdowns, this week, grades →</span>
+  </a>
   <div class="switch" role="group" aria-label="Which exam">
     <button type="button" data-exam="2" aria-pressed="true">Exam 2</button>
     <button type="button" data-exam="3" aria-pressed="false">Exam 3</button>
@@ -61,6 +76,8 @@
     <a class="glass tile" href="Exam 2 Drug Cards.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7"/></svg><span class="step">1 · Learn</span><b>Drug cards</b><p>Every drug by system and class, with the why behind each effect.</p></a>
     <a class="glass tile" href="Reference Sheet.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg><span class="step">Background</span><b>Reference sheet</b><p>What your med-surg book assumes you know from earlier courses. Starts with therapeutic communication.</p></a>
     <a class="glass tile" href="NCLEX Strategies.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg><span class="step">Test-taking</span><b>NCLEX strategies</b><p>The six clinical judgment steps, every question type and how it is scored, and the strategies for when you aren’t sure.</p></a>
+    <a class="glass tile" href="Semester.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M12 14v3l2 1"/></svg><span class="step">Syllabus</span><b>Semester</b><p>Countdowns to every exam and due date, this week’s lecture, lab and assignments, and a grade calculator.</p></a>
+    <a class="glass tile" href="Clinical Helpers.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v3H9zM7 4.5H5.5A1.5 1.5 0 0 0 4 6v14a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 20V6a1.5 1.5 0 0 0-1.5-1.5H17"/><path d="M12 10v6M9 13h6"/></svg><span class="step">Clinical</span><b>Clinical helpers</b><p>Lab ranges for the plan of care, SBAR practice, a process-recording check and assignment checklists.</p></a>
     <a class="glass tile wide" href="Exam 2 Mastery Loop.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg><span class="step">2 · Prove it</span><b>Mastery test</b><p>One adaptive test: NCLEX + NGN, follow-ups on what you miss, then a study plan.</p><em data-next="status"></em></a>
   </div>
 
@@ -94,6 +111,8 @@
     <a class="glass tile" href="Reference Sheet.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg><span class="step">Background</span><b>Reference sheet</b><p>What your med-surg book assumes you know from earlier courses.</p></a>
     <a class="glass tile" href="Exam 3 Skills.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg><span class="step">Clinicals</span><b>Skills checklists</b><p>NG tubes, tube feeding, ostomies, fingersticks, insulin, the hypoglycemia protocol, post-thyroidectomy checks — step by step, with the critical steps.</p></a>
     <a class="glass tile" href="NCLEX Strategies.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg><span class="step">Test-taking</span><b>NCLEX strategies</b><p>The six clinical judgment steps, every question type and how it is scored, and the strategies for when you aren’t sure.</p></a>
+    <a class="glass tile" href="Semester.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M12 14v3l2 1"/></svg><span class="step">Syllabus</span><b>Semester</b><p>Countdowns to every exam and due date, this week’s lecture, lab and assignments, and a grade calculator.</p></a>
+    <a class="glass tile" href="Clinical Helpers.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v3H9zM7 4.5H5.5A1.5 1.5 0 0 0 4 6v14a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 20V6a1.5 1.5 0 0 0-1.5-1.5H17"/><path d="M12 10v6M9 13h6"/></svg><span class="step">Clinical</span><b>Clinical helpers</b><p>Lab ranges for the plan of care, SBAR practice, a process-recording check and assignment checklists.</p></a>
     <a class="glass tile wide" href="Exam 3 Mastery Loop.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg><span class="step">2 · Prove it</span><b>Mastery test</b><p>One adaptive test across all six chapters: NCLEX + NGN, drug questions, myth checks and recall, follow-ups on what you miss, then a study plan.</p><em data-next="status"></em></a>
   </div>
   </section>
@@ -159,8 +178,25 @@
   });
 })();
 </script>
-<script src="nav.js?v=202610220700"></script>
-<script src="say.js?v=202610220700"></script>
+<script src="data/semester.js?v=202610220900"></script>
+<script src="sem.js?v=202610220900"></script>
+<script>
+// Countdown strip: the next three dates from the Semester page (with the student's own dates) and this course week.
+(function () {
+  var M = window.SEM, S = window.SEMESTER; if (!M) return;
+  var next = M.upcoming(3), w = M.weekOf(), box = document.getElementById('soon');
+  if (!next.length && (w < 1 || w > 16)) return;
+  var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  document.getElementById('soon-list').innerHTML = next.map(function (x) {
+    var n = M.daysTo(x.d);
+    return '<div class="soon-i"><b>' + (n === 0 ? '!' : n) + '</b><span>' + esc(x.t) + '<small>' + M.nice(x.d) + ' · ' + M.left(n) + '</small></span></div>';
+  }).join('');
+  if (w >= 1 && w <= 16) { var W = S.weeks[w - 1]; document.getElementById('soon-wk').textContent = 'Week ' + w + ': ' + W.lec.split(':')[0] + (W.ch.length ? ' (Ch ' + W.ch.join(', ') + ')' : ''); }
+  box.hidden = false;
+})();
+</script>
+<script src="nav.js?v=202610220900"></script>
+<script src="say.js?v=202610220900"></script>
 <script>
 (function () {
   // The link is built when the page loads, so a tap can share or copy it right away (phones only allow that inside the tap).

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>NRS 114 Semester</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<style>
+  body { padding-bottom: 96px; }
+  main { max-width: 900px; margin: 0 auto; padding: clamp(18px, 3.5vw, 40px) 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-accent-300); }
+  h1 { font-size: clamp(28px, 5.5vw, 44px); margin: 4px 0 0; }
+  h2 { font-size: clamp(20px, 4vw, 26px); margin: 0 0 4px; }
+  h3 { font-size: 12.5px; font-weight: 600; margin: 10px 0 4px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400); }
+  .lead { color: var(--color-neutral-300); max-width: 70ch; margin: 0; }
+  .glass { border-radius: var(--radius-lg); background: var(--color-surface); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--shadow-md); padding: 16px; }
+  .muted { color: var(--color-neutral-400); font-size: 13px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toc a { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); color: inherit; text-decoration: none; font-size: 14px; }
+  button.pill, label.pill { font: inherit; font-size: 13.5px; color: inherit; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-accent-700); background: none; cursor: pointer; }
+  button.pill.primary { background: var(--color-accent); color: #04160e; border-color: var(--color-accent); font-weight: 600; }
+  .cd { display: grid; gap: 8px; }
+  .item { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--color-neutral-900); border: 1px solid var(--color-divider); }
+  .item.exam, .item.final { border-color: var(--color-accent-700); }
+  .item.past { opacity: .5; }
+  .days { text-align: center; line-height: 1.1; }
+  .days b { display: block; font-size: 26px; font-weight: 600; color: var(--color-accent-200); }
+  .days span { font-size: 11px; color: var(--color-neutral-400); text-transform: uppercase; letter-spacing: .08em; }
+  .item .t { font-weight: 500; font-size: 15.5px; }
+  .item .a { font-size: 13px; color: var(--color-neutral-300); margin-top: 2px; }
+  .item .when { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin-top: 6px; font-size: 13px; color: var(--color-neutral-400); }
+  .tag { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--color-neutral-600); border-radius: 99px; padding: 0 7px; }
+  .tag.sure { border-color: var(--color-accent-600); color: var(--color-accent-200); }
+  input[type="date"], input[type="text"], input[type="number"] { font: inherit; font-size: 14px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-neutral-600); border-radius: 8px; padding: 5px 8px; max-width: 100%; }
+  input[type="number"] { width: 84px; }
+  .wk-nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .wk ul { margin: 0; padding-left: 18px; font-size: 14.5px; }
+  .wk li { margin: 3px 0; }
+  .wk a { color: var(--color-accent-300); }
+  .banner { border-radius: 12px; padding: 8px 12px; background: var(--color-accent-900); border: 1px solid var(--color-accent-700); font-size: 14px; }
+  details.sched summary { cursor: pointer; font-weight: 500; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 7px 6px; border-top: 1px solid var(--color-divider); vertical-align: top; }
+  th { font-weight: 600; color: var(--color-neutral-400); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .gr { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px 12px; align-items: center; font-size: 14.5px; }
+  .gr .w { color: var(--color-neutral-400); font-size: 13px; }
+  .out { margin-top: 12px; display: grid; gap: 6px; font-size: 15px; }
+  .out b { color: var(--color-accent-200); font-weight: 600; }
+  .checks label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; font-size: 14.5px; border-top: 1px solid var(--color-divider); }
+  input[type="checkbox"] { width: 20px; height: 20px; accent-color: #f5c400; margin: 1px 0 0; flex: none; }
+  .src { font-size: 12.5px; color: var(--color-neutral-500); }
+  .table-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker" id="course"></div>
+    <h1>Your semester</h1>
+    <p class="lead">Countdowns to every exam and due date, what this week holds, the full 16-week plan and a grade calculator — all from your NRS 114 syllabus.</p>
+  </header>
+  <nav class="toc glass" aria-label="Sections"><a href="#countdown">Countdown</a><a href="#week">This week</a><a href="#schedule">All 16 weeks</a><a href="#grade">Grade calculator</a><a href="#musts">Requirements</a><a href="Clinical Helpers.html">Clinical helpers →</a></nav>
+
+  <section class="glass" id="countdown">
+    <h2>Countdown</h2>
+    <p class="muted" style="margin:0 0 10px">The syllabus lists weeks, not dates, so these are worked out from Exam 3 on Oct 28 (week 9), with exams on the Wednesday of their week. <b>Change any date</b> your instructor gives you — your dates are saved and move with your progress file. Holidays can shift weeks.</p>
+    <div class="cd" id="cd"></div>
+    <h3>Add your own</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <input type="text" id="new-t" placeholder="What is due (e.g. care plan 1)" style="flex:1 1 220px">
+      <input type="date" id="new-d" aria-label="Date">
+      <button class="pill primary" type="button" id="new-add">Add</button>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px">
+      <button class="pill" type="button" id="ics">📅 Add all dates to my calendar</button>
+      <span class="muted">Downloads a calendar file with reminders the day before (and a week before exams). Open it on your phone to add the events. Download it again after you change dates.</span>
+    </div>
+  </section>
+
+  <section class="glass wk" id="week"></section>
+
+  <section class="glass" id="schedule">
+    <details class="sched"><summary>All 16 weeks</summary>
+      <div class="table-wrap" style="margin-top:10px"><table id="sched-t"></table></div>
+    </details>
+    <p class="muted" style="margin:10px 0 0">Week 1 starts on <input type="date" id="week1" aria-label="Monday of week 1"> — change it if your Week 1 began on a different day.</p>
+  </section>
+
+  <section class="glass" id="grade">
+    <h2>Grade calculator</h2>
+    <p class="muted" style="margin:0 0 10px">Type each score you have (as a percent). It shows your grade so far and what you need on everything left. Weights are from the syllabus: 5 exams at 14% each, the final 15%, Sherpath and quizzes 10%, the two mental health papers 2.5% each.</p>
+    <div class="gr" id="gr"></div>
+    <div class="out" id="gout"></div>
+    <p class="src" style="margin-top:10px">The syllabus says both “a minimum theory grade of 75%” and “a final grade of 78% must be achieved” — the calculator shows both. Ask your instructor which one decides passing.</p>
+  </section>
+
+  <section class="glass" id="musts">
+    <h2>What you need to pass</h2>
+    <div class="checks" id="mlist"></div>
+  </section>
+  <p class="src">From the NRS 114 Fall 2026 syllabus. Exam chapters follow your professor’s study guides. Dates and the schedule can change — your instructor’s announcements win.</p>
+</main>
+<script src="data/semester.js?v=202610220900"></script>
+<script src="sem.js?v=202610220900"></script>
+<script>
+(function () {
+  var S = window.SEMESTER, M = window.SEM;
+  var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+  document.getElementById('course').textContent = S.course;
+
+  // ---------- Countdown ----------
+  function drawCountdown() {
+    var list = M.all().slice().sort(function (a, b) {
+      var da = M.daysTo(a.d), db = M.daysTo(b.d);
+      var ka = da == null ? 1e6 : da < 0 ? 2e6 - da : da, kb = db == null ? 1e6 : db < 0 ? 2e6 - db : db;   // upcoming, then undated, then past
+      return ka - kb;
+    });
+    document.getElementById('cd').innerHTML = list.map(function (x) {
+      var n = M.daysTo(x.d), past = n != null && n < 0;
+      var big = n == null ? '—' : past ? '✓' : n, small = n == null ? 'no date' : past ? 'done' : n === 0 ? 'today' : n === 1 ? 'day' : 'days';
+      return '<div class="item ' + esc(x.k) + (past ? ' past' : '') + '"><div class="days"><b>' + big + '</b><span>' + small + '</span></div>' +
+        '<div><div class="t">' + esc(x.t) + (x.href ? ' · <a href="' + esc(x.href) + '" style="font-size:13px;color:var(--color-accent-300)">study</a>' : '') + '</div>' +
+        (x.about ? '<div class="a">' + esc(x.about) + '</div>' : '') +
+        '<div class="when"><span>' + M.nice(x.d) + '</span>' + (x.sure ? '<span class="tag sure">confirmed</span>' : x.mine ? '<span class="tag sure">your date</span>' : x.d ? '<span class="tag">estimated</span>' : '') +
+        '<input type="date" value="' + esc(x.d) + '" data-id="' + esc(x.id) + '" aria-label="Date for ' + esc(x.t) + '">' +
+        (x.custom ? '<button class="pill" type="button" data-del="' + esc(x.id) + '" style="padding:3px 10px">Remove</button>' : x.mine ? '<button class="pill" type="button" data-reset="' + esc(x.id) + '" style="padding:3px 10px">Use estimate</button>' : '') +
+        '</div></div></div>';
+    }).join('');
+  }
+  document.getElementById('cd').addEventListener('change', function (e) {
+    var id = e.target.dataset.id; if (!id) return;
+    var custom = M.read('sem-custom', []), c = custom.find(function (x) { return x.id === id; });
+    if (c) { c.d = e.target.value; M.write('sem-custom', custom); }
+    else { var own = M.read('sem-dates', {}); own[id] = e.target.value; M.write('sem-dates', own); }
+    drawCountdown();
+  });
+  document.getElementById('cd').addEventListener('click', function (e) {
+    var del = e.target.dataset.del, reset = e.target.dataset.reset;
+    if (del) M.write('sem-custom', M.read('sem-custom', []).filter(function (x) { return x.id !== del; }));
+    if (reset) { var own = M.read('sem-dates', {}); delete own[reset]; M.write('sem-dates', own); }
+    if (del || reset) drawCountdown();
+  });
+  document.getElementById('new-add').addEventListener('click', function () {
+    var t = document.getElementById('new-t').value.trim(), d = document.getElementById('new-d').value;
+    if (!t) { document.getElementById('new-t').focus(); return; }
+    var custom = M.read('sem-custom', []); custom.push({ id: 'c' + Date.now(), t: t, d: d }); M.write('sem-custom', custom);
+    document.getElementById('new-t').value = ''; document.getElementById('new-d').value = '';
+    drawCountdown();
+  });
+  document.getElementById('ics').addEventListener('click', function () {
+    var f = new File([M.ics()], 'NRS 114 dates.ics', { type: 'text/calendar' });
+    if (navigator.canShare && navigator.canShare({ files: [f] }) && /iPhone|iPad|Android/i.test(navigator.userAgent)) { navigator.share({ files: [f], title: 'NRS 114 dates' }).catch(function () {}); return; }
+    var a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = f.name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  });
+
+  // ---------- This week ----------
+  var shown = Math.min(16, Math.max(1, M.weekOf()));
+  function examFor(id) { return M.all().find(function (x) { return x.id === id; }); }
+  function drawWeek() {
+    var now = M.weekOf(), w = S.weeks[shown - 1], start = M.weekStart(shown), end = new Date(start); end.setDate(end.getDate() + 6);
+    var head = now === 0 ? 'Before the semester' : now === 17 ? 'The semester is over' : shown === now ? 'This week' : 'Week ' + shown;
+    var ex = w.exam ? examFor(w.exam) : null;
+    var chs = w.ch.length ? ' · Ch ' + w.ch.join(', ') : '';
+    var list = function (title, a) { return a.length ? '<h3>' + title + '</h3><ul>' + a.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : ''; };
+    document.getElementById('week').innerHTML =
+      '<div class="wk-nav"><h2 style="margin:0">' + head + '</h2><span class="muted">Week ' + shown + ' · ' + M.nice(M.iso(start)).replace(/^\w+ /, '') + ' – ' + M.nice(M.iso(end)).replace(/^\w+ /, '') + '</span>' +
+      '<span style="margin-left:auto;display:flex;gap:6px"><button class="pill" type="button" data-w="-1" aria-label="Previous week"' + (shown <= 1 ? ' disabled' : '') + '>‹</button>' +
+      (shown !== now && now >= 1 && now <= 16 ? '<button class="pill" type="button" data-w="0">This week</button>' : '') +
+      '<button class="pill" type="button" data-w="1" aria-label="Next week"' + (shown >= 16 ? ' disabled' : '') + '>›</button></span></div>' +
+      (ex ? '<div class="banner" style="margin-top:10px"><b>' + esc(ex.t) + '</b> · ' + M.nice(ex.d) + ' (' + M.left(M.daysTo(ex.d)) + ')' + (ex.about ? ' — ' + esc(ex.about) : '') + (ex.href ? ' · <a href="' + esc(ex.href) + '">study now</a>' : '') + '</div>' : '') +
+      (w.note ? '<p class="muted" style="margin:8px 0 0">' + esc(w.note) + '</p>' : '') +
+      '<h3>Lecture</h3><p style="margin:0;font-size:15px">' + esc(w.lec) + esc(chs) + (w.map ? ' · <a href="' + esc(w.map) + '">open on the map</a>' : '') + '</p>' +
+      list('Lab', w.lab) + list('Ticket to lab (before lab — or you count as absent)', w.ticket) + list('Assignments (due by the start of the next class)', w.work);
+  }
+  document.getElementById('week').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-w]'); if (!b) return;
+    var d = +b.dataset.w; shown = d === 0 ? M.weekOf() : Math.min(16, Math.max(1, shown + d)); drawWeek();
+  });
+
+  // ---------- All weeks ----------
+  function drawSchedule() {
+    var now = M.weekOf();
+    document.getElementById('sched-t').innerHTML = '<tr><th>Week</th><th>Lecture</th><th>Lab</th><th>Due / exam</th></tr>' + S.weeks.map(function (w) {
+      var ex = w.exam ? examFor(w.exam) : null;
+      return '<tr' + (w.w === now ? ' style="background:var(--color-accent-900)"' : '') + '><td>' + w.w + '<div class="muted">' + M.nice(M.iso(M.weekStart(w.w))).replace(/^\w+ /, '') + '</div></td><td>' + esc(w.lec) + (w.ch.length ? '<div class="muted">Ch ' + w.ch.join(', ') + '</div>' : '') +
+        '</td><td>' + esc(w.lab.join('; ')) + '</td><td>' + esc(w.work.join('; ')) + (ex ? '<div><b>' + esc(ex.t) + '</b></div>' : '') + (w.note ? '<div class="muted">' + esc(w.note) + '</div>' : '') + '</td></tr>';
+    }).join('');
+  }
+  var w1 = document.getElementById('week1'); w1.value = M.week1();
+  w1.addEventListener('change', function () { if (M.parse(w1.value)) { M.write('sem-week1', w1.value); shown = Math.min(16, Math.max(1, M.weekOf())); drawWeek(); drawSchedule(); } });
+
+  // ---------- Grade calculator ----------
+  var G = S.grade, scores = M.read('sem-grades', {});
+  document.getElementById('gr').innerHTML = G.parts.map(function (p) {
+    return '<label for="g-' + p.id + '">' + esc(p.t) + '</label><span class="w">' + p.w + '%</span><input type="number" id="g-' + p.id + '" data-id="' + p.id + '" min="0" max="100" step="0.1" inputmode="decimal" placeholder="—" value="' + (scores[p.id] != null ? scores[p.id] : '') + '">';
+  }).join('');
+  function letter(x) { for (var i = 0; i < G.letters.length; i++) if (x >= G.letters[i][0]) return G.letters[i][1]; return 'F'; }
+  function drawGrade() {
+    var earned = 0, done = 0;
+    G.parts.forEach(function (p) { var v = scores[p.id]; if (v != null && v !== '' && isFinite(v)) { earned += v * p.w / 100; done += p.w; } });
+    var left = 100 - done, out = [];
+    if (!done) out.push('<span class="muted">Enter a score to start.</span>');
+    else {
+      var now = earned / done * 100;
+      out.push('Grade so far: <b>' + now.toFixed(1) + '%</b> (' + letter(now) + ') on ' + done + '% of the course.');
+      [G.pass, G.theoryMin].forEach(function (target) {
+        if (!left) { out.push('Final grade: <b>' + earned.toFixed(1) + '%</b> — ' + (earned >= target ? 'meets' : 'below') + ' ' + target + '%.'); return; }
+        var need = (target - earned) / left * 100;
+        out.push('To finish at ' + target + '%: ' + (need <= 0 ? '<b>already reached</b>, even with zeros on the rest' : need > 100 ? '<b>not reachable</b> — you would need ' + need.toFixed(1) + '% on the remaining ' + left + '%; talk to your instructor now' : 'average <b>' + need.toFixed(1) + '%</b> on the remaining ' + left + '%.'));
+      });
+    }
+    document.getElementById('gout').innerHTML = out.map(function (x) { return '<div>' + x + '</div>'; }).join('');
+  }
+  document.getElementById('gr').addEventListener('input', function (e) {
+    var id = e.target.dataset.id; if (!id) return;
+    var v = e.target.value === '' ? null : Math.max(0, Math.min(100, +e.target.value));
+    if (v == null) delete scores[id]; else scores[id] = v;
+    M.write('sem-grades', scores); drawGrade();
+  });
+
+  // ---------- Requirements ----------
+  var ticks = M.read('sem-musts', {});
+  document.getElementById('mlist').innerHTML = S.musts.map(function (m, i) { return '<label><input type="checkbox" data-i="' + i + '"' + (ticks[i] ? ' checked' : '') + '><span>' + esc(m) + '</span></label>'; }).join('');
+  document.getElementById('mlist').addEventListener('change', function (e) { var i = e.target.dataset.i; if (i == null) return; ticks[i] = e.target.checked; M.write('sem-musts', ticks); });
+
+  drawCountdown(); drawWeek(); drawSchedule(); drawGrade();
+})();
+</script>
+<script src="nav.js?v=202610220900"></script>
+</body>
+</html>

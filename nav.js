@@ -47,10 +47,10 @@
   if (document.readyState === 'complete') setTimeout(prefetch, 1500); else window.addEventListener('load', function () { setTimeout(prefetch, 1500); });
   new MutationObserver(attach).observe(document.documentElement, { childList: true, subtree: true });
 
-  // Moving progress between devices: everything this site saves (keys starting e2- / e3- / exam2-) is packed into a link.
+  // Moving progress between devices: everything this site saves (keys starting e2- / e3- / exam2- / sem- / clin-) is packed into a link.
   // Opening the link on another device asks first, then replaces that device's progress. The data rides in the
   // part of the address after #, which browsers never send to the server.
-  var SYNC = /^(e2-|e3-|exam2-|map-noembed$)/;
+  var SYNC = /^(e2-|e3-|exam2-|sem-|clin-|map-noembed$)/;
   function b64(bytes) { var s = ''; for (var i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
   function unb64(t) { t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; var s = atob(t), out = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) out[i] = s.charCodeAt(i); return out; }
   function pipe(bytes, stream) { return new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer().then(function (b) { return new Uint8Array(b); }); }
@@ -110,7 +110,7 @@
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610220700';
+  var BUILD = '202610220900';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     fetch(root + 'version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {

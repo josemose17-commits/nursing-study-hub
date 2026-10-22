@@ -15,7 +15,7 @@ window.SEMESTER = {
     { id: 'final', t: 'Comprehensive final', d: '2026-12-16', k: 'final', w: 16, about: 'Everything — 15% of the grade' },
     { id: 'clin-mid', t: 'Midterm clinical evaluation', d: '2026-10-14', k: 'eval', w: 7, about: 'Clinical evaluation tool, week 7' },
     { id: 'clin-final', t: 'Final clinical evaluation', d: '2026-12-02', k: 'eval', w: 14, about: 'Clinical evaluation tool, week 14 — a Pass is required' },
-    { id: 'dosage', t: 'Dosage calculation exam', d: '', k: 'exam', about: '90% needed to give meds in clinical; 3 tries, remediation before each retake' },
+    { id: 'dosage', t: 'Dosage calculation exam', d: '', k: 'exam', about: '90% needed to give meds in clinical; 3 tries, remediation before each retake', href: 'Dosage Calculations.html' },
     { id: 'movie', t: 'Mental health movie paper (APA)', d: '', k: 'due', about: '2.5% of the grade — a mental health themed movie' },
     { id: 'meeting', t: 'Self-help meeting paper (APA)', d: '', k: 'due', about: '2.5% — attend an AA/NA/Al-Anon/OA/SA meeting and reflect' },
     { id: 'grades', t: 'Final grades posted', d: '2026-12-22', k: 'info', about: 'Submission of NRS 114 final grades' }

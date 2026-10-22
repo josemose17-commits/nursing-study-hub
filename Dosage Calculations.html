@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Dosage Calculations</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<style>
+  body { padding-bottom: 96px; }
+  main { max-width: 900px; margin: 0 auto; padding: clamp(18px, 3.5vw, 40px) 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-accent-300); }
+  h1 { font-size: clamp(28px, 5.5vw, 44px); margin: 4px 0 0; }
+  h2 { font-size: clamp(20px, 4vw, 26px); margin: 0; }
+  h3 { font-size: 12.5px; font-weight: 600; margin: 14px 0 6px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400); }
+  .lead { color: var(--color-neutral-300); max-width: 70ch; margin: 0; }
+  .glass { border-radius: var(--radius-lg); background: var(--color-surface); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--shadow-md); padding: 16px; scroll-margin-top: 12px; }
+  .muted { color: var(--color-neutral-400); font-size: 13px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toc a { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); color: inherit; text-decoration: none; font-size: 14px; }
+  .toc a.go { border-color: var(--color-accent-700); color: var(--color-accent-200); }
+  .note { border-radius: 12px; padding: 10px 12px; background: var(--color-accent-900); border: 1px solid var(--color-accent-700); font-size: 14px; }
+  .topic { display: flex; flex-direction: column; gap: 6px; }
+  .topic .head { display: flex; gap: 12px; align-items: center; }
+  .topic .num { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--color-accent); color: #04160e; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .topic p { margin: 4px 0; font-size: 15px; line-height: 1.5; }
+  .topic ul, .topic ol { margin: 4px 0; padding-left: 20px; font-size: 15px; line-height: 1.5; }
+  .topic li { margin: 3px 0; }
+  .flag { border-radius: 12px; padding: 9px 12px; border: 1px solid #6a5a20; background: rgba(245, 196, 0, .07); font-size: 14px; margin: 6px 0; }
+  .flag b { color: var(--color-accent-200); }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 6px; border-top: 1px solid var(--color-divider); vertical-align: top; }
+  th { font-weight: 600; color: var(--color-neutral-400); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 8px; }
+  .cards div { border-radius: 12px; padding: 9px 11px; background: var(--color-neutral-900); border: 1px solid var(--color-divider); font-size: 13.5px; }
+  .cards b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--color-accent-200); margin-bottom: 2px; }
+  details { border-radius: 12px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); padding: 8px 12px; margin: 6px 0; }
+  details > summary { cursor: pointer; font-weight: 500; font-size: 15px; }
+  details p { font-size: 14.5px; }
+  /* A dimensional-analysis setup: fractions side by side, cancelled units struck through. */
+  .da { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 8px 0 4px; font-variant-numeric: tabular-nums; font-size: 15px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center; text-align: center; }
+  .fr > span { padding: 1px 6px; white-space: nowrap; }
+  .fr > span:first-child { border-bottom: 1.5px solid var(--color-neutral-300); }
+  .da s { color: var(--color-neutral-500); text-decoration-color: #f5c400; text-decoration-thickness: 2px; }
+  .da .op { color: var(--color-neutral-400); }
+  .da .lhs { font-weight: 600; }
+  .math { font-size: 14.5px; color: var(--color-neutral-200); margin: 2px 0; font-variant-numeric: tabular-nums; }
+  .res { font-weight: 600; color: var(--color-accent-200); }
+  .worked { border-left: 3px solid var(--color-accent-700); padding: 2px 0 2px 12px; margin: 6px 0; }
+  .worked ol { margin: 4px 0; padding-left: 20px; font-size: 14.5px; }
+  .check, .prob { border-radius: 14px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); padding: 12px; margin: 8px 0; }
+  .check .q, .prob .q { font-size: 15.5px; line-height: 1.45; }
+  .opts { display: grid; gap: 6px; margin-top: 8px; }
+  .opts button { font: inherit; text-align: left; font-size: 14.5px; color: inherit; background: var(--color-bg); border: 1px solid var(--color-neutral-600); border-radius: 10px; padding: 9px 11px; cursor: pointer; }
+  .opts button:hover:not(:disabled) { border-color: var(--color-accent-700); }
+  .opts button.right { border-color: var(--color-accent-2-500); background: var(--color-accent-2-900); }
+  .opts button.wrong { border-color: #8a3a3a; background: #1d0f0f; }
+  .opts button:disabled { cursor: default; }
+  .opts .ex { display: block; font-size: 13px; color: var(--color-neutral-300); margin-top: 3px; }
+  .ans { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+  .ans input { font: inherit; font-size: 17px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-neutral-600); border-radius: 10px; padding: 8px 10px; width: 120px; }
+  .ans input.short { width: 72px; }
+  .ans .u { color: var(--color-neutral-300); font-size: 14.5px; }
+  button.pill { font: inherit; font-size: 14px; color: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--color-accent-700); background: none; cursor: pointer; }
+  button.pill.primary { background: rgba(245, 196, 0, .14); border-color: var(--color-accent); color: var(--color-accent-100); }
+  button.pill[aria-pressed="true"] { background: var(--color-accent-900); border-color: var(--color-accent); }
+  .fb { margin-top: 10px; font-size: 14.5px; }
+  .fb .ok { color: var(--color-accent-2-300); font-weight: 600; }
+  .fb .no { color: #f3b3b3; font-weight: 600; }
+  .fb .hint { color: var(--color-accent-200); }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  select { font: inherit; font-size: 14.5px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-neutral-600); border-radius: 10px; padding: 8px 10px; max-width: 100%; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 8px; margin-top: 10px; }
+  .stat { border-radius: 12px; padding: 8px 10px; background: var(--color-neutral-900); border: 1px solid var(--color-divider); }
+  .stat b { display: block; font-size: 20px; font-weight: 600; color: var(--color-accent-200); }
+  .stat span { font-size: 12.5px; color: var(--color-neutral-400); }
+  .weak a { color: var(--color-accent-300); cursor: pointer; }
+  .bar2 { height: 8px; border-radius: 99px; background: var(--color-neutral-800); overflow: hidden; margin: 6px 0 2px; }
+  .bar2 > i { display: block; height: 100%; background: var(--color-accent); }
+  .score { font-size: 34px; font-weight: 600; }
+  .pass { color: var(--color-accent-2-300); }
+  .fail { color: #f3b3b3; }
+  .src { font-size: 12.5px; color: var(--color-neutral-500); }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">NRS 114 · clinical · dosage</div>
+    <h1>Dosage calculations</h1>
+    <p class="lead">Your syllabus requires <b>90% on the proctored dosage calculation exam</b> before you can give medications in clinical — three tries, with remediation before each retake. Learn each topic and check yourself, then drill fresh problems until the setups are automatic, and take practice exams until 90% is routine.</p>
+  </header>
+  <nav class="toc glass" id="toc" aria-label="Sections"></nav>
+
+  <section class="glass" id="practice">
+    <div class="tabs" role="group" aria-label="Practice">
+      <button type="button" class="pill" data-tab="drill" aria-pressed="true">Drill</button>
+      <button type="button" class="pill" data-tab="exam" aria-pressed="false">Practice exam</button>
+    </div>
+    <div id="drill">
+      <h2>Drill</h2>
+      <p class="muted" style="margin:4px 0 8px">New numbers every time. Miss one and you get a hint first; miss again and the worked setup follows. Rounding: under 1 mL to hundredths, 1 mL or more to tenths, drops to whole numbers — each question says how.</p>
+      <div class="row"><label class="muted" for="d-type">Problems:</label> <select id="d-type"></select></div>
+      <div id="d-card"></div>
+      <div class="stats" id="d-stats"></div>
+      <p class="muted weak" id="d-weak" style="margin:8px 0 0"></p>
+    </div>
+    <div id="exam" hidden>
+      <h2>Practice exam</h2>
+      <p class="muted" style="margin:4px 0 8px">Mixed calculations, one try each, no hints — like the real one. Pass mark 90%. Use the same calculator you’ll have on the exam, and write each setup on paper.</p>
+      <div id="e-box"></div>
+      <div id="e-hist"></div>
+    </div>
+  </section>
+
+  <div id="topics" style="display:flex;flex-direction:column;gap:16px"></div>
+  <p class="src">Rewritten from your dosage calculation notes (eight topics); two slips in the copy are fixed (1 mL = 1 cc; never write “mL.” with a period). Writing rules: ISMP’s List of Error-Prone Abbreviations and The Joint Commission’s Do Not Use list. Insulin times cross-checked with your med-surg book (Ignatavicius, Table 56.6) and IV fluids with Table 13.3. Drug strengths and the reconstitution directions in the drill are typical U.S. labels — always use the label in your hand. Practice problems only: give medications only from a current order, by your agency’s policy.</p>
+</main>
+
+<script src="dose.js?v=202610222307"></script>
+<script src="data/dosage.js?v=202610222307"></script>
+<script>
+(function () {
+  var D = window.DOSE, TOPICS = window.DOSE_TOPICS, R = D.rng(), fmt = D.fmt;
+  var KEY = 'clin-dose-v1', S = {};
+  try { S = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { S = {}; }
+  S.stats = S.stats || {}; S.checks = S.checks || {}; S.exams = S.exams || [];
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ---------- Drawing a dimensional-analysis setup ----------
+  function daHTML(da) {
+    var cnt = {}, U = D.U;
+    da.f.forEach(function (x) { U(x[1]).forEach(function (u) { if (u) (cnt[u] = cnt[u] || { t: 0, b: 0 }).t++; }); U(x[3]).forEach(function (u) { if (u) (cnt[u] = cnt[u] || { t: 0, b: 0 }).b++; }); });
+    var strike = {}; Object.keys(cnt).forEach(function (u) { var k = Math.min(cnt[u].t, cnt[u].b); strike[u] = { t: k, b: k }; });
+    function side(v, us, s) {
+      us = U(us).filter(Boolean);
+      var units = us.map(function (u) { if (strike[u][s] > 0) { strike[u][s]--; return '<s>' + esc(u) + '</s>'; } return esc(u); });
+      // A per-unit rate's bottom (mcg/kg/min) reads better without its 1.
+      var num = v === 1 && us.length > 1 && s === 'b' ? '' : fmt(v);
+      return (num + (units.length ? ' ' + units.join(' · ') : '')).trim() || '1';
+    }
+    var parts = da.f.map(function (x) { return '<span class="fr"><span>' + side(x[0], x[1], 't') + '</span><span>' + side(x[2], x[3], 'b') + '</span></span>'; });
+    return '<div class="da"><span class="lhs">' + esc(da.lhs) + ' =</span>' + parts.join('<span class="op">×</span>') + '</div>';
+  }
+  function daMath(da) {
+    var tops = [], bots = [];
+    da.f.forEach(function (x) { if (x[0] !== 1) tops.push(x[0]); if (x[2] !== 1) bots.push(x[2]); });
+    var N = tops.reduce(function (a, b) { return a * b; }, 1), Dn = bots.reduce(function (a, b) { return a * b; }, 1);
+    var top = tops.length ? tops.map(function (v) { return fmt(v); }).join(' × ') : '1', s;
+    if (!bots.length) s = tops.length > 1 ? top + ' = ' + fmt(N, 4) : fmt(N, 4);
+    else {
+      s = (tops.length > 1 ? '(' + top + ')' : top) + ' ÷ ' + (bots.length > 1 ? '(' + bots.map(function (v) { return fmt(v); }).join(' × ') + ')' : fmt(bots[0]));
+      if (tops.length > 1 || bots.length > 1) s += ' = ' + fmt(N, 4) + ' ÷ ' + fmt(Dn, 4);
+      s += ' = ' + fmt(N / Dn, 4);
+    }
+    return '= ' + s;
+  }
+  function ansText(p) {
+    if (p.kind === 'choice') return p.choices[p.ans];
+    if (p.kind === 'hm') return p.ans[0] + ' hr ' + p.ans[1] + ' min';
+    if (p.kind === 'time') return p.ans;
+    return fmt(p.ans) + ' ' + (p.ans === 1 ? (p.unit || '').replace(/s$/, '') : p.unit || '');
+  }
+  // The worked solution for a drill problem.
+  function workHTML(p) {
+    var h = '<div class="worked">';
+    if (p.da) {
+      h += daHTML(p.da);
+      if (p.kind !== 'hm') {
+        h += '<div class="math">' + esc(daMath(p.da)) + (Math.abs(p.raw - p.ans) > 1e-9 ? ' → <span class="res">' + esc(ansText(p)) + '</span> <span class="muted">(' + esc(D.RW[p.dp].replace('Round to the nearest', 'rounded to the nearest').replace('.', '')) + ')</span>' : ' <span class="res">' + esc(p.unit) + '</span>') + '</div>';
+      }
+    }
+    if (p.steps && p.steps.length) h += '<ol>' + p.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>';
+    if (p.why) h += '<p class="muted" style="margin:4px 0 0">' + esc(p.why) + '</p>';
+    return h + '</div>';
+  }
+
+  // ---------- The notes ----------
+  function li(x) { return '<li>' + (Array.isArray(x) ? '<b>' + esc(x[0]) + '</b> ' + esc(x[1]) : esc(x)) + '</li>'; }
+  function block(b) {
+    var h = '';
+    if (b.deep) return '<details><summary>Deep dive: ' + esc(b.deep) + '</summary><p>' + esc(b.p) + '</p></details>';
+    if (b.flag) return '<div class="flag"><b>Heads-up:</b> ' + esc(b.flag) + '</div>';
+    if (b.h) h += '<h3>' + esc(b.h) + '</h3>';
+    if (b.p) h += '<p>' + esc(b.p) + '</p>';
+    if (b.list) h += '<ul>' + b.list.map(li).join('') + '</ul>';
+    if (b.steps) h += '<ol>' + b.steps.map(li).join('') + '</ol>';
+    if (b.table) h += '<div class="table-wrap"><table><tr>' + b.table[0].map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr>' + b.table.slice(1).map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></div>';
+    if (b.cards) h += '<div class="cards">' + b.cards.map(function (c) { return '<div><b>' + esc(c[0]) + '</b>' + esc(c[1]) + '</div>'; }).join('') + '</div>';
+    if (b.da) h += '<div class="worked">' + daHTML(b.da) + '<div class="math">' + esc(daMath(b.da)) + ' → <span class="res">' + esc(b.ans) + '</span></div>' + (b.after ? '<p class="muted" style="margin:2px 0 0">' + esc(b.after) + '</p>' : '') + '</div>';
+    if (b.reveal) h += b.reveal.map(function (r) { return '<details><summary>' + esc(r.q) + '</summary><ol>' + r.steps.map(li).join('') + '</ol></details>'; }).join('');
+    return h;
+  }
+  var box = $('topics'), toc = $('toc');
+  toc.innerHTML = '<a class="go" href="#practice">Drill &amp; practice exam</a>' + TOPICS.map(function (t, i) { return '<a href="#t-' + t.id + '">' + (i + 1) + ' · ' + esc(D.TOPICS[i][1]) + '</a>'; }).join('');
+  TOPICS.forEach(function (t, i) {
+    var sec = document.createElement('section'); sec.className = 'glass topic'; sec.id = 't-' + t.id;
+    sec.innerHTML = '<div class="head"><span class="num">' + (i + 1) + '</span><h2>' + esc(t.title) + '</h2></div><p class="lead">' + esc(t.lead) + '</p>' + t.blocks.map(block).join('') +
+      '<h3>Check yourself</h3><p class="muted" style="margin:0">Miss one and you’ll get a hint first — the worked answer follows.</p><div class="checks"></div>' +
+      '<div class="row" style="margin-top:6px"><button type="button" class="pill primary" data-drill="topic:' + t.id + '">Drill this topic →</button></div>';
+    box.appendChild(sec);
+    var cb = sec.querySelector('.checks');
+    t.checks.forEach(function (c, j) { cb.appendChild(checkItem(c, t.id + '-' + j)); });
+  });
+  box.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-drill]'); if (!b) return;
+    setTab('drill'); $('d-type').value = b.getAttribute('data-drill'); S.mode = $('d-type').value; save(); newProblem();
+    $('practice').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // A Check yourself item: choose one, or type a number.
+  function checkItem(c, id) {
+    var el = document.createElement('div'); el.className = 'check';
+    var tries = 0, done = false;
+    var asP = c.o ? { kind: 'choice', choices: c.o, ans: c.a } : { kind: 'num', ans: c.ans, dp: D.dec(c.ans), raw: c.ans };
+    el.innerHTML = '<div class="q">' + esc(c.q) + (S.checks[id] ? ' <span class="muted">· ' + (S.checks[id] === 1 ? 'got it first try' : S.checks[id] === 2 ? 'got it after a hint' : 'missed last time') + '</span>' : '') + '</div>' +
+      (c.o ? '<div class="opts">' + c.o.map(function (o, i) { return '<button type="button" data-i="' + i + '">' + esc(o) + '</button>'; }).join('') + '</div>'
+        : '<div class="ans"><input type="text" inputmode="decimal" autocomplete="off" aria-label="Your answer"><span class="u">' + esc(c.unit) + '</span><button type="button" class="pill">Check</button></div>') +
+      '<div class="fb" aria-live="polite"></div>';
+    var fb = el.querySelector('.fb');
+    function result(ok, note) {
+      if (ok) { done = true; S.checks[id] = tries === 0 ? 1 : 2; save(); fb.innerHTML = '<span class="ok">Right' + (tries ? ' — after a hint.' : '.') + '</span> ' + (note ? esc(note) + ' ' : '') + esc(c.work); }
+      else if (tries === 0) { tries = 1; fb.innerHTML = '<span class="no">Not yet.</span> ' + (note ? esc(note) + ' ' : '') + '<span class="hint">Hint: ' + esc(c.hint) + '</span>'; }
+      else { done = true; S.checks[id] = 3; save(); fb.innerHTML = '<span class="no">The answer: ' + esc(c.o ? c.o[c.a] : fmt(c.ans) + ' ' + c.unit) + '.</span> ' + esc(c.work); }
+      if (done) el.querySelectorAll('button, input').forEach(function (b) { if (c.o) { b.disabled = true; if (Number(b.getAttribute('data-i')) === c.a) b.classList.add('right'); } });
+    }
+    if (c.o) el.querySelector('.opts').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b || done) return;
+      var ok = Number(b.getAttribute('data-i')) === c.a; if (!ok) { b.classList.add('wrong'); b.disabled = true; }
+      result(ok);
+    });
+    else {
+      var inp = el.querySelector('input'), go = function () { if (done) return; var r = D.check(asP, inp.value); if (r.bad || !inp.value.trim()) { fb.innerHTML = '<span class="hint">Type a number.</span>'; return; } result(r.ok, r.note); };
+      el.querySelector('button').addEventListener('click', go);
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
+    }
+    return el;
+  }
+
+  // ---------- Drill ----------
+  var sel = $('d-type');
+  sel.innerHTML = '<option value="all">Mix — every topic</option><option value="weak">My weakest problem types</option>' +
+    D.TOPICS.map(function (tp, i) {
+      var ts = D.TYPES.filter(function (t) { return t.topic === tp[0]; });
+      return '<optgroup label="' + (i + 1) + ' · ' + esc(tp[1]) + '"><option value="topic:' + tp[0] + '">All of topic ' + (i + 1) + '</option>' + ts.map(function (t) { return '<option value="' + t.id + '">' + esc(t.label) + '</option>'; }).join('') + '</optgroup>';
+    }).join('') + '<option value="misses" hidden>The types I missed on my last practice exam</option>';
+  if (S.mode && [].some.call(sel.options, function (o) { return o.value === S.mode; })) sel.value = S.mode;
+  sel.addEventListener('change', function () { S.mode = sel.value; save(); newProblem(); });
+
+  function rate(id) { var s = S.stats[id]; return s && s.n ? s.first / s.n : null; }
+  function weighted(list, wf) {
+    var tot = list.reduce(function (a, t) { return a + wf(t); }, 0), x = Math.random() * tot;
+    for (var i = 0; i < list.length; i++) { x -= wf(list[i]); if (x <= 0) return list[i]; }
+    return list[list.length - 1];
+  }
+  var lastType = '';
+  function pickType() {
+    var m = sel.value, pool;
+    if (D.BY[m]) return D.BY[m];
+    if (m.indexOf('topic:') === 0) pool = D.TYPES.filter(function (t) { return t.topic === m.slice(6); });
+    else if (m === 'misses') pool = (S.missTypes || []).map(function (id) { return D.BY[id]; }).filter(Boolean);
+    else pool = D.TYPES.slice();
+    if (!pool.length) pool = D.TYPES.slice();
+    if (pool.length > 1) pool = pool.filter(function (t) { return t.id !== lastType; });
+    if (m === 'weak') return weighted(pool, function (t) { var r = rate(t.id); return r == null ? 2 : 1 + 6 * (1 - r); });
+    return weighted(pool, function (t) { return m === 'all' ? t.w || 1 : 1; });
+  }
+  var P = null, tries = 0, done = false;
+  function inputHTML(p) {
+    if (p.kind === 'choice') return '<div class="opts">' + p.choices.map(function (o, i) { return '<button type="button" data-i="' + i + '">' + esc(o) + '</button>'; }).join('') + '</div>';
+    if (p.kind === 'time') return '<div class="ans"><input type="text" inputmode="numeric" maxlength="5" placeholder="HHMM" autocomplete="off" aria-label="Time, four digits"><button type="button" class="pill primary" data-go>Check</button></div>';
+    if (p.kind === 'hm') return '<div class="ans"><input class="short" type="text" inputmode="numeric" autocomplete="off" aria-label="Hours"><span class="u">hr</span><input class="short" type="text" inputmode="numeric" autocomplete="off" aria-label="Minutes"><span class="u">min</span><button type="button" class="pill primary" data-go>Check</button></div>';
+    return '<div class="ans"><input type="text" inputmode="decimal" autocomplete="off" aria-label="Your answer"><span class="u">' + esc(p.unit) + '</span><button type="button" class="pill primary" data-go>Check</button></div>';
+  }
+  function readInput(card, p) {
+    var ins = card.querySelectorAll('input');
+    return p.kind === 'hm' ? [ins[0].value, ins[1].value] : ins[0] ? ins[0].value : '';
+  }
+  function newProblem() {
+    var T = pickType(); lastType = T.id; P = T.make(R); tries = 0; done = false;
+    var card = $('d-card');
+    card.innerHTML = '<div class="prob"><div class="muted" style="margin-bottom:4px">' + esc(T.label) + '</div><div class="q">' + esc(P.q) + '</div>' + inputHTML(P) + '<div class="fb" aria-live="polite"></div></div>';
+    var inp = card.querySelector('input'); if (inp && window.matchMedia('(min-width: 700px)').matches) inp.focus();
+    card.querySelectorAll('input').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') submit(); }); });
+    var go = card.querySelector('[data-go]'); if (go) go.addEventListener('click', submit);
+    var opts = card.querySelector('.opts');
+    if (opts) opts.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b || done) return; submit(Number(b.getAttribute('data-i')), b); });
+  }
+  function record(type, res) {
+    var s = S.stats[type] = S.stats[type] || { n: 0, first: 0, hint: 0, miss: 0 };
+    s.n++; s[res]++; S.total = (S.total || 0) + 1; save(); renderStats();
+  }
+  function submit(choice, btn) {
+    if (done || !P) return;
+    var card = $('d-card'), fb = card.querySelector('.fb'), val = P.kind === 'choice' ? choice : readInput(card, P);
+    if (P.kind !== 'choice' && (P.kind === 'hm' ? !String(val[0]).trim() || !String(val[1]).trim() : !String(val).trim())) { fb.innerHTML = '<span class="hint">Type your answer first.</span>'; return; }
+    var r = D.check(P, val);
+    if (r.bad) { fb.innerHTML = '<span class="hint">Type just the number' + (P.unit ? ' (the unit is already there)' : '') + '.</span>'; return; }
+    var next = '<div class="row" style="margin-top:10px"><button type="button" class="pill primary" id="d-next">Next problem →</button></div>';
+    if (r.ok) {
+      done = true; record(P.type, tries ? 'hint' : 'first');
+      fb.innerHTML = '<span class="ok">Right' + (tries ? ' — after a hint.' : '.') + '</span> ' + (r.note ? esc(r.note) : '') + workHTML(P) + next;
+    } else if (tries === 0) {
+      tries = 1; if (btn) { btn.classList.add('wrong'); btn.disabled = true; }
+      fb.innerHTML = '<span class="no">Not yet.</span> ' + (r.note ? esc(r.note) + ' ' : '') + '<span class="hint">Hint: ' + esc(P.hint) + '</span>';
+      return;
+    } else {
+      done = true; record(P.type, 'miss');
+      if (btn) { btn.classList.add('wrong'); }
+      fb.innerHTML = '<span class="no">The answer is ' + esc(ansText(P)) + '.</span>' + workHTML(P) + next;
+    }
+    if (P.kind === 'choice') card.querySelectorAll('.opts button').forEach(function (b, i) { b.disabled = true; if (i === P.ans) b.classList.add('right'); if (P.expl) b.insertAdjacentHTML('beforeend', '<span class="ex">' + esc(P.expl[i]) + '</span>'); });
+    else card.querySelectorAll('.ans input, .ans button').forEach(function (b) { b.disabled = true; });
+    $('d-next').addEventListener('click', newProblem); $('d-next').focus();
+  }
+  function renderStats() {
+    var n = 0, first = 0, miss = 0;
+    Object.keys(S.stats).forEach(function (k) { n += S.stats[k].n; first += S.stats[k].first; miss += S.stats[k].miss; });
+    var tried = Object.keys(S.stats).filter(function (k) { return D.BY[k]; }).length;
+    $('d-stats').innerHTML = '<div class="stat"><b>' + n + '</b><span>problems done</span></div><div class="stat"><b>' + (n ? Math.round(first / n * 100) + '%' : '—') + '</b><span>right first try</span></div>' +
+      '<div class="stat"><b>' + tried + ' / ' + D.TYPES.length + '</b><span>problem types tried</span></div>';
+    var weak = Object.keys(S.stats).filter(function (k) { return D.BY[k] && S.stats[k].n >= 3 && rate(k) < 0.8; }).sort(function (a, b) { return rate(a) - rate(b); }).slice(0, 4);
+    $('d-weak').innerHTML = weak.length ? 'Weakest so far: ' + weak.map(function (k) { return '<a data-type="' + k + '">' + esc(D.BY[k].label) + '</a> (' + Math.round(rate(k) * 100) + '% first try)'; }).join(' · ') : n >= 10 ? 'No weak types yet — every type you’ve done 3+ times is at 80% or better first try.' : '';
+  }
+  $('d-weak').addEventListener('click', function (e) { var a = e.target.closest('[data-type]'); if (!a) return; sel.value = a.getAttribute('data-type'); S.mode = sel.value; save(); newProblem(); });
+
+  // ---------- Practice exam ----------
+  var E = null;
+  function examTypes() { return D.TYPES.filter(function (t) { return t.w > 0 && t.id !== 'ismp' && t.id !== 'syringe-pick' && t.id !== 'recon-pick' && t.id !== 'safe-decide'; }); }
+  function examStart(n) {
+    var pool = examTypes(), items = [], used = {};
+    while (items.length < n) {
+      var t = weighted(pool, function (x) { return (used[x.id] || 0) >= 2 ? 0.0001 : x.w; });
+      used[t.id] = (used[t.id] || 0) + 1; items.push(t.make(R));
+    }
+    E = { items: items, i: 0, answers: [], t0: Date.now() }; examShow();
+  }
+  function examHome() {
+    E = null;
+    $('e-box').innerHTML = '<div class="row"><span class="muted">Questions:</span><button type="button" class="pill" data-n="10">10</button><button type="button" class="pill primary" data-n="20">20</button><button type="button" class="pill" data-n="25">25</button></div>';
+    var last = S.exams[S.exams.length - 1];
+    $('e-hist').innerHTML = S.exams.length ? '<h3>Your practice exams</h3>' + S.exams.slice(-8).reverse().map(function (x) {
+      return '<div class="row" style="font-size:14px;margin:4px 0"><b class="' + (x.pct >= 90 ? 'pass' : 'fail') + '">' + x.pct + '%</b><span class="muted">' + x.right + ' of ' + x.n + ' · ' + new Date(x.at).toLocaleDateString() + ' · ' + Math.round(x.sec / 60) + ' min</span></div>';
+    }).join('') + (last && last.miss && last.miss.length ? '<div class="row" style="margin-top:8px"><button type="button" class="pill" id="e-drill">Drill the types I missed last time →</button></div>' : '') : '';
+    var dm = $('e-drill'); if (dm) dm.addEventListener('click', drillMisses);
+  }
+  function drillMisses() { setTab('drill'); sel.value = 'misses'; S.mode = 'misses'; save(); newProblem(); }
+  $('e-box').addEventListener('click', function (e) { var b = e.target.closest('[data-n]'); if (b) examStart(Number(b.getAttribute('data-n'))); });
+  function examShow() {
+    var p = E.items[E.i];
+    $('e-hist').innerHTML = '';
+    $('e-box').innerHTML = '<div class="muted">Question ' + (E.i + 1) + ' of ' + E.items.length + '</div><div class="bar2"><i style="width:' + (E.i / E.items.length * 100) + '%"></i></div>' +
+      '<div class="prob"><div class="q">' + esc(p.q) + '</div>' + inputHTML(p) + '<div class="fb" aria-live="polite"></div></div>' +
+      '<div class="row"><button type="button" class="pill" id="e-stop">End the exam now</button></div>';
+    var card = $('e-box'), go = card.querySelector('[data-go]');
+    var take = function () {
+      var v = readInput(card, p);
+      if (p.kind === 'hm' ? !String(v[0]).trim() || !String(v[1]).trim() : !String(v).trim()) { card.querySelector('.fb').innerHTML = '<span class="hint">Type your answer first.</span>'; return; }
+      var r = D.check(p, v); if (r.bad) { card.querySelector('.fb').innerHTML = '<span class="hint">Type just the number.</span>'; return; }
+      E.answers.push({ v: v, ok: r.ok }); E.i++;
+      if (E.i >= E.items.length) examEnd(); else examShow();
+    };
+    go.textContent = E.i + 1 === E.items.length ? 'Finish' : 'Next'; go.addEventListener('click', take);
+    card.querySelectorAll('input').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') take(); }); });
+    var inp = card.querySelector('input'); if (inp && window.matchMedia('(min-width: 700px)').matches) inp.focus();
+    $('e-stop').addEventListener('click', function () { if (E.answers.length) { E.items = E.items.slice(0, E.answers.length); examEnd(); } else examHome(); });
+  }
+  function examEnd() {
+    var n = E.items.length, right = E.answers.filter(function (a) { return a.ok; }).length, pct = Math.round(right / n * 100), sec = Math.round((Date.now() - E.t0) / 1000);
+    var miss = []; E.items.forEach(function (p, i) { if (!E.answers[i].ok && miss.indexOf(p.type) < 0) miss.push(p.type); });
+    S.exams.push({ at: Date.now(), n: n, right: right, pct: pct, sec: sec, miss: miss }); S.exams = S.exams.slice(-30); S.missTypes = miss; save();
+    $('e-box').innerHTML = '<div class="score ' + (pct >= 90 ? 'pass' : 'fail') + '">' + pct + '%</div><p style="margin:2px 0 8px">' + right + ' of ' + n + ' right in ' + Math.max(1, Math.round(sec / 60)) + ' min. ' + (pct >= 90 ? 'That clears the 90% bar — do it again on another day to be sure it holds.' : 'The real exam needs 90%. Work through each miss below, then drill those types.') + '</p>' +
+      (miss.length ? '<div class="row"><button type="button" class="pill primary" id="e-drill2">Drill the types I missed →</button><button type="button" class="pill" id="e-again">Another exam</button></div>' : '<div class="row"><button type="button" class="pill primary" id="e-again">Another exam</button></div>') +
+      E.items.map(function (p, i) {
+        var a = E.answers[i]; if (a.ok) return '';
+        var yours = p.kind === 'hm' ? a.v[0] + ' hr ' + a.v[1] + ' min' : a.v;
+        return '<div class="prob"><div class="muted">Question ' + (i + 1) + ' · ' + esc(D.BY[p.type].label) + '</div><div class="q">' + esc(p.q) + '</div><p class="fb" style="margin:6px 0 0"><span class="no">You: ' + esc(yours) + '</span> · <span class="ok">Answer: ' + esc(ansText(p)) + '</span></p>' + workHTML(p) + '</div>';
+      }).join('');
+    var d2 = $('e-drill2'); if (d2) d2.addEventListener('click', drillMisses);
+    $('e-again').addEventListener('click', examHome);
+    renderHist();
+  }
+  function renderHist() { /* the list shows again on the exam's home screen */ }
+
+  // ---------- Tabs ----------
+  function setTab(t) {
+    document.querySelectorAll('[data-tab]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-tab') === t ? 'true' : 'false'); });
+    $('drill').hidden = t !== 'drill'; $('exam').hidden = t !== 'exam';
+    if (t === 'exam' && !E) examHome();
+  }
+  document.querySelector('.tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-tab]'); if (b) setTab(b.getAttribute('data-tab')); });
+
+  // For the page's own browser test: the problem on screen and the exam in progress.
+  window.DOSE_PAGE = { cur: function () { return P; }, exam: function () { return E; } };
+  renderStats(); newProblem();
+  if (location.hash === '#exam') setTab('exam');
+  else if (location.hash) { var tg = document.getElementById(location.hash.slice(1)); if (tg) tg.scrollIntoView(); }
+})();
+</script>
+<script src="nav.js?v=202610222307"></script>
+<script src="say.js?v=202610222307"></script>
+</body>
+</html>

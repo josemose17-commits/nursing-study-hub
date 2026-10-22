@@ -176,7 +176,7 @@ window.GLOSSARY = [].concat([
  // Diabetes (ch 56)
  ["Diabetes mellitus", ["iabetes mellitus"], "A failure of glucose regulation: no insulin (type 1), or insulin the body resists and slowly fails to make enough of (type 2)."],
  ["Type 1 vs type 2 diabetes", ["ype 1 diabetes", "ype 2 diabetes", "T1DM", "T2DM"], "Type 1: autoimmune loss of the insulin-making cells; needs insulin; prone to DKA. Type 2: insulin resistance, then declining insulin; often found by screening."],
- ["Prediabetes", ["rediabetes"], "Glucose higher than normal but not yet diabetes: A1C 5.7–6.4%, fasting 100–125. Lifestyle change can prevent type 2."],
+ ["Prediabetes", ["rediabetes"], "Glucose higher than normal but not yet diabetes: A1C 5.7–6.4%, fasting 100–125. Losing 5–10% of body weight, 150 minutes of activity a week, more fiber and no sugary drinks can prevent or delay type 2."],
  ["Gestational diabetes", ["estational diabetes", "GDM"], "Diabetes first found in pregnancy. It raises the mother’s lifelong type 2 risk — test every 3 years."],
  ["Insulin resistance", ["nsulin resistance"], "Cells respond poorly to insulin, so the pancreas must make more to keep glucose normal — the start of type 2."],
  ["Beta cells / islets", ["eta cell", "slets", "slet cell"], "The insulin-making cells in the pancreas’s islets of Langerhans (alpha cells there make glucagon)."],
@@ -203,7 +203,7 @@ window.GLOSSARY = [].concat([
  ["Insulin-to-carbohydrate ratio", ["nsulin-to-carb"], "How many grams of carbohydrate one unit of rapid insulin covers — for example, 1 unit per 15 g."],
  ["Lipohypertrophy", ["ipohypertroph"], "Lumpy fat under the skin from injecting insulin in the same spot; insulin absorbs unevenly there."],
  ["Insulin pump (CSII)", ["nsulin pump", "CSII"], "A device that gives rapid insulin continuously through a tiny catheter, plus meal doses. Blocked tubing can lead to DKA within hours."],
- ["Sick-day rules", ["ick-day", "ick day"], "When ill: keep taking insulin, check glucose every 2–4 hours and check ketones, drink fluids every hour, and call for vomiting, ketones or glucose that stays high."],
+ ["Sick-day rules", ["ick-day", "ick day"], "When ill: keep taking insulin, check glucose every 2–4 hours and check ketones, drink 8–12 oz of sugar-free, caffeine-free fluid every hour, take carbohydrate as liquids or soft foods if meals won’t stay down (at least 150 g a day), and call for vomiting, ketones or glucose that stays high."],
  ["Retinopathy", ["etinopathy"], "Damage to the retina’s small vessels from diabetes — leaks, bleeding, fragile new vessels; it can cause blindness. Yearly eye exams."],
  ["Nephropathy", ["ephropathy"], "Kidney damage from diabetes, first seen as albumin in the urine — the leading cause of kidney failure in the US."],
  ["Neuropathy", ["europathy"], "Nerve damage from diabetes: numb, tingling or burning feet (peripheral); slow stomach, dizziness on standing, bladder problems (autonomic)."],

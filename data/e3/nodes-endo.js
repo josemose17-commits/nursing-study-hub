@@ -97,7 +97,7 @@ const T = [
  see:["3 Ps, fatigue, weight loss (type 1)","Type 2: often none — or blurred vision, slow healing, yeast infections","Metabolic syndrome: waist, glucose, BP, triglycerides, HDL"],
  labs:["A1C ≥ 6.5% · 5.7–6.4% prediabetes","Fasting ≥ 126 · 100–125 prediabetes","2-h OGTT ≥ 200 · random > 200 with symptoms","Confirm with a second abnormal result"],
  do:["Screen BMI > 25 (> 23 Asian Americans) with a risk factor; everyone from 35","Check meter technique with teach-back","Confirm extreme CGM readings with a fingerstick","Never share meters or lancet holders"],
- teach:["A1C target < 7%; reflects ~120 days","Pre-meal 80–130, after meals < 180","CGM time in range 70–180, 70% of the time","Prediabetes: lifestyle change delays type 2"],
+ teach:["A1C target < 7%; reflects ~120 days","Pre-meal 80–130, after meals < 180","CGM time in range 70–180, 70% of the time","Prediabetes: lose 5–10% of weight, 150 min/week of activity, more fiber, no sugary drinks → delays type 2"],
  meds:[["Insulin","Insulin receptor","Required in type 1","Hypoglycemia"],
   ["Metformin","Liver glucose output","First line in type 2","Kidneys, contrast, lactic acidosis"]],
  flag:"Sudden thirst, weight loss and vomiting in a young adult = possible new type 1 with DKA.",

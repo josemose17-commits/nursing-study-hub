@@ -60,17 +60,17 @@
   <p class="src">Written in our own words from standard nursing-skills practice (for example, Open RN <i>Nursing Skills</i>, 2nd ed., CC BY 4.0) and the Exam 3 med-surg chapters. Agencies and schools differ in details such as flush volumes and placement checks — for a check-off, follow your school’s checklist.</p>
 </main>
 
-<script src="data/e3/q/45.js?v=202610211600"></script>
-<script src="data/e3/q/46.js?v=202610211600"></script>
-<script src="data/e3/q/47.js?v=202610211600"></script>
-<script src="data/e3/q/48.js?v=202610211600"></script>
-<script src="data/e3/q/49.js?v=202610211600"></script>
-<script src="data/e3/q/53.js?v=202610211600"></script>
-<script src="data/e3/q/55.js?v=202610211600"></script>
-<script src="data/e3/q/56.js?v=202610211600"></script>
-<script src="data/e3/q/more.js?v=202610211600"></script>
-<script src="data/e3/cases.js?v=202610211600"></script>
-<script src="data/e3/skills.js?v=202610211600"></script>
+<script src="data/e3/q/45.js?v=202610220600"></script>
+<script src="data/e3/q/46.js?v=202610220600"></script>
+<script src="data/e3/q/47.js?v=202610220600"></script>
+<script src="data/e3/q/48.js?v=202610220600"></script>
+<script src="data/e3/q/49.js?v=202610220600"></script>
+<script src="data/e3/q/53.js?v=202610220600"></script>
+<script src="data/e3/q/55.js?v=202610220600"></script>
+<script src="data/e3/q/56.js?v=202610220600"></script>
+<script src="data/e3/q/more.js?v=202610220600"></script>
+<script src="data/e3/cases.js?v=202610220600"></script>
+<script src="data/e3/skills.js?v=202610220600"></script>
 <script>
 (function () {
   var KEY = 'e3-skills-v1', S = {};
@@ -92,7 +92,7 @@
     var seen = {};
     var practice = sk.q.map(qTitle).filter(function (t) { if (!t || seen[t]) return false; seen[t] = 1; return true; });
     sec.innerHTML = '<div class="head"><h2>' + esc(sk.title) + '</h2><span class="muted">Ch ' + sk.ch + '</span></div>' +
-      '<p class="muted" style="margin:0">' + esc(sk.when) + (OFF[sk.ch] ? ' <b>Chapter ' + sk.ch + ' is not on Exam 3</b>, but this skill comes up in clinicals.' : '') + '</p>' +
+      '<p class="muted" style="margin:0">' + esc(sk.when) + (!OFF[sk.ch] ? '' : practice.length ? ' <b>Taught in Chapter ' + sk.ch + ', which is not on Exam 3</b> — but the Exam 3 questions below use it.' : ' <b>Chapter ' + sk.ch + ' is not on Exam 3</b>, but this skill comes up in clinicals.') + '</p>' +
       '<div class="bar"><button type="button" class="mode" data-m="why" aria-pressed="false">Why</button><button type="button" class="mode" data-m="test" aria-pressed="false">Test me</button><span class="muted cnt"></span></div>' +
       '<ol class="steps">' + sk.steps.map(function (st, i) {
         return '<li class="' + (st[2] ? 'crit' : '') + '" data-i="' + i + '"><div><span class="stxt">' + esc(st[0]) + (st[2] ? '<span class="crit-tag">critical</span>' : '') + '</span>' +
@@ -139,7 +139,7 @@
   if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
 })();
 </script>
-<script src="nav.js?v=202610211600"></script>
-<script src="say.js?v=202610211600"></script>
+<script src="nav.js?v=202610220600"></script>
+<script src="say.js?v=202610220600"></script>
 </body>
 </html>

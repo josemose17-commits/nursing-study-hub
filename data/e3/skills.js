@@ -14,7 +14,7 @@ window.E3_SKILLS = [
       ['Auscultate before touching, starting in the right lower quadrant, then the other quadrants', 'Palpation and percussion move gas and fluid and change bowel sounds. Sounds are most constant over the ileocecal valve.', true],
       ['Listen for bowel sounds in each quadrant; listen longer (per policy, up to several minutes) before calling them absent', 'Normal sounds are irregular gurgles; high-pitched tinkling suggests early obstruction; absence suggests ileus.'],
       ['Listen over the aorta and renal arteries for bruits', 'A bruit can mean narrowing or an aneurysm.'],
-      ['Palpate lightly in all quadrants, tender areas last; note guarding, rigidity, masses', 'Rigidity that doesn’t relax suggests peritonitis.'],
+      ['Palpate lightly in all quadrants, tender areas last; note guarding, rigidity, masses — and don’t palpate at all if appendicitis or an aortic aneurysm is suspected', 'Rigidity that doesn’t relax suggests peritonitis; pressing on an inflamed appendix or an aneurysm can rupture it.'],
       ['Ask about the last bowel movement, flatus, nausea, appetite and stool appearance', 'Flatus within 8 hours or a stool within 12–24 hours is the best sign that peristalsis has returned after surgery.'],
       ['Document findings and report anything abnormal', 'Trends matter — today’s findings are compared with yesterday’s.']
     ],
@@ -45,7 +45,7 @@ window.E3_SKILLS = [
     when: 'Every shift for a client with an NG tube to suction.',
     steps: [
       ['Check placement (mark at the nostril, pH as required) before irrigating or giving anything', 'A tube that has moved can put fluid into the esophagus or lungs.', true],
-      ['Check suction setting as prescribed (usually low intermittent); keep the blue vent of a Salem sump open and above the stomach', 'High continuous suction can pull stomach lining into the holes; a clamped vent stops the sump from working.', true],
+      ['Check the suction setting as prescribed: a Salem sump (double lumen) usually runs on low continuous suction with its blue vent open and above the stomach; a single-lumen tube runs on low intermittent suction', 'The sump’s vent lets air in so the tube doesn’t grab the stomach lining; a single-lumen tube has no vent, so continuous suction would pull the lining into its holes. A clamped vent stops the sump from working.', true],
       ['Measure and describe drainage every shift; count it as output', 'NG drainage is a fluid, potassium and acid loss that must be replaced.'],
       ['To irrigate (if prescribed): use normal saline, often 30 mL, instilled gently, then let it drain or aspirate gently', 'Plain water draws electrolytes out with the suction.', true],
       ['After irrigating a Salem sump, push 10–20 mL of air into the vent', 'Clears the vent lumen.'],
@@ -83,7 +83,7 @@ window.E3_SKILLS = [
       ['Empty the old pouch, then gently remove it, pushing the skin away from the wafer (adhesive remover if needed)', 'Pulling the skin off with the wafer tears it.'],
       ['Clean the skin with warm water (mild soap if used, rinsed well); pat completely dry', 'Lotion or oily soap keeps the new wafer from sticking.', true],
       ['Look at the stoma: moist and red to pink is healthy; check the skin around it', 'Pale, dark red to purple, gray or black means poor blood supply.', true],
-      ['Measure the stoma and cut the wafer opening about 1/8 inch (2–3 mm) larger than the stoma', 'Too tight injures the stoma; too loose lets output burn the skin.', true],
+      ['Measure the stoma and cut the wafer opening 1/16 to 1/8 inch (about 1.5–3 mm) larger than the stoma; re-measure every week while it shrinks over the first 6–8 weeks', 'Too tight injures the stoma, which has no pain nerves to warn you; too loose lets output burn the skin.', true],
       ['Apply skin barrier or paste if used; place the wafer and hold your hand over it for a minute', 'Warmth helps the adhesive seal.'],
       ['Attach and close the pouch; check the seal', 'A leak means skin damage.'],
       ['Teach as you go: emptying, odor control, diet, when to call', 'Every change is a teaching opportunity — let the client do more each time.']
@@ -160,45 +160,45 @@ window.E3_SKILLS = [
     when: 'Glucose under 70 mg/dL, or symptoms of a low (sweaty, shaky, fast pulse, confused) when you can’t check.',
     steps: [
       ['Check the glucose if you can do it fast; if you can’t, treat as a low', 'A little sugar won’t hurt a high; an untreated low can cause seizures.', true],
-      ['Alert and able to swallow: give 15 g of fast carbohydrate — 4 oz juice or regular soda, or glucose tablets or gel', 'Simple sugar works in minutes; fat (chocolate, milk) slows it.', true],
+      ['Alert and able to swallow: give 15 g of fast carbohydrate (30 g if under 50 mg/dL) — glucose tablets or gel, or ½ cup (4 oz) of juice or regular soda; in the hospital avoid orange juice', 'Simple sugar works in minutes; fat (chocolate, milk) slows it. Orange juice is high in potassium, a problem for many hospitalized clients.', true],
       ['Recheck in 15 minutes; if still under 70, give another 15 g', 'The 15-15 rule.'],
       ['Once over 70: give a snack with protein and carbohydrate, or the meal if it is due', 'Keeps glucose from dropping again.'],
-      ['Can’t swallow safely or unconscious: glucagon (IM, subcutaneous or nasal) or IV dextrose (50% or 10%) per protocol; turn on the side', 'Nothing by mouth when the airway isn’t protected; glucagon can cause vomiting.', true],
+      ['Can’t swallow safely or unconscious: glucagon (IM, subcutaneous or nasal) — a second dose after 10 minutes if still unconscious — or IV dextrose (50% or 10%) per protocol; turn on the side', 'Nothing by mouth when the airway isn’t protected; glucagon can cause vomiting. Concentrated dextrose damages tissue if it leaks — watch the IV site.', true],
       ['If on acarbose or miglitol, use glucose tablets or gel', 'These drugs block the breakdown of table sugar.'],
       ['Find the cause (insulin without food, NPO, extra activity, kidney decline, sulfonylurea) and report', 'Long-acting insulin or sulfonylureas can make the low come back for hours.', true],
-      ['Recheck more often for the next hours; document', '']
+      ['Recheck every 15 minutes until resolved, then often for the next hours (target 70–110 mg/dL); document', 'Glucagon and dextrose wear off while the insulin may still be working.']
     ],
     mistakes: ['Giving juice to a drowsy client who can’t protect the airway', 'Treating with chocolate or a high-fat snack', 'Forgetting the recheck', 'Treating once when the insulin is long-acting'],
     stop: ['No improvement after two treatments, a seizure, or the client doesn’t wake — call rapid response'],
     q: ['Shaky before lunch', 'The 15-15 rule', 'Low glucose, awake and swallowing', 'Unconscious at home', 'Glucose of 44, still swallowing', 'case:hypo'] },
 
   { id: 'thyroid', ch: '55', title: 'Checks after thyroidectomy (including Chvostek and Trousseau)',
-    when: 'Every hour at first, then as ordered, for the first days after thyroid or parathyroid surgery.',
+    when: 'With the vital signs — every 15 minutes until stable, then every 30 minutes — and as ordered for the first days after thyroid or parathyroid surgery.',
     steps: [
       ['Keep trach tray, suction, oxygen and IV calcium gluconate at the bedside', 'Both main complications (hematoma, low calcium) can close the airway.', true],
       ['Position semi-Fowler’s with the head and neck supported in neutral', 'Reduces swelling and strain on the incision.'],
       ['Check breathing: rate, effort, stridor, SpO₂', 'Stridor is an emergency.', true],
       ['Check the dressing and slide your hand behind the neck for blood; ask about tightness; watch for frequent swallowing', 'Blood pools at the back of the neck; a tight feeling suggests a hematoma.', true],
-      ['Check the voice every few hours: hoarse but stable is common; worsening hoarseness or a weak voice may be nerve injury', 'Ask the client to speak — but limit talking for comfort.'],
+      ['Check the voice every 2 hours: hoarse but stable is common and usually temporary; worsening hoarseness or a weak voice may be nerve injury', 'Ask the client to speak — but limit talking for comfort.'],
       ['Ask about tingling around the mouth or in the fingers and toes', 'The first sign of low calcium.', true],
       ['Chvostek: tap the facial nerve just in front of the ear, below the cheekbone — a twitch of the lip or face is positive', 'Nerve irritability from low calcium.'],
       ['Trousseau: inflate a BP cuff above systolic for up to 3 minutes — spasm of the hand and wrist is positive', 'Ischemia brings out latent tetany.'],
       ['Trend calcium levels; report a falling level or a positive sign', 'Calcium often falls on days 1–3.'],
-      ['Watch for thyroid storm in a client with poorly controlled hyperthyroidism (fever, HR over 130, agitation)', 'Surgery is a stress that can trigger it.']
+      ['Watch for thyroid storm in a client with hyperthyroidism: fever and a fast heart rate first, then agitation or confusion — report a temperature rise of even 1 °F', 'Surgery is a stress that can trigger it.']
     ],
     mistakes: ['Checking only the front of the dressing', 'Treating new stridor as “just hoarseness”', 'Leaving the room to get emergency equipment', 'Hyperextending the neck'],
     stop: ['Stridor, increasing neck swelling or respiratory distress — call rapid response and stay', 'Tingling, positive Chvostek or Trousseau, or muscle cramps — report and have IV calcium ready'],
     q: ['Tingling after thyroidectomy', 'After thyroidectomy', 'Hoarseness vs stridor', 'case:thyroidectomy'] },
 
   { id: 'foot', ch: '56', title: 'Diabetic foot exam with a monofilament',
-    when: 'At least once a year for every client with diabetes, and at every visit for a client with neuropathy or past ulcers.',
+    when: 'At least once a year for every client with diabetes; every 3–6 months once protective sensation is lost, and every 1–3 months with PAD or a past ulcer (Table 56.7).',
     steps: [
       ['Remove shoes and socks; inspect the skin, nails, between the toes, and the shoes', 'Calluses, cracks, blisters and poorly fitting shoes come before ulcers.', true],
       ['Check pedal pulses, skin temperature and capillary refill', 'Poor circulation slows healing.'],
       ['Show the client the 10-g monofilament on the hand so they know what it feels like', ''],
       ['Have the client close the eyes and say “yes” each time they feel it', 'Prevents guessing.'],
-      ['Press the filament straight onto the sole until it bends, hold about 1–2 seconds; test the sites in the protocol (such as the great toe and the metatarsal heads), avoiding calluses', 'Bending applies a standard 10-g force; calluses can’t feel it anyway.', true],
-      ['Record the sites not felt; any missing site means loss of protective sensation', 'Those feet can be injured without pain.', true],
+      ['Press the filament straight onto the skin until it bends, hold about 1–2 seconds; test every site in the protocol — your book uses 10 points on each foot — avoiding calluses', 'Bending applies a standard 10-g force; calluses can’t feel it anyway.', true],
+      ['Record and report each site not felt; numb sites mean protective sensation is lost there', 'Those feet can be injured without pain — the risk category, and how often the feet are checked, goes up.', true],
       ['Teach daily foot care and refer to podiatry as needed', 'Daily self-checks catch injuries early.']
     ],
     mistakes: ['Testing over a callus', 'Letting the client watch', 'Sliding or tapping the filament instead of pressing until it bends'],
@@ -208,14 +208,14 @@ window.E3_SKILLS = [
   { id: 'urine24', ch: '53', title: '24-hour urine collection',
     when: 'Cortisol, catecholamines, protein, creatinine clearance and other endocrine tests.',
     steps: [
-      ['Check which preservative, container and diet or drug limits the test needs', 'Some tests need acid preservative or a cold container; some foods and drugs change results.'],
+      ['Check the lab’s rules — container, preservative, cold storage, diet or drug limits; any preservative goes in the container before the collection starts', 'Some preservatives are caustic: don’t splash them, and warn the client. Some foods and drugs change results — no new drug, over-the-counter included, without asking the provider.'],
       ['At the start time, have the client void and discard that urine; note the time', 'That urine was made before the test began.', true],
-      ['Save every void for the next 24 hours, kept on ice or refrigerated as instructed', 'One missed void means starting over.', true],
+      ['Save every void for exactly 24 hours, kept cold if the test requires it (refrigerator, or a cooler with ice — not with food or drinks)', 'One missed void means starting over.', true],
       ['Post a sign and tell the client, family and AP; keep toilet paper and stool out of the urine', 'Everyone has to know to save it.'],
-      ['At the end time, have the client void and add it to the container', 'The last void belongs to the test.', true],
+      ['At the end time, have the client void — even without the urge — and add it to the container', 'The last void belongs to the test.', true],
       ['Label and send promptly; document start and end times', '']
     ],
-    mistakes: ['Saving the first void', 'Throwing away the last void', 'Not restarting after a lost void'],
+    mistakes: ['Saving the first void', 'Throwing away the last void', 'Not restarting after a lost void', 'Storing the container with food or drinks'],
     stop: ['A void is lost or contaminated — restart the collection and tell the lab'],
     q: ['24-hour urine', 'A 24-hour urine collection', 'Instructing the AP on the collection'] }
 ];

@@ -77,6 +77,8 @@ function checkItem(id, x) {
     if (!Array.isArray(x.rows) || x.rows.length < 4) err(id, 'matrix needs 4+ rows');
     (x.rows || []).forEach((rw, i) => { if (!filled(rw.t) || !Array.isArray(rw.a) || !rw.a.length || !rw.a.every(a => idxOk(a, (x.cols || []).length)) || !filled(rw.r)) err(id, 'matrix row ' + i + ' incomplete'); });
     if (!(x.rows || []).some(r => r.a.length > 1)) err(id, 'a multiple-response matrix should have a row with 2+ answers');
+    // NCSBN scores each column on its own and needs a pick in every column, so every column must have a right row.
+    (x.cols || []).forEach((c, ci) => { if (!(x.rows || []).some(r => (r.a || []).includes(ci))) err(id, 'matrix column “' + c + '” has no right row'); });
   } else if (f === 'group') {
     if (!Array.isArray(x.groups) || x.groups.length < 2) err(id, 'grouping needs 2+ groups');
     (x.groups || []).forEach((g, i) => { if (!filled(g.h)) err(id, 'group ' + i + ' needs h'); checkChoices(id + ' g' + i, g.o, g.a, g.r, true); });

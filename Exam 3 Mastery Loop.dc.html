@@ -17,8 +17,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610211600"></script>
-<script src="./say.js?v=202610211600"></script>
+<script src="./nav.js?v=202610220600"></script>
+<script src="./say.js?v=202610220600"></script>
 </head>
 <body>
 <x-dc>
@@ -50,23 +50,23 @@
   .fbstep.next::before { content: "↓ "; color: var(--color-accent); }
   .fbrule .fbt { color: var(--color-accent-100); }
 </style>
-<script src="data/e3/q/45.js?v=202610211600"></script>
-<script src="data/e3/q/46.js?v=202610211600"></script>
-<script src="data/e3/q/47.js?v=202610211600"></script>
-<script src="data/e3/q/53.js?v=202610211600"></script>
-<script src="data/e3/q/55.js?v=202610211600"></script>
-<script src="data/e3/q/56.js?v=202610211600"></script>
-<script src="data/e3/q/more.js?v=202610211600"></script>
-<script src="data/e3/cases.js?v=202610211600"></script>
-<script src="data/e3/cj-tags.js?v=202610211600"></script>
-<script src="data/e3/drugs-gi.js?v=202610211600"></script>
-<script src="data/e3/drugs-endo.js?v=202610211600"></script>
-<script src="data/glossary.js?v=202610211600"></script>
-<script src="data/e3/glossary.js?v=202610211600"></script>
-<script src="data/e3/topic-index.js?v=202610211600"></script>
-<script src="data/e3/focus-rules.js?v=202610211600"></script>
-<script src="focus.js?v=202610211600"></script>
-<script src="ncjmm.js?v=202610211600"></script>
+<script src="data/e3/q/45.js?v=202610220600"></script>
+<script src="data/e3/q/46.js?v=202610220600"></script>
+<script src="data/e3/q/47.js?v=202610220600"></script>
+<script src="data/e3/q/53.js?v=202610220600"></script>
+<script src="data/e3/q/55.js?v=202610220600"></script>
+<script src="data/e3/q/56.js?v=202610220600"></script>
+<script src="data/e3/q/more.js?v=202610220600"></script>
+<script src="data/e3/cases.js?v=202610220600"></script>
+<script src="data/e3/cj-tags.js?v=202610220600"></script>
+<script src="data/e3/drugs-gi.js?v=202610220600"></script>
+<script src="data/e3/drugs-endo.js?v=202610220600"></script>
+<script src="data/glossary.js?v=202610220600"></script>
+<script src="data/e3/glossary.js?v=202610220600"></script>
+<script src="data/e3/topic-index.js?v=202610220600"></script>
+<script src="data/e3/focus-rules.js?v=202610220600"></script>
+<script src="focus.js?v=202610220600"></script>
+<script src="ncjmm.js?v=202610220600"></script>
 </helmet>
 <div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:15px;line-height:1.55;">
 <div style="max-width:860px;padding:28px 20px 64px;display:flex;flex-direction:column;gap:22px;">
@@ -890,7 +890,8 @@ function plusMinus(choices, sel) {
   choices.forEach(c => { if (sel && sel[c.k]) s += c.c ? 1 : -1; });
   return Math.max(0, s) / Math.max(1, n);
 }
-// Points as the NCLEX gives them (NCSBN): +/− for select-all, highlight, grouping and the multiple-response matrix;
+// Points as the NCLEX gives them (NCSBN): +/− for select-all, highlight, grouping (each group on its own) and the
+// multiple-response matrix (each column on its own; a column below zero counts as zero);
 // 0/1 for select-N, drop-down and drag-and-drop cloze, drop-down in table, the multiple-choice matrix and the bow-tie;
 // rationale scoring for linked blanks (a point only when both parts of a pair are right); right-or-wrong for the
 // traditional items (single answer, hot spot, ordered response, calculation). Returns [points, possible, rule].
@@ -907,7 +908,11 @@ function points(P, R) {
     case 'selectn': return [none ? 0 : P.choices.filter(c => c.c && R[c.k]).length, P.n, 'zo'];
     case 'order': return [!none && P.choices.every(c => R[c.rank] === c.k) ? 1 : 0, 1, 'dich'];
     case 'matrix': return [none ? 0 : P.rows.filter(r => R[r.k] === r.a).length, P.rows.length, 'zo'];
-    case 'mmatrix': { let s = 0, n = 0; P.rows.forEach(r => { n += r.a.length; const x = (R || {})[r.k] || {}; P.cols.forEach((c, ci) => { if (x[ci]) s += r.a.includes(ci) ? 1 : -1; }); }); return [Math.max(0, s), n, 'pm']; }
+    case 'mmatrix': {
+      let s = 0, n = 0;
+      P.cols.forEach((c, ci) => { let col = 0; P.rows.forEach(r => { const isC = r.a.includes(ci); if (isC) n++; if (((R || {})[r.k] || {})[ci]) col += isC ? 1 : -1; }); s += Math.max(0, col); });
+      return [s, n, 'pm'];
+    }
     case 'cloze': {
       const bl = P.segs.filter(sg => sg.opts);
       if (P.rat) { const ok = bl.map(sg => !none && blankOk(sg, R)), pairs = bl.length > 2 ? [[0, 1], [0, 2]] : [[0, 1]]; return [pairs.filter(([a, b]) => ok[a] && ok[b]).length, pairs.length, 'rat']; }
@@ -927,7 +932,7 @@ function answered(P, R) {
   if (P.kind === 'selectn') return Object.values(R).filter(Boolean).length === P.n;
   if (P.kind === 'order') return R.length === P.choices.length;
   if (P.kind === 'matrix') return P.rows.every(r => R[r.k] != null);
-  if (P.kind === 'mmatrix') return P.rows.every(r => R[r.k] && Object.values(R[r.k]).some(Boolean));
+  if (P.kind === 'mmatrix') return P.cols.every((c, ci) => P.rows.some(r => (R[r.k] || {})[ci]));
   if (P.kind === 'cloze') return P.segs.filter(s => s.opts).every(s => R[s.blank] != null);
   if (P.kind === 'bow') return P.groups.every(g => R[g.g] != null && (!g.multi || Object.values(R[g.g]).filter(Boolean).length === g.need));
   if (P.kind === 'group') return P.groups.every(g => R[g.g] && Object.values(R[g.g]).some(Boolean));
@@ -1387,6 +1392,9 @@ class Component extends DCLogic {
         P.trows.forEach((r, i) => { if (i) P.segs.splice(P.segs.indexOf(r.cells[0]), 0, { text: '\n' }); });
       } else P.segs = b.parts.map((p, i) => typeof p === 'string' ? { text: p } : blank(p, i));
       P.rat = b.f === 'ddr' || b.f === 'dndr';
+      // Drag-and-drop rationale with two findings: either finding may go in either evidence blank (check() lines them up).
+      const bl = P.segs.filter(sg => sg.opts);
+      if (b.f === 'dndr' && bl.length === 3) P.ev = { blanks: [bl[1].blank, bl[2].blank], keys: [bl[1].opts.find(o => o.c).k, bl[2].opts.find(o => o.c).k] };
     }
     if (b.kind === 'bow') P.groups = [['cond', 'Condition most likely', 'Condition', false], ['act', 'Actions to take', 'Actions', true], ['mon', 'Parameters to monitor', 'Monitor', true]].filter(g => b[g[0]]).map(([g, label, short, multi]) => {
       const x = b[g]; const a = Array.isArray(x.a) ? x.a : [x.a];
@@ -1732,6 +1740,8 @@ class Component extends DCLogic {
     if (!answered(P, S.test.resp[P.id]) || (!S.test.conf[P.id] && !S.test.redo) || S.test.checked[P.id]) return;
     this.upd(S => {
       if (S.test.redo && !S.test.conf[P.id]) S.test.conf[P.id] = 'sure';
+      // The two findings of a rationale item can be dropped in either order: swap them to the key's order before scoring.
+      if (P.ev) { const r = S.test.resp[P.id], [b1, b2] = P.ev.blanks, [k1, k2] = P.ev.keys; if (r[b1] === k2 || r[b2] === k1) S.test.resp[P.id] = Object.assign({}, r, { [b1]: r[b2], [b2]: r[b1] }); }
       const T = S.test, sc = score(P, T.resp[P.id]);
       T.scores[P.id] = sc; T.checked[P.id] = true;
       if (sc < 1) T.why[P.id] = inferWhy(this.fresh(P), T.resp[P.id], this.byId[P.id]).map(x => x.k);
@@ -1984,7 +1994,7 @@ class Component extends DCLogic {
       const hidden = !ck && !isRecall && rf && (P.kind === 'single' || P.kind === 'sata') && !T.revealed[P.id] && R == null;
       v.checked = ck; v.askConf = !ck && !isRecall; v.showCheck = !ck && !isRecall;
       v.cantCheck = !answered(P, R) || (!T.conf[P.id] && !T.redo);
-      v.checkLabel = !answered(P, R) ? (P.kind === 'selectn' ? 'Select ' + P.n + ' to check' : P.kind === 'bow' ? 'Choose the number asked in each list' : 'Check answer') : T.redo ? 'Check answer' : !T.conf[P.id] ? 'Pick: know it or guessing' : 'Check answer';
+      v.checkLabel = !answered(P, R) ? (P.kind === 'selectn' ? 'Select ' + P.n + ' to check' : P.kind === 'bow' ? 'Choose the number asked in each list' : P.kind === 'mmatrix' ? 'Mark at least one in every column' : P.kind === 'group' ? 'Pick at least one in every group' : 'Check answer') : T.redo ? 'Check answer' : !T.conf[P.id] ? 'Pick: know it or guessing' : 'Check answer';
       v.confOpts = [['sure', 'I know this'], ['guess', 'I’m guessing']].map(([k, label]) => { const on = T.conf[P.id] === k; return { label, bg: on ? 'var(--color-accent-900)' : 'transparent', bd: on ? A : N, onClick: () => this.setConf(k) }; });
       const mark = (sel, multi, isC) => {
         if (!ck) return { bg: sel ? 'var(--color-accent-900)' : 'transparent', bd: sel ? A : N, mr: multi ? '4px' : '50%', mf: sel ? A : 'transparent' };

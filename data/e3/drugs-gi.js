@@ -351,7 +351,7 @@ const D = [
     teach: 'Swish and spit; wait until numbness fades before eating; avoid hot drinks.',
     nclex: 'Use with extreme caution — burns and aspiration.', trap: 'Giving hot soup right after the swish.',
     anchor: '"Viscous lidocaine: Numb mouth, No hot, No swallow."', conn: 'A&P 23.3: swallowing reflexes protect the airway.', cmp: 'Benzocaine sprays carry a methemoglobinemia risk.',
-    brands: 'Xylocaine Viscous', look: ['Thick clear syrup (2%) in a unit-dose cup'], hosp: ['Often part of "magic mouthwash" mixtures (with diphenhydramine and antacid) per order'] },
+    brands: 'Xylocaine Viscous', look: ['Thick syrup (2%) — clear, or tinted by some makers — in a unit-dose cup or bottle'], hosp: ['Often part of "magic mouthwash" mixtures (with diphenhydramine and antacid) per order'] },
   { id: 'metoclopramide', k: 'motility', ch: '48', n: 'Metoclopramide', g: 'metoclopramide', b: 'Reglan', c: 'Prokinetic (dopamine antagonist)', p: 'Metoclopramide',
     ind: 'Partial obstruction or paralytic ileus (to enhance motility); gastroparesis; nausea.', fix: 'A sluggish upper GI tract.',
     moa: 'Blocks dopamine (D₂) receptors and sensitizes the gut to acetylcholine → faster gastric emptying and intestinal transit; antiemetic in the brain.', plain: 'Speeds up the stomach and upper gut.',

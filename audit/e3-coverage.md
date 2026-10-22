@@ -263,18 +263,18 @@ Cited: Box 50.1, 50.2, 50.3, 50.4, 50.5, 50.6, 50.7 · Table 50.1, 50.2, 50.3.
 | Map topic | Questions | Recall | Myth | Breakdowns | Why it works | Pictures · videos |
 | --- | --- | --- | --- | --- | --- | --- |
 | Overview & how it fits together | — | — | — | 1 | 4 | 0 · 0 |
-| Cirrhosis — the cellular regulation exemplar | 24 | 4 | 2 | 1 | 0 | 0 · 0 |
-| Portal hypertension, ascites and varices | 15 | 4 | 2 | 1 | 1 | 0 · 0 |
-| Hepatic encephalopathy, hepatorenal syndrome and other complications | 21 | 5 | 2 | 1 | 1 | 0 · 0 |
+| Cirrhosis — the cellular regulation exemplar | 24 | 4 | 2 | 1 | 0 | 0 · 1 |
+| Portal hypertension, ascites and varices | 15 | 4 | 2 | 1 | 1 | 0 · 1 |
+| Hepatic encephalopathy, hepatorenal syndrome and other complications | 21 | 5 | 2 | 1 | 1 | 0 · 1 |
 | Assessing cirrhosis — history, signs and tests | 18 | 5 | 1 | 1 | 2 | 0 · 0 |
-| Managing ascites — diet, diuretics, paracentesis and TIPS | 16 | 2 | 1 | 1 | 2 | 0 · 0 |
+| Managing ascites — diet, diuretics, paracentesis and TIPS | 16 | 2 | 1 | 1 | 2 | 0 · 1 |
 | Bleeding varices — prevention and emergency care | 5 | 3 | 1 | 1 | 1 | 0 · 0 |
-| Confusion, pruritus and going home with cirrhosis | 19 | 3 | 4 | 1 | 1 | 0 · 0 |
-| Nonalcoholic fatty liver disease (NAFLD and NASH) | 5 | 1 | 1 | 1 | 0 | 0 · 0 |
-| Viral hepatitis A to E — the infection exemplar | 11 | 2 | 2 | 1 | 2 | 0 · 0 |
-| Hepatitis — prevention, signs and blood tests | 12 | 2 | 1 | 1 | 1 | 0 · 0 |
+| Confusion, pruritus and going home with cirrhosis | 19 | 3 | 4 | 1 | 1 | 0 · 1 |
+| Nonalcoholic fatty liver disease (NAFLD and NASH) | 5 | 1 | 1 | 1 | 0 | 0 · 1 |
+| Viral hepatitis A to E — the infection exemplar | 11 | 2 | 2 | 1 | 2 | 0 · 2 |
+| Hepatitis — prevention, signs and blood tests | 12 | 2 | 1 | 1 | 1 | 0 · 1 |
 | Hepatitis — care, antiviral drugs and preventing spread | 8 | 2 | 0 | 1 | 1 | 0 · 0 |
-| Liver transplantation | 5 | 1 | 0 | 1 | 1 | 0 · 0 |
+| Liver transplantation | 5 | 1 | 0 | 1 | 1 | 0 · 1 |
 | Nursing process (ADPIE) | — | — | — | 0 | 0 | 0 · 0 |
 
 Overview and nursing-process topics have no keyword rule of their own, so their practice is counted under the other topics.
@@ -297,16 +297,16 @@ Cited: Box 51.1, 51.2, 51.3, 51.4, 51.5, 51.6, 51.7 · Table 51.1, 51.2.
 | Map topic | Questions | Recall | Myth | Breakdowns | Why it works | Pictures · videos |
 | --- | --- | --- | --- | --- | --- | --- |
 | Overview & how it fits together | — | — | — | 1 | 1 | 0 · 0 |
-| Cholecystitis — the inflammation exemplar | 13 | 4 | 1 | 1 | 1 | 0 · 0 |
+| Cholecystitis — the inflammation exemplar | 13 | 4 | 1 | 1 | 1 | 0 · 1 |
 | Recognizing cholecystitis — signs and tests | 10 | 2 | 0 | 1 | 1 | 0 · 0 |
 | Treating cholecystitis — pain, drugs and drains | 4 | 2 | 0 | 1 | 0 | 0 · 0 |
-| Cholecystectomy — laparoscopic and open | 4 | 2 | 1 | 1 | 1 | 0 · 0 |
-| Acute pancreatitis — the inflammation exemplar | 20 | 5 | 3 | 1 | 1 | 0 · 0 |
+| Cholecystectomy — laparoscopic and open | 4 | 2 | 1 | 1 | 1 | 0 · 1 |
+| Acute pancreatitis — the inflammation exemplar | 20 | 5 | 3 | 1 | 1 | 0 · 1 |
 | Recognizing acute pancreatitis — pain, signs and labs | 12 | 4 | 1 | 1 | 1 | 0 · 0 |
-| Caring for acute pancreatitis — pain, NPO and nutrition | 15 | 4 | 2 | 1 | 1 | 0 · 0 |
+| Caring for acute pancreatitis — pain, NPO and nutrition | 15 | 4 | 2 | 1 | 1 | 0 · 1 |
 | Chronic pancreatitis | 11 | 2 | 1 | 1 | 1 | 0 · 0 |
 | Pancreatic cancer — risk, signs and treatment | 8 | 1 | 2 | 1 | 1 | 0 · 0 |
-| The Whipple procedure — surgery and recovery | 6 | 2 | 0 | 1 | 1 | 0 · 0 |
+| The Whipple procedure — surgery and recovery | 6 | 2 | 0 | 1 | 1 | 0 · 1 |
 | Nursing process (ADPIE) | — | — | — | 0 | 0 | 0 · 0 |
 
 Overview and nursing-process topics have no keyword rule of their own, so their practice is counted under the other topics.
@@ -333,11 +333,11 @@ Cited: Box 52.1, 52.2, 52.3, 52.4, 52.5, 52.6, 52.7, 52.8, 52.9, 52.10, 52.11, 5
 | Nutrition screening and body measurements | 16 | 4 | 2 | 1 | 1 | 0 · 0 |
 | Undernutrition — the nutrition exemplar | 7 | 1 | 0 | 1 | 1 | 0 · 0 |
 | Feeding the undernourished patient — meals, supplements and drugs | 6 | 0 | 0 | 1 | 1 | 0 · 0 |
-| Tube feeding (total enteral nutrition) | 11 | 3 | 2 | 1 | 2 | 0 · 0 |
-| Parenteral nutrition — PPN and TPN | 9 | 2 | 1 | 1 | 1 | 0 · 0 |
-| Obesity — the nutrition exemplar | 4 | 1 | 2 | 1 | 1 | 0 · 0 |
+| Tube feeding (total enteral nutrition) | 11 | 3 | 2 | 1 | 2 | 0 · 2 |
+| Parenteral nutrition — PPN and TPN | 9 | 2 | 1 | 1 | 1 | 0 · 1 |
+| Obesity — the nutrition exemplar | 4 | 1 | 2 | 1 | 1 | 0 · 1 |
 | Treating obesity — diet, exercise, drugs and behavior | 16 | 3 | 1 | 1 | 1 | 0 · 0 |
-| Bariatric surgery — care before and after | 9 | 1 | 2 | 1 | 2 | 0 · 0 |
+| Bariatric surgery — care before and after | 9 | 1 | 2 | 1 | 2 | 0 · 1 |
 | Nursing process (ADPIE) | — | — | — | 0 | 0 | 0 · 0 |
 
 Overview and nursing-process topics have no keyword rule of their own, so their practice is counted under the other topics.

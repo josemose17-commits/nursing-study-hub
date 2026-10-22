@@ -206,7 +206,7 @@ module.exports = ({ chapter, topic, adpie }) => {
     },
     E: {
       cells: [
-        ['Evaluate', 'the gag reflex returned **before** any oral intake; vital signs returned to baseline; no signs of perforation, bleeding, pancreatitis or sepsis; fluids tolerated; the patient states the warning signs to report, who is driving, and when the next screening is due.', ['**Gag reflex back before** eating/drinking', 'VS baseline; no perforation, bleeding, pancreatitis, sepsis', 'States **warning signs**, has a **driver**, knows **next screening**']]
+        ['Evaluate', 'the gag reflex returned **before** any oral intake; vital signs returned to baseline; no signs of perforation, bleeding, pancreatitis or sepsis; fluids tolerated; the patient states the warning signs to report (**severe or worsening abdominal pain, fever, vomiting, black or bloody stools, trouble swallowing or chest pain**), who is driving, and when the next screening is due.', ['**Gag reflex back before** eating/drinking', 'VS baseline; no perforation, bleeding, pancreatitis, sepsis', 'States **warning signs** (severe pain, fever, vomiting, black/bloody stool, trouble swallowing)', 'Has a **driver**, knows **next screening**']]
       ]
     }
   });

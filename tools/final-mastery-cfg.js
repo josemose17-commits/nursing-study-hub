@@ -2,17 +2,22 @@
 // The final's block for the Mastery test. node tools/build_e3_mastery.js final puts it in place of Exam 2's block and
 // writes Final Mastery Loop.dc.html, so every test runs the same engine. Edit here, then run that command.
 //
-// The final adds chapters 48–52 (liver, gallbladder and pancreas, nutrition) to the Exam 3 chapters. There is no final
-// study guide yet, so: BP gives the chapters new to the final most of the 60-question mix and keeps the Exam 3
-// chapters in for review; GUIDE has 20 topics (one or two per chapter, so even a 20-question test asks each once);
-// nothing is marked off the guide. Change BP and GUIDE when the professor names the final's topics.
-const CHS = ['45', '46', '47', '48', '49', '50', '51', '52', '53', '55', '56'];
-const BP = { '45': 2, '46': 4, '47': 4, '48': 6, '49': 6, '50': 8, '51': 7, '52': 7, '53': 2, '55': 5, '56': 9 };
+// The final covers its own topic chapters (the concept chapters, added a few at a time: so far 13 and 14), chapters
+// 48–52 (liver, gallbladder and pancreas, nutrition) and the Exam 3 chapters. There is no final study guide yet, so:
+// BP gives the chapters new to the final most of the 60-question mix and keeps the Exam 3 chapters in for review
+// (keep the weights adding up to 60); GUIDE has one or two topics per chapter (a 20-question test can't ask every
+// one once now, so each test asks a fresh share of them); nothing is marked off the guide. Change BP and GUIDE when
+// the professor names the final's topics.
+const CHS = ['13', '14', '45', '46', '47', '48', '49', '50', '51', '52', '53', '55', '56'];
+const BP = { '13': 7, '14': 5, '45': 2, '46': 3, '47': 3, '48': 5, '49': 5, '50': 7, '51': 6, '52': 5, '53': 2, '55': 4, '56': 6 };
 const OFF_GUIDE_PICKS = {};
 const SKILLS = ['Drugs & mechanisms', 'Pathophysiology', 'Priority & safety', 'Recognizing cues'];
 // The words after each topic's name tie a question to it. With "Everything" selected, every test asks each topic
 // at least once, in the chapter mix (BP).
 const GUIDE = {
+  '13': [['Fluid balance: dehydration, overload & IV fluids', /dehydrat|hypovolem|overload|overhydrat|hypervolem|pulmonary edema|crackles|neck vein|\bJVD\b|bounding|thready|orthostatic|turgor|tent|mucous membrane|weigh|intake|output|\bI&O\b|urine|specific gravity|thirst|fluid|isotonic|hypotonic|hypertonic|0\.9%|0\.45%|D5W|dextrose|lactated Ringer|crystalloid|colloid|osmo|aldosterone|\bADH\b|vasopressin|natriuretic|renin|angiotensin|RAAS|edema|fall/i],
+         ['Electrolytes: sodium, potassium, calcium & magnesium', /sodium|Na⁺|hyponatr|hypernatr|potassium|K⁺|KCl|hypokal|hyperkal|calcium|Ca²⁺|hypocalc|hypercalc|magnesium|Mg²⁺|hypomag|hypermag|Trousseau|Chvostek|tetany|peaked|U wave|\bQT\b|salt substitute|SIADH|conivaptan|tolvaptan|patiromer|calcitonin|bisphosph|reflex|electrolyte/i]],
+  '14': [['Acid–base balance & ABGs', /./]],
   '45': [['GI assessment, labs & procedures', /./]],
   '46': [['GERD & hiatal hernia', /GERD|reflux|heartburn|pyrosis|dyspepsia|regurgitat|water brash|eructation|Barrett|lower esophageal sphincter|\bLES\b|proton pump|\bPPI\b|omeprazole|pantoprazole|esomeprazole|famotidine|\bH2\b|antacid|alginate|Stretta|LINX|hiatal|sliding hernia|paraesophageal|rolling hernia|fundoplication|Nissen|gas bloat/i],
          ['Mouth, oral & esophageal cancer and trauma', /stomatitis|mucositis|candid|thrush|aphthous|oral|mouth|leukoplakia|erythroplakia|xerostomia|salivary|sialadenitis|tongue|tooth|teeth|dent|floss|esophageal (cancer|trauma|injur|perforation|tear)|esophagectomy|caustic|lye|alkali|acid burn|Boerhaave|dysphagia|swallow|lidocaine|nystatin|clotrimazole|chlorhexidine/i]],
@@ -41,6 +46,21 @@ const guideName = k => { const [c, i] = k.split(':'); return (GUIDE[c] || [])[+i
 // The subtopics inside each topic (keyed chapter:item), so a test spreads a topic's questions across them
 // and rotates to the ones you've seen least. A question can sit in more than one.
 const GUIDE_SUB = {
+  '13:0': [['Dehydration: signs & labs', /dehydrat|orthostatic|thready|turgor|tent|flat|specific gravity|hemoconcentr|confus|dark|thirst/i],
+           ['Rehydrating & preventing falls', /rehydrat|oral fluid|60–120|oral rehydration|crystalloid|fall|lightheaded|\bAP\b|assistive|schedule|incontinen/i],
+           ['Fluid overload', /overload|hypervolem|bounding|crackles|pulmonary edema|distend|\bJVD\b|edema|furosemide|restrict/i],
+           ['Daily weights & I&O', /weigh|weight|1 kg|1 L\b|intake|output|\bI&O\b|2 lb|3 lb/i],
+           ['IV fluids & tonicity', /isotonic|hypotonic|hypertonic|0\.9%|0\.45%|3%|D5W|D10W|dextrose|lactated Ringer|tonicity|crystalloid|colloid|mOsm/i],
+           ['Hormones & body water', /aldosterone|\bADH\b|vasopressin|natriuretic|renin|angiotensin|RAAS|osmosis|diffusion|filtration|compartment|intracellular|extracellular/i]],
+  '13:1': [['Sodium', /sodium|Na⁺|hyponatr|hypernatr|SIADH|conivaptan|tolvaptan|3% saline|cerebral edema/i],
+           ['Potassium & the ECG', /potassium|K⁺|KCl|hypokal|hyperkal|peaked|U wave|salt substitute|patiromer|insulin|spironolactone/i],
+           ['Calcium', /calcium|Ca²⁺|hypocalc|hypercalc|Trousseau|Chvostek|tetany|parathyroid|thyroidectomy|calcitonin|bisphosph|\bQT\b/i],
+           ['Magnesium', /magnesium|Mg²⁺|hypomag|hypermag|reflex|\bDTRs?\b/i]],
+  '14:0': [['Reading ABGs & compensation', /\bABG|arterial blood gas|PaCO₂|HCO₃|compensat|ROME|pH 7|24–48/i],
+           ['Metabolic acidosis', /metabolic acidosis|ketoacid|\bDKA\b|diarrhea|Kussmaul|lactic|kidney failure|sodium bicarbonate|bicarbonate is given/i],
+           ['Respiratory acidosis', /respiratory acidosis|CO₂ (retention|retained|is retained)|retain|COPD|opioid|hypoventilat|rib|airway|ventilat|bronchodilator/i],
+           ['Alkalosis', /alkalosis|vomit|NG suction|nasogastric|antacid|hyperventilat|anxiety|panic|Chvostek|Trousseau|tetany/i],
+           ['Potassium, the heart & safety', /potassium|K⁺|hyperkal|hypokal|T waves?|QRS|bradycard|heart block|cardiac|grip|fall|digoxin/i]],
   '45:0': [['What changes with age', /achlorhydria|hypochlorhydria|lipase|presbyesophagus|motility|older adult|aging|B12|B₁₂|impaction/i],
            ['Which organ, which quadrant', /quadrant|RUQ|LUQ|RLQ|LLQ|midline|right upper|left upper|right lower|left lower/i],
            ['Exam technique', /inspect|auscultat|palpat|percuss|bowel sounds|bruit|pulsat|rigid|guarding/i],
@@ -142,7 +162,7 @@ const CH33_FOR_34 = null;
 // Off-guide chapters: none.
 const OFF_CHS = [];
 const STORE = 'fin-mastery-v1', OLD_STORE = 'fin-mastery-loop-v0';
-const CH_TITLE = { '45': 'GI assessment', '46': 'Mouth & esophagus', '47': 'Stomach conditions', '48': 'Noninflammatory bowel conditions', '49': 'Inflammatory bowel conditions', '50': 'Liver conditions', '51': 'Gallbladder & pancreas', '52': 'Malnutrition & obesity', '53': 'Endocrine assessment', '55': 'Thyroid & parathyroid', '56': 'Diabetes' };
+const CH_TITLE = { '13': 'Fluids & electrolytes', '14': 'Acid–base balance', '45': 'GI assessment', '46': 'Mouth & esophagus', '47': 'Stomach conditions', '48': 'Noninflammatory bowel conditions', '49': 'Inflammatory bowel conditions', '50': 'Liver conditions', '51': 'Gallbladder & pancreas', '52': 'Malnutrition & obesity', '53': 'Endocrine assessment', '55': 'Thyroid & parathyroid', '56': 'Diabetes' };
 // Organ → molecule breakdowns (data/e3/nodes-*.js): the topic breakdowns, then the mechanisms, and the words that tie a
 // question to each. A topic breakdown only matches questions from its own chapter; a mechanism matches any chapter.
 const NODES = [

@@ -21,8 +21,10 @@ const ORDER = [
   ['46', 'The top of the tract: the mouth and the esophagus.'],
   ['47', 'The stomach: gastritis, ulcers, bleeding and gastric surgery.']
 ];
-// Chapters with notes on the map that are not on this exam (48–52 are on the final): no route tasks.
-const SKIP = ['48', '49', '50', '51', '52'];
+// Chapters with notes on the map that are not on this exam — the final's own (chapters on the Final test that Exam 3's
+// test doesn't have: 13, 14, 48–52 so far): no route tasks.
+const testChs = f => vm.runInNewContext(fs.readFileSync(path.join(__dirname, f), 'utf8') + '\nCHS;', {});
+const SKIP = testChs('final-mastery-cfg.js').filter(ch => !testChs('e3-mastery-cfg.js').includes(ch));
 const FIRST_TEST = { '56': 40, '45': 15 };   // questions in a chapter's first test (otherwise 20, the shortest test); 45 has few guide questions
 const RETESTS = [['endo', 'Endocrine', ['53', '55', '56'], 40], ['gi', 'GI', ['45', '46', '47'], 40]];
 const GAP = 2;                     // days between a chapter's first test and its retest

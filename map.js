@@ -1,8 +1,10 @@
 // The map page, shared by every exam. Each exam's page sets window.EXAM_MAP (its name, systems, question counts,
 // storage keys and pages) and loads its own data files before this one.
 (function () {
-  var TOPICS = window.INFO_TOPICS || [], NODES = window.CONCEPT_NODES || [], GLOSS = window.GLOSSARY || [], F = window.E2Focus;
   var X = window.EXAM_MAP;
+  // A map can show only some of the loaded chapters (X.chapters): the Exam 3 and Final maps share one set of notes.
+  var TOPICS = (window.INFO_TOPICS || []).filter(function (t) { return !X.chapters || X.chapters.indexOf(t.ch) >= 0; });
+  var NODES = window.CONCEPT_NODES || [], GLOSS = window.GLOSSARY || [], F = window.E2Focus;
 
   // Body systems on the map. A chapter not listed here (e.g. one added for a later exam) lands in "More chapters".
   var SYSTEMS = X.systems;

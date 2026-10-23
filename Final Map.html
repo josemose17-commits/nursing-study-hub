@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Final Map</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<link rel="stylesheet" href="map.css?v=202610231113">
+</head>
+<body>
+<main>
+  <div>
+    <div class="kicker">NRS 114 · Med-Surg 1 · Final</div>
+    <h1>Everything on the final, by topic.</h1>
+  </div>
+  <p class="lead">The final’s topics from your med-surg book, grouped the way the final is organized: by topic, not by chapter. Tap a topic to read it, look up the words and follow its connections. Pick topics to make your own focus; the Final Mastery test follows it. The Exam 3 map keeps its own focus.</p>
+
+  <div class="glass focusbar" id="focusbar">
+    <div class="who"><small>Studying</small><b id="focus-label">Everything</b></div>
+    <input class="search" id="search" type="search" placeholder="Search the map…" aria-label="Search the map">
+    <div class="row">
+      <button class="pill" id="pick" aria-pressed="false">Pick topics</button>
+      <button class="pill" id="only" aria-pressed="false">Focus only</button>
+      <div class="menu" id="menu">
+        <button class="pill gold" id="menu-btn" aria-haspopup="true" aria-expanded="false">Lists ▾</button>
+        <div class="menu-list glass" id="menu-list" role="menu"></div>
+      </div>
+    </div>
+    <div class="row" id="practice" hidden>
+      <a class="pill" href="Final Mastery Loop.dc.html">Final Mastery test →</a>
+    </div>
+    <div class="pickhint">Picking: tap topics to add or remove them. Gold = in your focus. Tap <b>Pick topics</b> again when you're done.</div>
+  </div>
+
+  <details class="glass refstrip" id="refstrip">
+    <summary><span><b>Reference strip</b> · the numbers these topics are graded against</span><span class="chev">▾</span></summary>
+    <div class="refgrid">
+      <section><h3>Glucose and A1C</h3><dl>
+        <dt>Fasting glucose</dt><dd>normal 74–100 · prediabetes 100–125 · diabetes ≥126 mg/dL</dd><dt>A1C</dt><dd>&lt;5.7% normal · 5.7–6.4% prediabetes · ≥6.5% diabetes · target &lt;7%</dd>
+        <dt>2-h OGTT · random</dt><dd>≥200 = diabetes · random &gt;200 with symptoms</dd><dt>Home targets</dt><dd>before meals 80–130 · after meals &lt;180 · CGM time in range 70–180, goal 70%</dd>
+        <dt>Hospital</dt><dd>before meals &lt;140, random &lt;180 · ICU 140–180 · pre-op &lt;200</dd><dt>Hypoglycemia</dt><dd>&lt;70 → 15 g fast carb, recheck in 15 min · &lt;50 → 30 g</dd></dl>
+        <p class="why">A1C is the last ~120 days of glucose stuck to hemoglobin: <b>A1C 7 ≈ average 154</b>, 8 ≈ 183, 9 ≈ 212. It isn't changed by what was eaten yesterday.</p></section>
+      <section><h3>DKA vs HHS</h3><dl>
+        <dt>DKA</dt><dd>glucose &gt;300 · ketones + · pH &lt;7.35 · HCO₃⁻ &lt;15 · sudden</dd><dt>HHS</dt><dd>glucose &gt;600 · osmolarity &gt;320 · no ketones · pH &gt;7.4 · gradual</dd>
+        <dt>Osmolarity</dt><dd>normal 270–300 mOsm/L · coma above 350</dd><dt>DKA resolved</dt><dd>glucose &lt;200 · HCO₃⁻ &gt;18 · pH &gt;7.30 · anion gap &lt;12</dd>
+        <dt>Fluids</dt><dd>DKA 15–20 mL/kg first hour · D5½NS when glucose reaches 250</dd><dt>Potassium</dt><dd>3.5–5.0 · replace once &lt;5.0, only if urine ≥30 mL/hr · bicarbonate only if pH ≤7.0</dd></dl>
+        <p class="why"><b>Fluids before insulin</b>: insulin pulls glucose — and water and potassium — into the cells, so it can drop the BP and the potassium fast.</p></section>
+      <section><h3>Thyroid</h3><dl>
+        <dt>TSH</dt><dd>0.3–5 μU/mL</dd><dt>Free T4</dt><dd>0.8–2.8 ng/dL</dd><dt>Total T4</dt><dd>4–12 (M) · 5–12 (F) mcg/dL</dd><dt>T3</dt><dd>70–205 ng/dL (age 20–50) · 40–180 (over 50)</dd>
+        <dt>Primary hypothyroid</dt><dd>TSH high · T3/T4 low</dd><dt>Graves</dt><dd>TSH low · T3/T4 high · TRAb +</dd></dl>
+        <p class="why">TSH moves <b>opposite</b> to thyroid hormone when the gland itself is the problem: the pituitary shouts when hormone is low and goes quiet when it is high.</p></section>
+      <section><h3>Calcium and parathyroid</h3><dl>
+        <dt>Calcium (total)</dt><dd>9.0–10.5 mg/dL · above 12 → confusion, psychosis, coma</dd><dt>Phosphorus</dt><dd>3–4.5 mg/dL (critical &lt;1)</dd><dt>Magnesium</dt><dd>1.3–2.1 mEq/L (critical &lt;0.5 or &gt;3)</dd>
+        <dt>PTH · vitamin D</dt><dd>10–65 pg/mL · 25–80 ng/mL</dd><dt>Sodium</dt><dd>136–145 mEq/L</dd></dl>
+        <p class="why">Calcium and phosphorus move <b>opposite</b>: low PTH = low calcium, high phosphorus (tingling, tetany); high PTH = high calcium, low phosphorus (stones, bones, groans).</p></section>
+      <section><h3>GI and liver labs</h3><dl>
+        <dt>ALT · AST</dt><dd>4–36 · 0–35 units/L · highest in hepatitis</dd><dt>Alkaline phosphatase</dt><dd>30–120 units/L · ↑ biliary obstruction, cirrhosis</dd>
+        <dt>Bilirubin</dt><dd>total 0.3–1.0 · direct 0.1–0.3 (↑ obstruction) · indirect 0.2–0.8 (↑ hemolysis) mg/dL</dd><dt>Albumin · ammonia</dt><dd>3.5–5.0 g/dL · ammonia 10–80 (6–47 μmol/L)</dd>
+        <dt>Amylase · lipase</dt><dd>60–120 Somogyi units/dL (30–220 units/L) · 0–160 units/L · ↑ in acute pancreatitis</dd><dt>CEA · CA 19-9</dt><dd>&lt;5 ng/mL · 0–37 units/mL · track treatment and recurrence, not diagnosis</dd></dl>
+        <p class="why">The liver turns <b>ammonia into urea</b> and makes <b>albumin</b>, so a failing liver shows high ammonia and low albumin. Bile that can't drain backs up as <b>direct bilirubin</b> and alkaline phosphatase; red cells breaking down too fast raise <b>indirect</b> bilirubin.</p></section>
+      <section><h3>Bowel: infection, fluids and screening</h3><dl>
+        <dt>WBC</dt><dd>normal 5000–10,000 · appendicitis 10,000–18,000 with a shift to the left · &gt;20,000 → perforation? · peritonitis about 20,000</dd>
+        <dt>Fever lines</dt><dd>obstruction &gt;100°F with a rising pulse → strangulation · &gt;101°F → perforated appendix, admit for diverticulitis, report after surgery or in UC</dd>
+        <dt>Potassium</dt><dd>3.5–5.0 mEq/L · lost with vomiting, NG suction, diarrhea and fistulas (magnesium too)</dd><dt>UC severity</dt><dd>mild &lt;4 stools/day · moderate &gt;4 · severe &gt;6 bloody · fulminant &gt;10 bloody</dd>
+        <dt>Colorectal screening</dt><dd>from age 45 · FIT or gFOBT yearly · stool DNA every 3 years · colonoscopy every 10 · sigmoidoscopy or CT colonography every 5</dd>
+        <dt>Fiber · ostomy</dt><dd>diverticulosis 25–35 g/day · empty the pouch at ⅓–½ full · change the system every 3–7 days · new ileostomy &gt;1 L/day → add ≥500 mL fluid</dd></dl>
+        <p class="why">An inflamed or blocked bowel <b>leaks fluid inward</b>, into its own lumen and the peritoneum, so a patient can be dry with nothing visible lost. That's why <b>daily weight</b> is the most reliable fluid measure, and why a rising pulse, falling urine output and new confusion in an older adult are early warnings.</p></section>
+    </div>
+  </details>
+
+  <details class="glass refstrip" id="callnow">
+    <summary><span><b>Call the provider now</b> · the findings you act on before anything else</span><span class="chev">▾</span></summary>
+    <div class="refgrid">
+      <section><h3>After a scope (EGD, colonoscopy, ERCP)</h3><dl>
+        <dt>RR &lt;10 or low exhaled CO₂</dt><dd>oversedation → sternal rub, airway, reversal per protocol</dd>
+        <dt>Severe pain, rigid abdomen</dt><dd>perforation → NPO, vital signs, report now</dd>
+        <dt>Pulse rising, BP falling, large bloody or maroon stool</dt><dd>bleeding after polypectomy → report now</dd>
+        <dt>Fever, chest or neck pain after EGD</dt><dd>esophageal perforation → NPO, report</dd>
+        <dt>Asking to drink</dt><dd>check the gag reflex first — nothing by mouth until it is back</dd></dl>
+        <p class="why">Cramping, gas and a sore throat are <b>expected</b>. Rigidity, a rising pulse and fever are not.</p></section>
+      <section><h3>Mouth, esophagus and reflux</h3><dl>
+        <dt>Stridor, drooling, swelling after oral or neck surgery</dt><dd>airway → rapid response, stay, suction ready</dd>
+        <dt>Burning chest pain spreading to the jaw or arm</dt><dd>treat as cardiac until proven otherwise → ECG, report</dd>
+        <dt>Fever, fast pulse and breathing, confusion 2–10 days after esophagectomy</dt><dd>anastomotic leak → surgeon and rapid response now; nothing by mouth</dd>
+        <dt>Coughing with meals, wet voice, new crackles</dt><dd>aspiration → upright, NPO, report</dd>
+        <dt>NG tube moved after fundoplication or esophagectomy</dt><dd>don’t push it back — call the surgeon</dd></dl>
+        <p class="why">Airway first: anything that narrows the throat beats pain, nutrition or teaching.</p></section>
+      <section><h3>Ulcer and upper GI bleeding</h3><dl>
+        <dt>Coffee-ground or red vomit, black tarry stool</dt><dd>active or recent bleeding → vital signs, 2 large-bore IVs, report</dd>
+        <dt>HR rising, BP falling, urine &lt;30 mL/hr</dt><dd>hypovolemic shock → fluids, type and crossmatch, report now</dd>
+        <dt>Sudden severe pain, boardlike abdomen</dt><dd>perforation → NPO, report now, prepare for surgery</dd>
+        <dt>Hgb dropping between draws</dt><dd>ongoing bleeding → report the trend</dd>
+        <dt>No NG drainage, fullness, hiccups after gastric surgery</dt><dd>tube blocked → call the surgeon; don’t reposition or irrigate without an order</dd></dl>
+        <p class="why">A <b>BUN that rises with a normal creatinine</b> is digested blood. The pulse rises before the BP falls.</p></section>
+      <section><h3>Thyroid</h3><dl>
+        <dt>High fever, racing pulse, agitation, vomiting in Graves</dt><dd>thyroid storm → report now; cool (acetaminophen, not aspirin); expect methimazole or PTU, iodine after it, propranolol, steroids</dd>
+        <dt>RR &lt;12, temp &lt;95 °F, hypotension, stupor in hypothyroidism</dt><dd>myxedema coma → airway, warm slowly, IV levothyroxine per order</dd>
+        <dt>Any temperature rise in hyperthyroidism</dt><dd>report — it can be the start of storm</dd>
+        <dt>Chest pain or palpitations after starting levothyroxine</dt><dd>dose too fast for the heart → report</dd>
+        <dt>Sedatives or opioids in hypothyroidism</dt><dd>expect smaller doses; watch breathing closely</dd></dl>
+        <p class="why">Both emergencies come from a trigger — infection, surgery, stopping the drug — in a client whose thyroid problem isn’t controlled.</p></section>
+      <section><h3>After thyroid or parathyroid surgery</h3><dl>
+        <dt>Stridor, neck tightness, swelling, blood behind the neck</dt><dd>hematoma or laryngospasm → rapid response, stay, trach tray and suction at the bedside</dd>
+        <dt>Tingling of lips or fingers, Chvostek or Trousseau +</dt><dd>low calcium → report, check calcium, IV calcium gluconate ready</dd>
+        <dt>Calcium falling between draws</dt><dd>report the trend — it often drops on days 1–3</dd>
+        <dt>Voice getting weaker or more hoarse</dt><dd>nerve injury → report (steady mild hoarseness is common)</dd></dl>
+        <p class="why">Low calcium makes nerves fire too easily — from tingling to tetany to a larynx that spasms shut.</p></section>
+      <section><h3>Diabetes</h3><dl>
+        <dt>Glucose &lt;70, or symptoms you can’t check</dt><dd>treat now: 15 g fast carb if alert (30 g if under 50); glucagon or IV dextrose if not</dd>
+        <dt>Low glucose on a sulfonylurea or long-acting insulin</dt><dd>it comes back → recheck often, report</dd>
+        <dt>Glucose &gt;250–300 with ketones, Kussmaul breathing, vomiting</dt><dd>DKA → report now, fluids first</dd>
+        <dt>Glucose &gt;600, confused, very dry, older client</dt><dd>HHS → report now, fluids</dd>
+        <dt>K⁺ &lt;3.3 with an insulin infusion running</dt><dd>report now — insulin is usually held while potassium is replaced</dd>
+        <dt>Glucose about 250 on an insulin drip, gap still open</dt><dd>expect dextrose added to the fluids; don’t stop the insulin</dd>
+        <dt>New foot wound, redness, black area</dt><dd>same-day referral</dd></dl>
+        <p class="why">When it’s low or high and you can’t tell, <b>treat it as low</b> — a little sugar won’t hurt a high glucose, and a low one can cause seizures.</p></section>
+      <section><h3>Older adults</h3><dl>
+        <dt>New confusion</dt><dd>often the first sign of dehydration, infection or a low glucose → check vital signs, glucose and intake; report</dd>
+        <dt>Mild pain with fever or a fast pulse</dt><dd>older adults can perforate or have peritonitis with little pain → report</dd>
+        <dt>A new drug cleared by the liver</dt><dd>watch for toxicity — the aging liver clears drugs more slowly</dd></dl>
+        <p class="why">In older adults, serious problems often look <b>mild or atypical</b>: little fever, little pain, confusion instead.</p></section>
+    </div>
+  </details>
+
+  <div id="map"><div class="loading">Loading the map…</div></div>
+  <section id="weak" hidden></section>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="panel glass" id="panel" role="dialog" aria-modal="true" aria-labelledby="p-title">
+  <div class="phead">
+    <div class="top">
+      <div class="grow"><div class="meta" id="p-meta"></div><h3 id="p-title"></h3></div>
+      <button class="iconbtn" id="p-close" aria-label="Close">✕</button>
+    </div>
+    <div class="row" style="display:flex;gap:6px;flex-wrap:wrap"><button class="pill" id="p-focus"></button></div>
+    <div class="tabs" role="tablist" id="p-tabs">
+      <button role="tab" data-tab="notes">Notes</button>
+      <button role="tab" data-tab="why">Why it works</button>
+      <button role="tab" data-tab="breakdown">Organ → molecule</button>
+      <button role="tab" data-tab="words">Words</button>
+      <button role="tab" data-tab="links">Connections</button>
+    </div>
+  </div>
+  <div class="pbody" id="p-body"></div>
+  <div class="pfoot"><button class="pill" id="p-prev">← Previous</button><button class="pill" id="p-next">Next →</button></div>
+</aside>
+<div class="pop glass" id="pop" role="tooltip"></div>
+
+<script src="data/e3/info-topics.js?v=202610231113"></script>
+<script src="data/e3/notes-short.js?v=202610231113"></script>
+<script src="data/e3/basics.js?v=202610231113"></script>
+<script src="data/e3/nodes-gi.js?v=202610231113"></script>
+<script src="data/e3/nodes-endo.js?v=202610231113"></script>
+<script src="data/e3/nodes-mech.js?v=202610231113"></script>
+<script src="data/e3/images.js?v=202610231113"></script>
+<script src="data/e3/videos.js?v=202610231113"></script>
+<script src="weak.js?v=202610231113"></script>
+<script src="data/glossary.js?v=202610231113"></script>
+<script src="data/e3/glossary.js?v=202610231113"></script>
+<script src="data/e3/focus-rules.js?v=202610231113"></script>
+<script src="data/e3/focus-final.js?v=202610231113"></script>
+<script src="focus.js?v=202610231113"></script>
+<script>
+window.EXAM_MAP = {
+  name: 'Final', prefix: 'fin-', store: 'fin-mastery-v1', mastery: 'Final Mastery Loop.dc.html',
+  // The final's chapters. The notes are shared with the Exam 3 map, which shows only its own chapters.
+  chapters: ['1', '2', '4', '7', '8', '10', '11', '12', '13', '14', '15', '16', '17', '22', '23', '24', '25', '45', '46', '47', '48', '49', '50', '51', '52', '53', '55', '56'],
+  systems: [
+    { name: 'Foundations of practice', why: 'Safe, high-quality care and how nurses think: the QSEN competencies, teamwork, evidence, systems thinking and clinical judgment.', chs: ['1', '2'] },
+    { name: 'Older adults, rehabilitation and end of life', why: 'Care that changes with the person: aging, living with a disability, and dying well.', chs: ['4', '7', '8'] },
+    { name: 'Emergencies and disasters', why: 'The emergency department and trauma, heat, cold, bites and drowning, and caring for many people at once.', chs: ['10', '11', '12'] },
+    { name: 'Fluids, electrolytes, acid–base and IV therapy', why: 'Water, salts and pH inside the body, and the lines that put fluids and drugs into it.', chs: ['13', '14', '15'] },
+    { name: 'Inflammation and immunity', why: 'How the body defends itself, and what happens when it reacts too much, too little or against itself.', chs: ['16', '17'] },
+    { name: 'Breathing', why: 'Getting oxygen in and carbon dioxide out: assessment and oxygen, the upper airway, the lower airway and lung infections.', chs: ['22', '23', '24', '25'] },
+    { name: 'Digestion and elimination', why: 'The Exam 3 GI chapters plus 48 and 49: taking food in, breaking it down, and getting rid of the rest.', chs: ['45', '46', '47', '48', '49'] },
+    { name: 'Liver, gallbladder, pancreas and nutrition', why: 'The organs that process what the gut absorbs, and eating too little or too much.', chs: ['50', '51', '52'] },
+    { name: 'Hormones and glucose', why: 'The Exam 3 endocrine chapters: chemical messengers that keep metabolism, calcium and blood sugar in range.', chs: ['53', '55', '56'] }
+  ],
+  mechNote: 'The same few molecules explain drugs and symptoms across the topics.',
+  whyBooks: 'A&P, chemistry, microbiology, pharmacology, psychology, sociology, fundamentals of nursing and pathophysiology',
+  drugFiles: ['data/e3/drugs-gi.js?v=202610231113', 'data/e3/drugs-endo.js?v=202610231113', 'data/e3/drugs-final.js?v=202610231113']
+};
+</script>
+<script src="map.js?v=202610231113"></script>
+<script src="nav.js?v=202610231113"></script>
+<script src="say.js?v=202610231113"></script>
+</body>
+</html>

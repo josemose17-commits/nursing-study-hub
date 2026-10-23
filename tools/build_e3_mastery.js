@@ -9,10 +9,11 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const SRC = path.join(ROOT, 'Exam 2 Mastery Loop.dc.html');
 const FINAL = process.argv[2] === 'final';
-// The final covers the Exam 3 chapters plus 48–52, so it shares Exam 3's map and drug cards.
+// The final covers the Exam 3 chapters, 48–52 and its own topic chapters. Their notes and drug cards live with Exam 3's
+// (data/e3), and the Final map shows all of them; the final keeps its own focus (data/e3/focus-final.js).
 const T = FINAL
   ? { name: 'Final', cfg: 'final-mastery-cfg.js', out: 'Final Mastery Loop.dc.html', drugs: ['drugs-gi.js', 'drugs-endo.js', 'drugs-final.js'],
-      mix: "' topics, in the final’s chapter mix (mostly chapters 48–52).'", example: 'like cirrhosis and its complications' }
+      mix: "' topics, in the final’s chapter mix.'", example: 'like cirrhosis and its complications' }
   : { name: 'Exam 3', cfg: 'e3-mastery-cfg.js', out: 'Exam 3 Mastery Loop.dc.html', drugs: ['drugs-gi.js', 'drugs-endo.js'],
       mix: "' study-guide topics, in the exam’s chapter mix.'", example: 'like hypoglycemia, DKA and HHS' };
 const OUT = path.join(ROOT, T.out);
@@ -41,19 +42,18 @@ if (first < 0 || focus < first) throw new Error('Data script block not found in 
 const chs = (cfg.match(/const CHS = \[([^\]]*)\]/) || [])[1].match(/\d+/g);
 const v = '?v=' + build;
 const scripts = chs.map(c => '<script src="data/e3/q/' + c + '.js' + v + '"></script>')
-  .concat(['data/e3/q/more.js', 'data/e3/cases.js', 'data/e3/cj-tags.js'].concat(T.drugs.map(f => 'data/e3/' + f), ['data/glossary.js', 'data/e3/glossary.js', 'data/e3/topic-index.js', 'data/e3/focus-rules.js'])
+  .concat(['data/e3/q/more.js', 'data/e3/cases.js', 'data/e3/cj-tags.js'].concat(T.drugs.map(f => 'data/e3/' + f), ['data/glossary.js', 'data/e3/glossary.js', 'data/e3/topic-index.js', 'data/e3/focus-rules.js'], FINAL ? ['data/e3/focus-final.js'] : [])
     .map(f => '<script src="' + f + v + '"></script>'));
 s = s.slice(0, first) + scripts.join('\n') + '\n' + s.slice(focus);
 
 // 3. Page names and wording.
-swap('Exam 2 Map.html', 'Exam 3 Map.html');
+swap('Exam 2 Map.html', FINAL ? 'Final Map.html' : 'Exam 3 Map.html');
 swap('Exam 2 Drug Cards.dc.html', 'Exam 3 Drug Cards.dc.html');
 swap('Exam 2 · Mastery test', T.name + ' · Mastery test', 1);
 swap('Exam 2 Mastery Loop.dc.html#redo', T.out + '#redo', 1);
 swap("' Exam 2 study-guide items, in the exam’s chapter mix.'", T.mix, 1);
-// The final has no study guide yet: its report counts topics. Its weak areas open in the map's final view.
+// The final has no study guide yet: its report counts topics. Its weak areas open on the Final map (#weak there).
 if (FINAL) swap("' study-guide items' + (R.subs", "' topics' + (R.subs", 1);
-if (FINAL) swap('Exam 3 Map.html#weak"', 'Exam 3 Map.html#final-weak"', 1);
 
 swap('Drill one study-guide item — every subtopic of it, nothing else', 'Drill one topic — every subtopic of it, nothing else', 1);
 swap('A whole test on one item (like ECG analysis)', 'A whole test on one topic (' + T.example + ')', 1);

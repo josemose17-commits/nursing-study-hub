@@ -96,7 +96,7 @@ window.NGN_EXTRA['52'] = [
       { cells: ['Meals eaten', '75%', '40%', '25%'], c: 1, r: 'Follow up. Intake is falling — look for barriers (dentures, nausea, help with eating).' },
       { cells: ['Albumin (g/dL)', '3.6', '3.3', '3.0'], c: 1, r: 'Follow up. Falling toward undernutrition.' },
       { cells: ['Prealbumin (mg/dL)', '18', '14', '11'], c: 1, r: 'Follow up. Prealbumin changes fastest and shows recent decline.' },
-      { cells: ['Temperature', '101.2 °F', '98.8 °F', '98.6 °F'], c: 0, r: 'The pneumonia is resolving.' },
+      { cells: ['Temp', '101.2 °F', '98.8 °F', '98.6 °F'], c: 0, r: 'The pneumonia is resolving.' },
       { cells: ['SpO₂ on room air', '91%', '95%', '96%'], c: 0, r: 'Improving.' }],
     ask: 'Which trend shows a new problem even as the pneumonia improves?',
     cues: ['Weight down 5% in 2 weeks', 'Intake 75% → 25%', 'Albumin and prealbumin falling'],

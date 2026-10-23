@@ -3,6 +3,31 @@
 // A spelling in lowercase matches anywhere, any case; one with capitals matches exactly; a short all-caps
 // abbreviation matches only as a whole word.
 window.GLOSSARY = [].concat([
+ // Fluids and electrolytes (ch 13)
+ ["Isotonic / hypotonic / hypertonic", ["sotonic", "ypotonic", "ypertonic"], "How concentrated a fluid is compared with blood (270–300 mOsm/L). Isotonic stays in the vessels and tissues; hypotonic moves water into cells; hypertonic pulls water out of cells."],
+ ["Crystalloid / colloid", ["rystalloid", "olloid"], "Crystalloids (saline, lactated Ringer’s, dextrose) are water with small particles that spread through every compartment; colloids such as albumin are large molecules that stay in the blood."],
+ ["Interstitial fluid", ["nterstitial"], "Fluid in the spaces between cells — the body’s buffer, filled (edema) or drained to protect the blood and the cells."],
+ ["Hypovolemia / hypervolemia", ["ypovolemi", "ypervolemi"], "Too little / too much fluid in the blood vessels."],
+ ["Hyponatremia / hypernatremia", ["yponatremi", "ypernatremi"], "Sodium too low (under 136) / too high (over 145). It shows mostly in the brain: confusion, then seizures and coma."],
+ ["Hypomagnesemia / hypermagnesemia", ["ypomagnes", "ypermagnes"], "Magnesium too low (under 1.3) / too high (over 2.1). Low: twitching, hyperactive reflexes, dysrhythmias. High: fading reflexes, a slow heart, weak breathing."],
+ ["Specific gravity", ["pecific gravity"], "How concentrated urine is. Above 1.030 means the kidneys are holding on to water — a sign of dehydration."],
+ ["Skin turgor", ["urgor"], "How fast pinched skin flattens. Skin that stays tented suggests dehydration; in older adults test over the sternum, not the hand."],
+ ["Hemoconcentration / hemodilution", ["emoconcentrat", "emodilut"], "Blood made more concentrated by water loss (Hct, BUN and sodium rise) / more dilute by extra water (Hgb and Hct fall)."],
+ ["Insensible water loss", ["nsensible"], "Water lost without our control — through the skin, lungs and stool — about 500–1000 mL a day, more with fever and fast breathing."],
+ ["Obligatory urine output", ["bligatory"], "The least urine (400–600 mL a day) that can still clear the body’s wastes."],
+ ["Natriuretic peptides (ANP, BNP)", ["atriuretic", "ANP"], "Hormones a stretched heart releases that make the kidneys lose sodium and water — the opposite of aldosterone."],
+ ["SIADH", ["SIADH"], "Syndrome of inappropriate antidiuretic hormone: too much ADH makes the kidneys hold water, diluting the sodium."],
+ ["U wave", ["U wave"], "A small bump after the T wave on the ECG — a sign of low potassium."],
+ ["Peaked T waves", ["eaked T", "all, peaked"], "Tall, narrow T waves on the ECG — the early warning of high potassium."],
+ ["Salt substitute", ["alt substitute"], "A table-salt replacement made of potassium chloride — dangerous with kidney disease, ACE inhibitors or potassium-sparing diuretics."],
+ ["Infiltration (IV)", ["nfiltration"], "IV fluid leaking out of the vein into the tissue around it: swelling, coolness, pain and a slowing drip. With potassium: stop, remove the catheter, notify."],
+ // Acid–base (ch 14)
+ ["Buffer", ["buffers", "buffering", "bicarbonate buffer", "Buffer"], "A chemical that soaks up extra hydrogen ions or releases them to keep the pH steady — bicarbonate, phosphate and proteins such as hemoglobin."],
+ ["Compensation (acid–base)", ["ully compensated", "artly compensated", "ncompensated", "espiratory compensation", "idney compensation"], "The organ that didn’t cause an imbalance pushing the pH back toward normal: the lungs change the CO₂ in minutes, the kidneys change the bicarbonate over 24–48 hours."],
+ ["Carbonic anhydrase", ["arbonic anhydrase"], "The enzyme that joins CO₂ and water into carbonic acid, which splits into H⁺ and bicarbonate — why more CO₂ means more acid."],
+ ["Hyperventilation / hypoventilation", ["yperventilat", "ypoventilat"], "Breathing faster and deeper than needed, blowing off CO₂ (alkalosis) / slower and shallower, keeping CO₂ (acidosis)."],
+ ["ROME", ["ROME"], "Memory aid for blood gases: Respiratory Opposite (pH and PaCO₂ move opposite ways), Metabolic Equal (pH and HCO₃⁻ move the same way)."],
+ ["Combined acidosis", ["ombined acidosis", "ombined respiratory and metabolic", "ixed acidosis"], "Respiratory and metabolic acidosis at once (for example DKA in someone with COPD): neither organ can cover for the other, so the pH falls further."],
  // GI tract: anatomy, exam and labs (ch 45)
  ["Peristalsis", ["eristal"], "Waves of muscle squeezing that push food and stool along the gut. Bowel sounds are the noise it makes moving gas and fluid."],
  ["Chyme", ["chyme"], "The soupy mix of food, acid and enzymes the stomach sends into the small intestine."],

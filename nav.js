@@ -2,21 +2,28 @@
 // page re-renders its body, and marks the current page.
 (function () {
   var here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html');
-  // The Map, Drugs and Mastery tabs open the exam this page belongs to ("Exam 3 Map.html" → Exam 3; the final's test
-  // uses the Exam 3 map and drug cards); on Home and the reference sheet, the exam visited last.
-  var em = /^Exam (\d+) /.exec(here), EXAM = em ? em[1] : /^Final /.test(here) ? '3' : '';
-  try { if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = localStorage.getItem('hub-exam') || ''; } catch (e) {}
+  // The Map, Drugs and Mastery tabs open the exam this page belongs to ("Exam 3 Map.html" → Exam 3; "Final …" → the
+  // final, 'F'); on Home and the reference sheet, the exam visited last.
+  var em = /^Exam (\d+) /.exec(here), EXAM = em ? em[1] : /^Final /.test(here) ? 'F' : '';
+  try {
+    var last = localStorage.getItem('hub-exam') || '';
+    // The final uses the Exam 3 drug cards: opened from the final, the tab bar stays on the final.
+    if (EXAM === '3' && last === 'F' && /^Exam 3 Drug Cards/.test(here)) EXAM = 'F';
+    if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = last;
+  } catch (e) {}
   // Pages each exam has so far; a missing one gets no tab.
-  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Route', 'Map', 'Drugs', 'Mastery'] };
+  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Route', 'Map', 'Drugs', 'Mastery'], 'F': ['Map', 'Drugs', 'Mastery'] };
   if (!HAS[EXAM]) EXAM = '2';
+  var PAGE = EXAM === 'F' ? { Route: '', Map: 'Final Map.html', Drugs: 'Exam 3 Drug Cards.dc.html', Mastery: 'Final Mastery Loop.dc.html' }
+    : { Route: 'Exam ' + EXAM + ' Route.html', Map: 'Exam ' + EXAM + ' Map.html', Drugs: 'Exam ' + EXAM + ' Drug Cards.dc.html', Mastery: 'Exam ' + EXAM + ' Mastery Loop.dc.html' };
   var TABS = [
     ['index.html', 'Home', 'M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z'],
-    ['Exam ' + EXAM + ' Route.html', 'Route', 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm3 11 2.5 2.5L16 12'],
-    ['Exam ' + EXAM + ' Map.html', 'Map', 'M6 6h.01M18 6h.01M12 18h.01M6 6l6 12 6-12M6 6h12'],
-    ['Exam ' + EXAM + ' Drug Cards.dc.html', 'Drugs', 'M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7'],
-    ['Exam ' + EXAM + ' Mastery Loop.dc.html', 'Mastery', 'M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5'],
+    [PAGE.Route, 'Route', 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm3 11 2.5 2.5L16 12'],
+    [PAGE.Map, 'Map', 'M6 6h.01M18 6h.01M12 18h.01M6 6l6 12 6-12M6 6h12'],
+    [PAGE.Drugs, 'Drugs', 'M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7'],
+    [PAGE.Mastery, 'Mastery', 'M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5'],
     ['Reference Sheet.html', 'Ref', 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5']
-  ].filter(function (t) { return !/^Exam /.test(t[0]) || HAS[EXAM].indexOf(t[1]) >= 0; });
+  ].filter(function (t) { return !(t[1] in PAGE) || (t[0] && HAS[EXAM].indexOf(t[1]) >= 0); });
   window.E2Hub = { exam: EXAM };
   var root = location.pathname.indexOf('/offline/') >= 0 ? '../' : '';
   function build() {
@@ -110,7 +117,7 @@
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610231038';
+  var BUILD = '202610231113';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     fetch(root + 'version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {

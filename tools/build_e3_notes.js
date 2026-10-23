@@ -98,17 +98,21 @@ function chapter(c) {
   end();
 }
 
+const boxesHtml = (boxes, title) => boxes.map(b => '<div class="blueprint" style="border:1px solid var(--color-divider);padding:var(--space-4);min-width:0;display:flex;flex-direction:column;gap:var(--space-3)">\n' + CORNERS + '\n' +
+  '<div style="' + H + 'font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-400)">' + esc(b.title || title) + '</div>\n' +
+  '<div style="font-size:15.5px;color:var(--color-neutral-300);display:flex;flex-direction:column;gap:7px">\n' + b.items.map(it => row(it, false)).join('\n') + '\n</div>\n' +
+  why(b.why, b.whyShort) + '\n</div>').join('');
 function topic(t) {
   const id = t.ch + '-' + slug(t.title);
   if (topics.some(x => x.id === id)) throw new Error('duplicate topic id ' + id);
   begin(id);
-  const h = t.boxes.map(b => '<div class="blueprint" style="border:1px solid var(--color-divider);padding:var(--space-4);min-width:0;display:flex;flex-direction:column;gap:var(--space-3)">\n' + CORNERS + '\n' +
-    '<div style="' + H + 'font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-400)">' + esc(b.title || t.title) + '</div>\n' +
-    '<div style="font-size:15.5px;color:var(--color-neutral-300);display:flex;flex-direction:column;gap:7px">\n' + b.items.map(it => row(it, false)).join('\n') + '\n</div>\n' +
-    why(b.why, b.whyShort) + '\n</div>').join('');
-  topics.push({ id, ch: t.ch, chTitle: '', title: t.title, kind: 'topic', tag: t.tag || '', exam: '', html: h });
+  const h = boxesHtml(t.boxes, t.title);
+  topics.push({ id, ch: t.ch, chTitle: '', title: t.title, kind: 'topic', tag: t.tag || '', exam: '', html: h, after: t.after });
   end();
 }
+// extend({ id, boxes }): more boxes for a topic imported from Exam 2, shown after its own (see the import below).
+const extensions = [];
+function extend(x) { extensions.push(x); }
 
 function adpie(a) {
   const id = a.ch + '-adpie';
@@ -131,14 +135,25 @@ function adpie(a) {
 }
 
 const files = fs.readdirSync(SRC).filter(f => /^\d+\.js$/.test(f)).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
-files.forEach(f => require(path.join(SRC, f))({ chapter, topic, adpie }));
+files.forEach(f => require(path.join(SRC, f))({ chapter, topic, adpie, extend }));
 
 // Chapters the final shares with Exam 2 (22–25) reuse Exam 2's notes, read by tools/e3-import.js.
-// A src file for one of these chapters adds topic() entries only: they go after the imported topics, before the
-// nursing process.
+// A src file for one of these chapters adds topic() entries, which go after the imported topics and before the
+// nursing process, and extend() entries: boxes added to the end of an imported topic, where the book's detail belongs.
+// Their Quick keys are numbered after the topic's own blocks, so a label the topic already uses is refused (except Why).
 const { IMPORT, exam2Topics } = require('./e3-import.js');
+function extendImported(t, x) {
+  const used = [...t.html.matchAll(/<div[^>]*>\s*<b>((?:(?!<\/b>)[\s\S])*)<\/b>\s*—/g)].map(m => letters(m[1].replace(/<[^>]+>/g, '')));
+  x.boxes.forEach(b => b.items.forEach(it => { if (used.includes(letters(it[0]))) throw new Error(t.id + ': extend() label "' + it[0] + '" is already used in the topic'); }));
+  begin(t.id);
+  cur.seen.why = (t.html.match(/>Why<\/span><br\/?>/g) || []).length;
+  t.html += boxesHtml(x.boxes, t.title);
+  const add = cur.short; cur = null;
+  short[t.id] = Object.assign({}, short[t.id] || {}, add);
+}
 (function importExam2() {
   const E2 = exam2Topics(ROOT);
+  extensions.forEach(x => { if (!E2.topics.some(t => t.id === x.id)) warn.push('extend: no imported topic ' + x.id); });
   const added = topics.filter(t => IMPORT.includes(t.ch));
   const rest = topics.filter(t => !IMPORT.includes(t.ch));
   const out = [];
@@ -149,8 +164,12 @@ const { IMPORT, exam2Topics } = require('./e3-import.js');
       return { id: t.id, ch: t.ch, chTitle: t.chTitle, title: t.title, kind: t.kind, tag: t.kind === 'adpie' || t.tag === 'Foundation' ? 'Foundation' : '', exam: '', html: t.html };
     });
     if (!imp.length) { warn.push('import: Exam 2 has no topics for chapter ' + ch); return; }
+    imp.forEach(t => extensions.filter(x => x.id === t.id).forEach(x => extendImported(t, x)));
     chTitles[ch] = chTitles[ch] || imp[0].chTitle;
-    out.push(...imp.filter(t => t.kind !== 'adpie'), ...added.filter(t => t.ch === ch), ...imp.filter(t => t.kind === 'adpie'));
+    // A src topic with after: '<topic id>' goes right after that imported topic (a foundation topic after the overview).
+    const mine = added.filter(t => t.ch === ch), list = imp.filter(t => t.kind !== 'adpie');
+    mine.filter(t => t.after).forEach(t => { const i = list.findIndex(x => x.id === t.after); if (i < 0) throw new Error(t.id + ': no imported topic ' + t.after); list.splice(i + 1, 0, t); });
+    out.push(...list, ...mine.filter(t => !t.after), ...imp.filter(t => t.kind === 'adpie'));
   });
   const all = rest.concat(out).sort((a, b) => Number(a.ch) - Number(b.ch));
   topics.length = 0; topics.push(...all);
@@ -169,6 +188,7 @@ if (fs.existsSync(basicsFile)) {
   });
 }
 
+topics.forEach(t => { delete t.after; });
 const head = '// Generated by tools/build_e3_notes.js from data/e3/src. Do not edit by hand.\n';
 fs.writeFileSync(path.join(OUT, 'info-topics.js'), head + 'window.INFO_TOPICS = ' + JSON.stringify(topics) + ';\n');
 fs.writeFileSync(path.join(OUT, 'topic-index.js'), '// Exam 3 map topics without their notes, for the Mastery test. ' + head.slice(3) +

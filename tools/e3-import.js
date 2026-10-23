@@ -23,8 +23,29 @@ function exam2Topics(ROOT) {
   const topics = (w.INFO_TOPICS || []).filter(t => IMPORT.includes(t.ch))
     .map(t => ({ id: t.id, ch: t.ch, chTitle: t.chTitle, title: t.title, kind: t.kind, tag: t.tag, html: strip(t.html) }));
   const short = {};
-  topics.forEach(t => { if ((w.NOTES_SHORT || {})[t.id]) short[t.id] = w.NOTES_SHORT[t.id]; });
+  topics.forEach(t => {
+    const S = (w.NOTES_SHORT || {})[t.id]; if (!S) return;
+    short[t.id] = Object.fromEntries(Object.entries(S).map(([k, v]) => [rekey(t.html, k), v]));
+  });
   return { topics, short };
+}
+
+// The Map keys a block's Quick version by its bold label, or a paragraph (¶) by its opening words. A badged block was a
+// paragraph whose opening words began "On exam"; without the badge it may open with its bold label instead, so it is
+// keyed the way the Map will now find it (tools/dump_note_blocks.py and noteBlocks in map.js have the rules).
+const letters = s => String(s).toLowerCase().replace(/[^a-z]/g, '');
+const text = h => h.replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+function rekey(html, key) {
+  const m = key.match(/^¶ On exam (.*?)(#\d+)?$/); if (!m) return key;
+  const want = letters(m[1]), seen = {};
+  for (const [, , inner] of html.matchAll(/<(div|p)\b[^>]*>((?:(?!<\/?(?:div|p)\b)[\s\S])*?)<\/\1>/g)) {
+    const b = inner.match(/^\s*<b\b[^>]*>((?:(?!<\/b>)[\s\S])*)<\/b>([\s\S]*)$/), all = text(inner);
+    const label = b && (/^\s*[—–]/.test(text(b[2])) || all.length >= 250) ? text(b[1]) : null;
+    if (label) seen[letters(label)] = (seen[letters(label)] || 0) + 1;
+    if (!letters(all).startsWith(want)) continue;
+    return label ? label + (seen[letters(label)] > 1 ? '#' + seen[letters(label)] : '') : '¶ ' + m[1] + (m[2] || '');
+  }
+  return '¶ ' + m[1] + (m[2] || '');
 }
 
 module.exports = { IMPORT, exam2Topics };

@@ -28,6 +28,11 @@ module.exports = function (dataDir) {
     },
     topic(x) {
       const t = note(x.ch + '-' + slug(x.title), x.ch, x.title);
+      if (x.after) { topics.splice(topics.indexOf(t), 1); topics.splice(topics.findIndex(y => y.id === x.after) + 1, 0, t); }
+      x.boxes.forEach(b => { b.items.forEach(it => block(t, it[0] + ' — ' + it[1], it[2])); why(t, b.why, b.whyShort); });
+    },
+    extend(x) {
+      const t = topics.concat(last).find(t => t.id === x.id); if (!t) return;
       x.boxes.forEach(b => { b.items.forEach(it => block(t, it[0] + ' — ' + it[1], it[2])); why(t, b.why, b.whyShort); });
     },
     adpie(a) {
@@ -54,7 +59,7 @@ module.exports = function (dataDir) {
   fs.readdirSync(path.join(dataDir, 'src')).filter(f => /^\d+\.js$/.test(f)).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
     .forEach(f => require(path.join(dataDir, 'src', f))(api));
   topics.push(...last);
-  topics.sort((a, b) => Number(a.ch) - Number(b.ch));
+  topics.sort((a, b) => Number(a.ch) - Number(b.ch)); // stable: each chapter keeps its order
   Object.keys(chapters).forEach(ch => { chapters[ch].topics = topics.filter(t => t.ch === ch); });
   topics.forEach(t => { t.text = t.text.join(' '); });
   return { chapters, topics, CHS: Object.keys(chapters).sort((a, b) => a - b) };

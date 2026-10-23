@@ -73,7 +73,7 @@ window.NGN_EXTRA['51'] = [
       { cells: ['Weight (kg)', '70.0', '71.4', '72.9'], c: 1, r: 'Follow up. Weight gain with crackles = fluid overload.' },
       { cells: ['Blood pressure', '118/72', '116/70', '120/74'], c: 0, r: 'Stable.' },
       { cells: ['Pain (0–10)', '8', '6', '4'], c: 0, r: 'Improving with PCA.' },
-      { cells: ['Temperature', '100.2 °F', '100.4 °F', '100.2 °F'], c: 0, r: 'Low-grade and steady — part of the inflammation.' }],
+      { cells: ['Temp', '100.2 °F', '100.4 °F', '100.2 °F'], c: 0, r: 'Low-grade and steady — part of the inflammation.' }],
     ask: 'Which system is failing even as the pain improves?',
     cues: ['RR 18 → 32', 'SpO₂ 97 → 88', 'Crackles', 'Weight up 2.9 kg'],
     phys: 'Inflammatory mediators and enzymes in the blood disrupt the alveolar–capillary membrane → fluid leaks into the alveoli → ARDS; aggressive fluids add overload → crackles, hypoxemia, rising RR.',

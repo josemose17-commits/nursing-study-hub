@@ -8,6 +8,7 @@
 //
 // Writing a source file (data/e3/src/<chapter>.js):
 //   module.exports = ({ chapter, topic, adpie }) => { chapter({...}); topic({...}); adpie({...}); };
+//   chapter() may set steps: [7 labels] for its Connection Map when the chapter isn't about one disease.
 //   An item is [label, text, bullets?]. Text is plain: **bold**, *italic*, [link text](page.html);
 //   <, > and & are escaped for you. Bullets are the Quick version (same markers) and should keep every fact.
 //   Put exam: true on an item (or { exam: true } as its 4th element) to mark it "On exam" in gold.
@@ -71,7 +72,9 @@ function chapter(c) {
   if (plain(c.intro).length < 250) warn.push(ch + ' intro is under 250 characters, so it has no Quick version');
   block('Intro.', c.introShort, plain(c.intro).length >= 250);
   h += '<p style="margin:0;max-width:82ch;font-size:17px;color:var(--color-neutral-300)"><b style="color:var(--color-text)">Intro.</b> ' + md(c.intro) + '</p>';
-  const STEPS = ['Normal physiology', 'What fails', 'What the nurse sees', 'What proves it', 'What targets it', 'If it worsens', 'Emergency trigger'];
+  // A chapter that isn't about one disease (professional practice, disasters) can name its own seven steps.
+  const STEPS = c.steps || ['Normal physiology', 'What fails', 'What the nurse sees', 'What proves it', 'What targets it', 'If it worsens', 'Emergency trigger'];
+  if (STEPS.length !== 7 || c.map.length !== 7) throw new Error(ch + ': the Connection Map needs exactly 7 steps');
   h += '<div id="ch' + ch + '-map" style="border:1px solid var(--color-accent-700);padding:clamp(16px,3vw,26px);display:flex;flex-direction:column;gap:var(--space-4)">\n' +
     '<div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:baseline">\n<span style="' + H + 'font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-300)">Connection Map</span>\n' +
     '<span style="' + H + 'font-size:20px;font-weight:600">How this chapter fits together</span>\n</div>\n' +

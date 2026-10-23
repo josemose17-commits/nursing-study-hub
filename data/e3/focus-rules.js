@@ -91,7 +91,22 @@ window.FOCUS_CFG = {
     ['52', /^parenteral nutrition/i, /parenteral|\bTPN\b|\bPPN\b|central line|PICC|lipid|fat emulsion|fat overload|D10W|D20W|catch up|multichamber|infusion pump|dressing|tubing|second nurse/i],
     ['52', /^obesity/i, /obes|overweight|waist|waist-to-hip|class (I|II|III)\b|adipokine|RESPECT|intertrigo|panniculitis|panniculus|bariatric room|genetic|Prader|sleep apnea|metabolic syndrome|Healthy People/i],
     ['52', /^treating obesity/i, /diet|calorie|kcal|exercise|walk|orlistat|semaglutide|liraglutide|phentermine|topiramate|bupropion|naltrexone|setmelanotide|hydrogel|cryolipolysis|food diary|journal|Overeaters Anonymous|behavior/i],
-    ['52', /^bariatric surgery/i, /bariatric|gastric bypass|Roux-en-Y|RNYGB|sleeve|gastric band|duodenal switch|anastomotic leak|dumping|1-ounce|1 oz|5 tablespoons|pureed|panniculectomy|CPAP|BiPAP|airway|liposuction/i]
+    ['52', /^bariatric surgery/i, /bariatric|gastric bypass|Roux-en-Y|RNYGB|sleeve|gastric band|duodenal switch|anastomotic leak|dumping|1-ounce|1 oz|5 tablespoons|pureed|panniculectomy|CPAP|BiPAP|airway|liposuction/i],
+    ['13', /^body water, compartments/i, /isotonic|hypotonic|hypertonic|tonicity|mOsm|D5W|D10W|crystalloid|colloid|\bfiltration|\bdiffusion|osmosis|solvent|solute|electrically neutral|Table 13\.1|normal range|third space|two-thirds|55–60%/i],
+    ['13', /^hormones, raas/i, /\bADH\b|vasopressin|natriuretic|\bANP\b|renin|angiotensin|RAAS|obligatory|insensible|osmoreceptor|Table 13\.2/i],
+    ['13', /^dehydration/i, /dehydrat|hypovolem|orthostatic|turgor|tenting|tented|neck veins? (are )?flat|flat neck|mucous membrane|furrow|specific gravity|hemoconcentr|amber|drying out|thirst/i],
+    ['13', /^rehydrating/i, /rehydrat|oral fluid|60–120|oral rehydration|\bORS\b|fluid replacement|fall risk|risk for a fall|preventing injury|lightheaded|rise slowly|get up slowly|incontinen|1500 mL|withhold fluid/i],
+    ['13', /^fluid overload/i, /overload|overhydrat|hypervolem|bounding|crackles|pulmonary edema|pitting|(?<!cerebral )edema|distend|\bJVD\b|weigh|2 lb|3 lb|1 kg/i],
+    ['13', /^sodium/i, /hyponatr|hypernatr|Na⁺|serum sodium|sodium (of )?1[2-5]\d|sodium is|SIADH|conivaptan|tolvaptan|3% saline|cerebral edema|demeclocycline|water intoxication/i],
+    ['13', /^potassium/i, /potassium|K⁺|KCl|hypokal|hyperkal|peaked|U wave|salt substitute|patiromer|spironolactone|insulin|infiltrat|ventricular fibrillation|heart block/i],
+    ['13', /^calcium/i, /calcium|Ca²⁺|hypocalc|hypercalc|Trousseau|Chvostek|tetany|parathyroid|thyroidectomy|calcitonin|bisphosph|\bQT\b|vitamin D|osteoporo/i],
+    ['13', /^magnesium/i, /magnesium|Mg²⁺|hypomag|hypermag|patellar reflex|tendon reflex|\bDTRs?\b|proton pump/i],
+    ['14', /^reading an arterial blood gas/i, /\bROME\b|compensated\b|interpret(ing|ation)? (an|the|a|every) (ABG|arterial blood gas|gas)|interpretation|opposite|same (way|direction)|normal arterial blood gas|value alone|Table 14\.2|lactate|which way is the balance|PaO₂ (usually )?falls first/i],
+    ['14', /^buffers, lungs, kidneys/i, /\bbuffers?\b|carbonic anhydrase|chemoreceptor|ammoni|phosphate|kidney compensation|kidneys? compensat|lungs compensate|compensate for|24–48|three lines|kidneys? (keep|make|excrete|respond|take|need)|combined|mixed/i],
+    ['14', /^acidosis — the concept/i, /four ways|overproduc|kidney failure|diarrhea|starvation|methanol|aspirin|salicylate|opioid|anesthe|rib|chest (can’t|wall|injury|trauma)|airway obstruction|pneumonia|emphysema|ventilator|retain CO₂|CO₂ retain|retention/i],
+    ['14', /^recognizing acidosis/i, /bradycard|heart block|T waves?|QRS|lethargy|coma|hyporeflex|grip|flaccid|Kussmaul|flushed|cyanotic|hyperkal|first system|assess first|potassium is (usually )?high|K⁺ moves out/i],
+    ['14', /^caring for acidosis/i, /sodium bicarbonate|bicarbonate (is given|therapy)|bronchodilator|mucolytic|anti-?inflammator|lowest (flow|effective)|ventilation support|ventilat(or|ion) if|SpO₂ (can’t|that can’t)|accessory|retraction|treatment is working|reversal agent|insulin, fluids|antidiarrheal/i],
+    ['14', /^alkalosis/i, /alkalosis|antacid|baking soda|transfusion|citrate|\bTPN\b|vomit|NG suction|nasogastric|cortisol|hyperventilat|anxiety|panic|paper bag|Chvostek|Trousseau|tetany|tingling|digoxin|hyperreflex/i]
   ],
   // The professor's Exam 3 study guide, as map topics: the items it names in 53, 45 and 46; all of 47, 55 and 56.
   guide: [

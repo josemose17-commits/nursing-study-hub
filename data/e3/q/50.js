@@ -78,7 +78,7 @@ window.NGN_EXTRA['50'] = [
       { cells: ['Serum creatinine (mg/dL)', '1.0', '1.7', '2.5'], c: 1, r: 'Follow up. Rising quickly — the kidneys are failing.' },
       { cells: ['Urine sodium (mEq/L)', '22', '12', '5'], c: 1, r: 'Follow up. A kidney holding on to every sodium is responding to low effective volume — typical of hepatorenal syndrome.' },
       { cells: ['Weight (kg)', '78.0', '78.7', '79.6'], c: 1, r: 'Follow up. Rising weight with falling urine output = fluid being retained.' },
-      { cells: ['Temperature', '98.4 °F', '98.6 °F', '98.4 °F'], c: 0, r: 'Normal and steady.' },
+      { cells: ['Temp', '98.4 °F', '98.6 °F', '98.4 °F'], c: 0, r: 'Normal and steady.' },
       { cells: ['SpO₂ on room air', '96%', '96%', '95%'], c: 0, r: 'Adequate and steady.' },
       { cells: ['Pain (0–10)', '2', '2', '2'], c: 0, r: 'Unchanged.' }],
     ask: 'Which trend shows a new organ failing?',

@@ -232,7 +232,7 @@
     pop.querySelector('.r').textContent = '🔊 ' + e.re;
     if (full) pop.querySelector('.fn').textContent = full;
     if (M.def) pop.querySelector('.def').textContent = M.def;
-    var dc = pop.querySelector('.dc'); if (dc) { dc.textContent = 'Open the drug card →'; var ex3 = M.drug3 && (!M.drug || (window.E2Hub && window.E2Hub.exam) === '3'); dc.href = (location.pathname.indexOf('/offline/') >= 0 ? '../' : '') + (ex3 ? 'Exam 3 Drug Cards.dc.html#drug-' + M.drug3 : 'Exam 2 Drug Cards.dc.html#drug-' + M.drug); }
+    var dc = pop.querySelector('.dc'); if (dc) { dc.textContent = 'Open the drug card →'; var ex = window.E2Hub && window.E2Hub.exam, ex3 = M.drug3 && (!M.drug || ex === '3' || ex === 'F'); dc.href = (location.pathname.indexOf('/offline/') >= 0 ? '../' : '') + (ex3 ? 'Exam 3 Drug Cards.dc.html#drug-' + M.drug3 : 'Exam 2 Drug Cards.dc.html#drug-' + M.drug); }
     pop.querySelector('.hint').textContent = said ? 'CAPITALS = the stressed syllable' : 'This browser has no voice — use the spelling above. CAPITALS = stressed.';
     pop.addEventListener('click', function (ev) {
       var a = ev.target.closest('button'); if (!a) return;

@@ -130,6 +130,28 @@ module.exports = {
       complications: { status: 'covered', hub: 'full', has: 'Aspiration, clogged or dislodged tubes, diarrhea, fluid overload, hyperkalemia and hyponatremia, refeeding syndrome, fat overload, TPN glucose and electrolyte swings; anastomotic leak, dumping, VTE and airway after bariatric surgery.' },
       features: { status: 'covered', hub: 'full', has: 'Boxes 52.1–52.13, Tables 52.1–52.4, NCLEX challenges 52.1–52.3, the Action Alerts and Critical Rescues, culture, older adult, equity and legal/ethical boxes.' },
       accuracy: { status: 'covered', hub: 'full', has: 'Every number checked against the chapter; the full MNA scoring and the ASMBS 2022 surgery thresholds are marked as outside sources.' }
+    },
+    '13': {
+      checked: '2026-10-23',
+      normal: { status: 'covered', hub: 'full', has: 'Body water by age, sex and body fat; ICF and ECF volumes and the third space; filtration, diffusion (sodium pumps, facilitated diffusion with insulin) and osmosis with the book\'s clinical examples; tonicity; osmoreceptors and thirst; aldosterone, ADH and natriuretic peptides; RAAS and the drugs that act on it; sodium, potassium, calcium (PTH, calcitonin) and magnesium physiology; obligatory and insensible loss; the older-adult and gender boxes.', added: 'Table 13.1 in full as its own box (what raises and lowers each value, and who is at risk); the output side of Table 13.2; food sources of sodium and potassium; about 80% of potassium leaves through the kidneys.' },
+      assessment: { status: 'covered', hub: 'full', has: 'The dehydration history (weigh, don\'t ask; drugs; rings and shoes), every body system with the lie-sit-stand technique and the older-adult turgor box, Box 13.3, each electrolyte\'s findings by system, the Trousseau and Chvostek technique, grip and deep tendon reflexes, the ECG patterns of Fig. 13.10.', added: 'Hyperkalemia: who is at highest risk and what to ask (palpitations, twitching, tingling, diarrhea); hypocalcemia: dairy and supplement intake, recent bone surgery, acute vs chronic onset; engorged varicose veins (Box 13.3).' },
+      conditions: { status: 'covered', hub: 'full', has: 'Dehydration (exemplar; Box 13.1; isotonic and vascular dehydration), fluid overload (the Fig. 13.8 adaptations), hypo- and hypernatremia (Boxes 13.4–13.5), hypo- and hyperkalemia (Boxes 13.6–13.7), hypo- and hypercalcemia (Boxes 13.8–13.9), hypo- and hypermagnesemia (Box 13.10).' },
+      diagnostics: { status: 'covered', hub: 'full', has: 'Table 13.1 ranges, hemoconcentration and hemodilution, urine specific gravity, ultrasound and echocardiography for volume, the labs that tell dehydration from kidney failure in hyperkalemia, the ECG changes of each imbalance.' },
+      management: { status: 'covered', hub: 'full', has: 'Box 13.2 (oral fluids, AP teaching, ORS, IV replacement and its monitoring), Table 13.3 with the dextrose footnote, crystalloids vs colloids, fall prevention; diuretics, conivaptan and tolvaptan, fluid and sodium limits, daily weights and the discharge thresholds; 3% saline on a controller, lithium and demeclocycline; IV potassium safety (the NPSG, 5–10 mEq/hr, never by push, the infiltration action alert), oral potassium, patiromer, insulin with glucose; calcium with vitamin D, a quiet room and a lift sheet; stopping calcium, saline, furosemide, calcitonin and bisphosphonates; IV magnesium sulfate with hourly reflexes; stopping magnesium, furosemide and calcium.', added: 'The Box 13.2 schedule (at least every 2 hours around the clock, the 24-hour amount set with the team); the hyperkalemia care priorities (cardiac complications, falls, the response, teaching); AP report the urine\'s color and character.' },
+      complications: { status: 'covered', hub: 'full', has: 'Falls, pulmonary edema and heart failure, cerebral edema, seizures and coma, respiratory muscle failure, heart block, ventricular fibrillation and asystole, tetany, clots with high calcium, tissue necrosis from potassium infiltration, paralytic ileus.' },
+      features: { status: 'covered', hub: 'thin', has: 'Boxes 13.1–13.10 and Table 13.3 cited; NCLEX challenges 13.1–13.5 and the Mastery questions; the Critical Rescue, Action Alert, Drug Alert and National Patient Safety Goal boxes; the older-adult and gender boxes.', added: 'Tables 13.1 and 13.2 cited and covered in full.' },
+      accuracy: { status: 'covered', hub: 'full', has: 'Every number checked against the chapter. Newer guidance is marked as such (IV calcium gluconate first, and binders such as sodium zirconium cyclosilicate, in a hyperkalemic emergency).' }
+    },
+    '14': {
+      checked: '2026-10-23',
+      normal: { status: 'covered', hub: 'full', has: 'pH as an inverse logarithmic scale with tenfold steps; acids, bases and buffers; the 1:20 carbonic acid to bicarbonate ratio; the carbonic anhydrase equation; pH as kidneys over lungs (Fig. 14.7); the sources of acid and bicarbonate; the three lines of defense (Table 14.1) and how the kidneys excrete acid (phosphate, ammonium); compensation.', added: 'What goes wrong when the balance is off (hormones, enzymes and drugs; fluid and electrolytes; excitable tissue).' },
+      assessment: { status: 'covered', hub: 'full', has: 'The older-adult box (history and assessment points), history questions, Box 14.1 by system with the cardiovascular-first Critical Rescue, grip and leg-push testing, Kussmaul vs ineffective breathing, skin by type, cognitive checks (counting back by threes), Box 14.4.', added: 'Minute volume in respiratory alkalosis.' },
+      conditions: { status: 'covered', hub: 'full', has: 'Acidosis (exemplar): actual vs relative, the four metabolic routes (Table 14.3), respiratory acidosis and its causes including ventilator settings, combined acidosis; alkalosis: base excess and acid deficit, respiratory alkalosis (Table 14.5).' },
+      diagnostics: { status: 'covered', hub: 'full', has: 'Table 14.2 values, Boxes 14.2 and 14.3, the potassium shift (Fig. 14.9), acute vs chronic bicarbonate, a step-by-step way to read a gas with worked examples, the compensation states.', added: 'The rest of Table 14.2: venous lactate, and what raises or lowers PaO₂ and lactate.' },
+      management: { status: 'covered', hub: 'full', has: 'Metabolic acidosis (fluids, insulin, antidiarrheals, bicarbonate below pH 7.2, when the kidneys can\'t compensate, rhabdomyolysis), respiratory acidosis (bronchodilators, anti-inflammatories, mucolytics, the lowest effective oxygen, positioning, ventilation when SpO₂ can\'t stay at 90%, hourly breathing checks), alkalosis care, fall precautions, neuro checks every 2 hours, the evaluation criteria, teaching.', added: 'Table 14.4 cited on the care boxes.' },
+      complications: { status: 'covered', hub: 'full', has: 'Cardiac arrest from hyperkalemia, coma, respiratory failure, a pH below 6.9 or above 7.8, tetany and seizures, digoxin toxicity, falls.' },
+      features: { status: 'covered', hub: 'thin', has: 'Boxes 14.1–14.4 and Tables 14.1, 14.3 and 14.5 cited; NCLEX challenges 14.1–14.3 and the Mastery questions; the Critical Rescue box; the Essential Concept Points.', added: 'Tables 14.2 and 14.4 cited and covered in full.' },
+      accuracy: { status: 'covered', hub: 'full', has: 'Every number checked against the chapter. The paper-bag advice is kept as the book\'s, with the current caution marked as newer guidance.' }
     }
   },
   verify: [
@@ -164,7 +186,11 @@ module.exports = {
     'Box 48.3': 'Healthy People 2030 colorectal cancer objectives: lower the death rate, screen more adults. Added to the screening notes.',
     'Box 53.3': 'Common sources of dietary iodine. Was in the nutrition clues without its number; now cited, with every source.',
     'Table 56.4': 'A1C and estimated average glucose. The hub had rows 6–10; rows 11 (≈ 269) and 12 (≈ 298) added.',
-    'Box 56.6': 'Desired outcomes of nutrition therapy. Added as its own item.'
+    'Box 56.6': 'Desired outcomes of nutrition therapy. Added as its own item.',
+    'Table 13.1': 'Laboratory profile for fluids and electrolytes. The ranges were in the notes without the number; now cited as its own box, with what raises and lowers each value.',
+    'Table 13.2': 'Routes of fluid intake and output. The intake side was in the notes; now cited, with the output side.',
+    'Table 14.2': 'Acid–base laboratory profile. The ranges were in the notes; now cited, with venous lactate and what raises or lowers PaO₂ and lactate.',
+    'Table 14.4': 'Priority needs and nursing interventions for acid–base disorders. All of it was in the care notes; now cited.'
   },
   // Errors in the hub found by the comparison, and how each was fixed.
   corrections: [
@@ -226,7 +252,11 @@ module.exports = {
     { ch: '51', what: '"FOLFORINOX" (the regimen is FOLFIRINOX); GLP-1 agonists are called "gliptins" (gliptins are DPP-4 inhibitors); pseudocysts "often rupture spontaneously".',
       hub: 'Correct spelling with the book\'s noted; both drug classes named correctly; pseudocyst rupture kept as a risk without "often".' },
     { ch: '52', what: 'A BSA of 3 m² is pictured as a 3 m × 3 m box (that is 9 m²); four obesity drugs are "FDA-approved" but Table 52.4 lists six; the liraglutide row carries an alpha-1-blocker interaction line that belongs to another drug.',
-      hub: 'The box picture and the stray interaction line are left out; all six drugs are in the notes.' }
+      hub: 'The box picture and the stray interaction line are left out; all six drugs are in the notes.' },
+    { ch: '13', what: 'Hypokalemia: weak, shallow breathing is said to occur "secondary to metabolic acidosis" (low potassium usually travels with alkalosis, and the weakness comes from the low potassium itself); Box 13.2 offers fluids "at least every 2 hours" where the text says hourly.',
+      hub: 'Weak breathing is tied to the low potassium; both schedules are kept (small amounts hourly, at least every 2 hours).' },
+    { ch: '14', what: 'A change "from 7.4 to 7.3" is called a pH "increase" (it is a fall in pH, a rise in hydrogen ions); full compensation leaves "oxygen and bicarbonate" abnormal (it is the CO₂ and the bicarbonate); Box 14.4 says hyperventilation is often the cause of "the acidosis" in respiratory alkalosis; breathing into a paper bag is advised for anxious hyperventilation.',
+      hub: 'Says a fall in pH (more hydrogen ions); PaCO₂ and HCO₃⁻; alkalosis; the paper bag is kept as the book\'s, with the current caution (check SpO₂, rule out hypoxia first) marked as newer guidance.' }
   ],
   // What the comparison could not check.
   limits: [

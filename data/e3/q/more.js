@@ -99,7 +99,7 @@
       rows: [{ cells: ['Heart rate', '88', '104', '118'], c: 1, r: 'Follow up. Rising steadily — the body’s first answer to blood loss.' },
         { cells: ['Blood pressure', '128/78', '116/70', '98/58'], c: 1, r: 'Follow up. Falling; the pulse pressure is narrowing. Pressure drops late, once compensation is running out.' },
         { cells: ['Hemoglobin (g/dL)', '11.8', '10.1', '8.9'], c: 1, r: 'Follow up. Dropping about 1.5 g/dL every 2 hours — ongoing bleeding.' },
-        { cells: ['Temperature', '98.6 °F', '98.8 °F', '98.6 °F'], c: 0, r: 'Normal and steady.' },
+        { cells: ['Temp', '98.6 °F', '98.8 °F', '98.6 °F'], c: 0, r: 'Normal and steady.' },
         { cells: ['Urine output (mL/hr)', '60', '40', '22'], c: 1, r: 'Follow up. Below 30 mL/hr — the kidneys are getting too little blood.' },
         { cells: ['SpO₂ on 2 L', '98%', '97%', '97%'], c: 0, r: 'Steady and adequate.' },
         { cells: ['Epigastric pain (0–10)', '3', '3', '3'], c: 0, r: 'Unchanged; not what is driving the danger here.' }],

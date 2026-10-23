@@ -132,6 +132,29 @@ function adpie(a) {
 
 const files = fs.readdirSync(SRC).filter(f => /^\d+\.js$/.test(f)).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
 files.forEach(f => require(path.join(SRC, f))({ chapter, topic, adpie }));
+
+// Chapters the final shares with Exam 2 (22–25) reuse Exam 2's notes, read by tools/e3-import.js.
+// A src file for one of these chapters adds topic() entries only: they go after the imported topics, before the
+// nursing process.
+const { IMPORT, exam2Topics } = require('./e3-import.js');
+(function importExam2() {
+  const E2 = exam2Topics(ROOT);
+  const added = topics.filter(t => IMPORT.includes(t.ch));
+  const rest = topics.filter(t => !IMPORT.includes(t.ch));
+  const out = [];
+  IMPORT.forEach(ch => {
+    const imp = E2.topics.filter(t => t.ch === ch).map(t => {
+      if (/Exam 2(?! Drug Cards)/.test(t.html)) warn.push('import: ' + t.id + ' still mentions Exam 2');
+      if (E2.short[t.id]) short[t.id] = E2.short[t.id];
+      return { id: t.id, ch: t.ch, chTitle: t.chTitle, title: t.title, kind: t.kind, tag: t.kind === 'adpie' || t.tag === 'Foundation' ? 'Foundation' : '', exam: '', html: t.html };
+    });
+    if (!imp.length) { warn.push('import: Exam 2 has no topics for chapter ' + ch); return; }
+    chTitles[ch] = chTitles[ch] || imp[0].chTitle;
+    out.push(...imp.filter(t => t.kind !== 'adpie'), ...added.filter(t => t.ch === ch), ...imp.filter(t => t.kind === 'adpie'));
+  });
+  const all = rest.concat(out).sort((a, b) => Number(a.ch) - Number(b.ch));
+  topics.length = 0; topics.push(...all);
+})();
 // Each chapter's topics in source order, chapters in the exam's order (by number).
 topics.forEach(t => { t.chTitle = chTitles[t.ch] || t.chTitle; });
 

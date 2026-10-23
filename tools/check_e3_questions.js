@@ -14,11 +14,13 @@ const list = process.argv.includes('--list');
 const FINAL = process.argv.includes('final');
 
 const cfgSrc = fs.readFileSync(path.join(__dirname, FINAL ? 'final-mastery-cfg.js' : 'e3-mastery-cfg.js'), 'utf8');
-const cfg = vm.runInNewContext(cfgSrc + '\n({ CHS, GUIDE, GUIDE_SUB, GUIDE_OFF });', {});
+const cfg = vm.runInNewContext(cfgSrc + '\n({ CHS, GUIDE, GUIDE_SUB, GUIDE_OFF, E2_FILES: typeof E2_FILES === "undefined" ? [] : E2_FILES });', {});
 // A chapter the study guide narrows (it has a GUIDE_OFF entry) is expected to have questions on nothing it lists.
 const narrowed = ch => !!(cfg.GUIDE_OFF || {})[ch];
 const win = {};
 const ctx = vm.createContext({ window: win });
+// Chapters shared with Exam 2 keep their Exam 2 question files (E2_FILES), loaded first, as the test page does.
+cfg.E2_FILES.forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, f), 'utf8'), ctx, { filename: f }));
 cfg.CHS.forEach(ch => {
   const f = path.join(ROOT, 'data/e3/q', ch + '.js');
   if (fs.existsSync(f)) vm.runInContext(fs.readFileSync(f, 'utf8'), ctx, { filename: f });
@@ -116,6 +118,18 @@ function checkItem(id, x) {
 const fullTxt = b => [b.t, b.q, JSON.stringify(b.o || b.rows || b.parts || b.groups || [b.cond, b.act, b.mon]) + (b.tokens ? ' ' + b.tokens.join(' ') : ''), b.rule || '', b.phys || ''].join(' ');
 const coreTxt = b => [b.t, b.q, (b.o || []).filter((o, i) => (Array.isArray(b.a) ? b.a : [b.a]).includes(i)).join(' '), b.rule || '', b.phys || '',
   b.rows ? b.rows.map(r => r.t || (r.cells || []).join(' ')).join(' ') : '', b.parts ? JSON.stringify(b.parts) : '', b.cond ? JSON.stringify([b.cond, b.act, b.mon]) : '', b.groups ? JSON.stringify(b.groups) : ''].join(' ');
+// Exam 2's questions keep their explanations in data/explain (window.EXPLAIN, by id); the test layers them on as here.
+const patch = (base, p) => { base = base || []; if (!p) return base; if (Array.isArray(p)) return p.length === base.length ? p : base; const out = base.slice(); Object.keys(p).forEach(k => { out[+k] = p[k]; }); return out; };
+function explained(x, id) {
+  const E = (win.EXPLAIN || {})[id]; if (!E) return x;
+  const y = Object.assign({}, x);
+  if (E.r && x.o) y.r = patch(x.r, E.r);
+  if (E.rows && x.rows) { const rr = patch(x.rows.map(r => r.r), E.rows); y.rows = x.rows.map((r, i) => Object.assign({}, r, { r: rr[i] })); }
+  if (E.blanks && x.parts) y.parts = x.parts.map((p, i) => p && typeof p === 'object' && E.blanks[i] ? Object.assign({}, p, { r: E.blanks[i] }) : p);
+  ['cond', 'act', 'mon'].forEach(g => { if (E[g] && x[g]) y[g] = Object.assign({}, x[g], { r: patch(x[g].r, E[g]) }); });
+  ['ask', 'cues', 'phys', 'rule'].forEach(k => { if (E[k]) y[k] = E[k]; });
+  return y;
+}
 const perTopic = {}, perSub = {}, noTopic = [], noSub = [], offGuide = [];
 function tag(ch, id, txt, core) {
   const g = (cfg.GUIDE[ch] || []).map((x, i) => [ch + ':' + i, x]).filter(([k, x]) => x[1].test(txt)).map(([k]) => k);
@@ -133,12 +147,16 @@ cfg.CHS.forEach(ch => {
   const N = (win.NGN_EXTRA || {})[ch], R = (win.RECALL_EXTRA || {})[ch];
   if (!N && !R) { console.log('Ch ' + ch + ': no question file yet'); return; }
   const c = counts[ch] = { ngn: 0, trad: 0, recall: 0, myth: 0 };
-  (N || []).forEach((x, i) => { const id = ch + '|n|' + i; checkItem(id, x); if (!x.f) err(id, 'NGN item needs f'); c.ngn++; tag(ch, id, fullTxt(x), coreTxt(x)); });
-  ((R || {}).nclex || []).forEach((x, i) => { const id = ch + '|c|' + i; if (x.f) err(id, 'nclex item should not have f'); checkItem(id, x); c.trad++; tag(ch, id, fullTxt(x), coreTxt(x)); });
+  (N || []).forEach((x, i) => { const id = ch + '|n|' + i; x = explained(x, id); checkItem(id, x); if (!x.f) err(id, 'NGN item needs f'); c.ngn++; tag(ch, id, fullTxt(x), coreTxt(x)); });
+  ((R || {}).nclex || []).forEach((x, i) => { const id = ch + '|c|' + i; if (x.f) err(id, 'nclex item should not have f'); x = explained(x, id); checkItem(id, x); c.trad++; tag(ch, id, fullTxt(x), coreTxt(x)); });
+  ((win.EXTRA_Q || {})[ch] || []).forEach((x, i) => { const id = ch + '|x|' + i; x = explained(x, id); checkItem(id, x); c.trad++; tag(ch, id, fullTxt(x), coreTxt(x)); });
   ((R || {}).rq || []).forEach((x, i) => { const id = ch + '|r|' + i; if (!Array.isArray(x) || x.length !== 7 || ![0, 2, 3, 4, 5].every(k => filled(x[k]))) err(id, 'recall card needs [type, hy, prompt, answer, why, move, trap]'); c.recall++; tag(ch, id, x[2] + ' ' + x[3]); });
   const mc = (R || {}).mc || [];
   if (mc.length && mc.length < 4) err(ch, 'myth checks need at least 4 per chapter (has ' + mc.length + ')');
-  mc.forEach((x, i) => { const id = ch + '|m|' + i; if (!Array.isArray(x) || x.length !== 4 || !x.every(filled)) err(id, 'myth needs [claim, fact, harm, why]'); c.myth++; tag(ch, id, x[0] + ' ' + x[1]); });
+  // Exam 2's myths are [claim, fact, harm], with the why in data/explain/cards.js (EXPLAIN_CARDS[ch].mc[i].why).
+  mc.forEach((x, i) => { const id = ch + '|m|' + i, back = ((((win.EXPLAIN_CARDS || {})[ch] || {}).mc || {})[i] || {});
+    const ok = Array.isArray(x) && x.every(filled) && (x.length === 4 || (x.length === 3 && filled(back.why)));
+    if (!ok) err(id, 'myth needs [claim, fact, harm, why]'); c.myth++; tag(ch, id, x[0] + ' ' + x[1]); });
   if (new Set(mc.map(x => x[1])).size !== mc.length) err(ch, 'two myths share the same fact');
   if (!(win.EXPLAIN_CH || {})[ch]) err(ch, 'EXPLAIN_CH not set');
 });

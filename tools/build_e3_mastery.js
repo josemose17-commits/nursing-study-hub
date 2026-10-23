@@ -41,7 +41,11 @@ const first = s.indexOf('<script src="data/recall-22-23.js'), focus = s.indexOf(
 if (first < 0 || focus < first) throw new Error('Data script block not found in the Exam 2 page');
 const chs = (cfg.match(/const CHS = \[([^\]]*)\]/) || [])[1].match(/\d+/g);
 const v = '?v=' + build;
-const scripts = chs.map(c => '<script src="data/e3/q/' + c + '.js' + v + '"></script>')
+// Chapters shared with Exam 2 keep their Exam 2 question files (E2_FILES in the config), loaded first; the other
+// chapters have data/e3/q files.
+const E2 = require('vm').runInNewContext(cfg + '\n;typeof E2_FILES === "undefined" ? [] : E2_FILES;', {});
+const scripts = E2.map(f => '<script src="' + f + v + '"></script>')
+  .concat(chs.filter(c => fs.existsSync(path.join(ROOT, 'data/e3/q', c + '.js'))).map(c => '<script src="data/e3/q/' + c + '.js' + v + '"></script>'))
   .concat(['data/e3/q/more.js', 'data/e3/cases.js', 'data/e3/cj-tags.js'].concat(T.drugs.map(f => 'data/e3/' + f), ['data/glossary.js', 'data/e3/glossary.js', 'data/e3/topic-index.js', 'data/e3/focus-rules.js'], FINAL ? ['data/e3/focus-final.js'] : [])
     .map(f => '<script src="' + f + v + '"></script>'));
 s = s.slice(0, first) + scripts.join('\n') + '\n' + s.slice(focus);

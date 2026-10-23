@@ -2,14 +2,14 @@
 // The final's block for the Mastery test. node tools/build_e3_mastery.js final puts it in place of Exam 2's block and
 // writes Final Mastery Loop.dc.html, so every test runs the same engine. Edit here, then run that command.
 //
-// The final covers its own topic chapters (the concept chapters, added a few at a time: so far 13 and 14), chapters
+// The final covers its own topic chapters (the concept chapters, added a few at a time: so far 13–17), chapters
 // 48–52 (liver, gallbladder and pancreas, nutrition) and the Exam 3 chapters. There is no final study guide yet, so:
 // BP gives the chapters new to the final most of the 60-question mix and keeps the Exam 3 chapters in for review
 // (keep the weights adding up to 60); GUIDE has one or two topics per chapter (a 20-question test can't ask every
 // one once now, so each test asks a fresh share of them); nothing is marked off the guide. Change BP and GUIDE when
 // the professor names the final's topics.
-const CHS = ['13', '14', '45', '46', '47', '48', '49', '50', '51', '52', '53', '55', '56'];
-const BP = { '13': 7, '14': 5, '45': 2, '46': 3, '47': 3, '48': 5, '49': 5, '50': 7, '51': 6, '52': 5, '53': 2, '55': 4, '56': 6 };
+const CHS = ['13', '14', '15', '16', '17', '45', '46', '47', '48', '49', '50', '51', '52', '53', '55', '56'];
+const BP = { '13': 5, '14': 4, '15': 5, '16': 4, '17': 6, '45': 2, '46': 2, '47': 2, '48': 4, '49': 4, '50': 5, '51': 5, '52': 4, '53': 2, '55': 3, '56': 3 };
 const OFF_GUIDE_PICKS = {};
 const SKILLS = ['Drugs & mechanisms', 'Pathophysiology', 'Priority & safety', 'Recognizing cues'];
 // The words after each topic's name tie a question to it. With "Everything" selected, every test asks each topic
@@ -18,6 +18,11 @@ const GUIDE = {
   '13': [['Fluid balance: dehydration, overload & IV fluids', /dehydrat|hypovolem|overload|overhydrat|hypervolem|pulmonary edema|crackles|neck vein|\bJVD\b|bounding|thready|orthostatic|turgor|tent|mucous membrane|weigh|intake|output|\bI&O\b|urine|specific gravity|thirst|fluid|isotonic|hypotonic|hypertonic|0\.9%|0\.45%|D5W|dextrose|lactated Ringer|crystalloid|colloid|osmo|aldosterone|\bADH\b|vasopressin|natriuretic|renin|angiotensin|RAAS|edema|fall/i],
          ['Electrolytes: sodium, potassium, calcium & magnesium', /sodium|Na⁺|hyponatr|hypernatr|potassium|K⁺|KCl|hypokal|hyperkal|calcium|Ca²⁺|hypocalc|hypercalc|magnesium|Mg²⁺|hypomag|hypermag|Trousseau|Chvostek|tetany|peaked|U wave|\bQT\b|salt substitute|SIADH|conivaptan|tolvaptan|patiromer|calcitonin|bisphosph|reflex|electrolyte/i]],
   '14': [['Acid–base balance & ABGs', /./]],
+  '15': [['IV fluids, devices & daily care', /fluid|infus|catheter|PICC|midline|\bport\b|central|peripheral|tubing|\bset\b|pump|flush|dressing|\bhub\b|order|prescription|gauge|vein|blood|osmol|\bpH\b|vesicant|irritant|\bTPN\b|parenteral|\bIV\b/i],
+         ['IV complications, older adults & other routes', /infiltrat|extravasat|phlebitis|thrombo|hematoma|spasm|nerve|overload|speed shock|embol|migrat|dislodg|ruptur|occlu|CRBSI|bloodstream|sepsis|fever|older adult|\b[89]\d-year|subcutaneous|hypodermoclysis|intraosseous|\bIO\b|arterial|epidural|intrathecal|intraspinal|intraperitoneal|compartment/i]],
+  '16': [['Inflammation & immunity', /./]],
+  '17': [['Allergy, anaphylaxis & lupus', /hypersensitiv|allerg|type I\b|type II|type III|type IV|histamine|angioedema|\bACE\b|lisinopril|bradykinin|anaphyla|epinephrine|autoinjector|hives|urticaria|wheal|penicillin|cephalosporin|contrast|poison ivy|dermatitis|autoimmun|lupus|\bSLE\b|butterfly|malar|discoid|hydroxychloroquine|prednisone|corticosteroid|belimumab|anifrolumab|nephritis|\bANA\b|photosensitiv|\bsun/i],
+         ['HIV, transplant rejection & Lyme disease', /\bHIV\b|\bAIDS\b|CD4|sexual history|partners|viral load|\bcART\b|antiretroviral|PrEP|\bPEP\b|TasP|syringe|needle|condom|opportunistic|\bPCP\b|Pneumocystis|Kaposi|Candida|thrush|crypto|toxo|\bIRIS\b|abacavir|maraviroc|tenofovir|wasting|transplant|rejection|graft|cyclosporine|tacrolimus|sirolimus|mycophenolate|leflunomide|basiliximab|Lyme|tick|Borrelia|bull’s-eye|erythema migrans|DEET/i]],
   '45': [['GI assessment, labs & procedures', /./]],
   '46': [['GERD & hiatal hernia', /GERD|reflux|heartburn|pyrosis|dyspepsia|regurgitat|water brash|eructation|Barrett|lower esophageal sphincter|\bLES\b|proton pump|\bPPI\b|omeprazole|pantoprazole|esomeprazole|famotidine|\bH2\b|antacid|alginate|Stretta|LINX|hiatal|sliding hernia|paraesophageal|rolling hernia|fundoplication|Nissen|gas bloat/i],
          ['Mouth, oral & esophageal cancer and trauma', /stomatitis|mucositis|candid|thrush|aphthous|oral|mouth|leukoplakia|erythroplakia|xerostomia|salivary|sialadenitis|tongue|tooth|teeth|dent|floss|esophageal (cancer|trauma|injur|perforation|tear)|esophagectomy|caustic|lye|alkali|acid burn|Boerhaave|dysphagia|swallow|lidocaine|nystatin|clotrimazole|chlorhexidine/i]],
@@ -56,6 +61,32 @@ const GUIDE_SUB = {
            ['Potassium & the ECG', /potassium|K⁺|KCl|hypokal|hyperkal|peaked|U wave|salt substitute|patiromer|insulin|spironolactone/i],
            ['Calcium', /calcium|Ca²⁺|hypocalc|hypercalc|Trousseau|Chvostek|tetany|parathyroid|thyroidectomy|calcitonin|bisphosph|\bQT\b/i],
            ['Magnesium', /magnesium|Mg²⁺|hypomag|hypermag|reflex|\bDTRs?\b/i]],
+  '15:0': [['Fluids, drugs & the order', /tonic|osmol|\bpH\b|vesicant|irritant|order|prescription|mL\/hr|gtt|blood product|transfus|\bTPN\b|parenteral/i],
+           ['Peripheral catheters & midlines', /peripheral|short catheter|midline|gauge|wrist|antecubital|mastectomy|fistula|attempt|tingling|pins and needles/i],
+           ['Central lines & ports', /central|PICC|\bport\b|tunnel|cavoatrial|bundle|noncoring|fibrin|blood return/i],
+           ['Tubing, connectors & pumps', /tubing|\bset\b|Luer|connector|tape|filter|pump|smart|alarm|\bbag\b|container|particle/i],
+           ['Site care, flushing & removal', /dressing|flush|syringe|resistance|remov|Valsalva|Trendelenburg|blood (draw|sample|culture)|cultures|\bcuff\b|scrub/i]],
+  '15:1': [['Local complications', /infiltrat|extravasat|phlebitis|thrombo|hematoma|spasm|nerve|compress/i],
+           ['Systemic & central-line complications', /overload|speed shock|embol|migrat|dislodg|ruptur|occlu|CRBSI|bloodstream|sepsis|fever/i],
+           ['Older adults', /older adult|\b[89]\d-year|thin skin|fragile|hand vein|tourniquet|fluid restriction/i],
+           ['Subcutaneous, IO & special routes', /subcutaneous|hypodermoclysis|intraosseous|\bIO\b|arterial|epidural|intrathecal|intraspinal|intraperitoneal|compartment/i]],
+  '16:0': [['Types of immunity', /active|passive|natural|artificial|vaccin|booster|immune globulin|convalescent|innate|adaptive|tetanus|chickenpox/i],
+           ['WBCs & the differential', /\bWBC|differential|neutrophil|\bbands?\b|left shift|eosinophil|basophil|monocyte|lymphocyte|\bANC\b/i],
+           ['Inflammation & phagocytosis', /inflamm|phagocyt|stage|histamine|kinin|\bpus\b|\bCOX\b|arachidonic|scar|repair|cardinal/i],
+           ['Antibodies & B cells', /antibod|IgM|IgG|IgA|IgE|plasma cell|B cell|memory|complement|humoral/i],
+           ['T cells, NK cells & cytokines', /T cell|helper|cytotoxic|regulatory|natural killer|\bNK\b|cytokine|interleukin|\bIL-|CSF|erythropoietin|thrombopoietin|\bHLA|transplant/i],
+           ['Older adults', /older adult|\b[789]\d-year|TB skin|tuberculin|confus|\bfell\b|\bfall/i]],
+  '17:0': [['Hypersensitivity types', /type I\b|type II|type III|type IV|hypersensitiv|contact dermatitis|poison ivy|transfusion|antihistamine/i],
+           ['Angioedema', /angioedema|\bACE\b|lisinopril|bradykinin|lips|tongue/i],
+           ['Anaphylaxis', /anaphyla|epinephrine|autoinjector|nonrebreather|hives|wheal|contrast|penicillin|cephalosporin/i],
+           ['Lupus: recognizing it', /lupus|\bSLE\b|butterfly|malar|discoid|nephritis|foamy|\bANA\b|creatinine|pericarditis|flare|autoimmun/i],
+           ['Lupus: drugs & care', /hydroxychloroquine|prednisone|corticosteroid|belimumab|anifrolumab|azathioprine|mycophenolate|fatigue|\brest\b|\bsun|SPF/i]],
+  '17:1': [['HIV: stages, spread & prevention', /stage|transmi|spread|condom|syringe|needle|PrEP|\bPEP\b|TasP|breast|mosquito|exposure/i],
+           ['HIV: history, testing & labs', /sexual history|partners|\btests?\b|CD4|viral load|window|rapid|HLA-B|Trofile|ratio|lymphocyte/i],
+           ['HIV: drugs & IRIS', /\bcART\b|antiretroviral|abacavir|nevirapine|tenofovir|dolutegravir|maraviroc|protease|missed|resist|\bIRIS\b/i],
+           ['Stage III care', /opportunistic|\bPCP\b|Pneumocystis|\bTB\b|tuberculosis|Kaposi|Candida|thrush|crypto|toxo|wasting|litter|undercooked|bleach|Airborne/i],
+           ['Transplant rejection', /transplant|rejection|graft|cyclosporine|tacrolimus|sirolimus|mycophenolate|leflunomide|grapefruit/i],
+           ['Lyme disease', /Lyme|\btick|Borrelia|bull’s-eye|erythema migrans|DEET/i]],
   '14:0': [['Reading ABGs & compensation', /\bABG|arterial blood gas|PaCO₂|HCO₃|compensat|ROME|pH 7|24–48/i],
            ['Metabolic acidosis', /metabolic acidosis|ketoacid|\bDKA\b|diarrhea|Kussmaul|lactic|kidney failure|sodium bicarbonate|bicarbonate is given/i],
            ['Respiratory acidosis', /respiratory acidosis|CO₂ (retention|retained|is retained)|retain|COPD|opioid|hypoventilat|rib|airway|ventilat|bronchodilator/i],
@@ -162,7 +193,7 @@ const CH33_FOR_34 = null;
 // Off-guide chapters: none.
 const OFF_CHS = [];
 const STORE = 'fin-mastery-v1', OLD_STORE = 'fin-mastery-loop-v0';
-const CH_TITLE = { '13': 'Fluids & electrolytes', '14': 'Acid–base balance', '45': 'GI assessment', '46': 'Mouth & esophagus', '47': 'Stomach conditions', '48': 'Noninflammatory bowel conditions', '49': 'Inflammatory bowel conditions', '50': 'Liver conditions', '51': 'Gallbladder & pancreas', '52': 'Malnutrition & obesity', '53': 'Endocrine assessment', '55': 'Thyroid & parathyroid', '56': 'Diabetes' };
+const CH_TITLE = { '13': 'Fluids & electrolytes', '14': 'Acid–base balance', '15': 'Infusion therapy', '16': 'Inflammation & immunity', '17': 'Allergy & immunity', '45': 'GI assessment', '46': 'Mouth & esophagus', '47': 'Stomach conditions', '48': 'Noninflammatory bowel conditions', '49': 'Inflammatory bowel conditions', '50': 'Liver conditions', '51': 'Gallbladder & pancreas', '52': 'Malnutrition & obesity', '53': 'Endocrine assessment', '55': 'Thyroid & parathyroid', '56': 'Diabetes' };
 // Organ → molecule breakdowns (data/e3/nodes-*.js): the topic breakdowns, then the mechanisms, and the words that tie a
 // question to each. A topic breakdown only matches questions from its own chapter; a mechanism matches any chapter.
 const NODES = [

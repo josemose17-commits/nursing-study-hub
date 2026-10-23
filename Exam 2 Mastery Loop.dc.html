@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610231113"></script>
-<script src="./say.js?v=202610231113"></script>
+<script src="./nav.js?v=202610231416"></script>
+<script src="./say.js?v=202610231416"></script>
 </head>
 <body>
 <x-dc>
@@ -60,7 +60,7 @@
 <script src="data/drugs-cardio.js?v=202610022100"></script>
 <script src="data/drugs-heme.js?v=202610022100"></script>
 <script src="data/drugs-resp.js?v=202610022100"></script>
-<script src="data/glossary.js?v=202610231113"></script>
+<script src="data/glossary.js?v=202610231416"></script>
 <script src="data/extra-questions.js?v=202610140100"></script>
 <script src="data/explain/22.js?v=202610040900"></script>
 <script src="data/explain/23.js?v=202610040900"></script>
@@ -78,9 +78,9 @@
 <script src="data/explain/drug-whys.js?v=202610040900"></script>
 <script src="data/explain/drug-more.js?v=202610040900"></script>
 <script src="data/topic-index.js?v=202610022200"></script>
-<script src="data/cj-tags.js?v=202610231113"></script>
-<script src="focus.js?v=202610231113"></script>
-<script src="ncjmm.js?v=202610231113"></script>
+<script src="data/cj-tags.js?v=202610231416"></script>
+<script src="focus.js?v=202610231416"></script>
+<script src="ncjmm.js?v=202610231416"></script>
 </helmet>
 <div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:15px;line-height:1.55;">
 <div style="max-width:860px;padding:28px 20px 64px;display:flex;flex-direction:column;gap:22px;">
@@ -436,6 +436,21 @@
         </sc-if>
 
         <sc-if value="{{ q.isMatrix }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ q.mxStack }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;">
+            <sc-for list="{{ q.rows }}" as="r" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid var(--color-neutral-800);">
+                <span style="font-size:14.5px;color:{{ r.fg }};">{{ r.t }}</span>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                  <sc-for list="{{ r.cells }}" as="cl" hint-placeholder-count="2">
+                    <button onClick="{{ cl.onClick }}" aria-label="{{ cl.label }}" aria-pressed="{{ cl.pressed }}" style="display:inline-flex;align-items:center;gap:7px;max-width:100%;padding:6px 11px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px;text-align:left;color:var(--color-text);border:1px solid {{ cl.pbd }};background:{{ cl.pbg }};"><span style="flex:none;width:14px;height:14px;border-radius:{{ cl.mr }};border:1.5px solid {{ cl.bd }};background:{{ cl.mf }};"></span><span>{{ cl.col }}{{ cl.note }}</span></button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+          <sc-if value="{{ q.mxGrid }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;flex-direction:column;overflow-x:auto;">
             <div style="display:grid;grid-template-columns:{{ q.gtc }};gap:8px;padding:6px 0;font-size:12px;color:var(--color-neutral-400);">
               <span></span>
@@ -450,6 +465,7 @@
               </div>
             </sc-for>
           </div>
+          </sc-if>
         </sc-if>
 
         <sc-if value="{{ q.isCloze }}" hint-placeholder-val="{{ false }}">
@@ -491,7 +507,7 @@
             <sc-for list="{{ q.trows }}" as="tr" hint-placeholder-count="3">
               <div style="display:grid;grid-template-columns:{{ q.tgtc }};gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--color-neutral-800);">
                 <sc-for list="{{ tr.cells }}" as="sg" hint-placeholder-count="2">
-                  <sc-if value="{{ sg.isText }}" hint-placeholder-val="{{ true }}"><span>{{ sg.text }}</span></sc-if>
+                  <sc-if value="{{ sg.isText }}" hint-placeholder-val="{{ true }}"><span style="overflow-wrap:anywhere;min-width:0;">{{ sg.text }}</span></sc-if>
                   <sc-if value="{{ sg.isBlank }}" hint-placeholder-val="{{ false }}">
                     <select value="{{ sg.val }}" onChange="{{ sg.onChange }}" disabled="{{ sg.locked }}" style="font:inherit;font-size:13.5px;padding:4px 8px;border-radius:6px;background:var(--color-bg);color:var(--color-text);border:1px solid {{ sg.bd }};max-width:100%;">
                       <option value="">Select…</option>
@@ -2025,9 +2041,13 @@ class Component extends DCLogic {
       if (q.isMatrix) {
         const multi = P.kind === 'mmatrix';
         q.cols = P.cols; q.gtc = 'minmax(0,1fr) repeat(' + P.cols.length + ', 88px)';
+        // A phone can't fit the row text and a column per answer side by side, so there each row stacks:
+        // its text, then one labelled choice per column.
+        q.mxStack = 160 + P.cols.length * 96 > Math.min(window.innerWidth || 800, 760) - 80; q.mxGrid = !q.mxStack;
         q.rows = P.rows.map(r => ({ t: r.t, fg: ck && R && (multi ? !rowOk(P, r, R) : R[r.k] !== r.a) ? 'var(--color-accent-200)' : 'var(--color-text)', cells: P.cols.map((col, ci) => {
           const sel = multi ? !!(R && R[r.k] && R[r.k][ci]) : R && R[r.k] === ci, isC = multi ? r.a.includes(ci) : r.a === ci;
-          return { label: r.t + ': ' + col, mr: multi ? '4px' : '50%', bd: ck ? (isC ? 'var(--color-accent-300)' : sel ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)') : (sel ? A : 'var(--color-neutral-500)'), mf: sel ? (ck && !isC ? 'var(--color-neutral-400)' : A) : (ck && isC ? 'var(--color-accent-800)' : 'transparent'),
+          return { label: r.t + ': ' + col, col, pressed: sel ? 'true' : 'false', mr: multi ? '4px' : '50%', bd: ck ? (isC ? 'var(--color-accent-300)' : sel ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)') : (sel ? A : 'var(--color-neutral-500)'), mf: sel ? (ck && !isC ? 'var(--color-neutral-400)' : A) : (ck && isC ? 'var(--color-accent-800)' : 'transparent'),
+            pbd: ck ? (isC ? 'var(--color-accent-300)' : sel ? 'var(--color-neutral-400)' : 'var(--color-neutral-700)') : (sel ? A : 'var(--color-neutral-600)'), pbg: sel ? 'rgba(245,196,0,.14)' : 'transparent', note: ck ? (isC ? (sel ? ' ✓' : ' ← answer') : (sel ? ' ✗' : '')) : '',
             onClick: () => this.setResp(x => multi ? Object.assign({}, x || {}, { [r.k]: Object.assign({}, (x || {})[r.k] || {}, { [ci]: !((x || {})[r.k] || {})[ci] }) }) : Object.assign({}, x || {}, { [r.k]: ci })) };
         }) }));
       }

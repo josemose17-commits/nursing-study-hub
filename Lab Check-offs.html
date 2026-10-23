@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Lab Check-offs</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<style>
+  body { padding-bottom: 96px; }
+  main { max-width: 900px; margin: 0 auto; padding: clamp(18px, 3.5vw, 40px) 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-accent-300); }
+  h1 { font-size: clamp(28px, 5.5vw, 44px); margin: 4px 0 0; }
+  h2 { font-size: clamp(21px, 4vw, 28px); margin: 0; }
+  h3 { font-size: 12.5px; font-weight: 600; margin: 6px 0 6px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400); }
+  .lead { color: var(--color-neutral-300); max-width: 70ch; margin: 0; }
+  .glass { border-radius: var(--radius-lg); background: var(--color-surface); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--shadow-md); padding: 16px; scroll-margin-top: 12px; }
+  .muted { color: var(--color-neutral-400); font-size: 13px; }
+  .note { border-radius: 12px; padding: 10px 12px; background: var(--color-accent-900); border: 1px solid var(--color-accent-700); font-size: 14px; }
+  .note ul { margin: 6px 0 0; padding-left: 18px; }
+  .note li { margin: 3px 0; }
+  .grp { margin-top: 4px; }
+  .grp b { display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400); margin: 8px 0 6px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toc a { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); color: inherit; text-decoration: none; font-size: 13.5px; }
+  .toc a.ready { border-color: var(--color-accent-700); }
+  .toc a.done { border-color: var(--color-accent-2-500); color: var(--color-accent-2-200); }
+  .sem { display: grid; gap: 6px; }
+  .sem a { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 8px 11px; border-radius: 12px; background: var(--color-neutral-900); border: 1px solid var(--color-divider); color: inherit; text-decoration: none; font-size: 14px; }
+  .sem a span:last-child { color: var(--color-neutral-400); font-size: 13px; }
+  .skill { display: flex; flex-direction: column; gap: 10px; }
+  .skill .head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; border-radius: 99px; padding: 2px 9px; border: 1px solid var(--color-accent-700); color: var(--color-accent-200); }
+  .badge.test { background: rgba(245, 196, 0, .14); border-color: var(--color-accent); }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button.mode { font: inherit; font-size: 13.5px; color: inherit; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-accent-700); background: none; cursor: pointer; }
+  button.mode[aria-pressed="true"] { background: var(--color-accent-900); border-color: var(--color-accent); }
+  .track { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 6px; }
+  .track label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--color-neutral-400); padding: 7px 9px; border-radius: 12px; background: var(--color-neutral-900); border: 1px solid var(--color-divider); }
+  .track label.on { border-color: var(--color-accent-700); }
+  .track input { font: inherit; font-size: 14px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-neutral-600); border-radius: 8px; padding: 5px 6px; color-scheme: dark; }
+  .status { font-size: 13.5px; }
+  .status.ready { color: var(--color-accent-200); }
+  .status.done { color: var(--color-accent-2-300); }
+  details.part { border-radius: 12px; border: 1px solid var(--color-divider); background: rgba(0, 0, 0, .12); padding: 8px 10px; }
+  details.part > summary { cursor: pointer; font-weight: 500; font-size: 15px; }
+  ol.steps { list-style: none; padding: 0; margin: 8px 0 2px; display: grid; gap: 6px; counter-reset: s; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 9px 12px; border-radius: 12px; background: var(--color-neutral-900); border: 1px solid var(--color-divider); }
+  ol.steps li::before { content: counter(s); width: 22px; height: 22px; border-radius: 50%; background: var(--color-neutral-700); color: var(--color-text); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  ol.steps li.crit { border-color: var(--color-accent-700); }
+  ol.steps li.crit::before { background: var(--color-accent); color: #04160e; }
+  .stxt { font-size: 15px; }
+  .crit-tag { display: inline-block; margin-left: 6px; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-accent-200); border: 1px solid var(--color-accent-700); border-radius: 99px; padding: 0 7px; vertical-align: 2px; }
+  .why { display: none; margin-top: 4px; font-size: 13.5px; color: var(--color-neutral-300); }
+  .show-why .why { display: block; }
+  .hidden-steps li .stxt, .hidden-steps li .why { filter: blur(6px); cursor: pointer; user-select: none; }
+  .hidden-steps li.shown .stxt, .hidden-steps li.shown .why { filter: none; }
+  input[type="checkbox"] { width: 20px; height: 20px; accent-color: #f5c400; margin: 1px 0 0; }
+  .flag { border-radius: 12px; padding: 9px 12px; border: 1px solid #6a5a20; background: rgba(245, 196, 0, .07); font-size: 14px; }
+  .flag ul, .know ul { margin: 4px 0 0; padding-left: 18px; }
+  .flag li, .know li { margin: 4px 0; }
+  .know { border-radius: 12px; padding: 9px 12px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); font-size: 14px; }
+  .links a { display: inline-block; margin: 3px 6px 3px 0; font-size: 13px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--color-neutral-700); text-decoration: none; color: var(--color-accent-200); }
+  .src { font-size: 12.5px; color: var(--color-neutral-500); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">NRS 114 · skills lab</div>
+    <h1>Lab check-offs</h1>
+    <p class="lead">Every skill in the ECC Skills Lab Practice &amp; Test-off Manual (Fall 2026), step by step in plain words. Highlighted steps are the safety-critical ones. Tap <b>Why</b> for the reason behind each step, or <b>Test me</b> to hide the steps and recall them. A <b>Heads-up</b> box marks where the checklist differs from your textbook or current guidance; the checklist still decides the test-off. Track each skill the way the manual does, from your practices to the test-off.</p>
+  </header>
+
+  <div class="note"><b>Before a test-off (from the manual)</b>
+    <ul>
+      <li>At least <b>two satisfactory practices</b>, each dated and initialed by your faculty or clinical instructor. The manual also says to request the test-off after your third practice.</li>
+      <li>Sign up for practice and the test-off through the skills-lab schedule, never during another class. Some test-offs need a partner, but you sign up and are graded on your own.</li>
+      <li>Bring your checklist and the right ATI test-off forms, your stethoscope and penlight, and your drug book for IV and medication test-offs. Without them, the test-off can be rescheduled.</li>
+      <li>Can’t make it? Tell the skills lab or your clinical instructor as soon as you can. An unsatisfactory test-off means remediation, then reschedule right away.</li>
+      <li>In the lab: uniform or lab jacket, student ID, hair tied back, no artificial nails or extra jewelry, no food or drink, phones off. Wear gloves to handle manikins, and use soap, not Betadine, as lubricant on them.</li>
+    </ul>
+  </div>
+
+  <section class="glass" id="term">
+    <h2>This semester</h2>
+    <p class="muted" style="margin:4px 0 8px">The test-offs and skills labs in your NRS 114 syllabus. Week 15 is “lab check-off list completion.”</p>
+    <div class="sem" id="sem"></div>
+  </section>
+
+  <section class="glass">
+    <h2>All skills</h2>
+    <p class="muted" id="progress" style="margin:4px 0 0"></p>
+    <div id="toc"></div>
+  </section>
+
+  <div id="skills" style="display:flex;flex-direction:column;gap:16px"></div>
+  <p class="src">Rewritten in our own words from the ECC Skills Lab Practice &amp; Test-off Manual (revised Fall 2026), which draws on Potter &amp; Perry’s <i>Fundamentals of Nursing</i>, Smith, Duell &amp; Martin’s <i>Clinical Nursing Skills</i> and the ATI skills checklists. The Heads-up notes cite your med-surg book (Ignatavicius), CDC, AHA and AARC guidance and the notes elsewhere on this site. Saved on this device and in your progress file.</p>
+</main>
+
+<script src="data/labskills.js?v=202610231038"></script>
+<script>
+(function () {
+  var KEY = 'clin-lab-v1', S = {};
+  try { S = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { S = {}; }
+  var save = function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+  var SK = window.LAB_SKILLS, BY = {}; SK.forEach(function (k) { BY[k.id] = k; });
+  // The manual's record columns.
+  var COLS = [['p1', 'Practice 1'], ['p2', 'Practice 2'], ['p3', 'Practice 3'], ['peer', 'Return demo · peer'], ['inst', 'Return demo · instructor'], ['clin', 'Return demo · clinical'], ['test', 'Test-off passed']];
+  function rec(id) { var r = S[id] = S[id] || {}; r.d = r.d || {}; r.s = r.s || {}; return r; }
+  function state(id) {
+    var d = rec(id).d, n = ['p1', 'p2', 'p3'].filter(function (c) { return d[c]; }).length;
+    if (d.test) return { k: 'done', t: 'Test-off passed ' + nice(d.test) };
+    if (n >= 2) return { k: 'ready', t: n + ' practices — ready to request the test-off' };
+    return { k: '', t: n + ' of 2 practices needed before a test-off' };
+  }
+  function nice(iso) { var p = String(iso).split('-'); if (p.length !== 3) return iso; return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); }
+
+  // This semester: test-offs first, then the labs.
+  function renderSem() {
+    var list = SK.filter(function (k) { return k.nrs; }).sort(function (a, b) { return (/Test/.test(b.nrs) - /Test/.test(a.nrs)) || (parseInt(a.nrs.replace(/\D+/, ''), 10) - parseInt(b.nrs.replace(/\D+/, ''), 10)); });
+    document.getElementById('sem').innerHTML = list.map(function (k) {
+      return '<a href="#' + k.id + '"><span>' + (/Test/.test(k.nrs) ? '<span class="badge test">' : '<span class="badge">') + esc(k.nrs) + '</span> ' + esc(k.title) + '</span><span>' + esc(state(k.id).t) + '</span></a>';
+    }).join('');
+  }
+  function renderToc() {
+    var done = 0;
+    document.getElementById('toc').innerHTML = window.LAB_GROUPS.map(function (g) {
+      var ks = SK.filter(function (k) { return k.group === g[0]; });
+      return '<div class="grp"><b>' + esc(g[1]) + '</b><div class="toc">' + ks.map(function (k) { var st = state(k.id); if (st.k === 'done') done++; return '<a href="#' + k.id + '" class="' + st.k + '">' + esc(k.title) + '</a>'; }).join('') + '</div></div>';
+    }).join('');
+    document.getElementById('progress').textContent = done + ' of ' + SK.length + ' skills tested off. Gold: ready to request the test-off; green: passed.';
+  }
+
+  var box = document.getElementById('skills');
+  SK.forEach(function (k) {
+    var r = rec(k.id), sec = document.createElement('section'); sec.className = 'skill glass'; sec.id = k.id;
+    var nSteps = 0; k.parts.forEach(function (p) { nSteps += p.steps.length; });
+    sec.innerHTML = '<div class="head"><h2>' + esc(k.title) + '</h2>' + (k.nrs ? '<span class="badge' + (/Test/.test(k.nrs) ? ' test' : '') + '">' + esc(k.nrs) + '</span>' : '') + '</div>' +
+      '<p class="muted" style="margin:0">' + esc(k.goal) + '</p>' +
+      '<div class="track">' + COLS.map(function (c) { return '<label class="' + (r.d[c[0]] ? 'on' : '') + '">' + esc(c[1]) + '<input type="date" data-c="' + c[0] + '" value="' + esc(r.d[c[0]] || '') + '"></label>'; }).join('') + '</div>' +
+      '<div class="status"></div>' +
+      '<div class="bar"><button type="button" class="mode" data-m="why" aria-pressed="false">Why</button><button type="button" class="mode" data-m="test" aria-pressed="false">Test me</button><span class="muted cnt"></span></div>' +
+      k.parts.map(function (p, pi) {
+        return '<details class="part"' + (k.parts.length < 3 || pi === 0 ? ' open' : '') + '><summary>' + esc(p.h) + ' <span class="muted">· ' + p.steps.length + ' steps</span></summary><ol class="steps">' + p.steps.map(function (st, i) {
+          var key = pi + '-' + i;
+          return '<li class="' + (st[2] ? 'crit' : '') + '" data-k="' + key + '"><div><span class="stxt">' + esc(st[0]) + (st[2] ? '<span class="crit-tag">critical</span>' : '') + '</span>' + (st[1] ? '<div class="why">' + esc(st[1]) + '</div>' : '') + '</div>' +
+            '<input type="checkbox" aria-label="I can do this step without looking"' + (r.s[key] ? ' checked' : '') + '></li>';
+        }).join('') + '</ol></details>';
+      }).join('') +
+      (k.flags ? '<div class="flag"><b>Heads-up:</b><ul>' + k.flags.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul></div>' : '') +
+      (k.know ? '<div class="know"><b>Be ready to state</b><ul>' + k.know.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul></div>' : '') +
+      (k.links ? '<div class="links">' + k.links.map(function (l) { return '<a href="' + esc(l[0]) + '">' + esc(l[1]) + '</a>'; }).join('') + '</div>' : '');
+    box.appendChild(sec);
+    var status = sec.querySelector('.status'), cnt = sec.querySelector('.cnt');
+    function refresh() {
+      var st = state(k.id); status.className = 'status ' + st.k; status.textContent = st.t;
+      cnt.textContent = Object.keys(r.s).length + ' of ' + nSteps + ' steps checked off';
+    }
+    sec.querySelectorAll('.track input').forEach(function (inp) {
+      inp.addEventListener('change', function () {
+        var c = inp.getAttribute('data-c'); if (inp.value) r.d[c] = inp.value; else delete r.d[c];
+        inp.parentNode.className = inp.value ? 'on' : ''; save(); refresh(); renderSem(); renderToc();
+      });
+    });
+    sec.querySelectorAll('ol.steps input').forEach(function (cb) {
+      cb.addEventListener('change', function () { var key = cb.closest('li').getAttribute('data-k'); if (cb.checked) r.s[key] = 1; else delete r.s[key]; save(); refresh(); });
+    });
+    sec.querySelectorAll('button.mode').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
+        sec.querySelectorAll('ol.steps').forEach(function (ol) {
+          if (b.getAttribute('data-m') === 'why') ol.classList.toggle('show-why', on);
+          else { ol.classList.toggle('hidden-steps', on); ol.querySelectorAll('li').forEach(function (li) { li.classList.remove('shown'); }); }
+        });
+        if (on) sec.querySelectorAll('details.part').forEach(function (d) { d.open = true; });
+      });
+    });
+    sec.addEventListener('click', function (e) {
+      var ol = e.target.closest('ol.steps'); if (!ol || !ol.classList.contains('hidden-steps') || e.target.tagName === 'INPUT') return;
+      var li = e.target.closest('li'); if (li) li.classList.add('shown');
+    });
+    refresh();
+  });
+  renderSem(); renderToc();
+  if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+})();
+</script>
+<script src="nav.js?v=202610231038"></script>
+<script src="say.js?v=202610231038"></script>
+</body>
+</html>

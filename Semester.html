@@ -60,7 +60,7 @@
     <h1>Your semester</h1>
     <p class="lead">Countdowns to every exam and due date, what this week holds, the full 16-week plan and a grade calculator — all from your NRS 114 syllabus.</p>
   </header>
-  <nav class="toc glass" aria-label="Sections"><a href="#countdown">Countdown</a><a href="#week">This week</a><a href="#schedule">All 16 weeks</a><a href="#grade">Grade calculator</a><a href="#musts">Requirements</a><a href="Clinical Helpers.html">Clinical helpers →</a></nav>
+  <nav class="toc glass" aria-label="Sections"><a href="#countdown">Countdown</a><a href="#week">This week</a><a href="#schedule">All 16 weeks</a><a href="#grade">Grade calculator</a><a href="#musts">Requirements</a><a href="Clinical Helpers.html">Clinical helpers →</a><a href="Lab Check-offs.html">Lab check-offs →</a><a href="Dosage Calculations.html">Dosage →</a></nav>
 
   <section class="glass" id="countdown">
     <h2>Countdown</h2>
@@ -101,8 +101,8 @@
   </section>
   <p class="src">From the NRS 114 Fall 2026 syllabus. Exam chapters follow your professor’s study guides. Dates and the schedule can change — your instructor’s announcements win.</p>
 </main>
-<script src="data/semester.js?v=202610222307"></script>
-<script src="sem.js?v=202610222307"></script>
+<script src="data/semester.js?v=202610231038"></script>
+<script src="sem.js?v=202610231038"></script>
 <script>
 (function () {
   var S = window.SEMESTER, M = window.SEM;
@@ -172,7 +172,8 @@
       (ex ? '<div class="banner" style="margin-top:10px"><b>' + esc(ex.t) + '</b> · ' + M.nice(ex.d) + ' (' + M.left(M.daysTo(ex.d)) + ')' + (ex.about ? ' — ' + esc(ex.about) : '') + (ex.href ? ' · <a href="' + esc(ex.href) + '">study now</a>' : '') + '</div>' : '') +
       (w.note ? '<p class="muted" style="margin:8px 0 0">' + esc(w.note) + '</p>' : '') +
       '<h3>Lecture</h3><p style="margin:0;font-size:15px">' + esc(w.lec) + esc(chs) + (w.map ? ' · <a href="' + esc(w.map) + '">open on the map</a>' : '') + '</p>' +
-      list('Lab', w.lab) + list('Ticket to lab (before lab — or you count as absent)', w.ticket) + list('Assignments (due by the start of the next class)', w.work);
+      list('Lab', w.lab) + (w.lab.length ? '<p class="muted" style="margin:4px 0 0"><a href="Lab Check-offs.html" style="color:var(--color-accent-300)">Step-by-step check-off lists →</a></p>' : '') +
+      list('Ticket to lab (before lab — or you count as absent)', w.ticket) + list('Assignments (due by the start of the next class)', w.work);
   }
   document.getElementById('week').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-w]'); if (!b) return;
@@ -228,6 +229,6 @@
   drawCountdown(); drawWeek(); drawSchedule(); drawGrade();
 })();
 </script>
-<script src="nav.js?v=202610222307"></script>
+<script src="nav.js?v=202610231038"></script>
 </body>
 </html>

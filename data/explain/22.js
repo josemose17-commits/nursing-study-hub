@@ -275,4 +275,8 @@ Object.assign(window.EXPLAIN, {
     rule: 'In older adults, new confusion can be the first sign of hypoxia or infection.'
   }
 });
+// The questions reused on the final (chapters 22–25) that had no “what is it asking” or cues, filled in for it.
+[
+  ['22|n|8', {"cues": ["Opioid sedation → slower breathing", "CO₂ follows ventilation, not oxygen", "SpO₂ can stay normal on supplemental oxygen"]}]
+].forEach(([id, e]) => { window.EXPLAIN[id] = Object.assign({}, window.EXPLAIN[id] || {}, e); });
 window.EXPLAIN_CH = window.EXPLAIN_CH || {}; window.EXPLAIN_CH['22'] = 1;

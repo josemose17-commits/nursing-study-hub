@@ -237,4 +237,8 @@ Object.assign(window.EXPLAIN, {
     rule: 'To separate look-alikes, find the one finding only one condition causes.'
   }
 });
+// The questions reused on the final (chapters 22–25) that had no “what is it asking” or cues, filled in for it.
+[
+  ['25|n|8', {"cues": ["Start within 48 hours", "Blocks viral release (neuraminidase)", "No substitute for the vaccine"]}]
+].forEach(([id, e]) => { window.EXPLAIN[id] = Object.assign({}, window.EXPLAIN[id] || {}, e); });
 window.EXPLAIN_CH = window.EXPLAIN_CH || {}; window.EXPLAIN_CH['25'] = 1;

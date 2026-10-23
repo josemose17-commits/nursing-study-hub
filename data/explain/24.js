@@ -238,4 +238,8 @@ Object.assign(window.EXPLAIN, {
     rule: 'Reversibility (FEV₁ ↑ ≥12% after bronchodilator) = asthma.'
   }
 });
+// The questions reused on the final (chapters 22–25) that had no “what is it asking” or cues, filled in for it.
+[
+  ['24|n|8', {"cues": ["Beta2 agonist", "Bronchodilation", "Spillover: tremor, tachycardia", "Potassium moves into cells"]}]
+].forEach(([id, e]) => { window.EXPLAIN[id] = Object.assign({}, window.EXPLAIN[id] || {}, e); });
 window.EXPLAIN_CH = window.EXPLAIN_CH || {}; window.EXPLAIN_CH['24'] = 1;

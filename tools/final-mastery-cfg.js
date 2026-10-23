@@ -2,14 +2,17 @@
 // The final's block for the Mastery test. node tools/build_e3_mastery.js final puts it in place of Exam 2's block and
 // writes Final Mastery Loop.dc.html, so every test runs the same engine. Edit here, then run that command.
 //
-// The final covers its own topic chapters (the concept chapters, added a few at a time: so far 13–17), chapters
+// The final covers its own topic chapters (the concept chapters, added a few at a time: so far 13–17 and 22–25), chapters
 // 48–52 (liver, gallbladder and pancreas, nutrition) and the Exam 3 chapters. There is no final study guide yet, so:
 // BP gives the chapters new to the final most of the 60-question mix and keeps the Exam 3 chapters in for review
 // (keep the weights adding up to 60); GUIDE has one or two topics per chapter (a 20-question test can't ask every
 // one once now, so each test asks a fresh share of them); nothing is marked off the guide. Change BP and GUIDE when
 // the professor names the final's topics.
-const CHS = ['13', '14', '15', '16', '17', '45', '46', '47', '48', '49', '50', '51', '52', '53', '55', '56'];
-const BP = { '13': 5, '14': 4, '15': 5, '16': 4, '17': 6, '45': 2, '46': 2, '47': 2, '48': 4, '49': 4, '50': 5, '51': 5, '52': 4, '53': 2, '55': 3, '56': 3 };
+const CHS = ['13', '14', '15', '16', '17', '22', '23', '24', '25', '45', '46', '47', '48', '49', '50', '51', '52', '53', '55', '56'];
+const BP = { '13': 4, '14': 3, '15': 4, '16': 3, '17': 4, '22': 3, '23': 2, '24': 4, '25': 3, '45': 2, '46': 2, '47': 2, '48': 3, '49': 3, '50': 4, '51': 4, '52': 3, '53': 2, '55': 2, '56': 3 };
+// Chapters 22–25 were Exam 2 chapters: the final reuses their Exam 2 question files (and their labels and explanations)
+// instead of data/e3/q files. tools/build_e3_mastery.js loads these first; check_e3_questions.js and audit.js read them too.
+const E2_FILES = ['data/extra-questions.js', 'data/recall-22-23.js', 'data/recall-24-25.js', 'data/ngn-22-25.js', 'data/explain/22.js', 'data/explain/23.js', 'data/explain/24.js', 'data/explain/25.js', 'data/explain/cards.js', 'data/cj-tags.js'];
 const OFF_GUIDE_PICKS = {};
 const SKILLS = ['Drugs & mechanisms', 'Pathophysiology', 'Priority & safety', 'Recognizing cues'];
 // The words after each topic's name tie a question to it. With "Everything" selected, every test asks each topic
@@ -23,6 +26,12 @@ const GUIDE = {
   '16': [['Inflammation & immunity', /./]],
   '17': [['Allergy, anaphylaxis & lupus', /hypersensitiv|allerg|type I\b|type II|type III|type IV|histamine|angioedema|\bACE\b|lisinopril|bradykinin|anaphyla|epinephrine|autoinjector|hives|urticaria|wheal|penicillin|cephalosporin|contrast|poison ivy|dermatitis|autoimmun|lupus|\bSLE\b|butterfly|malar|discoid|hydroxychloroquine|prednisone|corticosteroid|belimumab|anifrolumab|nephritis|\bANA\b|photosensitiv|\bsun/i],
          ['HIV, transplant rejection & Lyme disease', /\bHIV\b|\bAIDS\b|CD4|sexual history|partners|viral load|\bcART\b|antiretroviral|PrEP|\bPEP\b|TasP|syringe|needle|condom|opportunistic|\bPCP\b|Pneumocystis|Kaposi|Candida|thrush|crypto|toxo|\bIRIS\b|abacavir|maraviroc|tenofovir|wasting|transplant|rejection|graft|cyclosporine|tacrolimus|sirolimus|mycophenolate|leflunomide|basiliximab|Lyme|tick|Borrelia|bull’s-eye|erythema migrans|DEET/i]],
+  '22': [['Respiratory assessment, tests & oxygen', /./]],
+  '23': [['Upper airway: sleep apnea, epistaxis & head and neck cancer', /./]],
+  '24': [['Asthma & COPD', /asthma|COPD|emphysema|bronchitis|inhaler|inhaled|bronchodilat|spacer|nebuliz|albuterol|SABA|LABA|\bICS\b|peak flow|pursed|wheez|tiotropium|ipratropium|montelukast|omalizumab|salmeterol|fluticasone|theophylline|roflumilast|status asthmaticus|silent chest|88–92|barrel|cor pulmonale|exacerbat/i],
+         ['Lung cancer, chest tubes, CF, PAH & IPF', /lung cancer|chest tube|water[- ]seal|tidal|bubbling|thoracotomy|lobectomy|pneumonectomy|superior vena cava|\bSVC\b|cystic fibrosis|\bCF\b|sweat chloride|dornase|ivacaftor|pancreatic enzyme|pulmonary arterial|\bPAH\b|\bIPF\b|fibrosis|epoprostenol|bosentan|sildenafil|nintedanib|pirfenidone/i]],
+  '25': [['Pneumonia & COVID-19', /pneumonia|\bCAP\b|\bHAP\b|\bVAP\b|aspiration|consolidat|sepsis|culture|incentive spirometr|COVID|SARS|remdesivir|dexamethasone|nirmatrelvir|Paxlovid|prone/i],
+         ['TB, influenza & other infections', /\bTB\b|tuberculosis|isoniazid|rifampin|pyrazinamide|ethambutol|\bN95\b|negative[- ]pressure|airborne|IGRA|tuberculin|influenza|\bflu\b|oseltamivir|pandemic|droplet|sinusitis|peritonsillar|tonsil|trismus|drool|muffled|pharyngitis|anthrax|histoplasm|coccidi|blastomyc|fungal|amphotericin|pertussis/i]],
   '45': [['GI assessment, labs & procedures', /./]],
   '46': [['GERD & hiatal hernia', /GERD|reflux|heartburn|pyrosis|dyspepsia|regurgitat|water brash|eructation|Barrett|lower esophageal sphincter|\bLES\b|proton pump|\bPPI\b|omeprazole|pantoprazole|esomeprazole|famotidine|\bH2\b|antacid|alginate|Stretta|LINX|hiatal|sliding hernia|paraesophageal|rolling hernia|fundoplication|Nissen|gas bloat/i],
          ['Mouth, oral & esophageal cancer and trauma', /stomatitis|mucositis|candid|thrush|aphthous|oral|mouth|leukoplakia|erythroplakia|xerostomia|salivary|sialadenitis|tongue|tooth|teeth|dent|floss|esophageal (cancer|trauma|injur|perforation|tear)|esophagectomy|caustic|lye|alkali|acid burn|Boerhaave|dysphagia|swallow|lidocaine|nystatin|clotrimazole|chlorhexidine/i]],
@@ -87,6 +96,25 @@ const GUIDE_SUB = {
            ['Stage III care', /opportunistic|\bPCP\b|Pneumocystis|\bTB\b|tuberculosis|Kaposi|Candida|thrush|crypto|toxo|wasting|litter|undercooked|bleach|Airborne/i],
            ['Transplant rejection', /transplant|rejection|graft|cyclosporine|tacrolimus|sirolimus|mycophenolate|leflunomide|grapefruit/i],
            ['Lyme disease', /Lyme|\btick|Borrelia|bull’s-eye|erythema migrans|DEET/i]],
+  '22:0': [['History, smoking & aging', /history|pack[- ]?year|smok|nicotine|vap|older|aging|age-related|kyphosis|elastic|occupation|exposure|carbon monoxide|inhalation/i],
+           ['Breath sounds & the chest exam', /crackles|wheez|stridor|rhonchi|breath sound|auscultat|fremitus|percuss|clubbing|cyanosis|retraction|accessory|tripod/i],
+           ['Oximetry, capnography, ABGs & PFTs', /SpO₂|oximet|capnograph|ETCO|end-tidal|\bPFT|FEV|\bABG|PaCO|PaO|pH 7|acidosis|alkalosis|hypox/i],
+           ['Oxygen therapy', /oxygen|cannula|mask|Venturi|FiO|L\/min|nonrebreather|humidif/i],
+           ['Scopes, thoracentesis & biopsy', /x-ray|\bCXR\b|\bCT\b|sputum|culture|bronchoscop|thoracentesis|biopsy|gag|pneumothorax/i]],
+  '23:0': [['Obstructive sleep apnea', /apnea|CPAP|snor|\bOSA\b|Epworth|polysomnograph|sleep/i],
+           ['Epistaxis, trauma & obstruction', /epistaxis|nosebleed|nasal|fracture|\bCSF\b|halo|obstruct|Heimlich|abdominal thrust|choking|foreign body/i],
+           ['Head and neck cancer & laryngectomy', /cancer|laryng|tracheostom|\btrach\b|stoma|flap|neck dissection|radiation|speech|voice/i]],
+  '24:0': [['Asthma', /asthma|status asthmaticus|silent chest|peak flow|montelukast|omalizumab|trigger/i],
+           ['COPD', /COPD|emphysema|bronchitis|88–92|barrel|cor pulmonale|tiotropium|roflumilast|exacerbat/i],
+           ['Inhalers, drugs & breathing techniques', /inhaler|inhaled|bronchodilat|spacer|\bMDI\b|\bDPI\b|nebuliz|albuterol|SABA|LABA|\bICS\b|salmeterol|fluticasone|ipratropium|theophylline|pursed|diaphragmatic|huff/i]],
+  '24:1': [['Lung cancer & chest tubes', /lung cancer|chest tube|water[- ]seal|tidal|bubbling|thoracotomy|lobectomy|pneumonectomy|\bSVC\b|superior vena cava/i],
+           ['Cystic fibrosis', /cystic fibrosis|\bCF\b|CFTR|sweat chloride|dornase|ivacaftor|lumacaftor|tezacaftor|elexacaftor|pancreatic enzyme|Burkholderia|cepacia/i],
+           ['PAH & IPF', /pulmonary arterial|pulmonary hypertension|\bPAH\b|\bIPF\b|pulmonary fibrosis|honeycomb|epoprostenol|treprostinil|bosentan|ambrisentan|sildenafil|tadalafil|nintedanib|pirfenidone/i]],
+  '25:0': [['Pneumonia', /pneumonia|\bCAP\b|\bHAP\b|\bVAP\b|aspiration|consolidat|incentive spirometr|sepsis|culture/i],
+           ['COVID-19', /COVID|SARS|remdesivir|dexamethasone|nirmatrelvir|Paxlovid|prone|NAAT|RT-PCR/i]],
+  '25:1': [['Tuberculosis', /\bTB\b|tuberculosis|isoniazid|rifampin|pyrazinamide|ethambutol|\bN95\b|negative[- ]pressure|airborne|IGRA|tuberculin|Mantoux/i],
+           ['Influenza & pandemics', /influenza|\bflu\b|oseltamivir|pandemic|droplet|vaccin/i],
+           ['Sinusitis, abscess, anthrax & fungi', /sinusitis|peritonsillar|tonsil|trismus|drool|muffled|pharyngitis|anthrax|histoplasm|coccidi|blastomyc|cryptococ|aspergill|hantavirus|fungal|amphotericin/i]],
   '14:0': [['Reading ABGs & compensation', /\bABG|arterial blood gas|PaCO₂|HCO₃|compensat|ROME|pH 7|24–48/i],
            ['Metabolic acidosis', /metabolic acidosis|ketoacid|\bDKA\b|diarrhea|Kussmaul|lactic|kidney failure|sodium bicarbonate|bicarbonate is given/i],
            ['Respiratory acidosis', /respiratory acidosis|CO₂ (retention|retained|is retained)|retain|COPD|opioid|hypoventilat|rib|airway|ventilat|bronchodilator/i],
@@ -193,7 +221,7 @@ const CH33_FOR_34 = null;
 // Off-guide chapters: none.
 const OFF_CHS = [];
 const STORE = 'fin-mastery-v1', OLD_STORE = 'fin-mastery-loop-v0';
-const CH_TITLE = { '13': 'Fluids & electrolytes', '14': 'Acid–base balance', '15': 'Infusion therapy', '16': 'Inflammation & immunity', '17': 'Allergy & immunity', '45': 'GI assessment', '46': 'Mouth & esophagus', '47': 'Stomach conditions', '48': 'Noninflammatory bowel conditions', '49': 'Inflammatory bowel conditions', '50': 'Liver conditions', '51': 'Gallbladder & pancreas', '52': 'Malnutrition & obesity', '53': 'Endocrine assessment', '55': 'Thyroid & parathyroid', '56': 'Diabetes' };
+const CH_TITLE = { '13': 'Fluids & electrolytes', '14': 'Acid–base balance', '15': 'Infusion therapy', '16': 'Inflammation & immunity', '17': 'Allergy & immunity', '22': 'Respiratory assessment', '23': 'Upper respiratory conditions', '24': 'Lower respiratory conditions', '25': 'Respiratory infections', '45': 'GI assessment', '46': 'Mouth & esophagus', '47': 'Stomach conditions', '48': 'Noninflammatory bowel conditions', '49': 'Inflammatory bowel conditions', '50': 'Liver conditions', '51': 'Gallbladder & pancreas', '52': 'Malnutrition & obesity', '53': 'Endocrine assessment', '55': 'Thyroid & parathyroid', '56': 'Diabetes' };
 // Organ → molecule breakdowns (data/e3/nodes-*.js): the topic breakdowns, then the mechanisms, and the words that tie a
 // question to each. A topic breakdown only matches questions from its own chapter; a mechanism matches any chapter.
 const NODES = [

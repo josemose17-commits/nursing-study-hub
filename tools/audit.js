@@ -19,6 +19,9 @@ const { chapters, topics, CHS } = require('./notes-stats.js')(DATA);
 const win = {}, ctx = vm.createContext({ window: win });
 const load = f => vm.runInContext(fs.readFileSync(f, 'utf8'), ctx, { filename: f });
 fs.readdirSync(DATA).filter(f => /^(drugs-|nodes-).*\.js$|^(basics|images|videos|focus-rules|topic-index)\.js$/.test(f)).forEach(f => load(path.join(DATA, f)));
+// Chapters shared with Exam 2 keep their Exam 2 question files (E2_FILES in the Final test's config), loaded first, as the test page does.
+if (EXAM === 'e3') vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'final-mastery-cfg.js'), 'utf8') + '\n;typeof E2_FILES === "undefined" ? [] : E2_FILES;', {})
+  .forEach(f => load(path.join(ROOT, f)));
 fs.readdirSync(path.join(DATA, 'q')).filter(f => /\.js$/.test(f)).forEach(f => load(path.join(DATA, 'q', f)));
 const built = new Set((win.INFO_TOPICS || []).map(t => t.id));
 const stale = topics.filter(t => !built.has(t.id)).map(t => t.id);
@@ -33,6 +36,7 @@ Object.keys(win.RECALL_EXTRA || {}).forEach(ch => {
   (R.rq || []).forEach((x, i) => items.push({ id: ch + '|r|' + i, ch, kind: 'recall', text: x[2] + ' ' + x[3] }));
   (R.mc || []).forEach((x, i) => items.push({ id: ch + '|m|' + i, ch, kind: 'myth', text: x[0] + ' ' + x[1] }));
 });
+Object.keys(win.EXTRA_Q || {}).forEach(ch => win.EXTRA_Q[ch].forEach((x, i) => items.push({ id: ch + '|x|' + i, ch, kind: 'q', text: qText(x) })));
 const drugs = ((win.DRUG_DATA || {}).drugs || []).map(d => ({ name: d.n, chs: String(d.ch).match(/\d\d/g) || [], text: JSON.stringify(d) }));
 const rules = ((win.FOCUS_CFG || {}).rules || []);
 const nodeTopics = win.NODE_TOPICS || {}, nodes = win.CONCEPT_NODES || [];

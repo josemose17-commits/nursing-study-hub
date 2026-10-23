@@ -132,7 +132,29 @@ window.FOCUS_CFG = {
     ['17', /^hiv drugs/i, /\bcART\b|antiretroviral|abacavir|emtricitabine|lamivudine|tenofovir|zidovudine|nevirapine|efavirenz|etravirine|rilpivirine|doravirine|atazanavir|darunavir|enfuvirtide|fostemsavir|maraviroc|dolutegravir|raltegravir|cobicistat|ritonavir|ibalizumab|missed dose|resistan|\bIRIS\b|immune reconstitution/i],
     ['17', /^stage iii/i, /stage III|opportunistic|\bPCP\b|Pneumocystis|trimethoprim|tuberculosis|\bTB\b|Kaposi|Candida|thrush|cryptococ|toxoplasm|wasting|litter|undercooked|Airborne|dedicated|disinfect|N95/i],
     ['17', /^lyme/i, /Lyme|\bticks?\b|Borrelia|bull’s-eye|erythema migrans|DEET|doxycycline/i],
-    ['17', /^transplant rejection/i, /transplant|rejection|graft|cyclosporine|tacrolimus|sirolimus|everolimus|mycophenolate|leflunomide|basiliximab|antithymocyte|grapefruit/i]
+    ['17', /^transplant rejection/i, /transplant|rejection|graft|cyclosporine|tacrolimus|sirolimus|everolimus|mycophenolate|leflunomide|basiliximab|antithymocyte|grapefruit/i],
+    // Chapters 22–25 reuse the Exam 2 notes (imported by tools/build_e3_notes.js), so they keep Exam 2's rules (focus.js).
+    ['22', /overview/i, /older|aging|age-related|elastic recoil|kyphosis|cough reflex|chest wall|pack[- ]?year|smok/i],
+    ['22', /smoking cessation/i, /smok|nicotine|cessation|pack[- ]?year|packs|vap|hookah|inhal|carbon monoxide|bupropion|varenicline|exposure|vaccin|prevent/i],
+    ['22', /reading the numbers/i, /SpO₂|oximet|capnograph|ETCO|PFT|FEV|ABG|PaCO|PaO|pH 7|acidosis|alkalosis/i],
+    ['22', /oxygen as a drug/i, /oxygen|cannula|mask|Venturi|FiO|L\/min|hypox/i],
+    ['22', /endoscopy|thoracentesis/i, /bronchoscop|thoracentesis|biopsy|gag/i],
+    ['22', /breath sounds/i, /crackles|wheez|stridor|rhonchi|breath sound|auscultat|fremitus|percuss|bronchial|vesicular/i],
+    ['22', /diagnostic tests/i, /x-ray|CXR|\bCT\b|sputum|culture|bronchoscop|thoracentesis|PFT/i],
+    ['22', /questions to ask/i, /pack[- ]?year|packs|history|smok|exposure|occupation|older|aging|age-related|cough/i],
+    ['23', /sleep apnea/i, /apnea|CPAP|snor|\bOSA\b/i],
+    ['23', /epistaxis|obstruction/i, /epistaxis|nosebleed|nasal|fracture|CSF|halo|obstruct|stridor|Heimlich|airway/i],
+    ['23', /head and neck|laryngectomy/i, /laryng|tracheostom|trach\b|stoma|flap|neck|suction/i],
+    ['24', /^asthma/i, /asthma|albuterol|SABA|\bICS\b|LABA|inhaler|peak flow|status asthmaticus|silent chest|wheez|montelukast|omalizumab|theophylline|salmeterol|fluticasone/i],
+    ['24', /^COPD/i, /COPD|emphysema|bronchitis|pursed|barrel|88–92|tiotropium|ipratropium|cor pulmonale|roflumilast/i],
+    ['24', /lung cancer/i, /lung cancer|chest tube|water[- ]seal|tidaling|thoracotomy|superior vena cava|SVC|pneumonectomy/i],
+    ['24', /cystic fibrosis/i, /cystic fibrosis|\bCF\b|CFTR|sweat chloride|dornase|ivacaftor|lumacaftor|tezacaftor|elexacaftor|pancreatic enzyme|Burkholderia|cepacia|chest wall oscillation|HFCWO/i],
+    ['24', /pulmonary arterial/i, /pulmonary arterial|pulmonary hypertension|\bPAH\b|\bIPF\b|pulmonary fibrosis|honeycomb|epoprostenol|treprostinil|bosentan|ambrisentan|macitentan|sildenafil|tadalafil|nintedanib|pirfenidone|BMPR2/i],
+    ['25', /^pneumonia/i, /pneumonia|\bCAP\b|\bHAP\b|\bVAP\b|aspiration|consolidat|infiltrat|sepsis|incentive spirometr|culture/i],
+    ['25', /COVID/i, /COVID|SARS-CoV|coronavirus|remdesivir|dexamethasone|nirmatrelvir|Paxlovid|bebtelovimab|convalescent|anosmia|ageusia|NAAT|RT-PCR|self-prone|proning/i],
+    ['25', /tuberculosis/i, /\bTB\b|tuberculosis|isoniazid|rifampin|pyrazinamide|ethambutol|N95|negative[- ]pressure|airborne/i],
+    ['25', /influenza/i, /influenza|\bflu\b|oseltamivir|pandemic|droplet/i],
+    ['25', /rhinosinusitis|anthrax/i, /sinusitis|peritonsillar|tonsil|trismus|drool|muffled|anthrax|anthracis|bioterror|histoplasm|coccidi|blastomyc|cryptococ|aspergill|hantavirus|endemic|amphotericin|fungal|pharyngitis|diphenhydramine|chlorpheniramine|hydroxyzine/i]
   ],
   // The professor's Exam 3 study guide, as map topics: the items it names in 53, 45 and 46; all of 47, 55 and 56.
   guide: [

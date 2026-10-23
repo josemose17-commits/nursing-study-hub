@@ -24,7 +24,7 @@ Object.assign(window.EXPLAIN, {
       2: 'Correct. Tidaling (water rising on inhale, falling on exhale) shows the tube is open to the pleural space. It stops when the lung fully re-expands or the tube kinks or clots.',
       3: 'Correct. If the tube disconnects, put the end in sterile water to restore the seal; if it pulls out, cover the site with an occlusive dressing (taped on three sides).',
       4: 'Incorrect. Stripping creates very high negative pressure that can damage lung tissue. It is done only when ordered, not as routine.',
-      5: 'Correct. Marking the level shows the trend. More than about 100 mL/hr, or bright red drainage, suggests hemorrhage.'
+      5: 'Correct. Marking the level shows the trend. More than 70 mL/hr (the book’s limit), or bright red drainage, suggests hemorrhage.'
     },
     phys: 'The pleural space normally has negative pressure that keeps the lung stuck to the chest wall. Air or fluid there collapses the lung. The chest tube drains it; the water seal acts like a one-way valve so air leaves on exhalation but cannot be pulled back in.',
     rule: 'Chest tube: keep it below the chest, never clamp or strip without an order, watch tidaling and bubbling, mark drainage, keep sterile water and an occlusive dressing at the bedside.'
@@ -166,16 +166,16 @@ Object.assign(window.EXPLAIN, {
   },
   '24|c|3': {
     ask: 'Which chest-tube findings mean bleeding or a collapsing lung — call now?',
-    cues: ['Escalation list: >100 mL/hr, tracheal shift, sudden dyspnea, SpO₂ <90%'],
+    cues: ['Escalation list: >70 mL/hr, tracheal shift, sudden dyspnea, SpO₂ <90%'],
     r: {
-      0: 'Correct. More than about 100 mL/hr of drainage suggests active bleeding in the chest.',
+      0: 'Correct. More than 70 mL/hr of drainage (the book’s limit) suggests active bleeding in the chest.',
       1: 'Correct. A trachea pushed to one side means pressure is building in the chest — tension pneumothorax.',
       2: 'Expected. Tidaling shows the tube is open to the pleural space.',
       3: 'Correct. Sudden worse breathing means the lung is collapsing again or something is compressing it.',
       4: 'Correct. SpO₂ below 90% means gas exchange is failing.'
     },
     phys: 'Air or blood collecting under pressure → collapses the lung → shifts the mediastinum → kinks the great veins → less venous return → shock. Heavy bloody drainage means a vessel is bleeding.',
-    rule: 'Chest tube — call now: drainage >100 mL/hr or bright red, tracheal shift, sudden dyspnea, SpO₂ <90%. Tidaling is normal.'
+    rule: 'Chest tube — call now: drainage >70 mL/hr or bright red, tracheal shift, sudden dyspnea, SpO₂ <90%. Tidaling is normal.'
   },
   '24|c|4': {
     ask: 'Which COPD client has changed from their own baseline?',

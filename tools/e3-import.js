@@ -17,13 +17,24 @@ const strip = h => h
   .replace(/<span style="background:var\(--color-accent-800\);color:var\(--color-accent-100\);box-shadow:inset 0 -2px 0 var\(--color-accent\);padding:0 2px;border-radius:2px">((?:(?!<\/?span)[\s\S])*?)<\/span>/g, '$1')
   .replace(/ style=""/g, '');
 
+// Where Exam 2's notes disagree with the book, the book's version (audit/e3-record.js, corrections): [topic id, the text
+// in Exam 2's notes, its replacement]. A fix whose text is no longer there stops the build, so a stale one is noticed.
+const FIXES = [
+  ['24-overview', 'chest tube drainage &gt;100 mL/hr', 'chest tube drainage &gt;70 mL/hr'],
+  ['24-copd-the-gas-exchange-concept-exemplar', '<b>2 Moderate</b> ≤50 to &lt;80% · <b>3 Severe</b> ≤30 to &lt;50%', '<b>2 Moderate</b> 50 to &lt;80% · <b>3 Severe</b> 30 to &lt;50%']
+];
+const fix = (id, h) => FIXES.filter(f => f[0] === id).reduce((s, [, from, to]) => {
+  if (!s.includes(from)) throw new Error('e3-import: fix for ' + id + ' no longer finds "' + from + '"');
+  return s.replace(from, to);
+}, h);
+
 function exam2Topics(ROOT) {
   const w = {}, ctx = vm.createContext({ window: w });
   const run = f => vm.runInContext(fs.readFileSync(path.join(ROOT, f), 'utf8'), ctx, { filename: f });
   run('data/info-topics.js');
   fs.readdirSync(path.join(ROOT, 'data/notes-short')).filter(f => /\.js$/.test(f)).forEach(f => run('data/notes-short/' + f));
   const topics = (w.INFO_TOPICS || []).filter(t => IMPORT.includes(t.ch))
-    .map(t => ({ id: t.id, ch: t.ch, chTitle: t.chTitle, title: t.title, kind: t.kind, tag: t.tag, html: strip(t.html) }));
+    .map(t => ({ id: t.id, ch: t.ch, chTitle: t.chTitle, title: t.title, kind: t.kind, tag: t.tag, html: fix(t.id, strip(t.html)) }));
   const short = {};
   topics.forEach(t => {
     const S = (w.NOTES_SHORT || {})[t.id]; if (!S) return;

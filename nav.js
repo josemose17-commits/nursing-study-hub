@@ -12,12 +12,13 @@
     if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = last;
   } catch (e) {}
   // Pages each exam has so far; a missing one gets no tab.
-  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Route', 'Map', 'Drugs', 'Mastery'], 'F': ['Map', 'Drugs', 'Mastery'] };
+  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Learn', 'Route', 'Map', 'Drugs', 'Mastery'], 'F': ['Map', 'Drugs', 'Mastery'] };
   if (!HAS[EXAM]) EXAM = '2';
-  var PAGE = EXAM === 'F' ? { Route: '', Map: 'Final Map.html', Drugs: 'Exam 3 Drug Cards.dc.html', Mastery: 'Final Mastery Loop.dc.html' }
-    : { Route: 'Exam ' + EXAM + ' Route.html', Map: 'Exam ' + EXAM + ' Map.html', Drugs: 'Exam ' + EXAM + ' Drug Cards.dc.html', Mastery: 'Exam ' + EXAM + ' Mastery Loop.dc.html' };
+  var PAGE = EXAM === 'F' ? { Learn: '', Route: '', Map: 'Final Map.html', Drugs: 'Exam 3 Drug Cards.dc.html', Mastery: 'Final Mastery Loop.dc.html' }
+    : { Learn: 'Exam ' + EXAM + ' Learn.html', Route: 'Exam ' + EXAM + ' Route.html', Map: 'Exam ' + EXAM + ' Map.html', Drugs: 'Exam ' + EXAM + ' Drug Cards.dc.html', Mastery: 'Exam ' + EXAM + ' Mastery Loop.dc.html' };
   var TABS = [
     ['index.html', 'Home', 'M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z'],
+    [PAGE.Learn, 'Learn', 'M4 3h6a2 2 0 0 1 2 2v16a4 4 0 0 0-4-2H4zM20 3h-6a2 2 0 0 0-2 2v16a4 4 0 0 1 4-2h4z'],
     [PAGE.Route, 'Route', 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm3 11 2.5 2.5L16 12'],
     [PAGE.Map, 'Map', 'M6 6h.01M18 6h.01M12 18h.01M6 6l6 12 6-12M6 6h12'],
     [PAGE.Drugs, 'Drugs', 'M10.5 4.5a4.95 4.95 0 0 1 7 7l-6 6a4.95 4.95 0 0 1-7-7Zm-3 3 7 7'],
@@ -27,8 +28,8 @@
   window.E2Hub = { exam: EXAM };
   var root = location.pathname.indexOf('/offline/') >= 0 ? '../' : '';
   function build() {
-    // Six tabs: let each keep its label's width so the names don't run together on a phone.
-    var st = document.createElement('style'); st.textContent = '.hub-tabs a { flex: 1 0 auto; }'; document.head.appendChild(st);
+    // Keep labels readable; the bar scrolls horizontally on narrow screens.
+    var st = document.createElement('style'); st.textContent = '.hub-tabs { overflow-x:auto; } .hub-tabs a { flex: 1 0 auto; }'; document.head.appendChild(st);
     var nav = document.createElement('nav');
     nav.className = 'hub-tabs'; nav.setAttribute('aria-label', 'Study pages');
     TABS.forEach(function (t) {
@@ -86,6 +87,11 @@
       if (M && M.test) bits.push((x[0] === 'Final' ? 'a ' : 'an ') + x[0] + ' test in progress');
     });
     if (snap.d['e2-focus'] || snap.d['e3-focus']) bits.push('your focus topics');
+    var guided = null; try { guided = JSON.parse(snap.d['e3-learn-v1'] || 'null'); } catch (e) {}
+    if (guided && guided.lessons && typeof guided.lessons === 'object') {
+      var tried = Object.keys(guided.lessons).filter(function (id) { return guided.lessons[id] && guided.lessons[id].completedAt; }).length;
+      bits.push('Exam 3 guided study: ' + tried + ' lessons attempted' + (guided.session && guided.session.stage !== 'done' ? ', one paused' : ''));
+    }
     return (bits.length ? bits.join(', ') : 'your saved settings') + ' — saved ' + new Date(snap.at).toLocaleString();
   }
   // Loading a snapshot (from a link or a progress file): ask first, then replace this device's progress.
@@ -117,7 +123,7 @@
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610270930';
+  var BUILD = '202610271600';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     fetch(root + 'version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {

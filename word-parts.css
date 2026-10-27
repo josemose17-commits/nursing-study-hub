@@ -1,0 +1,19 @@
+.wp-analysis { font-size: 14px; line-height: 1.55; }
+.wp-analysis h4 { color: #ffe27a; font-size: 14px; margin: 10px 0 6px; }
+.wp-split { font-size: 18px; color: #ffe27a; overflow-wrap: anywhere; }
+.wp-pieces { margin: 10px 0; }
+.wp-pieces dt { color: #ffe9a8; font-weight: 600; margin-top: 9px; }
+.wp-pieces dt small { font-size: 11px; font-weight: 400; color: #c9c2ae; }
+.wp-pieces dd { margin: 2px 0 0; }
+.wp-note,.wp-absent,.wp-source { font-size: 12px; color: #c9c2ae; }
+.wp-analysis a { color: #ffe27a; }
+.wp-analysis details { margin: 10px 0; }
+.wp-analysis summary { cursor: pointer; }
+.wp-table { overflow-x: auto; }
+.wp-table table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.wp-table th,.wp-table td { border-bottom: 1px solid rgba(255,255,255,.15); text-align: left; padding: 9px; vertical-align: top; }
+.wp-table td:first-child { overflow-wrap: anywhere; }
+.e2say-pop { max-height: calc(100dvh - 120px); overflow-y: auto; overscroll-behavior: contain; }
+#pop:has(.wp-analysis) { max-height: calc(100dvh - 40px); overflow-y: auto; overscroll-behavior: contain; }
+.e2say-pop .wp-analysis b { display: inline; font-size: inherit; }
+.wp-reference { display: inline-block; margin-top: 8px; color: #ffe27a; }

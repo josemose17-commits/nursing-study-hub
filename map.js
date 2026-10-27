@@ -345,7 +345,7 @@
       var text = t ? textOf[t.id] : JSON.stringify(nodes[0]);
       var ws = wordsIn(text);
       body.innerHTML = ws.length ? '<p class="empty-note" style="margin:0 0 10px">' + ws.length + ' words from this ' + (t ? 'topic' : 'mechanism') + ', in plain language. In the notes, any dotted-underlined word can be tapped too.</p><div class="words">' +
-        ws.map(function (w) { return '<div class="word"><b>' + esc(w.term) + '</b>' + esc(w.def) + '</div>'; }).join('') + '</div>' : '<p class="empty-note">No glossary words found here.</p>';
+        ws.map(function (w) { return '<div class="word"><b>' + esc(w.term) + '</b>' + esc(w.def) + (window.WordParts ? '<details><summary>Prefix, root, suffix / name type</summary>' + window.WordParts.html(w.term, false) + '</details>' : '') + '</div>'; }).join('') + '</div><p><a href="Word Parts.html">Search all word parts and medication stems →</a></p>' : '<p class="empty-note">No glossary words found here. <a href="Word Parts.html">Search word parts →</a></p>';
     } else if (tab === 'links') {
       body.innerHTML = connectionsHtml(t, nodes);
     }
@@ -641,7 +641,7 @@
     })();
   }
   function showPop(el) {
-    var g = GRE[+el.dataset.g]; pop.innerHTML = '<b>' + esc(g.term) + '</b>' + esc(g.def); pop.style.display = 'block';
+    var g = GRE[+el.dataset.g]; pop.innerHTML = '<b>' + esc(g.term) + '</b>' + esc(g.def) + (window.WordParts ? window.WordParts.html(g.term, true) : ''); pop.style.display = 'block';
     var r = el.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
     var x = Math.min(Math.max(12, r.left), innerWidth - w - 12), y = r.bottom + 8 + h > innerHeight - 12 ? r.top - h - 8 : r.bottom + 8;
     pop.style.left = x + 'px'; pop.style.top = Math.max(12, y) + 'px';

@@ -6,7 +6,7 @@ for (const file of pages) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');
   const code = html.match(/<script type="text\/x-dc" data-dc-script>([\s\S]*?)<\/script>/)[1];
   const ctx = vm.createContext({ window: { scrollTo() {}, confirm: () => true }, DCLogic: class { setState(x, done) { Object.assign(this.state, x); if (done) done(); } } });
-  vm.runInContext(code + '\nthis.C = Component; this.restoreMisses = restoreMisses; this.noteMiss = noteMiss;', ctx);
+  vm.runInContext(code + '\nthis.C = Component; this.restoreMisses = restoreMisses; this.noteMiss = noteMiss; this.chapters = CHS;', ctx);
   const restore = ctx.restoreMisses, note = ctx.noteMiss;
   const app = () => {
     const c = new ctx.C(); c.state.S = c.blank(); c.guideMode = false;
@@ -81,9 +81,39 @@ for (const file of pages) {
   const noReport = app(); noReport.state.S.log.q0 = { last: 0 }; restore(noReport.state.S); noReport.startRedo(); assert.equal(noReport.state.S.test.redo[0], 'q0');
   assert(html.indexOf('{{ hasMisses }}') < html.indexOf('{{ hasReport }}'), 'Redo access still gated by latest report');
   const followTest = app(); followTest.pool = Object.values(followTest.byId).map(x => ({ ...x, topics: ['topic'], words: new Set(), guide: [] }));
+  followTest.byId = Object.fromEntries(followTest.pool.map(x => [x.id, x]));
   const ft = { items: [{ id: 'q0' }], redo: Array.from({ length: 14 }, (_, i) => 'q' + i), follow: {}, depth: {}, root: {}, followN: 0 };
   const f = followTest.pickFollow(followTest.state.S, ft, { from: 'q0', root: 'q0', words: [], topics: ['topic'], drugs: [], want: [], fmt: 'trad', depth: 1 });
   assert.equal(f.id, 'q14', 'Follow-up stole a question reserved for later in the redo round');
+  // Chapter selection filters every round, preserves other chapters and survives serialization.
+  const scope = app(), [a, b, empty] = clone(ctx.chapters);
+  scope.byId.q0.ch = a; scope.byId.q1.ch = a; scope.byId.q2.ch = b; scope.byId.q3.ch = b;
+  for (const id of ['q0', 'q1', 'q2', 'q3']) note(scope.state.S, id, 0);
+  note(scope.state.S, 'q2', 1);
+  scope.setRedoChapter(a); assert.deepEqual(clone(scope.redoState().all), ['q0', 'q1']);
+  scope.setRedoChapter(b); assert.equal(scope.redoState().all.length, 4);
+  scope.setRedoChapter(a); assert.deepEqual(clone(scope.redoState().all), ['q2', 'q3']);
+  scope.state.S = clone(scope.state.S); assert.deepEqual(clone(scope.redoChapterSelection()), [b]);
+  note(scope.state.S, 'q0', 1);
+  scope.startRedo('all'); assert.deepEqual(clone(scope.state.S.test.redoChapters), [b]);
+  assert(scope.state.S.test.redo.every(id => scope.byId[id].ch === b));
+  assert.equal(scope.state.S.misses.items.q0.state, 'fixed', 'Replay reset an unselected chapter');
+  const savedRound = JSON.stringify(scope.state.S.test);
+  scope.setRedoChapter(a); assert.equal(JSON.stringify(scope.state.S.test), savedRound, 'Selection changed a paused round');
+  scope.state.S.test = null; scope.setRedoChapter(null); scope.setRedoChapter(b); // b alone
+  scope.setRedoChapter(b); assert.deepEqual(clone(scope.redoState().all), []);
+  scope.startRedo(); assert.equal(scope.state.S.test, null, 'Empty selection started a test');
+  scope.setRedoChapter(empty); assert.equal(scope.redoState().all.length, 0); assert.equal(scope.redoState(true).all.length, 4);
+  scope.setRedoChapter(null); assert.equal(scope.redoState().all.length, 4);
+  scope.state.S.settings.redoChapters = ['invalid']; assert.equal(scope.redoState().all.length, 0, 'Invalid chapter broadened to all chapters');
+  // Follow-ups use the full exam bank but never leave the round's chosen chapters.
+  const restricted = app();
+  restricted.byId = Object.fromEntries(['q0', 'q1', 'q2'].map((id, i) => [id, { id, ch: i === 2 ? b : a, topics: ['shared'], words: new Set(), guide: [] }]));
+  restricted.pool = [restricted.byId.q2]; // Map focus currently points at another chapter.
+  const tr = { items: [{ id: 'q0' }], redo: ['q0'], redoChapters: [a], follow: {}, depth: {}, root: {}, followN: 0 };
+  const target = { from: 'q0', root: 'q0', words: [], topics: ['shared'], drugs: [], want: [], depth: 1 };
+  assert.equal(restricted.pickFollow(restricted.state.S, tr, target).id, 'q1');
+  delete restricted.byId.q1; assert.equal(restricted.pickFollow(restricted.state.S, tr, target), null, 'Follow-up escaped chosen chapter');
   assert(!html.includes('Only this test counts.'));
-  console.log(file + ': migration, cumulative bank, deduplication, partial/guessed misses, 10-item rounds, early exit, persistence, follow-up repair, replay and scope checks passed.');
+  console.log(file + ': migration, cumulative bank, deduplication, partial/guessed misses, 10-item rounds, early exit, persistence, follow-up repair, replay, chapter selection and follow-up scope checks passed.');
 }

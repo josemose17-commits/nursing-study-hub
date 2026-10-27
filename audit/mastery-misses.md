@@ -21,3 +21,11 @@ Earlier versions did not retain every historical answer. A past miss that was ov
 `node tools/check_mastery_misses.js` exercises the actual engine in all three generated pages: recovery beyond the latest report, duplicate IDs, partial/guessed answers, ten-question batching, early ending, browser serialization, follow-up repair, replay, current-focus independence, unavailable IDs and reserved follow-up questions.
 
 Browser checks at desktop and phone widths cover an older 13-question miss set with a perfect latest report, actual answer/check controls, early ending, reload/resume, replay, `#redo`, report replacement, and no-report recovery. Existing question, lesson, source-link and clinical-judgment checks also pass.
+
+## Chapter selection
+
+The redo card offers All chapters or any combination of this exam's chapters. Counts show all available saved misses, including fixed entries. The selection persists with the exam's existing settings, filters the redo queue and its counts, and leaves other chapters' progress untouched. Selecting no chapters or a chapter without saved misses shows an empty state; it cannot silently start a different chapter.
+
+Each round snapshots its chapter selection. Related follow-ups use the full exam bank (independent of Map focus) and remain inside that snapshot. A paused round retains its scope if the home-screen selection changes. Replay all resets only the selected misses. Existing in-progress rounds without a chapter snapshot retain their previous behavior.
+
+Regression checks cover single/multiple chapters, deselection, empty/invalid selections, saved settings, replay isolation, paused-round scope and follow-ups across a different Map focus. Desktop and phone browser checks exercise the chapter buttons, real answer controls, reload persistence and empty states.

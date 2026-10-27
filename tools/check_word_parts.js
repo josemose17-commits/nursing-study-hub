@@ -15,6 +15,7 @@ function parts(key,expected){assert.deepEqual(Array.from(D[key].pieces,p=>p.text
 parts('hypoglycemia',['hypo','glyc','emia']); parts('hypoxia',['hyp','ox','ia']);
 parts('hypoparathyroidism',['hypo','para','thyroid','ism']); parts('gastroenteritis',['gastr','o','enter','itis']);
 parts('metformin',['met','formin']); parts('empagliflozin',['empa','gliflozin']);
+for(const key of ['gastroparesis','hematemesis','hematochezia','hemoglobin','macrophage','endocrine'])assert.equal(D[key].pieces.at(-1).role,'suffix','Terminal suffix mislabeled: '+key);
 assert.equal(D.metformin.pieces[0].role,'distinctive name');assert(!D.metformin.pieces[0].meaning.includes('metabolism'));
 assert.equal(D.nystatin.type,'medication');assert(D.nystatin.note.includes('antifungal'));
 assert.equal(D.simvastatin.pieces.at(-1).text,'vastatin');assert.equal(D.prilosec.type,'brand');

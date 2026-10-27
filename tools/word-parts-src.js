@@ -427,4 +427,6 @@ const stems = [
 ];
 // Its historical ending is not a useful -stasis (stopping) clue for cancer spread.
 delete splits.metastasis;
+// These terminal components are suffixes in the supplied teaching analyses.
+for (const key of ['paresis','emesis','chezia','globin','phage','crine']) parts[key].role='suffix';
 module.exports = {parts, splits, extra, eponyms, stems, whole};

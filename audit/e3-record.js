@@ -1,3 +1,5 @@
+// Later targeted source/current-guidance review: audit/exam3-source-review.md.
+// The dated chapter comparisons below remain historical; do not infer a new full re-audit from generated counts.
 // Exam 3 content audit: what the hub has for each assigned chapter, how it compares with the chapter itself,
 // and what was added or left out. tools/audit.js merges this with what it finds in the hub's data and writes
 // audit/e3-coverage.md. Edit this file when a chapter is checked again; never edit the .md by hand.

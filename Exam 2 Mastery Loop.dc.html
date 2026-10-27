@@ -16,8 +16,8 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610271904"></script>
-<script src="./say.js?v=202610271904"></script>
+<script src="./nav.js?v=202610271918"></script>
+<script src="./say.js?v=202610271918"></script>
 </head>
 <body>
 <x-dc>
@@ -137,11 +137,24 @@
       <sc-if value="{{ hasMisses }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:12px;background:var(--color-surface);border:1px solid var(--color-accent-700);">
           <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-300);">Saved misses from all attempts</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="font-size:13px;color:var(--color-neutral-200);">Choose one or more chapters</div>
+            <div role="group" aria-label="Chapters for missed-question practice" style="display:flex;flex-wrap:wrap;gap:7px;">
+              <button data-redo-ch="all" aria-pressed="{{ redoAllPressed }}" onClick="{{ redoAllChapters }}" style="padding:7px 12px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px;color:var(--color-text);background:{{ redoAllBg }};border:1px solid {{ redoAllBd }};">All chapters</button>
+              <sc-for list="{{ redoChapterOpts }}" as="c" hint-placeholder-count="6">
+                <button data-redo-ch="{{ c.ch }}" title="{{ c.title }}" aria-label="{{ c.title }}" aria-pressed="{{ c.pressed }}" onClick="{{ c.pick }}" style="padding:7px 12px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px;color:var(--color-text);background:{{ c.bg }};border:1px solid {{ c.bd }};">{{ c.label }}</button>
+              </sc-for>
+            </div>
+            <div style="font-size:12.5px;color:var(--color-neutral-400);">{{ missScope }} · counts include fixed misses you can replay.</div>
+          </div>
           <div style="font-size:14px;color:var(--color-neutral-100);">{{ missSummary }}</div>
+          <sc-if value="{{ hasSelectedMisses }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;flex-wrap:wrap;gap:10px;">
             <button class="btn btn-primary" onClick="{{ redo }}">{{ redoLabel }}</button>
-            <sc-if value="{{ canRedoAll }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" onClick="{{ redoAll }}">Redo all saved misses again</button></sc-if>
+            <sc-if value="{{ canRedoAll }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" onClick="{{ redoAll }}">{{ redoAllLabel }}</button></sc-if>
           </div>
+          </sc-if>
+          <sc-if value="{{ noSelectedMisses }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:var(--color-neutral-300);">No saved misses in this selection. Choose a chapter with misses or All chapters.</div></sc-if>
           <div style="font-size:12.5px;color:var(--color-neutral-400);">Across saved tests, drills and case studies for this exam. Includes misses, partial answers and guesses. Work through them 10 at a time; unfinished misses carry over when you take another test. Get one right without guessing to fix it; a miss gets a related follow-up.</div>
           <sc-if value="{{ hasPractice }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:1px solid var(--color-neutral-800);">
@@ -1603,12 +1616,24 @@ class Component extends DCLogic {
     this.setState({ draft: '', missNote: '' }); window.scrollTo(0, 0);
   }
 
-  // All saved misses for this exam, across tests, drills and case studies. Fixed entries stay replayable.
-  redoState() {
-    const S = this.state.S, B = restoreMisses(S);
-    const all = Object.keys(B.items).filter(id => this.byId[id]).sort((a, b) => B.items[a].e - B.items[b].e || B.items[a].at - B.items[b].at || a.localeCompare(b));
+  redoChapterSelection() {
+    const selected = (this.state.S.settings || {}).redoChapters;
+    return Array.isArray(selected) ? CHS.filter(ch => selected.includes(ch)) : null;
+  }
+  setRedoChapter(ch) {
+    if (ch != null && !CHS.includes(ch)) return;
+    const selected = this.redoChapterSelection();
+    this.upd(S => {
+      if (ch == null) delete S.settings.redoChapters;
+      else S.settings.redoChapters = selected == null ? [ch] : selected.includes(ch) ? selected.filter(c => c !== ch) : CHS.filter(c => c === ch || selected.includes(c));
+    });
+  }
+  // All saved misses for this exam, optionally filtered to the chosen chapters.
+  redoState(ignoreChapters) {
+    const S = this.state.S, B = restoreMisses(S), chapters = ignoreChapters ? null : this.redoChapterSelection();
+    const all = Object.keys(B.items).filter(id => this.byId[id] && (chapters == null || chapters.includes(this.byId[id].ch))).sort((a, b) => B.items[a].e - B.items[b].e || B.items[a].at - B.items[b].at || a.localeCompare(b));
     const state = k => all.filter(id => B.items[id].state === k);
-    return { all, P: B, rest: state('rest'), shaky: state('shaky'), fixed: state('fixed') };
+    return { all, chapters, P: B, rest: state('rest'), shaky: state('shaky'), fixed: state('fixed') };
   }
   onHash() {
     if (!this.state.ready) return;
@@ -1633,7 +1658,7 @@ class Component extends DCLogic {
     if (this.state.S.test && !window.confirm('Discard the test in progress and start a redo round?')) return;
     this.upd(S => {
       if (kind === 'all') st.all.forEach(id => { S.misses.items[id].state = 'rest'; });
-      const T = { no: S.testNo || 0, redo: round, from: S.report ? S.report.no : S.testNo || 0, len: round.length, base: 0, items: [], resp: {}, scores: {}, checked: {}, conf: {}, why: {}, follow: {}, depth: {}, revealed: {}, queue: [], followN: 0, focus: 'Redo', at: Date.now(), root: {}, fix: {}, tries: {} };
+      const T = { no: S.testNo || 0, redo: round, redoChapters: st.chapters, from: S.report ? S.report.no : S.testNo || 0, len: round.length, base: 0, items: [], resp: {}, scores: {}, checked: {}, conf: {}, why: {}, follow: {}, depth: {}, revealed: {}, queue: [], followN: 0, focus: 'Redo', at: Date.now(), root: {}, fix: {}, tries: {} };
       const P = this.nextItem(S, T); if (P) T.items.push(P);
       S.test = T; S.phase = 'test';
     });
@@ -1779,7 +1804,8 @@ class Component extends DCLogic {
   // A follow-up: same topic or drug, as close as possible to what went wrong, in a different format when it can be.
   pickFollow(S, T, f) {
     const used = new Set(T.items.map(p => p.id).concat(T.redo || [])), W = new Set(f.words);
-    let near = this.pool.filter(x => !used.has(x.id) && x.id !== f.from && (x.topics.some(t => f.topics.includes(t)) || (x.drugs || []).some(d => f.drugs.includes(d.id))));
+    const pool = T.redo ? Object.values(this.byId).filter(x => !x.cs) : this.pool;
+    let near = pool.filter(x => (!Array.isArray(T.redoChapters) || T.redoChapters.includes(x.ch)) && !used.has(x.id) && x.id !== f.from && (x.topics.some(t => f.topics.includes(t)) || (x.drugs || []).some(d => f.drugs.includes(d.id))));
     // On the study guide, follow-ups stay on it — never a fallback to off-guide chapter content.
     if ((this.guideMode || T.redo) && ((this.byId[f.from] || {}).guide || []).length) near = near.filter(x => x.guide.length);
     if (T.drill) { const d = near.filter(x => x.guide.includes(T.drill)); if (d.length) near = d; }
@@ -1895,7 +1921,7 @@ class Component extends DCLogic {
         T.redo.forEach(id => {
           if (B.items[id] && (T.tries || {})[id]) B.items[id].state = fixedNow.includes(id) ? 'fixed' : 'shaky';
         });
-        B.last = { fixed: fixedNow.length, total: T.redo.length, n: T.items.filter(p => T.checked[p.id]).length };
+        B.last = { chapters: T.redoChapters || null, fixed: fixedNow.length, total: T.redo.length, n: T.items.filter(p => T.checked[p.id]).length };
         const ids = Object.keys(B.items), list = state => ids.filter(id => B.items[id].state === state);
         // Keep the completion timestamp used by the study route.
         S.practice = { at: Date.now(), from: T.from, fixed: list('fixed'), shaky: list('shaky'), rest: list('rest'), last: B.last };
@@ -1953,7 +1979,7 @@ class Component extends DCLogic {
     const A = 'var(--color-accent)', N = 'var(--color-neutral-700)';
     const v = { loading: !ready, isHome: !!ready && (S.phase !== 'test' || !S.test), isTest: !!ready && S.phase === 'test' && !!S.test };
     v.title = v.isTest && S.test.redo ? 'Redo my misses — until each one sticks' : v.isTest && S.test.drill ? 'Drill: ' + guideName(S.test.drill) : v.isTest && S.test.cs ? 'Unfolding case study' : 'One adaptive test that follows your mistakes';
-    if (!ready) return Object.assign(v, { q: {}, fb: {}, rp: {}, pr: { shaky: [] }, drillOpts: [], dots: [], lenOpts: [], history: [], studyMap: [], nodeMap: [], legend: [], confOpts: [], howItWorks: [] });
+    if (!ready) return Object.assign(v, { q: {}, fb: {}, rp: {}, pr: { shaky: [] }, redoChapterOpts: [], drillOpts: [], dots: [], lenOpts: [], history: [], studyMap: [], nodeMap: [], legend: [], confOpts: [], howItWorks: [] });
     v.goHome = () => this.upd(S => { S.phase = 'home'; });
     v.start = () => this.startTest(); v.check = () => this.check(); v.next = () => this.next(); v.finish = () => this.finish();
     v.resume = () => this.upd(S => { S.phase = 'test'; });
@@ -2003,17 +2029,30 @@ class Component extends DCLogic {
     const R = S.report;
     v.hasReport = !!R; v.noReport = !R;
     v.rp = {}; v.pr = { shaky: [] }; v.hasPractice = false;
-    const st = this.redoState();
+    const bank = this.redoState(true), st = this.redoState();
     const nNext = Math.min(REDO_N, st.rest.length), nShaky = Math.min(REDO_N, st.shaky.length), plural = n => n === 1 ? '' : 'es';
-    v.hasMisses = st.all.length > 0;
+    v.hasMisses = bank.all.length > 0;
+    v.hasSelectedMisses = st.all.length > 0; v.noSelectedMisses = !st.all.length;
+    v.missScope = st.chapters == null ? 'All chapters' : st.chapters.length ? st.chapters.map(ch => 'Ch ' + ch).join(', ') : 'No chapters selected';
+    const allChapters = st.chapters == null;
+    v.redoAllPressed = allChapters ? 'true' : 'false';
+    v.redoAllBg = allChapters ? 'var(--color-accent-900)' : 'transparent'; v.redoAllBd = allChapters ? A : N;
+    v.redoAllChapters = () => this.setRedoChapter(null);
+    v.redoChapterOpts = CHS.map(ch => {
+      const count = bank.all.filter(id => this.byId[id].ch === ch).length, on = !allChapters && st.chapters.includes(ch);
+      return { ch, label: 'Ch ' + ch + ' · ' + count + ' saved', title: 'Chapter ' + ch + ': ' + CH_TITLE[ch] + ' · ' + count + ' saved misses', pressed: on ? 'true' : 'false',
+        bg: on ? 'var(--color-accent-900)' : 'transparent', bd: on ? A : N, pick: () => this.setRedoChapter(ch) };
+    });
+    v.redoAllLabel = allChapters ? 'Redo all saved misses again' : 'Redo all selected misses again';
     v.missSummary = st.all.length + ' saved · ' + (st.rest.length + st.shaky.length) + ' to redo · ' + st.fixed.length + ' fixed';
     v.redoAll = () => this.startRedo('all');
     v.canRedoAll = st.fixed.length > 0 && (st.rest.length > 0 || st.shaky.length > 0);
     v.redo = () => this.startRedo();
     v.redoLabel = st.rest.length ? 'Redo the next ' + nNext + ' miss' + plural(nNext) + ' →' : st.shaky.length ? 'Redo ' + nShaky + ' shaky one' + (nShaky === 1 ? '' : 's') + ' →' : 'Redo all ' + st.all.length + ' again →';
-    v.hasPractice = !!st.P;
-    if (st.P) {
-      const recOf = id => this.byId[id] || {}, L = st.P.last || {};
+    v.hasPractice = st.all.length > 0;
+    if (v.hasPractice) {
+      const recOf = id => this.byId[id] || {}, last = st.P.last || {};
+      const L = JSON.stringify(last.chapters || null) === JSON.stringify(st.chapters) ? last : {};
       v.pr = { line: 'Fixed ' + st.fixed.length + ' of ' + st.all.length + ' misses' + (st.rest.length ? ' · ' + st.rest.length + ' not tried yet' : '') + (st.shaky.length ? ' · ' + st.shaky.length + ' still shaky' : '') + '.' +
         (L.total ? ' Last round: ' + L.fixed + ' of ' + L.total + ' fixed in ' + L.n + ' questions.' : '') + (!st.rest.length && !st.shaky.length ? ' Every saved miss fixed — replay them or take a new test to check it holds.' : ''),
         hasShaky: st.shaky.length > 0,
@@ -2072,7 +2111,7 @@ class Component extends DCLogic {
       v.progW = Math.round(100 * Math.min(1, doneN / Math.max(1, T.len + T.followN + T.queue.length))) + '%';
       if (T.redo) {
         const fixedN = T.redo.filter(r => (T.fix[r] || 0) >= 2).length;
-        v.progLabel = 'Redo · ' + fixedN + ' of ' + T.redo.length + ' fixed' + (T.queue.length ? ' · ' + T.queue.length + ' coming back' : '');
+        v.progLabel = (Array.isArray(T.redoChapters) ? T.redoChapters.map(ch => 'Ch ' + ch).join(', ') : 'Redo') + ' · ' + fixedN + ' of ' + T.redo.length + ' fixed' + (T.queue.length ? ' · ' + T.queue.length + ' coming back' : '');
         v.progW = Math.round(100 * fixedN / T.redo.length) + '%';
       }
       const isRecall = P.kind === 'recall';

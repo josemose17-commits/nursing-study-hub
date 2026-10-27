@@ -8,6 +8,8 @@ Current inventory: 2,001 entries. There are 340 explicitly enumerated medical se
 
 Each supplied segmentation reconstructs the spelling exactly, including combining vowels and grammatical endings. There is no general letter-based guesser. Drug stems apply only to enumerated generic names; remaining distinctive letters receive no invented clinical meaning. Name clues do not establish a diagnosis, dose, duration or medication safety. Literal translations are study aids, and the clinical definition takes precedence. The existing glossary definitions are reused, not newly re-certified as current prescribing advice.
 
+Final component-role review classifies terminal `-paresis`, `-emesis`, `-chezia`, `-globin`, `-phage` and `-crine` as suffixes in their supplied analyses, with explicit regression checks. Some terms therefore have a prefix and suffix without a separate root, as the renderer indicates.
+
 ## Sources
 
 - [NLM MedlinePlus: word parts](https://medlineplus.gov/appendixa.html) and [Break It Up](https://medlineplus.gov/medwords/breakitup1.html): prefixes, roots, endings and the fact that not every term uses all three.

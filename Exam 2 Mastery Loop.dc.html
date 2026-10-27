@@ -1564,7 +1564,15 @@ class Component extends DCLogic {
     return { R, all, P, rest: P ? P.rest.filter(id => this.byId[id]) : all, shaky: P ? P.shaky.filter(id => this.byId[id]) : [], fixed: P ? P.fixed : [] };
   }
   onHash() {
-    if (location.hash !== '#redo' || !this.state.ready) return;
+    if (!this.state.ready) return;
+    const caseLink = /^#case=([a-zA-Z0-9_-]+)$/.exec(location.hash);
+    if (caseLink && casesOn().some(c => c.id === caseLink[1])) {
+      history.replaceState(null, '', location.pathname + location.search);
+      if (this.state.S.test && this.state.S.test.cs === caseLink[1]) this.upd(S => { S.phase = 'test'; });
+      else this.startCase(caseLink[1]);
+      return;
+    }
+    if (location.hash !== '#redo') return;
     history.replaceState(null, '', location.pathname + location.search);
     const S = this.state.S;
     if (S.test && S.test.redo) this.upd(S => { S.phase = 'test'; }); else this.startRedo();

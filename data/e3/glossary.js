@@ -582,7 +582,7 @@ window.GLOSSARY = [].concat([
  ["Incretins (GLP-1)", ["ncretin", "GLP-1"], "Gut hormones released with food that boost insulin, lower glucagon and slow the stomach. Semaglutide and similar drugs copy them."],
  ["A1C", ["A1C", "HbA1c"], "The percentage of hemoglobin with glucose stuck to it — an average of the last ~3 months. ≥ 6.5% = diabetes; target < 7%."],
  ["OGTT", ["OGTT", "ral glucose tolerance"], "Oral glucose tolerance test: drink 75 g of glucose and check glucose 2 hours later; ≥ 200 = diabetes."],
- ["CGM", ["CGM", "ontinuous glucose monitor"], "A sensor under the skin that reads glucose every few minutes. It lags behind blood glucose during fast changes — confirm extremes with a fingerstick."],
+ ["CGM", ["CGM", "ontinuous glucose monitor"], "A sensor under the skin that reads glucose every few minutes. It can lag during fast changes. Use BGM for discordance or as device instructions/protocol require; calibration is device-specific."],
  ["Time in range", ["ime in range"], "The share of the day CGM glucose stays between 70 and 180 mg/dL; the goal is at least 70%."],
  ["Polyuria / polydipsia / polyphagia", ["olyuria", "olydipsia", "olyphagia"], "Too much urine, too much thirst and too much hunger — the 3 Ps of high glucose."],
  ["Osmotic diuresis", ["smotic diuresis"], "Glucose spilling into the urine pulls water and electrolytes with it — the cause of polyuria and dehydration."],

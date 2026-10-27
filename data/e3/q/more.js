@@ -392,15 +392,15 @@
       q: 'A client is on an insulin infusion and IV fluids for DKA. Review the hourly results. Highlight the findings that need follow-up.',
       head: ['Finding', '0900', '1100', '1300'],
       rows: [{ cells: ['Blood glucose (mg/dL)', '520', '380', '240'], c: 1, r: 'Follow up. Falling as hoped, but at about 250 the fluids usually change to include dextrose so the insulin can keep clearing ketones without causing hypoglycemia.' },
-        { cells: ['Potassium (mEq/L)', '5.6', '4.2', '3.2'], c: 1, r: 'Follow up. Insulin is driving K⁺ into cells; below 3.3 the insulin is usually held while potassium is replaced.' },
+        { cells: ['Potassium (mEq/L)', '5.6', '4.2', '3.2'], c: 1, r: 'Follow up. Insulin is driving K⁺ into cells; below 3.5 mmol/L, delay/pause insulin under the current adult protocol while potassium is replaced.' },
         { cells: ['Arterial pH', '7.12', '7.19', '7.26'], c: 0, r: 'Improving as ketones clear.' },
         { cells: ['Anion gap (mEq/L)', '26', '19', '15'], c: 0, r: 'Closing — the acidosis is resolving.' },
         { cells: ['Urine output (mL/hr)', '45', '70', '80'], c: 0, r: 'Improving with fluids.' },
         { cells: ['Mental status', 'Drowsy', 'Awake', 'Alert, oriented'], c: 0, r: 'Improving.' }],
       ask: 'Which findings show the treatment working — and which show a new danger the treatment creates?',
       cues: ['Glucose at about 250', 'K⁺ falling to 3.2', 'pH and anion gap improving'],
-      phys: 'Insulin moves glucose and potassium into cells → glucose falls and so does serum K⁺ → ketones clear more slowly than glucose falls → dextrose is added at about 250 so insulin can continue until the anion gap closes → potassium is replaced to keep the heart safe.',
-      rule: 'DKA: when glucose is about 250, add dextrose (don’t stop insulin); keep K⁺ above 3.3 before and during insulin; the anion gap, not glucose, shows when DKA has resolved.' },
+      phys: 'Insulin moves glucose and potassium into cells → glucose falls and so does serum K⁺ → ketones clear more slowly than glucose falls → dextrose is added at about 250 so insulin can continue until ketoacidosis resolves by plasma ketones and pH/bicarbonate → potassium is replaced to keep the heart safe.',
+      rule: 'DKA: when glucose is about 250, add dextrose (don’t stop insulin); correct K⁺ < 3.5 before insulin and restart once > 3.5; assess ketones and pH/bicarbonate for resolution, not glucose or gap alone.' },
     { f: 'selectn', t: 'Low glucose, awake and swallowing', cj: 'ta', cn: 'adapt', st: ['safety', 'strategic'],
       q: 'A client’s glucose is 54 mg/dL. The client is sweaty and shaky but alert and able to swallow. Select the 2 actions the nurse should take now.',
       o: ['Give 15 g of fast-acting carbohydrate, such as 4 oz (120 mL) of juice', 'Recheck the glucose in 15 minutes', 'Give glucagon 1 mg IM', 'Give a chocolate bar', 'Hold all insulin for the rest of the day', 'Call the rapid response team'], a: [0, 1],
@@ -449,7 +449,7 @@
       ask: 'Which client has a problem that can stop the heart?',
       cues: ['“First”', 'Insulin running + K⁺ 3.1'],
       phys: 'Insulin moves K⁺ into cells → serum K⁺ falls → low K⁺ disturbs the heart’s electrical recovery (flat T waves, U waves, ectopy) → lethal dysrhythmias.',
-      rule: 'Who first: a life-threatening lab with the cause still running (insulin + K⁺ < 3.3) beats a treated low glucose, teaching and routine care.' },
+      rule: 'Who first: a life-threatening lab with the cause still running (insulin + K⁺ < 3.5) beats a treated low glucose, teaching and routine care.' },
     { f: 'mcq', t: 'A new diagnosis and food', cj: 'ta', cn: 'psy', st: ['comm'],
       q: 'A client newly diagnosed with type 1 diabetes says, “I’ll never be able to eat anything I like again.” Which response by the nurse is best?',
       o: ['“It sounds like you’re worried about losing the foods you enjoy. What foods matter most to you?”', '“Don’t worry — lots of people with diabetes eat whatever they want.”', '“You’ll get used to it after a while.”', '“Diabetes is serious, so you need to follow the diet strictly.”'], a: [0],
@@ -476,4 +476,243 @@
       phys: 'A low starves the brain → adrenaline fires (sweating, shaking) → fast sugar fixes it within about 15 minutes. A high glucose with ketones means too little insulin → exercise releases more glucose-raising stress hormones → glucose and ketones climb. Prediabetes is insulin resistance the beta cells can still partly overcome → lifestyle change can stop the slide to type 2.',
       rule: 'Glucose < 70 → 15 g (30 g if < 50), recheck in 15 min. Ketones → no exercise (exercise at 100–250 with no ketones). Fasting 100–125 = prediabetes → diet, 150 min/week of activity, weight loss, yearly test.' }
   ]);
+
+  // Source-review additions: append only to preserve existing saved question identifiers.
+  N('56', [
+  {
+    "f": "mcq",
+    "t": "DKA: potassium before insulin",
+    "q": "An adult with DKA has K⁺ 3.2 mmol/L. Isotonic IV fluids have started. Under the current adult hyperglycemic-crisis consensus, which action is appropriate before insulin?",
+    "o": [
+      "Replace potassium as prescribed and delay insulin until K⁺ is above 3.5 mmol/L",
+      "Start insulin because the glucose is above 400 mg/dL",
+      "Give insulin first to correct the potassium deficit",
+      "Ignore potassium unless there is an ECG change"
+    ],
+    "a": [
+      0
+    ],
+    "r": [
+      "Correct. Insulin can lower serum potassium further; the current adult consensus delays it for K⁺ < 3.5 until K⁺ > 3.5.",
+      "Incorrect. Severe hyperglycemia does not remove the potassium safety requirement.",
+      "Incorrect. Insulin shifts potassium into cells and can worsen the low serum value.",
+      "Incorrect. Dangerous hypokalemia can precede visible rhythm changes."
+    ],
+    "ask": "Which action could worsen this immediately dangerous lab?",
+    "cues": [
+      "DKA",
+      "K⁺ 3.2",
+      "Fluids started"
+    ],
+    "phys": "Insulin shifts K⁺ into cells; depleted body stores plus a low serum value increase dysrhythmia and respiratory-muscle risk.",
+    "rule": "Current adult DKA protocol: correct K⁺ < 3.5 and delay insulin until > 3.5; monitor per orders.",
+    "cj": "ta",
+    "cn": "pharm",
+    "st": [
+      "data"
+    ],
+    "source": "Original educational practice; current-source distinction documented in audit/exam3-source-review.md"
+  },
+  {
+    "f": "mcq",
+    "t": "SGLT2: glucose does not rule out DKA",
+    "q": "A client with type 2 diabetes taking an SGLT2 inhibitor has vomiting, deep rapid breathing, glucose 184 mg/dL, elevated blood ketones and metabolic acidosis. What is the priority interpretation?",
+    "o": [
+      "Possible euglycemic DKA requiring urgent evaluation",
+      "DKA is excluded because glucose is below 300 mg/dL",
+      "An expected SGLT2 effect needing no action",
+      "HHS is established by this glucose value"
+    ],
+    "a": [
+      0
+    ],
+    "r": [
+      "Correct. Ketones and acidosis with these symptoms require urgent evaluation even without marked hyperglycemia.",
+      "Incorrect. The textbook’s typical > 300 value must not be used to rule out DKA.",
+      "Incorrect. Vomiting and acidosis are concerning, not routine glucosuria.",
+      "Incorrect. This value does not establish the marked hyperglycemia/hyperosmolality of HHS."
+    ],
+    "ask": "Do ketones and acidosis change the meaning of a near-normal glucose?",
+    "cues": [
+      "SGLT2 therapy",
+      "Vomiting + Kussmaul-type breathing",
+      "Ketones + metabolic acidosis"
+    ],
+    "phys": "SGLT2-related urinary glucose loss can limit the measured glucose rise while insulin deficiency permits ketogenesis.",
+    "rule": "Assess DKA from the full clinical and biochemical picture; type 2 and glucose below 200 do not exclude it.",
+    "cj": "ac",
+    "cn": "adapt",
+    "st": [
+      "data"
+    ],
+    "source": "Original educational practice; current-source distinction documented in audit/exam3-source-review.md"
+  },
+  {
+    "f": "mcq",
+    "t": "DKA resolution: evaluate ketones",
+    "q": "During DKA treatment, a client’s glucose is 168 mg/dL and the anion gap has closed. Plasma ketones remain 1.6 mmol/L. Which conclusion follows the current adult consensus?",
+    "o": [
+      "Ketoacidosis has not met the ketone criterion for resolution",
+      "The normal glucose proves the DKA is resolved",
+      "Gap closure alone permits stopping insulin immediately",
+      "Urine ketones alone are the preferred resolution measure"
+    ],
+    "a": [
+      0
+    ],
+    "r": [
+      "Correct. Plasma ketones must fall below 0.6 mmol/L, with the required pH or bicarbonate recovery.",
+      "Incorrect. Glucose can improve before ketoacidosis resolves.",
+      "Incorrect. The gap alone is not the recommended endpoint.",
+      "Incorrect. Urine ketones can remain misleading during recovery."
+    ],
+    "ask": "Which result still demonstrates unresolved ketosis?",
+    "cues": [
+      "Glucose improved",
+      "Plasma ketones 1.6"
+    ],
+    "phys": "Insulin must suppress ketogenesis beyond the initial glucose correction; prescribed dextrose may permit insulin to continue safely.",
+    "rule": "Current adult resolution: plasma ketones < 0.6 plus pH ≥ 7.3 OR bicarbonate ≥ 18; glucose ideally < 200.",
+    "cj": "eo",
+    "cn": "adapt",
+    "st": [
+      "data"
+    ],
+    "source": "Original educational practice; current-source distinction documented in audit/exam3-source-review.md"
+  },
+  {
+    "f": "mcq",
+    "t": "CGM: device-specific calibration",
+    "q": "A client switches from an older CGM to a new real-time system whose instructions state user calibration is not required. Which teaching is appropriate?",
+    "o": [
+      "Follow the new device instructions and keep a BGM meter available for suspected discordance or device interruption",
+      "Calibrate every system twice a day because all CGMs require it",
+      "Discard the BGM meter because CGM can never be inaccurate",
+      "Use A1C instead of checking a suspected immediate low"
+    ],
+    "a": [
+      0
+    ],
+    "r": [
+      "Correct. Calibration depends on the actual system; BGM remains available for situations requiring confirmation.",
+      "Incorrect. That blanket instruction reflects older devices.",
+      "Incorrect. Sensor discordance, warm-up and interrupted readings can require BGM.",
+      "Incorrect. A1C describes longer-term exposure, not an immediate glucose level."
+    ],
+    "ask": "Does a rule for an older sensor apply to every newer sensor?",
+    "cues": [
+      "New device",
+      "No user calibration in its instructions"
+    ],
+    "phys": "CGM measures interstitial glucose; changing technology does not eliminate the need to assess a mismatch with the clinical situation.",
+    "rule": "Use device-specific calibration and treatment instructions with BGM backup (ADA 2026 Diabetes Technology).",
+    "cj": "ta",
+    "cn": "hpm",
+    "st": [
+      "data"
+    ],
+    "source": "Original educational practice; current-source distinction documented in audit/exam3-source-review.md"
+  },
+  {
+    "f": "mcq",
+    "t": "Monogenic diabetes: individualized treatment",
+    "q": "A young adult is diagnosed with MODY after genetic evaluation. Which statement by the nurse is accurate?",
+    "o": [
+      "Treatment depends on the genetic subtype; insulin is not required for every form",
+      "MODY is always autoimmune type 1 diabetes",
+      "All MODY requires the same lifelong insulin regimen",
+      "The diagnosis means glucose monitoring and follow-up are unnecessary"
+    ],
+    "a": [
+      0
+    ],
+    "r": [
+      "Correct. Monogenic subtypes differ in their treatment requirements.",
+      "Incorrect. MODY is a monogenic disorder, not automatically autoimmune type 1.",
+      "Incorrect. Some subtypes need insulin, others use different management.",
+      "Incorrect. Follow-up is individualized; the label does not remove care needs."
+    ],
+    "ask": "What does a genetic diagnosis change about management?",
+    "cues": [
+      "MODY confirmed",
+      "Genetic subtype matters"
+    ],
+    "phys": "Different gene defects alter insulin secretion in different ways, so a type 1 treatment assumption can be wrong.",
+    "rule": "MODY treatment is subtype-specific; follow the endocrinology plan (Endocrine Society).",
+    "cj": "ac",
+    "cn": "hpm",
+    "st": [
+      "data"
+    ],
+    "source": "Original educational practice; current-source distinction documented in audit/exam3-source-review.md"
+  },
+  {
+    "f": "mcq",
+    "t": "Diabetes teaching: the plan must be attainable",
+    "q": "A client can correctly explain insulin use but says, “I cannot afford the insulin and strips until next month.” Which response best supports safe discharge?",
+    "o": [
+      "Explore the immediate supply gap and coordinate an affordable plan with the diabetes team and pharmacy",
+      "Repeat the same handout until the client memorizes it",
+      "Document nonadherence and discharge without further discussion",
+      "Tell the client to skip basal insulin whenever supplies run low"
+    ],
+    "a": [
+      0
+    ],
+    "r": [
+      "Correct. Demonstrated knowledge does not solve an access barrier; the team must address safe access and follow-up.",
+      "Incorrect. The stated barrier is affordability, not lack of information.",
+      "Incorrect. Labeling the patient does not resolve the safety problem.",
+      "Incorrect. Omitting essential basal insulin can precipitate DKA."
+    ],
+    "ask": "Is the barrier knowledge, ability or access?",
+    "cues": [
+      "Correct teach-back",
+      "No affordable supplies"
+    ],
+    "phys": "A self-management plan only works if the patient can obtain and use its essential supplies.",
+    "rule": "Assess affordability, supplies, skills and support; coordinate care before discharge.",
+    "cj": "ta",
+    "cn": "mgmt",
+    "st": [
+      "data"
+    ],
+    "source": "Original educational practice; current-source distinction documented in audit/exam3-source-review.md"
+  }
+]);
+  N('47', [
+  {
+    "f": "mcq",
+    "t": "H. pylori: current regimen versus older examples",
+    "q": "An adult with H. pylori has no susceptibility result and no contraindication to the recommended regimen. Which prescription should the nurse recognize as the ACG 2024 recommended empiric optimized bismuth quadruple regimen?",
+    "o": [
+      "PPI, bismuth, tetracycline and metronidazole for 14 days",
+      "Clarithromycin alone until pain stops",
+      "PPI and one antibiotic for 3 days",
+      "Clarithromycin triple therapy for every patient regardless of susceptibility"
+    ],
+    "a": [
+      0
+    ],
+    "r": [
+      "Correct. This is the recommended optimized BQT regimen when susceptibility is unknown.",
+      "Incorrect. Monotherapy and symptom-based stopping do not provide reliable eradication.",
+      "Incorrect. This is not the recommended eradication regimen.",
+      "Incorrect. Current guidance requires proven clarithromycin susceptibility for that triple regimen."
+    ],
+    "ask": "Is this asking about the textbook example or current ACG guidance?",
+    "cues": [
+      "Current ACG 2024",
+      "Susceptibility unknown"
+    ],
+    "phys": "Combination treatment supports eradication; resistance changes which regimen should be selected.",
+    "rule": "Current ACG: 14-day optimized BQT when susceptibility is unknown; verify cure after treatment.",
+    "cj": "ta",
+    "cn": "pharm",
+    "st": [
+      "data"
+    ],
+    "source": "Original educational practice; current-source distinction documented in audit/exam3-source-review.md"
+  }
+]);
 })();

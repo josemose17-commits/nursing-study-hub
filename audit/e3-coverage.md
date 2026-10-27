@@ -123,7 +123,7 @@ Reading time at about 120 words a minute (careful study reading) — a rough gui
 | 25 | 7 | 7,766 | 4,666 | 65 · 39 | 30 | 14 · 14 | 0 |
 | 45 | 7 | 4,906 | 2,330 | 41 · 19 | 27 | 8 · 7 | 2 |
 | 46 | 9 | 5,780 | 2,575 | 48 · 21 | 31 | 8 · 8 | 3 |
-| 47 | 7 | 4,720 | 2,192 | 39 · 18 | 36 | 7 · 7 | 12 |
+| 47 | 7 | 4,781 | 2,214 | 40 · 18 | 37 | 7 · 7 | 12 |
 | 48 | 9 | 6,296 | 2,574 | 52 · 21 | 36 | 8 · 8 | 10 |
 | 49 | 11 | 10,024 | 4,042 | 84 · 34 | 38 | 8 · 8 | 14 |
 | 50 | 14 | 8,824 | 3,679 | 74 · 31 | 40 | 9 · 9 | 14 |
@@ -131,8 +131,8 @@ Reading time at about 120 words a minute (careful study reading) — a rough gui
 | 52 | 11 | 8,100 | 3,214 | 68 · 27 | 37 | 8 · 8 | 7 |
 | 53 | 7 | 4,856 | 2,710 | 40 · 23 | 28 | 6 · 7 | 0 |
 | 55 | 9 | 5,854 | 3,073 | 49 · 26 | 38 | 9 · 8 | 9 |
-| 56 | 13 | 10,011 | 4,678 | 83 · 39 | 56 | 9 · 9 | 17 |
-| **All** | 193 | 152,939 | 69,302 | 1274 · 578 | 760 | 190 · 183 | 91 |
+| 56 | 13 | 10,147 | 4,660 | 85 · 39 | 62 | 9 · 9 | 17 |
+| **All** | 193 | 153,136 | 69,306 | 1276 · 578 | 767 | 190 · 183 | 91 |
 
 **Map topics with fewer than 4 questions:** none. Drug questions are generated from the cards and aren't counted here.
 
@@ -476,9 +476,9 @@ Cited: Box 47.1, 47.2, 47.3, 47.4 · Table 47.1, 47.2 · Fig. 47.2, 47.3.
 | Map topic | Questions | Recall | Myth | Breakdowns | Why it works | Pictures · videos |
 | --- | --- | --- | --- | --- | --- | --- |
 | Overview & how it fits together | — | — | — | 1 | 4 | 2 · 1 |
-| Gastritis | 17 | 5 | 2 | 1 | 5 | 1 · 1 |
-| Ulcer and gastritis drugs (Table 47.1) | 21 | 1 | 4 | 2 | 6 | 1 · 1 |
-| Peptic ulcer disease — the infection exemplar | 25 | 5 | 2 | 1 | 9 | 3 · 1 |
+| Gastritis | 18 | 5 | 2 | 1 | 5 | 1 · 1 |
+| Ulcer and gastritis drugs (Table 47.1) | 22 | 1 | 4 | 2 | 6 | 1 · 1 |
+| Peptic ulcer disease — the infection exemplar | 26 | 5 | 2 | 1 | 9 | 3 · 1 |
 | Upper GI bleeding and ulcer emergencies | 20 | 5 | 1 | 1 | 5 | 1 · 0 |
 | Gastric cancer and life after gastrectomy | 12 | 2 | 1 | 1 | 6 | 2 · 0 |
 | Nursing process (ADPIE) | — | — | — | 0 | 2 | 0 · 0 |
@@ -716,17 +716,17 @@ Cited: Box 56.1, 56.2, 56.3, 56.4, 56.5, 56.6, 56.7, 56.8, 56.9, 56.10, 56.11, 5
 | Map topic | Questions | Recall | Myth | Breakdowns | Why it works | Pictures · videos |
 | --- | --- | --- | --- | --- | --- | --- |
 | Overview & how it fits together | — | — | — | 1 | 5 | 2 · 1 |
-| Types, risk and screening | 17 | 1 | 0 | 1 | 3 | 1 · 1 |
-| Diagnosing and monitoring glucose — A1C, CGM, meters | 15 | 0 | 1 | 1 | 3 | 2 · 2 |
+| Types, risk and screening | 19 | 1 | 0 | 1 | 3 | 1 · 1 |
+| Diagnosing and monitoring glucose — A1C, CGM, meters | 16 | 0 | 1 | 1 | 3 | 2 · 2 |
 | Chronic complications — vessels, eyes, nerves, kidneys | 9 | 1 | 1 | 1 | 3 | 4 · 1 |
-| Antidiabetic drugs (non-insulin) | 11 | 1 | 0 | 1 | 3 | 1 · 0 |
-| Insulin — types, timing, injection and storage | 43 | 6 | 5 | 1 | 3 | 4 · 2 |
-| Eating and exercise with diabetes | 19 | 2 | 1 | 1 | 3 | 0 · 0 |
-| Hypoglycemia — the 15-15 rule | 24 | 2 | 0 | 1 | 5 | 2 · 3 |
-| DKA and HHS — the hyperglycemic emergencies | 21 | 4 | 4 | 1 | 8 | 1 · 3 |
+| Antidiabetic drugs (non-insulin) | 12 | 1 | 0 | 1 | 3 | 1 · 0 |
+| Insulin — types, timing, injection and storage | 48 | 7 | 5 | 1 | 3 | 4 · 2 |
+| Eating and exercise with diabetes | 18 | 2 | 1 | 1 | 3 | 0 · 0 |
+| Hypoglycemia — the 15-15 rule | 25 | 2 | 0 | 1 | 5 | 2 · 3 |
+| DKA and HHS — the hyperglycemic emergencies | 24 | 4 | 4 | 1 | 8 | 1 · 3 |
 | Foot care, kidneys and preventing injury | 10 | 2 | 1 | 1 | 3 | 3 · 2 |
-| Diabetes in the hospital and around surgery | 15 | 2 | 1 | 1 | 3 | 1 · 1 |
-| Teaching self-management | 14 | 1 | 1 | 1 | 2 | 1 · 2 |
+| Diabetes in the hospital and around surgery | 16 | 3 | 1 | 1 | 3 | 1 · 1 |
+| Teaching self-management | 16 | 1 | 1 | 1 | 2 | 1 · 2 |
 | Nursing process (ADPIE) | — | — | — | 0 | 1 | 0 · 0 |
 
 Overview and nursing-process topics have no keyword rule of their own, so their practice is counted under the other topics.

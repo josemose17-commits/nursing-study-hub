@@ -144,7 +144,7 @@
     var sc = document.createElement('script'); sc.id = 'e2-words';
     sc.src = (location.pathname.indexOf('/offline/') >= 0 ? '../' : '') + 'data/words.js?v=' + (SRC.split('?v=')[1] || '1');
     sc.onload = function () {
-      var W = window.E2_WORDS || {}; DEF = W.def || {};
+      var W = window.E2_WORDS || {}; DEF = Object.assign({}, DEF, W.def || {});
       (W.add || []).forEach(function (a) { addWord(a[0], a[1], a[2]); });
       compile(); if (on) scan();
     };
@@ -157,6 +157,22 @@
     return E[s] || E[t] || null;
   }
   function meaning(e) { var k = e.term.toLowerCase(); return DEF[k] || DEF[k.replace(/e?s$/, '')] || {}; }
+  function loadWordParts() {
+    if (document.getElementById('word-parts-data') || window.WordParts) return;
+    var base = location.pathname.indexOf('/offline/') >= 0 ? '../' : '', version = SRC.split('?v=')[1] || '1';
+    var cssParts = document.createElement('link'); cssParts.rel = 'stylesheet'; cssParts.href = base + 'word-parts.css?v=' + version; document.head.appendChild(cssParts);
+    var data = document.createElement('script'); data.id = 'word-parts-data'; data.src = base + 'data/word-parts.js?v=' + version;
+    data.onload = function () {
+      var runtime = document.createElement('script'); runtime.src = base + 'word-parts.js?v=' + version;
+      runtime.onload = function () {
+        var terms = (window.WORD_PARTS_DATA || {}).terms || {};
+        Object.keys(terms).forEach(function (key) { var t = terms[key]; if (t.type === 'word-parts' && !E[key]) { addWord(key, '', key); DEF[key] = { def: t.definition }; } });
+        compile(); if (on) scan(); window.dispatchEvent(new Event('wordparts-ready'));
+      };
+      document.head.appendChild(runtime);
+    };
+    document.head.appendChild(data);
+  }
   function matches(text) {
     var out = [], m;
     [RE_CI, RE_CS].forEach(function (re) {
@@ -227,17 +243,25 @@
     var M = meaning(e);
     var full = M.full || (e.say && e.say.indexOf(',') > 0 ? e.say.split(', ').slice(1).join(', ') : '');
     pop.innerHTML = '<b></b>' + (full ? '<div class="fn"></div>' : '') + '<div class="r"></div>' + (M.def ? '<div class="def"></div>' : '') +
-      ((M.drug || M.drug3) && !/Drug%20Cards|Drug Cards/.test(location.pathname) ? '<a class="dc"></a>' : '') + '<div class="hint"></div><div class="row"><button type="button" data-a="again">▶ Again</button><button type="button" data-a="slow">🐢 Slow, by syllable</button></div>';
+      ((M.drug || M.drug3) && !/Drug%20Cards|Drug Cards/.test(location.pathname) ? '<a class="dc"></a>' : '') + '<div class="hint"></div><div class="row"><button type="button" data-a="again">▶ Again</button><button type="button" data-a="slow">🐢 Slow, by syllable</button><button type="button" data-a="close">Close</button></div>';
     pop.querySelector('b').textContent = e.term;
     pop.querySelector('.r').textContent = '🔊 ' + e.re;
     if (full) pop.querySelector('.fn').textContent = full;
     if (M.def) pop.querySelector('.def').textContent = M.def;
+    if (window.WordParts) {
+      var parts = document.createElement('div'); parts.innerHTML = window.WordParts.html(e.term, true); pop.querySelector('.hint').before(parts);
+      var ref = document.createElement('a'); ref.className = 'wp-reference'; ref.textContent = 'Search all word parts →';
+      ref.href = (location.pathname.indexOf('/offline/') >= 0 ? '../' : '') + 'Word Parts.html#' + encodeURIComponent(e.term.toLowerCase()); parts.appendChild(ref);
+    }
+    pop.setAttribute('aria-label', e.term + ': meaning and word parts');
+    if (!e.re) { pop.querySelector('.r').textContent = 'Use Again for the browser voice; no respelling provided.'; pop.querySelector('[data-a="slow"]').disabled = true; }
     var dc = pop.querySelector('.dc'); if (dc) { dc.textContent = 'Open the drug card →'; var ex = window.E2Hub && window.E2Hub.exam, ex3 = M.drug3 && (!M.drug || ex === '3' || ex === 'F'); dc.href = (location.pathname.indexOf('/offline/') >= 0 ? '../' : '') + (ex3 ? 'Exam 3 Drug Cards.dc.html#drug-' + M.drug3 : 'Exam 2 Drug Cards.dc.html#drug-' + M.drug); }
     pop.querySelector('.hint').textContent = said ? 'CAPITALS = the stressed syllable' : 'This browser has no voice — use the spelling above. CAPITALS = stressed.';
     pop.addEventListener('click', function (ev) {
       var a = ev.target.closest('button'); if (!a) return;
       ev.stopPropagation(); ev.preventDefault();
-      if (a.dataset.a === 'again') speak(e.say); else speak(syllables(e), 0.7);
+      if (a.dataset.a === 'close') { hidePop(); btn.focus(); }
+      else if (a.dataset.a === 'again') speak(e.say); else speak(syllables(e), 0.7);
     }, true);
     document.body.appendChild(pop);
     var r = pop.getBoundingClientRect(), W = window.innerWidth, H = window.innerHeight;
@@ -298,6 +322,7 @@
   function init() {
     document.head.appendChild(css);
     loadWords();
+    loadWordParts();
     btn = document.createElement('button'); btn.type = 'button'; btn.className = 'e2say-btn';
     btn.title = 'Tap drug names, medical words and abbreviations to hear them and see what they mean';
     btn.addEventListener('click', function (ev) { ev.stopPropagation(); setOn(!on); });
@@ -308,6 +333,7 @@
     });
     observer.observe(document.body, { childList: true, subtree: true, characterData: true });
     window.addEventListener('scroll', function () { hidePop(); }, { passive: true });
+    window.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && pop) { hidePop(); btn.focus(); } });
     setOn(on);
   }
   function termsIn(text) {

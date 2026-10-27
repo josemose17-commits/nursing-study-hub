@@ -58,6 +58,6 @@ for (const l of lessons) for (const q of l.questions) {
   assert(C.grade(q, q.a)); assert(!C.grade(q, []));
   if (q.a.length > 1) assert(!C.grade(q, q.a.slice(1)), 'Incomplete multi-select passed');
 }
-assert(/202610271600/.test(read('nav.js')) && /202610271600/.test(read('version.json')));
+assert(read('nav.js').includes("var BUILD = '" + JSON.parse(read('version.json')).build + "'"));
 console.log(`${lessons.length} lessons; ${expected.length} assigned groups; ${lessons.length * 2} question/rationale sets; source/case links and prerequisite graph valid.`);
 console.log('Scheduling, early/due reviews, duplicate submissions, recall/application separation, multi-select, recommendations, draft switching and corrupt-state recovery passed.');

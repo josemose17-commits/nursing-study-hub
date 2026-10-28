@@ -214,6 +214,17 @@
     var r = readLog[readCur.id] || (readLog[readCur.id] = { f: 0, q: 0, by: {} }), k = dayKey(), b = r.by[k] || (r.by[k] = [0, 0]);
     r[readCur.mode] += 5; b[readCur.mode === 'f' ? 0 : 1] += 5; r.at = Date.now(); readDirty = true;
   }, 5000);
+  // The clinical-judgment view (cj-view.js) calls this every 5 seconds a condition is open: the time is split between
+  // that condition's topics, as Quick reading. The panel counts its own time, so nothing is added while it is open.
+  window.MapRead = function (ids) {
+    if (!ids.length || document.hidden || isOpen() || Date.now() - lastAct > 120000) return;
+    var k = dayKey(), s = 5 / ids.length;
+    ids.forEach(function (id) {
+      var r = readLog[id] || (readLog[id] = { f: 0, q: 0, by: {} }), b = r.by[k] || (r.by[k] = [0, 0]);
+      r.q += s; b[1] += s; r.at = Date.now();
+    });
+    readDirty = true;
+  };
   setInterval(readSave, 30000);
   document.addEventListener('visibilitychange', function () { if (document.hidden) readSave(); });
   window.addEventListener('pagehide', readSave);

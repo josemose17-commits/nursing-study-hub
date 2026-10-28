@@ -1,4 +1,4 @@
-// "Think it through" — the map's clinical-judgment view (data in window.CJ_MAP, built by tools/build_cj_map.js).
+// "Think it through" — the map's clinical-judgment view (data in window.CJ_MAP, built by tools/build_cj_map.js from data/e3/cj).
 // Each condition runs in the order of NCSBN's six clinical judgment steps, and every tap goes one layer deeper:
 // condition → step → cue card → full paragraph and why → organ → molecule, all the notes, the drug card.
 // The deepest layers open in the map's own panel (map.js), through the same #topic / #n-node links it already handles.
@@ -51,11 +51,11 @@
       quizBtn() + '</div>' +
       sys.map(function (s) {
         return '<section class="cj-sys"><h2>' + esc(s) + '</h2><div class="cj-conds">' + C.filter(function (c) { return c.sys === s; }).map(function (c) {
-          return '<button class="glass cj-cond" data-cond="' + c.id + '"><b>' + esc(c.name) + '</b><span>' + esc(c.patient) + '</span>' + ladderDots() +
+          return '<button class="glass cj-cond" data-cond="' + c.id + '"><small class="cj-ch">Chapter ' + esc(c.ch) + '</small><b>' + esc(c.name) + '</b><span>' + esc(c.patient) + '</span>' + ladderDots() +
             (c.videos.length ? '<small>▶ ' + c.videos.length + ' video' + (c.videos.length > 1 ? 's' : '') + '</small>' : '') + '</button>';
         }).join('') + '</div></section>';
       }).join('') +
-      '<p class="cj-more">More conditions are on the way. Everything else is under <button class="linkbtn" data-view-go="topics">All topics</button>.</p>';
+      '<p class="cj-more">Every chapter on Exam 3 is here. The final-only chapters (48–52) and the full notes are under <button class="linkbtn" data-view-go="topics">All topics</button>.</p>';
   }
   function quizBtn() {
     return '<button class="pill cj-quiz" aria-pressed="' + quiz + '">' + (quiz ? '✓ Test me: answers covered' : 'Test me: cover the answers') + '</button>';
@@ -98,7 +98,7 @@
   function condHtml(c) {
     var i = C.indexOf(c), prev = C[i - 1], next = C[i + 1];
     return '<div class="cj-top"><button class="pill" data-home>← All conditions</button>' + quizBtn() + '</div>' +
-      '<div class="glass cj-head"><div class="kicker">' + esc(c.sys) + '</div><h2>' + esc(c.name) + '</h2>' +
+      '<div class="glass cj-head"><div class="kicker">' + esc(c.sys) + ' · Chapter ' + esc(c.ch) + '</div><h2>' + esc(c.name) + '</h2>' +
       '<p class="cj-patient"><span>The client</span>' + esc(c.patient) + '</p></div>' +
       videosHtml(c) +
       '<ol class="cj-ladder">' + c.steps.map(function (s, si) {
@@ -108,7 +108,7 @@
           '<div class="cj-step-b" hidden>' +
             '<div class="cj-gist' + (quiz ? ' covered' : '') + '"' + (quiz ? ' role="button" tabindex="0"' : '') + '><span class="cj-cover">Say your answer, then tap to check</span><div class="cj-gist-t">' + s.gist + '</div></div>' +
             (s.terms.length ? '<div class="cj-h">Every finding, explained · tap one</div><div class="cj-terms">' + s.terms.map(termHtml).join('') + '</div>' : '') +
-            '<div class="cj-h">' + (s.terms.length ? 'From the notes' : 'Go deeper') + ' · ' + s.cards.length + ' card' + (s.cards.length > 1 ? 's' : '') + '</div>' +
+            (s.cards.length ? '<div class="cj-h">' + (s.terms.length ? 'From the notes' : 'Go deeper') + ' · ' + s.cards.length + ' card' + (s.cards.length > 1 ? 's' : '') + '</div>' : '') +
             s.cards.map(function (card, ci) { return cardHtml(card, si, ci); }).join('') +
             (si < c.steps.length - 1 ? '<button class="cj-next" data-open-step="' + c.steps[si + 1].k + '">Next: ' + STEPS[c.steps[si + 1].k][0] + ' ↓</button>' : '') +
           '</div></li>';

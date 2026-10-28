@@ -110,3 +110,4 @@ body.weak-mode #cj, body.weak-mode .cj-switch { display: none; }
 .cj-report dt b { color: var(--color-accent); font-size: 17px; }
 .cj-report dd { margin: 0; }
 @media (max-width: 520px) { .cj-report dl { grid-template-columns: 1fr; gap: 2px; } .cj-report dd { margin-bottom: 8px; } }
+.cj-cond small.cj-ch { color: var(--color-neutral-400); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }

@@ -1,7 +1,80 @@
 // Think it through — Chapter 53 — assessment of the endocrine system. Format: see data/e3/cj/README.md.
 module.exports = [
   {
+    id: 'endo-aging', sys: 'Hormones & glucose', name: 'The pancreas, thyroid and parathyroid glands, and endocrine aging',
+    guide: ['53:0', '53:1'],
+    topics: ['53-pituitary-thyroid-parathyroid-and-pancre', '53-aging-and-covid-19-what-changes-in-the-g'],
+    nodes: ['endo-axis', 'thyroid', 'calcium', 'insulin'], drugs: [],
+    patient: 'An 84-year-old in long-term care is always cold, drinks little, and has a foot sore that hasn’t healed in three weeks.',
+    report: [
+      'The 84-year-old resident is newly confused with dry mucous membranes, low urine output and a sodium of 151 mEq/L; temperature 96.6°F, HR 56. A foot wound hasn’t healed in 3 weeks.',
+      'Drinks little; no diabetes or thyroid diagnosis on record.',
+      'Dehydration, likely from reduced ADH reserve and low intake; the slow-healing wound, persistent low temperature and slow heart rate go beyond expected aging.',
+      'Requesting orders for fluids and a BMP, and screening for diabetes (glucose, A1C) and thyroid function (TSH).'
+    ],
+    steps: {
+      rc: {
+        gist: 'Expected aging changes look like **mild hypothyroidism and mild diabetes**: less cold tolerance, lower heart rate and BP, less appetite, **dilute urine and dehydration risk**, thinner skin and bone loss, higher fasting glucose. The cues that go **beyond** aging: temperature consistently **below 97°F**, heart rate consistently **below 60**, a wound **not healed in 2 weeks**, thirst or hunger that won’t stop, new constipation or slowed thinking.',
+        terms: [
+          { t: 'Dilute urine and dehydration (less ADH)', see: 'Pale urine even when intake is low; dry mouth, confusion, rising sodium.',
+            why: 'Older adults release **less ADH (vasopressin)**, so the kidneys can’t concentrate urine and conserve water when intake falls.',
+            means: '**High dehydration risk** — assess often and offer fluids **at least every 2 hours** while awake unless restricted.' },
+          { t: 'Bone loss, thin skin and cystitis (less estrogen)', see: 'Fractures, skin tears, dry perineal and vaginal tissue, UTIs.',
+            why: 'Estrogen supports **bone density**, skin thickness and the health of perineal and vaginal tissue.',
+            means: 'Weight-bearing exercise, protein, about **2 L of fluid** a day unless restricted, skin protection and perineal care.' },
+          { t: 'Higher glucose, slow healing and yeast infections (less glucose tolerance)', see: 'Elevated fasting or random glucose, wounds that heal slowly, repeated vaginal yeast infections, thirst and frequent urination.',
+            why: 'Cells respond less to insulin with age, and **high glucose impairs healing and feeds yeast**.',
+            means: 'Suggest **diabetes testing** for a wound not healed in 2 weeks, persistent candidiasis, or lasting hunger, thirst or fatigue.' },
+          { t: 'Cold intolerance and a lower heart rate (slower metabolism)', see: 'Feels cold, less appetite, lower HR and BP.',
+            why: 'The **basal metabolic rate** falls with age.',
+            means: 'Dress in layers. A temperature **consistently below 97°F**, HR **consistently below 60**, lethargy, new constipation or slowed speech suggest **hypothyroidism** — report for testing.' }
+        ],
+        cards: ['53-aging-and-covid-19-what-changes-in-the-g > The general rule', '53-aging-and-covid-19-what-changes-in-the-g > Less ADH',
+          '53-aging-and-covid-19-what-changes-in-the-g > Less estrogen', '53-aging-and-covid-19-what-changes-in-the-g > Less glucose tolerance',
+          '53-aging-and-covid-19-what-changes-in-the-g > Slower general metabolism']
+      },
+      ac: {
+        gist: 'The glands run on **feedback**: **TRH → TSH → T3/T4**, with high hormone switching the axis off; **PTH** raises calcium from bone, kidney (and vitamin D) and gut while **calcitonin** lowers it; the pancreas’s **alpha cells make glucagon** (raises glucose) and **beta cells make insulin** (the only hormone that lowers it). Aging generally means **less** gland function and hormone.',
+        terms: [
+          { t: 'The thyroid axis', see: 'TRH (hypothalamus) → TSH (pituitary) → T3 and T4 (thyroid).',
+            why: '**Negative feedback**: high T3/T4 switch off TRH and TSH; low levels turn them up. Cold and stress raise TRH. **T4 is converted to T3**, the most active form, inside cells.',
+            means: 'Read TSH **against** the thyroid hormone level — high TSH with low T4 means the thyroid itself is failing.' },
+          { t: 'What thyroid hormone does', see: 'Sets the metabolic rate, heat, heart rate and force, breathing, gut secretion and muscle tone.',
+            why: 'It enters cells and switches on the genes that set the **basal metabolic rate**, so every tissue uses more oxygen and makes more heat.',
+            means: 'Too much speeds every system; too little slows every system — the basis of chapter 55.' },
+          { t: 'PTH and calcitonin', see: 'PTH raises serum calcium; calcitonin lowers it.',
+            why: '**PTH** releases calcium from **bone**, makes the **kidney** keep calcium and excrete phosphorus and **activate vitamin D**, which raises **gut** absorption. Low calcium raises PTH; high calcium lowers it. **Calcitonin** reduces release from bone.',
+            means: 'The parathyroids sit on the back of the thyroid — after thyroid surgery calcium can fall within hours.' },
+          { t: 'Glucagon, insulin and somatostatin', see: 'Alpha cells → glucagon · beta cells → insulin · delta cells → somatostatin.',
+            why: '**Glucagon raises glucose** when it falls; **insulin lowers it** by moving it into cells and storing fuel; somatostatin inhibits both. Growth hormone, cortisol, epinephrine and thyroid hormone also push glucose **up**.',
+            means: 'Insulin is the **only** hormone that lowers glucose — which is why so many illnesses and drugs raise it.' }
+        ],
+        cards: ['53-pituitary-thyroid-parathyroid-and-pancre > Control — the thyroid axis', '53-pituitary-thyroid-parathyroid-and-pancre > T3 and T4 set the metabolic rate',
+          '53-pituitary-thyroid-parathyroid-and-pancre > What thyroid hormones do (Box 53.2)', '53-pituitary-thyroid-parathyroid-and-pancre > Parathyroid hormone (PTH) raises calcium',
+          '53-pituitary-thyroid-parathyroid-and-pancre > Calcitonin', '53-pituitary-thyroid-parathyroid-and-pancre > Pancreas — two jobs',
+          '53-pituitary-thyroid-parathyroid-and-pancre > Glucagon, insulin, somatostatin']
+      },
+      ph: {
+        gist: '**Dehydration** first (low ADH reserve plus blunted thirst), then **falls and fractures**, **skin injury and infection**, and **missing a real endocrine disorder** that looks like normal aging.',
+        cards: []
+      },
+      gs: {
+        gist: 'Separate **normal aging from disease** by comparing with the client’s **own baseline**; prevent dehydration, injury and infection; screen for **diabetes and thyroid disease** when cues go beyond aging.',
+        cards: []
+      },
+      ta: {
+        gist: 'Offer fluids **at least every 2 hours** while awake (unless restricted); weight-bearing exercise and protein; skin and perineal care; dress in layers; teach the **signs of diabetes to report**; report a temperature consistently below 97°F, HR consistently below 60, or a wound not healed in 2 weeks.',
+        cards: ['53-pituitary-thyroid-parathyroid-and-pancre > Making the hormone']
+      },
+      eo: {
+        gist: 'Hydrated (intake meets needs, no orthostatic drop, clear thinking), skin intact, no falls; findings beyond aging referred for **testing**; the client or caregiver can name the signs to report.',
+        cards: []
+      }
+    }
+  },
+  {
     id: 'endo-testing', sys: 'Hormones & glucose', name: 'Endocrine assessment and getting tests right',
+    guide: ['53:2'],
     topics: ['53-endocrine-assessment-history-and-physica', '53-diagnostic-tests-and-the-nurse-s-job'],
     nodes: ['endo-axis'], drugs: [],
     patient: 'A client with a round face, a fat pad between the shoulders and purple stretch marks needs a 24-hour urine collection starting at 7 a.m.',

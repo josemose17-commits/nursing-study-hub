@@ -2,6 +2,7 @@
 module.exports = [
   {
     id: 'hypothyroid', sys: 'Hormones & glucose', name: 'Hypothyroidism and myxedema coma',
+    guide: ['55:0'],
     topics: ['55-hypothyroidism-the-cellular-regulation-e', '55-myxedema-coma'],
     nodes: ['hypothyroid', 'thyroid'], drugs: ['levothyroxine'],
     patient: 'A 72-year-old says she has been tired and cold for months, is constipated and has gained weight without eating more.',
@@ -98,6 +99,7 @@ module.exports = [
   },
   {
     id: 'hyperthyroid', sys: 'Hormones & glucose', name: 'Hyperthyroidism and Graves disease',
+    guide: ['55:1'],
     topics: ['55-hyperthyroidism-and-graves-disease', '55-treating-hyperthyroidism-drugs-radioacti'],
     nodes: ['hyperthyroid', 'thyroid'], drugs: ['methimazole', 'ptu', 'sski', 'rai131', 'propranolol'],
     patient: 'A 34-year-old has lost 15 lb in two months despite eating more, feels hot and shaky, can’t sleep, and her eyes look like they are bulging.',
@@ -153,7 +155,7 @@ module.exports = [
             means: '**Confirms Graves.** Autoimmune: ask about other autoimmune diseases and family history.' },
           { t: 'Radioactive iodine uptake increased', see: 'Uptake scan with a small oral dose of iodine-123.',
             why: 'An overactive gland **traps more iodine** to make hormone.',
-            means: 'No radiation precautions for this test dose, but **rule out pregnancy** first.' }
+            means: 'A small **diagnostic** dose of iodine-123 — not the therapeutic iodine-131 dose. Ask about **pregnancy and breastfeeding** first (iodine-123 passes into **breast milk**) and follow nuclear medicine’s instructions.' }
         ],
         cards: ['55-hyperthyroidism-and-graves-disease > Definition', '55-hyperthyroidism-and-graves-disease > Graves disease — the most common cause',
           '55-hyperthyroidism-and-graves-disease > Other causes', '55-hyperthyroidism-and-graves-disease > Tests']
@@ -186,6 +188,7 @@ module.exports = [
   },
   {
     id: 'thyroid-storm', sys: 'Hormones & glucose', name: 'Thyroidectomy and thyroid storm',
+    guide: ['55:1'],
     topics: ['55-thyroidectomy-and-thyroid-storm'],
     nodes: ['hyperthyroid', 'calcium'], drugs: ['cagluconate', 'propranolol', 'methimazole', 'ptu', 'sski'],
     patient: 'Six hours after a total thyroidectomy for Graves disease, a client says her lips feel tingly and her voice is hoarse.',
@@ -259,6 +262,7 @@ module.exports = [
   },
   {
     id: 'hypopara', sys: 'Hormones & glucose', name: 'Hypoparathyroidism and hypocalcemia',
+    guide: ['55:2'],
     topics: ['55-hypoparathyroidism-and-hyperparathyroidi'],
     nodes: ['pth', 'calcium'], drugs: ['cagluconate', 'calcitriol'],
     patient: 'A client who had neck surgery for thyroid cancer last year ran out of calcium pills a week ago and now has numb lips and cramping hands.',
@@ -326,6 +330,7 @@ module.exports = [
   },
   {
     id: 'hyperpara', sys: 'Hormones & glucose', name: 'Hyperparathyroidism and hypercalcemia',
+    guide: ['55:2'],
     topics: ['55-hypoparathyroidism-and-hyperparathyroidi'],
     nodes: ['pth', 'calcium'], drugs: ['cinacalcet'],
     patient: 'A 64-year-old woman has had two kidney stones this year, aching bones, constipation and is more forgetful. Her calcium is 12.4 mg/dL.',

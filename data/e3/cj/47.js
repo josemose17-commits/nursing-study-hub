@@ -2,6 +2,7 @@
 module.exports = [
   {
     id: 'gastritis', sys: 'Digestion & elimination', name: 'Gastritis',
+    guide: ['47:0'],
     topics: ['47-gastritis', '47-ulcer-and-gastritis-drugs-table-47-1'],
     nodes: ['pud', 'acid'], drugs: ['omeprazole', 'pantoprazole', 'famotidine', 'sucralfate', 'almag', 'aloh', 'bismuth', 'misoprostol'],
     patient: 'A 45-year-old who takes naproxen every day for knee pain and drinks most nights has burning upper abdominal pain and nausea after meals.',
@@ -38,7 +39,7 @@ module.exports = [
             means: '**Remove the cause** — the main treatment for acute gastritis. Misoprostol or a PPI protects clients who must keep taking NSAIDs.' },
           { t: '*H. pylori*', see: 'Positive breath test, stool antigen, serology or biopsy.',
             why: 'The bacterium makes **urease**, which neutralizes the acid around it, and damages the protective lining.',
-            means: 'Treat with a PPI plus antibiotics and **finish the whole course**. Stop PPIs and antacids at least a week before testing for more reliable results.' }
+            means: 'Treat with a PPI plus antibiotics and **finish the whole course**. For breath or stool testing, including the test of cure: **at least 4 weeks after antibiotics or bismuth** and **off PPIs at least 2 weeks** — **antacids are allowed** — per the provider’s plan.' }
         ],
         cards: ['47-gastritis > Acute gastritis', '47-gastritis > Diagnosis']
       },
@@ -72,6 +73,7 @@ module.exports = [
   },
   {
     id: 'ugib', sys: 'Digestion & elimination', name: 'Peptic ulcer with upper GI bleeding',
+    guide: ['47:0', '47:1'],
     topics: ['47-peptic-ulcer-disease-the-infection-exemp', '47-upper-gi-bleeding-and-ulcer-emergencies'],
     nodes: ['pud', 'ugib', 'acid'], drugs: ['pantoprazole', 'omeprazole', 'clarithromycin', 'amoxicillin'],
     patient: 'A client who takes ibuprofen every day for back pain vomits coffee-ground material and feels dizzy standing up.',
@@ -157,6 +159,7 @@ module.exports = [
   },
   {
     id: 'gastric-cancer', sys: 'Digestion & elimination', name: 'Gastric cancer, gastrectomy and dumping syndrome',
+    guide: ['47:1'],
     topics: ['47-gastric-cancer-and-life-after-gastrectom'],
     nodes: ['ugib', 'fluids', 'insulin'], drugs: ['octreotide', 'fluorouracil'],
     patient: 'Two weeks after a subtotal gastrectomy for gastric cancer, a client becomes dizzy, sweaty and tachycardic 15 minutes after a large meal with a milkshake.',

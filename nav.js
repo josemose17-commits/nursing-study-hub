@@ -121,14 +121,18 @@
   window.addEventListener('hashchange', importFromHash);
 
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
-  // version.json is never cached: if it names a newer build than this script, reload once to pick it up.
+  // version.json is never cached: if it names a newer build than this script, reload once to pick it up — once per page,
+  // since each page's HTML (and the data it names) is cached separately.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610282000';
+  var BUILD = '202610282230';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
+    // Builds before 202610282230 reloaded only once per session for every page. This page is already current, so clear
+    // that flag: other pages still cached from an older build can then each reload once too.
+    try { sessionStorage.removeItem('e2-reloaded-' + BUILD); } catch (e) {}
     fetch(root + 'version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {
       if (!v || !v.build || v.build <= BUILD) return;
-      var k = 'e2-reloaded-' + v.build;
+      var k = 'e2-reloaded-' + v.build + '-' + location.pathname;
       try { if (sessionStorage.getItem(k)) return; sessionStorage.setItem(k, '1'); } catch (e) { return; }
       // A new address can't come from the browser cache, so this always fetches the new page.
       try { var u = new URL(location.href); u.searchParams.set('b', v.build); location.replace(u.toString()); } catch (e) { location.reload(); }

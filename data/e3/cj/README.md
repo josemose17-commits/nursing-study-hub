@@ -7,6 +7,7 @@ There is one file per chapter (`<chapter>.js`), each exporting an array of condi
 ## A condition
 
 - `id`, `sys` (the map's system name), `name`
+- `guide`: the professor's study-guide items the condition is built around, as keys into `GUIDE` in `tools/e3-mastery-cfg.js` (`'56:2'` = chapter 56, item 3); `[]` marks a condition beyond the guide. The build fails if any guide item has no condition and writes the mapping, and the chapter topics with no condition, to `audit/cj-coverage.md`.
 - `topics`: its Map topic ids, for "All the notes" and its videos
 - `nodes`: organ → molecule breakdown ids, including the mechanisms (`insulin`, `fluids`, `k-acidbase`…)
 - `drugs`: drug-card ids

@@ -2,6 +2,7 @@
 module.exports = [
   {
     id: 'dm-new', sys: 'Hormones & glucose', name: 'Diabetes mellitus: diagnosis, insulin and drugs',
+    guide: ['56:0', '56:1'],
     topics: ['56-types-risk-and-screening', '56-diagnosing-and-monitoring-glucose-a1c-cg', '56-insulin-types-timing-injection-and-stora',
       '56-antidiabetic-drugs-non-insulin', '56-eating-and-exercise-with-diabetes', '56-teaching-self-management'],
     nodes: ['dm-dx', 'dm-rx', 'insulin'], drugs: ['metformin', 'glipizide', 'semaglutide', 'empagliflozin', 'lispro', 'regular', 'nph', 'glargine'],
@@ -66,7 +67,7 @@ module.exports = [
         terms: [
           { t: 'Metformin', see: 'First-line oral drug for type 2.',
             why: 'Lowers the **liver’s glucose production** and improves insulin sensitivity; it does not force insulin out, so it rarely causes lows on its own.',
-            means: 'Take **with food**; **no alcohol**; avoid with kidney disease; **hold 24 hours before iodinated contrast or surgery** — risk of **lactic acidosis** and kidney injury.' },
+            means: 'Take **with food**; **no alcohol**. Kidney limits go by **eGFR**: contraindicated **below 30**, not started at **30–45**. Around **iodinated contrast** (eGFR 30–60 or other risk factors) it is stopped and restarted after a **48-hour eGFR recheck**; around **surgery** it is held while intake is restricted — both to prevent **lactic acidosis**.' },
           { t: 'Sulfonylureas (glipizide)', see: 'Oral drug taken with or just before meals.',
             why: 'Force the beta cells to **release insulin** whether or not glucose is high.',
             means: '**Hypoglycemia** risk, especially with missed meals, kidney disease or in older adults.' },
@@ -96,6 +97,7 @@ module.exports = [
   },
   {
     id: 'hypoglycemia', sys: 'Hormones & glucose', name: 'Hypoglycemia',
+    guide: ['56:2'],
     topics: ['56-hypoglycemia-the-15-15-rule'],
     nodes: ['dm-acute', 'insulin'], drugs: ['glucagon', 'd50'],
     patient: 'A client on insulin is shaky, sweaty and slow to answer an hour after a late lunch tray never came.',
@@ -158,6 +160,7 @@ module.exports = [
   },
   {
     id: 'dka', sys: 'Hormones & glucose', name: 'Diabetic ketoacidosis (DKA)',
+    guide: ['56:2'],
     topics: ['56-dka-and-hhs-the-hyperglycemic-emergencie'],
     nodes: ['dm-acute', 'k-acidbase', 'fluids', 'insulin'], drugs: ['regular'],
     patient: 'A 22-year-old with type 1 diabetes has had the flu for two days, skipped insulin because she wasn’t eating, and is now vomiting and breathing deeply.',
@@ -193,11 +196,11 @@ module.exports = [
         cards: [{ ref: '56-dka-and-hhs-the-hyperglycemic-emergencie > Diabetic ketoacidosis (DKA): textbook description and labeled clinical updates > What you see', as: 'What you see' }]
       },
       ac: {
-        gist: '**Insulin deficiency** plus stress hormones → **hyperglycemia** (cells can’t take up glucose; the liver keeps releasing it), **ketoacidosis** (fat broken down into ketoacids; pH < 7.35, HCO₃⁻ < 15) and **osmotic diuresis**. Most common trigger: **infection or illness**, or **missed insulin**.',
+        gist: '**Insulin deficiency** plus stress hormones → **hyperglycemia** (cells can’t take up glucose; the liver keeps releasing it), **ketoacidosis** (fat broken down into ketoacids — current criteria: ketones with **pH < 7.3 and/or bicarbonate < 18**) and **osmotic diuresis**. Most common trigger: **infection or illness**, or **missed insulin**.',
         terms: [
-          { t: 'Ketones and metabolic acidosis', see: 'Serum ketones positive, pH < 7.35, bicarbonate < 15, wide anion gap.',
+          { t: 'Ketones and metabolic acidosis', see: 'Ketones positive with **pH < 7.3 and/or bicarbonate < 18** (current adult criteria); the textbook’s examples are pH < 7.35 and bicarbonate < 15. Wide anion gap.',
             why: 'Without insulin, fat cells release fatty acids, and the **liver converts them into ketone bodies**, which are acids. They use up the blood’s **bicarbonate** buffer faster than the body can replace it, so the pH falls.',
-            means: 'Treatment continues until the **ketoacidosis resolves** (ketones < 0.6 mmol/L and pH ≥ 7.3 or bicarbonate ≥ 18), **not just until glucose improves**.' },
+            means: 'Treatment continues until the **ketoacidosis resolves** (ketones **< 0.6 mmol/L AND** either **pH ≥ 7.3 OR bicarbonate ≥ 18**), **not just until glucose improves**.' },
           { t: 'Hyperglycemia', see: 'Often > 300 mg/dL — but DKA can occur at **lower glucose**, especially with SGLT2 inhibitors (euglycemic DKA).',
             why: 'No insulin means cells cannot take up glucose, while **glucagon, cortisol and epinephrine** make the liver keep producing it.',
             means: 'A glucose below 300 does **not** rule out DKA — the ketones and acidosis define it.' },
@@ -227,7 +230,7 @@ module.exports = [
         cards: ['56-dka-and-hhs-the-hyperglycemic-emergencie > Potassium and bicarbonate']
       },
       eo: {
-        gist: 'Ketoacidosis **resolved** (ketones < 0.6 mmol/L and pH ≥ 7.3 or HCO₃⁻ ≥ 18; glucose ideally < 200); K⁺ in range; **adequate urine output** and stable BP; mental status at baseline; basal insulin overlapped before the drip stops; the client can state **sick-day rules** and when to call.',
+        gist: 'Ketoacidosis **resolved**: ketones **< 0.6 mmol/L AND** either **pH ≥ 7.3 OR HCO₃⁻ ≥ 18** (glucose ideally < 200); K⁺ in range; **adequate urine output** and stable BP; mental status at baseline; basal insulin overlapped before the drip stops; the client can state **sick-day rules** and when to call.',
         cards: ['56-dka-and-hhs-the-hyperglycemic-emergencie > Sick-day rules', '56-dka-and-hhs-the-hyperglycemic-emergencie > When to call',
           '56-dka-and-hhs-the-hyperglycemic-emergencie > DKA teaching']
       }
@@ -235,6 +238,7 @@ module.exports = [
   },
   {
     id: 'hhs', sys: 'Hormones & glucose', name: 'Hyperglycemic-hyperosmolar state (HHS)',
+    guide: ['56:2'],
     topics: ['56-dka-and-hhs-the-hyperglycemic-emergencie'],
     nodes: ['dm-acute', 'fluids'], drugs: ['regular'],
     patient: 'A 78-year-old with type 2 diabetes from a nursing home has been drinking little for days with a UTI and is now confused and very drowsy.',
@@ -284,17 +288,18 @@ module.exports = [
         cards: ['56-dka-and-hhs-the-hyperglycemic-emergencie > Fluids first']
       },
       ta: {
-        gist: '**Normal saline** for shock or severe hypotension, otherwise **half-normal saline** per order; **hourly neuro checks** (LOC, pupils, seizures) — report changes immediately; IV insulin only after fluids; **electrolytes every 1–2 hours** with **continuous cardiac monitoring**; strict intake and output.',
+        gist: '**Isotonic saline or a balanced crystalloid** first, then fluids adjusted to clinical status and lab trends — **half-normal saline only in specific situations**, such as osmolality not falling despite adequate fluids; **hourly neuro checks** (LOC, pupils, seizures) — report changes immediately; IV insulin only after fluids; **electrolytes every 1–2 hours** with **continuous cardiac monitoring**; strict intake and output.',
         cards: ['56-dka-and-hhs-the-hyperglycemic-emergencie > Critical rescue and insulin']
       },
       eo: {
-        gist: '**Slow, steady neurologic improvement** (no improvement = too little fluid; improvement then decline = osmolality falling too fast); adequate BP and urine output; glucose and osmolality falling gradually; K⁺ in range.',
+        gist: '**Slow, steady neurologic improvement**. No improvement or any deterioration → **reassess and report** (fluid status, osmolality, glucose, sodium, other causes) rather than assuming one cause; adequate BP and urine output; glucose and osmolality falling gradually; K⁺ in range.',
         cards: ['56-dka-and-hhs-the-hyperglycemic-emergencie > Sick-day rules']
       }
     }
   },
   {
     id: 'dm-foot', sys: 'Hormones & glucose', name: 'Diabetic foot ulcer and chronic complications',
+    guide: ['56:3'],
     topics: ['56-foot-care-kidneys-and-preventing-injury', '56-chronic-complications-vessels-eyes-nerve'],
     nodes: ['dm-chronic'], drugs: [],
     patient: 'A client with 15 years of type 2 diabetes has a painless sore under the ball of the foot and cannot feel the monofilament on either foot.',
@@ -370,6 +375,7 @@ module.exports = [
   },
   {
     id: 'dm-surgery', sys: 'Hormones & glucose', name: 'Diabetes in the hospital and around surgery',
+    guide: ['56:3', '56:1'],
     topics: ['56-diabetes-in-the-hospital-and-around-surg'],
     nodes: ['dm-rx', 'insulin', 'k-acidbase'], drugs: ['metformin', 'glipizide', 'glargine', 'lispro'],
     patient: 'A client with type 2 diabetes on metformin and glipizide is scheduled for a hip replacement tomorrow and will be NPO after midnight.',
@@ -391,7 +397,7 @@ module.exports = [
             means: 'Look for **infection**: UTI, pneumonia, cellulitis, wound infection.' },
           { t: 'Hypoglycemia when NPO', see: 'Low glucose in a client not eating.',
             why: 'Mealtime insulin or a **sulfonylurea** keeps lowering glucose with **no food** coming in.',
-            means: '**Hold rapid- and short-acting insulin** and premixed insulin when NPO; give **basal** insulin, often at a reduced dose.' },
+            means: 'When NPO, **hold mealtime (nutritional) doses** and premixed insulin; keep **basal** insulin (often reduced) and give **correction doses** and any IV insulin **as prescribed** — NPO doesn’t cancel the correction plan.' },
           { t: 'Silent MI', see: 'ECG changes or a new dysrhythmia without chest pain; unexplained hypotension or dyspnea.',
             why: '**Autonomic neuropathy** damages the nerves that carry cardiac pain.',
             means: '**Continuous ECG** for older adults, long-standing diabetes and heart disease; report ECG or potassium changes.' },
@@ -404,9 +410,9 @@ module.exports = [
       ac: {
         gist: 'Surgery is a **controlled injury**: stress hormones raise glucose and insulin needs, and the client is at risk of **DKA or HHS**, **dehydration and kidney injury**, **aspiration** (gastroparesis), **ileus and urinary retention** (autonomic neuropathy) and **cardiac events**.',
         terms: [
-          { t: 'Metformin before contrast or surgery', see: 'Held at least 24 hours before.',
+          { t: 'Metformin before contrast or surgery', see: 'Held around iodinated contrast or surgery, per the order or protocol.',
             why: 'Metformin is cleared by the kidneys. If contrast, anesthesia or dehydration impairs kidney function, it builds up and can cause **lactic acidosis**.',
-            means: 'Restart only when **kidney function is confirmed normal**.' },
+            means: '**Contrast** (eGFR 30–60 or other risk factors): stop at or before the procedure, **recheck eGFR at 48 hours**, restart if kidney function is stable. **Surgery**: hold while food and fluids are restricted. *The textbook teaches a 24-hour hold and restarting when kidney function is normal.*' },
           { t: 'Pre-op glucose above 200', see: 'Glucose ≥ 200 mg/dL before surgery.',
             why: 'High glucose impairs white blood cells and **collagen formation**.',
             means: 'More wound **infection** and poor healing — report it before surgery.' }
@@ -422,12 +428,12 @@ module.exports = [
         cards: ['56-diabetes-in-the-hospital-and-around-surg > Before surgery', '56-diabetes-in-the-hospital-and-around-surg > NPO patients']
       },
       ta: {
-        gist: 'Stop **sulfonylureas 1 day before** and **metformin at least 24 hours before**; **basal insulin** (often reduced) while NPO, **hold rapid- and short-acting and premixed insulin**; **hourly glucose** with IV insulin, glucose and potassium during surgery; monitor **K⁺ and continuous ECG** after; post-op liquids with carbohydrate, **not sugar-free**.',
+        gist: 'Stop **sulfonylureas 1 day before**; hold **metformin** per the order or protocol; **basal insulin** (often reduced) while NPO, **hold mealtime doses and premixed insulin** but give **correction insulin as prescribed**; **hourly glucose** with IV insulin, glucose and potassium during surgery; monitor **K⁺ and continuous ECG** after; post-op liquids with carbohydrate, **not sugar-free**.',
         cards: ['56-diabetes-in-the-hospital-and-around-surg > During surgery', '56-diabetes-in-the-hospital-and-around-surg > Insulin and analgesia',
           '56-diabetes-in-the-hospital-and-around-surg > Monitoring']
       },
       eo: {
-        gist: 'Glucose in target **without hypoglycemia** (review the regimen below 100, change it below 70); no wound or urinary infection; kidney function normal before metformin restarts; eating at least **150–200 g of carbohydrate a day**.',
+        gist: 'Glucose in target **without hypoglycemia** (review the regimen below 100, change it below 70); no wound or urinary infection; metformin restarted only as the order or protocol directs (kidney function stable, eating again); eating at least **150–200 g of carbohydrate a day**.',
         cards: ['56-diabetes-in-the-hospital-and-around-surg > Post-op nutrition']
       }
     }

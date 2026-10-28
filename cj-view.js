@@ -54,14 +54,25 @@
     return '<div class="glass cj-intro"><h2>Think like the nurse, one step at a time</h2>' +
       '<p>Pick a condition. It opens into the six steps of clinical judgment, in bedside order. Tap a step, then a card, and keep going deeper — down to organ → molecule.</p>' +
       '<details class="cj-steps-how"><summary>The six steps</summary><ol class="cj-legend">' + Object.keys(STEPS).map(function (k) { return '<li><b>' + STEPS[k][0] + '</b><span>' + STEPS[k][2] + '</span></li>'; }).join('') + '</ol></details>' +
-      quizBtn() + '</div>' +
+      quizBtn() + '</div>' + coverageHtml() +
       sys.map(function (s) {
         return '<section class="cj-sys"><h2>' + esc(s) + '</h2><div class="cj-conds">' + C.filter(function (c) { return c.sys === s; }).map(function (c) {
-          return '<button class="glass cj-cond" data-cond="' + c.id + '"><small class="cj-ch">Chapter ' + esc(c.ch) + '</small><b>' + esc(c.name) + '</b><span>' + esc(c.patient) + '</span>' + ladderDots() +
+          return '<button class="glass cj-cond" data-cond="' + c.id + '"><small class="cj-ch">Chapter ' + esc(c.ch) + '</small><b>' + esc(c.name) + '</b>' + guideHtml(c) + '<span>' + esc(c.patient) + '</span>' + ladderDots() +
             (c.videos.length ? '<small>▶ ' + c.videos.length + ' video' + (c.videos.length > 1 ? 's' : '') + '</small>' : '') + '</button>';
         }).join('') + '</div></section>';
       }).join('') +
-      '<p class="cj-more">Every chapter on Exam 3 is here. The final-only chapters (48–52) and the full notes are under <button class="linkbtn" data-view-go="topics">All topics</button>.</p>';
+      '<p class="cj-more">Each of the 17 study-guide items has at least one condition (see Study guide coverage). A few chapter topics beyond the guide, the final-only chapters (48–52) and the full notes are under <button class="linkbtn" data-view-go="topics">All topics</button>.</p>';
+  }
+  // Which items of the professor's study guide a condition is built around ("beyond the guide" when none).
+  function guideHtml(c) {
+    return '<span class="cj-guide' + (c.guide.length ? '' : ' off') + '">' + (c.guide.length ? 'Study guide: ' + c.guide.map(function (g) { return esc(g.name); }).join(' · ') : 'Beyond the study guide') + '</span>';
+  }
+  function coverageHtml() {
+    var G = window.CJ_GUIDE || [];
+    if (!G.length) return '';
+    return '<details class="glass cj-coverage"><summary>Study guide coverage · ' + G.length + ' items</summary><ul>' + G.map(function (g) {
+      return '<li><b>' + esc(g.name) + '</b>' + g.conds.map(function (id) { return '<button class="linkbtn" data-cond="' + id + '">' + esc(byId[id].name) + '</button>'; }).join('') + '</li>';
+    }).join('') + '</ul></details>';
   }
   function quizBtn() {
     return '<button class="pill cj-quiz" aria-pressed="' + quiz + '">' + quizLabel() + '</button>';
@@ -106,7 +117,7 @@
   function condHtml(c) {
     var i = C.indexOf(c), prev = C[i - 1], next = C[i + 1];
     return '<div class="cj-top"><button class="pill" data-home>← All conditions</button>' + quizBtn() + '</div>' +
-      '<div class="glass cj-head"><div class="kicker">' + esc(c.sys) + ' · Chapter ' + esc(c.ch) + '</div><h2>' + esc(c.name) + '</h2>' +
+      '<div class="glass cj-head"><div class="kicker">' + esc(c.sys) + ' · Chapter ' + esc(c.ch) + '</div><h2>' + esc(c.name) + '</h2>' + guideHtml(c) +
       '<p class="cj-patient"><span>The client</span>' + esc(c.patient) + '</p></div>' +
       videosHtml(c) +
       '<ol class="cj-ladder">' + c.steps.map(function (s, si) {
@@ -202,8 +213,10 @@
   }
 
   // Time with a condition on screen counts as reading its topics (Quick), so the study route sees it (map.js keeps the
-  // log and skips time while its panel is open). Nothing counts when another view hides this one (All topics, #weak).
-  setInterval(function () { if (view === 'cj' && cur && root.getClientRects().length && window.MapRead) window.MapRead(cur.topics); }, 5000);
+  // log and skips time while its panel is open). Nothing counts when another view hides this one (All topics, #weak)
+  // or when the view is scrolled out of sight (e.g. the reference strip opened above it).
+  function onScreen() { var r = root.getBoundingClientRect(); return r.height > 0 && r.bottom > 0 && r.top < innerHeight; }
+  setInterval(function () { if (view === 'cj' && cur && onScreen() && window.MapRead) window.MapRead(cur.topics); }, 5000);
 
   setView(view);
   var start = fromHash();

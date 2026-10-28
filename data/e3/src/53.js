@@ -176,7 +176,7 @@ module.exports = ({ chapter, topic, adpie }) => {
       title: 'Imaging and other tests',
       items: [
         ['Imaging', 'skull x-rays show the **sella turcica** (erosion = a growth invading it). **MRI with contrast is the most sensitive for the pituitary** (CT also works). **CT** for the adrenals, ovaries and pancreas. **Ultrasound** for the thyroid, parathyroids, ovaries and testes.', ['Skull x-ray: **sella turcica** erosion = growth', '**MRI with contrast = best for pituitary**', '**CT**: adrenals, ovaries, pancreas · **ultrasound**: thyroid, parathyroids, ovaries, testes']],
-        ['Thyroid scan', 'a nuclear medicine test: the patient swallows a pill of **radioactive iodine**, which collects in the thyroid, and the gland is imaged **4 to 6 hours later**.', ['Swallow **radioactive iodine** pill → collects in thyroid → image **4–6 h later**']],
+        ['Thyroid scan', 'a nuclear medicine test: the patient swallows a pill of **radioactive iodine**, which collects in the thyroid, and the gland is imaged **4 to 6 hours later**. Ask about **pregnancy and breastfeeding** first — the tracer passes into breast milk — and follow nuclear medicine’s instructions.', ['Swallow **radioactive iodine** pill → collects in thyroid → image **4–6 h later**', 'Ask about **pregnancy + breastfeeding** first; follow nuclear medicine’s instructions']],
         ['Fine needle aspiration', '**ultrasound-guided FNA** is a quick, safe outpatient procedure that shows what a **thyroid nodule** is made of and whether surgery is needed.', ['**Ultrasound-guided FNA** of a **thyroid nodule** → decides on surgery']]
       ]
     }]

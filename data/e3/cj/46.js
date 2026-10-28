@@ -2,6 +2,7 @@
 module.exports = [
   {
     id: 'stomatitis', sys: 'Digestion & elimination', name: 'Stomatitis and oral candidiasis',
+    guide: ['46:0'],
     topics: ['46-stomatitis-the-tissue-integrity-exemplar'],
     nodes: ['stomatitis', 'microbes'], drugs: ['nystatin', 'clotrimazole', 'lidocainevis'],
     patient: 'A client on chemotherapy has painful mouth ulcers and white patches that wipe off to a red base, and is barely eating or drinking.',
@@ -66,6 +67,7 @@ module.exports = [
   },
   {
     id: 'oral-cancer', sys: 'Digestion & elimination', name: 'Oral cancer',
+    guide: [],
     topics: ['46-oral-tumors-oral-cancer-and-salivary-gla'],
     nodes: ['stomatitis'], drugs: [],
     patient: 'A 62-year-old who smokes and drinks has a red, raised sore on the side of his tongue that hasn’t healed in a month, and he is losing weight.',
@@ -123,6 +125,7 @@ module.exports = [
   },
   {
     id: 'gerd', sys: 'Digestion & elimination', name: 'GERD, hiatal hernia and fundoplication',
+    guide: ['46:1', '46:2'],
     topics: ['46-gerd-the-nutrition-exemplar', '46-treating-gerd-diet-lifestyle-drugs-proce', '46-hiatal-hernia-and-fundoplication-care'],
     nodes: ['gerd', 'acid'], drugs: ['omeprazole', 'famotidine', 'almag'],
     patient: 'A 50-year-old with obesity has heartburn after meals that is worse lying down, a cough at night and a hoarse voice in the mornings.',
@@ -199,6 +202,7 @@ module.exports = [
   },
   {
     id: 'esophageal-cancer', sys: 'Digestion & elimination', name: 'Esophageal cancer and esophagectomy',
+    guide: [],
     topics: ['46-esophageal-cancer-and-esophagectomy'],
     nodes: ['gerd'], drugs: [],
     patient: 'A 66-year-old with years of untreated GERD and a smoking history has had worsening trouble swallowing solids for months and has lost 25 lb.',

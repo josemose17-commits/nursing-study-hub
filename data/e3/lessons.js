@@ -1645,20 +1645,21 @@ window.EXAM3_LESSONS = {
       "notes": [
         "56-hypoglycemia-the-15-15-rule"
       ],
-      "source": "Ch 56: hypoglycemia; ADA low-glucose treatment guidance.",
+      "source": "Ch 56: hypoglycemia; ADA 2026 Standards of Care, sections 6 and 16.",
       "why": [
         "Glucose below 70 mg/dL calls for action. Sweating, tremor and palpitations can precede confusion, seizures or loss of consciousness. Symptoms vary; beta blockers and impaired awareness can hide warnings.",
-        "For a conscious adult who can safely swallow, the common 15–15 approach is 15 g fast-acting carbohydrate, recheck after 15 minutes, and repeat if still low under the treatment plan.",
+        "For a conscious adult who can safely swallow and is permitted oral intake, the common 15–15 approach is 15 g fast-acting carbohydrate, recheck after 15 minutes, and repeat if still low under the treatment plan.",
         "If swallowing is unsafe or the person is unresponsive, do not give oral food or liquid. Get emergency help and give prescribed glucagon or IV dextrose as appropriate. Recheck and investigate the cause; long-acting insulin or sulfonylureas can cause recurrence."
       ],
       "checks": [
-        "Explain the 15–15 approach for someone who can safely swallow.",
+        "Explain the 15–15 approach when swallowing is safe and oral intake is allowed.",
         "Change the treatment route for unsafe swallowing and plan rechecks."
       ],
       "requires": [
         "insulin"
       ],
       "caseId": "hypo",
+      "studio": "hypoglycemia",
       "questions": [
         {
           "id": "hypo-a",

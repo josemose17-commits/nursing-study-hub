@@ -47,13 +47,16 @@ const out = require(path.join(ROOT, 'data/e3/cj-src.js')).map(c => {
   (c.topics || []).forEach(t => { if (!TOPICS[t]) errors.push(where + ': no map topic "' + t + '"'); });
   (c.nodes || []).forEach(n => { if (!NODES[n]) errors.push(where + ': no breakdown "' + n + '"'); });
   (c.drugs || []).forEach(d => { if (!DRUGS[d]) errors.push(where + ': no drug card "' + d + '"'); });
+  if (c.report && c.report.length !== 4) errors.push(where + ': report needs 4 parts (S, B, A, R)');
   Object.keys(c.steps).forEach(k => { if (STEPS.indexOf(k) < 0) errors.push(where + ': unknown step "' + k + '"'); });
   const used = {}, whySeen = {};
   const steps = STEPS.map(k => {
     const s = c.steps[k];
     if (!s || !s.gist || !(s.cards || []).length) { errors.push(where + ': step ' + k + ' needs a gist and at least one card'); return null; }
+    (s.terms || []).forEach((x, i) => { ['t', 'see', 'why', 'means'].forEach(f => { if (!x[f]) errors.push(where + ' ' + k + ': term ' + (x.t || i + 1) + ' needs ' + f); }); });
     return {
       k, gist: md(s.gist),
+      terms: (s.terms || []).map(x => ({ t: md(x.t), see: md(x.see), why: md(x.why), means: md(x.means) })),
       cards: s.cards.map(card => {
         const o = typeof card === 'string' ? { ref: card } : card, it = find(o.ref, where + ' ' + k);
         if (!it) return null;
@@ -68,7 +71,7 @@ const out = require(path.join(ROOT, 'data/e3/cj-src.js')).map(c => {
   }).filter(Boolean);
   const videos = (win.VIDEOS || []).filter(v => (v.topics || []).some(t => (c.topics || []).indexOf(t) >= 0)).map(v => ({ id: v.id, title: v.title, see: v.see }));
   return {
-    id: c.id, sys: c.sys, name: c.name, patient: c.patient, topics: c.topics || [],
+    id: c.id, sys: c.sys, name: c.name, patient: c.patient, topics: c.topics || [], report: (c.report || []).map(md),
     nodes: (c.nodes || []).filter(n => NODES[n]).map(n => ({ id: n, name: NODES[n].name })),
     drugs: (c.drugs || []).filter(d => DRUGS[d]).map(d => ({ id: d, name: DRUGS[d].n })),
     videos, steps

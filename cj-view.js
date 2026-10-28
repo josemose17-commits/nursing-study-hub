@@ -84,6 +84,17 @@
         (card.why ? '<div class="cj-why" data-show="why" hidden>' + card.why + '</div>' : '') +
       '</div></div>';
   }
+  // One finding: its clinical name first, then what it looks like, why the body does it and what it tells you.
+  function termHtml(x) {
+    return '<div class="cj-term"><button class="cj-term-h" aria-expanded="false"><span><b>' + x.t + '</b><small>' + x.see + '</small></span><i class="cj-chev" aria-hidden="true"></i></button>' +
+      '<dl class="cj-term-b" hidden><dt>Why it happens</dt><dd>' + x.why + '</dd><dt>What it tells you</dt><dd>' + x.means + '</dd></dl></div>';
+  }
+  function reportHtml(c) {
+    if (c.report.length !== 4) return '';
+    return '<div class="glass cj-report"><div class="cj-h">Say it to the provider · SBAR example</div>' +
+      '<p class="cj-report-hint">The same findings in the words you would use on the phone. Numbers are an example.</p><dl>' +
+      ['Situation', 'Background', 'Assessment', 'Recommendation'].map(function (h, i) { return '<dt><b>' + h[0] + '</b>' + h.slice(1) + '</dt><dd>' + c.report[i] + '</dd>'; }).join('') + '</dl></div>';
+  }
   function condHtml(c) {
     var i = C.indexOf(c), prev = C[i - 1], next = C[i + 1];
     return '<div class="cj-top"><button class="pill" data-home>← All conditions</button>' + quizBtn() + '</div>' +
@@ -96,11 +107,13 @@
           '<button class="cj-step-h" aria-expanded="false"><span class="cj-num">' + (si + 1) + '</span><span class="cj-step-t"><b>' + m[0] + '</b><small>' + m[1] + '</small><span class="cj-q">' + m[2] + '</span></span><i class="cj-chev" aria-hidden="true"></i></button>' +
           '<div class="cj-step-b" hidden>' +
             '<div class="cj-gist' + (quiz ? ' covered' : '') + '"' + (quiz ? ' role="button" tabindex="0"' : '') + '><span class="cj-cover">Say your answer, then tap to check</span><div class="cj-gist-t">' + s.gist + '</div></div>' +
-            '<div class="cj-h">Go deeper · ' + s.cards.length + ' card' + (s.cards.length > 1 ? 's' : '') + '</div>' +
+            (s.terms.length ? '<div class="cj-h">Every finding, explained · tap one</div><div class="cj-terms">' + s.terms.map(termHtml).join('') + '</div>' : '') +
+            '<div class="cj-h">' + (s.terms.length ? 'From the notes' : 'Go deeper') + ' · ' + s.cards.length + ' card' + (s.cards.length > 1 ? 's' : '') + '</div>' +
             s.cards.map(function (card, ci) { return cardHtml(card, si, ci); }).join('') +
             (si < c.steps.length - 1 ? '<button class="cj-next" data-open-step="' + c.steps[si + 1].k + '">Next: ' + STEPS[c.steps[si + 1].k][0] + ' ↓</button>' : '') +
           '</div></li>';
       }).join('') + '</ol>' +
+      reportHtml(c) +
       '<div class="glass cj-bottom"><div class="cj-h">The deepest layer</div><div class="cj-links">' +
         c.nodes.map(function (n) { return '<button class="pill" data-node-go="' + esc(n.id) + '">⇣ Organ → molecule: ' + esc(n.name) + '</button>'; }).join('') +
         c.topics.map(function (t) { return '<button class="pill" data-topic="' + esc(t) + '">All the notes: ' + esc(topicTitle(t)) + '</button>'; }).join('') +
@@ -157,7 +170,7 @@
       if (b.getAttribute('aria-expanded') !== 'true') toggle(b, b.nextElementSibling);
       li.scrollIntoView({ behavior: 'smooth', block: 'start' }); return;
     }
-    var ch = t.closest('.cj-card-h'); if (ch) { toggle(ch, ch.nextElementSibling); return; }
+    var ch = t.closest('.cj-card-h, .cj-term-h'); if (ch) { toggle(ch, ch.nextElementSibling); return; }
     var more = t.closest('[data-more]');
     if (more) {
       var box = more.closest('.cj-card-b').querySelector('[data-show="' + more.dataset.more + '"]');

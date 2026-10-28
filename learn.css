@@ -48,3 +48,5 @@ td, th { text-align: left; padding: 9px; border-bottom: 1px solid var(--color-di
 @media (prefers-reduced-motion: no-preference) { .card { animation: appear .18s ease-out; } @keyframes appear { from { opacity: .7; transform: translateY(4px); } } }
 
 .hl-close { margin-top:28px; padding-top:22px; border-top:1px solid var(--color-divider); }
+
+.catalog .catalog-explore { display:block; font-size:13px; color:var(--color-accent-200); padding:7px 0; }

@@ -37,21 +37,22 @@
     const featured = resume || (rec && rec.lesson);
     el.innerHTML = '<span class="kicker">Exam 3 · Guided study</span><h1 tabindex="-1">One idea.<br>Then use it.</h1><p class="muted">Understand the why, recall it before looking, and make a patient decision. Come back when review is due.</p>' +
       (featured ? '<section class="card featured"><span class="kicker">' + (resume ? 'Pick up where you paused' : due ? 'Review next' : 'Study next') + '</span><h2>' + esc(featured.title) + '</h2><p class="muted">' + (resume ? 'Your response and place are saved in this browser.' : esc(rec.reason)) + '</p><div class="row"><button type="button" class="btn btn-primary" data-lesson="' + featured.id + '">' + (resume ? 'Resume lesson' : rec.early ? 'Practise early' : 'Begin lesson') + '</button><span class="source">Ch ' + featured.ch + ' · about 8–12 min</span></div></section>' : '') +
-      '<section class="card featured"><span class="kicker">Try the visual lesson</span><h2>Hypoglycemia: see the route, then choose the action.</h2><p class="muted">A treatment diagram, short notes and six coached patient decisions. Audio is optional.</p><button type="button" class="btn btn-secondary" data-explore="hypoglycemia">Open the visual lesson</button></section>' +
+      '<section class="card featured"><span class="kicker">Every Exam 3 topic</span><h2>See it. Practise it. Then answer independently.</h2><p class="muted">29 visual lessons, 90 coached decisions and a worked question strategy for every lesson. Choose a topic below. Audio is optional.</p><a href="NCLEX Strategies.html#exam3-practice">Test-taking strategies and topic index →</a></section>' +
       '<div class="stats"><div><b>' + all.filter(p => p.understoodAt).length + '</b><span>explanations read</span></div><div><b>' + all.filter(p => p.recalled).length + '</b><span>recall self-checks met</span></div><div><b>' + all.filter(p => p.correct).length + '</b><span>latest decisions correct</span></div><div><b>' + all.filter(p => p.delayedPasses).length + '</b><span>lessons with a due review passed</span></div></div>' +
       '<p class="source">' + completed + ' of ' + lessons.length + ' core lessons attempted · ' + due + ' reviews due. Reading and self-checks do not prove mastery. A due review means you returned after the scheduled interval; retries can be due in 10 minutes.</p>' +
       '<div class="row between"><h2>Choose a lesson</h2><label class="source">Show <select id="lesson-filter"><option value="all">All chapters</option>' + Object.keys(data.weights).map(ch => '<option value="' + ch + '"' + (filter === ch ? ' selected' : '') + '>Ch ' + ch + ' · ' + data.weights[ch] + '/60 exam questions</option>').join('') + '</select></label></div>' +
-      '<ul class="catalog">' + lessons.filter(l => filter === 'all' || l.ch === filter).map(l => '<li><span class="kicker">Ch ' + l.ch + '</span><br><button type="button" data-lesson="' + l.id + '">' + esc(l.title) + ' →</button><span class="source">' + esc(status(l)) + '</span></li>').join('') + '</ul>' +
+      '<ul class="catalog">' + lessons.filter(l => filter === 'all' || l.ch === filter).map(l => '<li><span class="kicker">Ch ' + l.ch + '</span><br><button type="button" data-lesson="' + l.id + '">' + esc(l.title) + ' →</button><button type="button" class="catalog-explore" data-explore="' + l.id + '">Visual explanation &amp; rehearsal</button><span class="source">' + esc(status(l)) + '</span></li>').join('') + '</ul>' +
       '<details><summary>How this study path works</summary><p>These focused lessons cover the 17 assigned topic groups. Use their source links for the full chapter notes, tables, drugs and ADPIE. This path is a core review, not a replacement for every detail in the assigned chapters.</p><p>After a successful first attempt, review is due in 1 day. Successful due reviews schedule 1, then 3, then 7 days. A missed decision or recall checkpoint schedules a 10-minute retry. Early practice does not earn a due-review pass or postpone review. This is a simple study schedule, not a prediction of your exam score.</p><p>Recommendations put due reviews first, then balance prerequisite lessons, missed topics in your last Mastery report, and chapter weights (56: 20; 46, 47, 55: 10 each; 45, 53: 5 each). You can choose any lesson.</p><p>Progress is kept in this browser and included in Home’s Save progress file. It does not sync by itself. Return here to see due reviews; no notifications are sent.</p></details>' +
       '<div class="resources"><a href="Word Parts.html">Prefixes, roots, suffixes &amp; drug stems</a><a href="Exam 3 Map.html">Map &amp; source notes</a><a href="Exam 3 Route.html">Daily route</a><a href="Exam 3 Mastery Loop.dc.html">Mixed Mastery test</a></div>';
   }
   function session(l) {
-    const t = state.session, q = l.questions[t.variant], studio = l.studio === 'hypoglycemia' && window.HypoLab;
+    const t = state.session, q = l.questions[t.variant], api = window.Exam3Studio;
+    const studio = api && api.get(l.id) ? { overviewHtml: () => api.overviewHtml(l.id), strategyHtml: () => api.strategyHtml(l.id), practiceHtml: raw => api.practiceHtml(l.id, raw) } : l.studio === 'hypoglycemia' && window.HypoLab ? { ...window.HypoLab, strategyHtml: () => '' } : null;
     let body = '';
     if (t.stage === 'understand') {
-      body = studio ? studio.overviewHtml() + '<details><summary>Full lesson explanation</summary>' + l.why.map(p => '<p>' + esc(p) + '</p>').join('') + resources(l) + '</details>' + studio.practiceHtml(t.hypoPractice) + '<div class="hl-close">' + button('read', 'Close the explanation & recall') + '</div>' : '<h2>Understand the why</h2>' + l.why.map(p => '<p>' + esc(p) + '</p>').join('') + resources(l) + button('read', 'Close the explanation & recall');
+      body = studio ? studio.overviewHtml() + studio.strategyHtml() + resources(l) + studio.practiceHtml(l.id === 'hypoglycemia' ? t.hypoPractice : t.studioPractice) + '<div class="hl-close">' + button('read', 'Close the explanation & recall') + '</div>' : '<h2>Understand the why</h2>' + l.why.map(p => '<p>' + esc(p) + '</p>').join('') + resources(l) + button('read', 'Close the explanation & recall');
     } else if (t.stage === 'recall') {
-      body = (studio ? '<button type="button" class="plain" data-explore="hypoglycemia">Review the visual explanation first</button><p class="source">Opening the explanation makes this an early practice session; it will not earn a due-review pass.</p>' : '') + '<h2>Recall before looking</h2><p>Without your notes, explain these points aloud or type your answer.</p><ol>' + l.checks.map(c => '<li>' + esc(c) + '</li>').join('') + '</ol><label for="recall-draft" class="source">Your explanation (optional; saved here)</label><textarea id="recall-draft" placeholder="What do you remember, and why?">' + esc(t.draft) + '</textarea><p class="source">Self-assessment: your writing is not automatically graded.</p>' +
+      body = (studio ? '<button type="button" class="plain" data-explore="' + l.id + '">Review the visual explanation first</button><p class="source">Opening the explanation makes this an early practice session; it will not earn a due-review pass.</p>' : '') + '<h2>Recall before looking</h2><p>Without your notes, explain these points aloud or type your answer.</p><ol>' + l.checks.map(c => '<li>' + esc(c) + '</li>').join('') + '</ol><label for="recall-draft" class="source">Your explanation (optional; saved here)</label><textarea id="recall-draft" placeholder="What do you remember, and why?">' + esc(t.draft) + '</textarea><p class="source">Self-assessment: your writing is not automatically graded.</p>' +
         (!t.revealed ? button('reveal', 'Compare with the explanation') : (studio ? '<details><summary>Compare with the treatment diagram</summary>' + studio.overviewHtml() + '</details>' : '') + '<section class="card"><h3>Compare your reasoning</h3>' + l.why.map(p => '<p>' + esc(p) + '</p>').join('') + '<p>Check only the points you recalled correctly <strong>before</strong> revealing this explanation. Leave missed points unchecked.</p>' + l.checks.map((c, i) => '<label class="check"><input type="checkbox" data-check="' + i + '"' + (t.checks[i] ? ' checked' : '') + '><span>' + esc(c) + '</span></label>').join('') + '</section>' + button('apply', 'Try a patient decision'));
     } else if (t.stage === 'apply') {
       body = '<h2>Make a patient decision</h2><p class="source">' + (q.a.length > 1 ? 'Select all correct answers. This checkpoint requires the complete correct set.' : 'Choose one answer.') + '</p>' +
@@ -60,7 +61,7 @@
     } else if (t.stage === 'feedback') {
       body = '<h2>' + (t.correct ? 'Your decision is correct.' : 'Revisit this decision.') + '</h2><p class="muted">Recall self-check: ' + (t.recalled ? 'all checkpoints met' : 'one or more points need another try') + '. ' + (t.eligible ? 'This was a scheduled review.' : 'This was practice, not a delayed retention check.') + '</p>' +
         q.o.map((o, i) => '<div class="feedback' + (q.a.includes(i) ? '' : ' bad') + '"><b>' + (t.picks.includes(i) ? 'You chose · ' : '') + (q.a.includes(i) ? 'Correct option: ' : 'Other option: ') + esc(o) + '</b><span>' + esc(q.r[i]) + '</span></div>').join('') +
-        (q.phys ? '<p><strong>Why:</strong> ' + esc(q.phys) + '</p>' : '') + (studio ? '<details><summary>Visual review of the treatment routes</summary>' + studio.overviewHtml() + '</details>' : '') + '<details' + (!t.correct || !t.recalled ? ' open' : '') + '><summary>Return to the explanation</summary>' + l.why.map(p => '<p>' + esc(p) + '</p>').join('') + resources(l) + '</details>' + button('done', 'Save & see what comes next');
+        (q.phys ? '<p><strong>Why:</strong> ' + esc(q.phys) + '</p>' : '') + (studio ? studio.strategyHtml() + '<details><summary>Visual review of this topic</summary>' + studio.overviewHtml() + '</details>' + api.reviewHtml(t.reviewReason, 'lesson') : '') + '<details' + (!t.correct || !t.recalled ? ' open' : '') + '><summary>Return to the explanation</summary>' + l.why.map(p => '<p>' + esc(p) + '</p>').join('') + resources(l) + '</details>' + button('done', 'Save & see what comes next');
     } else {
       const p = state.lessons[l.id];
       const rec = core.recommend(state, lessons, data.weights, Date.now(), missedTopics());
@@ -85,6 +86,27 @@
       const t = core.start(state, l, Date.now());
       t.stage = 'understand'; t.eligible = false; t.picks = []; t.revealed = false; t.checks = l.checks.map(() => false);
       save(); go(l.id); return;
+    }
+    const reason = e.target.closest('[data-lesson-reason]');
+    if (reason) {
+      const t = state.session, api = window.Exam3Studio;
+      if (!t || t.stage !== 'feedback' || !api || !api.reasons[reason.dataset.lessonReason]) return;
+      t.reviewReason = t.reviewReason === reason.dataset.lessonReason ? '' : reason.dataset.lessonReason;
+      state.lessons[t.id].reviewReason = t.reviewReason; save(); render(false); return;
+    }
+    const activity = e.target.closest('[data-studio-choice], [data-studio-action], [data-studio-move]');
+    if (activity) {
+      const t = state.session, api = window.Exam3Studio;
+      if (!t || t.stage !== 'understand' || !api || !api.get(t.id) || t.id === 'hypoglycemia') return;
+      if (activity.dataset.studioChoice) t.studioPractice = api.choose(t.id, t.studioPractice, activity.dataset.studioChoice);
+      else if (activity.dataset.studioMove != null) t.studioPractice = api.move(t.id, t.studioPractice, +activity.dataset.studioMove, +activity.dataset.delta);
+      else if (activity.dataset.studioAction === 'check-order') t.studioPractice = api.checkOrder(t.id, t.studioPractice);
+      else if (activity.dataset.studioAction === 'next') t.studioPractice = api.next(t.id, t.studioPractice);
+      else if (activity.dataset.studioAction === 'retry') t.studioPractice = api.retry(t.id, t.studioPractice);
+      else if (activity.dataset.studioAction === 'restart') t.studioPractice = api.blank(t.id);
+      save(); render(false); const moved = activity.dataset.studioMove != null ? +activity.dataset.studioMove + +activity.dataset.delta : null;
+      const target = moved != null ? el.querySelector('.ss-order li:nth-child(' + (moved + 1) + ') span') : el.querySelector('.ss-result') || el.querySelector('.ss-practice h2');
+      if (target) { target.setAttribute('tabindex', '-1'); target.focus(); } return;
     }
     const practice = e.target.closest('[data-hypo-choice], [data-hypo-action]');
     if (practice) {

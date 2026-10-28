@@ -1,7 +1,7 @@
 // Curated guided lessons. Original concise explanations; fuller source-linked notes stay on the Map.
 // Question refs are read-only copies at build time: existing Mastery IDs and progress never change.
 const L = (id, guide, title, notes, source, why, checks, refs, requires = [], extra = {}) =>
-  ({ id, guide, ch: guide.split(':')[0], title, notes, source, why, checks, refs, requires, ...extra });
+  ({ id, guide, ch: guide.split(':')[0], title, notes, source, why, checks, refs, requires, studio: id, ...extra });
 const Q = (id, q, o, a, r) => ({ id, q, o, a: [a], r });
 module.exports = [
   L('dka', '56:2', 'DKA: fluids, potassium, then insulin', ['56-dka-and-hhs-the-hyperglycemic-emergencie'],

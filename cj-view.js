@@ -34,9 +34,15 @@
     document.body.classList.toggle('cj-mode', v === 'cj');
     sw.querySelectorAll('[data-view]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.view === v ? 'true' : 'false'); });
   }
-  sw.addEventListener('click', function (e) { var b = e.target.closest('[data-view]'); if (b) setView(b.dataset.view); });
+  // Switching by hand rewrites the current history entry (#cj-<condition> only while this view shows a condition),
+  // and every entry remembers its view, so Back and Forward bring back the view that was showing.
+  function switchView(v) {
+    setView(v);
+    try { history.replaceState({ cjView: v }, '', location.pathname + location.search + (v === 'cj' && cur ? '#cj-' + cur.id : '')); } catch (e) {}
+  }
+  sw.addEventListener('click', function (e) { var b = e.target.closest('[data-view]'); if (b) switchView(b.dataset.view); });
 
-  // ---------- Test-yourself mode: each step's answer stays covered until tapped ----------
+  // ---------- Test-yourself mode: each step's answer (the gist) stays covered until tapped ----------
   var quiz = get('quiz', '0') === '1';
 
   // ---------- Rendering ----------
@@ -58,13 +64,15 @@
       '<p class="cj-more">Every chapter on Exam 3 is here. The final-only chapters (48–52) and the full notes are under <button class="linkbtn" data-view-go="topics">All topics</button>.</p>';
   }
   function quizBtn() {
-    return '<button class="pill cj-quiz" aria-pressed="' + quiz + '">' + (quiz ? '✓ Test me: answers covered' : 'Test me: cover the answers') + '</button>';
+    return '<button class="pill cj-quiz" aria-pressed="' + quiz + '">' + quizLabel() + '</button>';
   }
+  function quizLabel() { return quiz ? '✓ Test me: step answers hidden' : 'Test me: hide each step’s answer'; }
   function videosHtml(c) {
     if (!c.videos.length) return '';
     return '<div class="cj-watch"><div class="cj-h">Watch first</div><div class="cj-vids">' + c.videos.map(function (v) {
-      return '<div class="vid"><div class="vid-frame" data-vid="' + esc(v.id) + '" role="button" tabindex="0" aria-label="Play: ' + esc(v.title) + '">' +
-        '<img src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="" loading="lazy" decoding="async"><i class="play" aria-hidden="true"></i></div>' +
+      var out = window.MapVideo && window.MapVideo.blocked(v.id);
+      return '<div class="vid"><div class="vid-frame"' + (out ? '>' + window.MapVideo.blockedHtml(v.id) : ' data-vid="' + esc(v.id) + '" role="button" tabindex="0" aria-label="Play: ' + esc(v.title) + '">' +
+        '<img src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="" loading="lazy" decoding="async"><i class="play" aria-hidden="true"></i>') + '</div>' +
         '<div class="vid-body"><b>' + esc(v.title) + '</b><span>Watch for: ' + esc(v.see) + '</span>' +
         '<a href="https://www.youtube.com/watch?v=' + encodeURIComponent(v.id) + '" target="_blank" rel="noopener">Open on YouTube ↗</a></div></div>';
     }).join('') + '</div></div>';
@@ -131,14 +139,16 @@
 
   // ---------- Navigation: #cj-<condition> in the address, so back and refresh keep your place ----------
   function go(id) {
-    try { history.pushState(null, '', location.pathname + location.search + (id ? '#cj-' + id : '')); } catch (e) {}
+    try { history.pushState({ cjView: 'cj' }, '', location.pathname + location.search + (id ? '#cj-' + id : '')); } catch (e) {}
     render(id); root.scrollIntoView({ block: 'start' });
   }
   function fromHash() { var h = decodeURIComponent(location.hash.slice(1)); return h.indexOf('cj-') === 0 ? h.slice(3) : null; }
   window.addEventListener('popstate', function () {
-    var h = location.hash.slice(1);
-    if (!h) { if (cur) render(null); return; }
-    var id = fromHash(); if (id && (!cur || cur.id !== id)) render(id);
+    var id = fromHash(), st = history.state || {};
+    if (id) { setView('cj'); if (!cur || cur.id !== id) render(id); return; }
+    if (location.hash.slice(1)) return; // a topic, breakdown or weak-areas address: map.js shows it
+    if (st.cjView) setView(st.cjView);
+    if (cur) render(null);
   });
   // Opens a topic's notes or a breakdown in the map's panel (map.js listens for these addresses).
   function openPanel(hash) {
@@ -153,10 +163,10 @@
   }
   root.addEventListener('click', function (e) {
     var t = e.target;
-    var v = t.closest('[data-view-go]'); if (v) { setView(v.dataset.viewGo); window.scrollTo(0, 0); return; }
+    var v = t.closest('[data-view-go]'); if (v) { switchView(v.dataset.viewGo); window.scrollTo(0, 0); return; }
     if (t.closest('.cj-quiz')) {
       quiz = !quiz; put('quiz', quiz ? '1' : '0');
-      root.querySelectorAll('.cj-quiz').forEach(function (b) { b.setAttribute('aria-pressed', quiz); b.textContent = quiz ? '✓ Test me: answers covered' : 'Test me: cover the answers'; });
+      root.querySelectorAll('.cj-quiz').forEach(function (b) { b.setAttribute('aria-pressed', quiz); b.textContent = quizLabel(); });
       root.querySelectorAll('.cj-gist').forEach(function (g) { g.classList.toggle('covered', quiz); if (quiz) { g.setAttribute('role', 'button'); g.tabIndex = 0; } else { g.removeAttribute('role'); g.removeAttribute('tabindex'); } });
       return;
     }
@@ -186,15 +196,18 @@
     e.preventDefault(); g.click();
   });
   function play(el) {
+    if (window.MapVideo) { window.MapVideo.play(el); return; }
     var id = el.dataset.vid; el.removeAttribute('data-vid');
     el.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0&playsinline=1" title="Video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
   }
 
-  // Time with a condition open counts as reading its topics (Quick), so the study route sees it (map.js keeps the log).
-  setInterval(function () { if (view === 'cj' && cur && window.MapRead) window.MapRead(cur.topics); }, 5000);
+  // Time with a condition on screen counts as reading its topics (Quick), so the study route sees it (map.js keeps the
+  // log and skips time while its panel is open). Nothing counts when another view hides this one (All topics, #weak).
+  setInterval(function () { if (view === 'cj' && cur && root.getClientRects().length && window.MapRead) window.MapRead(cur.topics); }, 5000);
 
   setView(view);
   var start = fromHash();
   render(start);
   if (start) setView('cj');
+  try { if (!(history.state || {}).cjView && !(history.state || {}).panel) history.replaceState(Object.assign({}, history.state, { cjView: view }), '', location.href); } catch (e) {}
 })();

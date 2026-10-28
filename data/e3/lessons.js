@@ -1717,7 +1717,7 @@ window.EXAM3_LESSONS = {
             0
           ],
           "r": [
-            "Correct. Glucagon (IM, subcutaneous or nasal) is first-line when the client can’t swallow; it can cause vomiting, so turn to the side. A second dose in 10 minutes if still unconscious, then call 911.",
+            "Correct. Glucagon (IM, subcutaneous or nasal) is first-line when the client can’t swallow; it can cause vomiting, so turn to the side. Then call 911 right away — current product labels say to get emergency help immediately after giving glucagon; a repeat dose follows that product’s label (the textbook says 10 minutes; BAQSIMI’s label says 15 minutes, from a new device, while waiting for help).",
             "Incorrect. Fluid in the mouth of an unconscious person can be aspirated.",
             "Incorrect. Insulin would lower glucose further.",
             "Incorrect. Severe lows need immediate treatment."

@@ -449,6 +449,8 @@
     }, function () { plainFrame(el, id); });
   }
   body.addEventListener('click', function (e) { var f = e.target.closest('[data-vid]'); if (f) playVid(f); });
+  // The clinical-judgment view (cj-view.js) plays its videos the same way, with the same "Watch on YouTube" fallback.
+  window.MapVideo = { play: playVid, blocked: function (id) { return !!NOEMBED[id]; }, blockedHtml: outHtml };
   body.addEventListener('keydown', function (e) { var f = e.target.closest('[data-vid]'); if (f && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); playVid(f); } });
 
   var lb = document.createElement('div'); lb.className = 'lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true');

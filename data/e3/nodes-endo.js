@@ -145,7 +145,7 @@ const T = [
  do:["Low: 15-15 rule; can’t swallow → glucagon or IV dextrose, side-lying","DKA: 0.9% saline 15–20 mL/kg first hour → IV regular insulin → D5½NS at 250","HHS: fluids first over 36–72 h; hourly neuro checks","Potassium every 1–2 h; continuous ECG"],
  teach:["Sick days: never omit insulin; glucose every 2–4 h; ketones; fluids hourly","Carry glucose and glucagon; teach family","Alcohol only with food (delayed lows)","Call for vomiting, moderate/large ketones, glucose > 250 not falling"],
  meds:[["Glucose tablets / juice","Absorbed without digestion","Raises glucose in minutes","Then complex carb + protein"],
-  ["Glucagon","Liver glycogen → glucose","Severe low, can’t swallow","Vomiting — side-lying; repeat in 10 min"],
+  ["Glucagon","Liver glycogen → glucose","Severe low, can’t swallow","Vomiting — side-lying; call for emergency help; repeat only per the product label"],
   ["D50 (50% dextrose)","Direct IV glucose","Severe low in hospital","Hyperosmolar — protect the vein"],
   ["IV regular insulin","Insulin receptor; Na⁺/K⁺ pump","Lowers glucose 50–75 mg/dL/h; stops ketosis","K⁺ falls — monitor"],
   ["Potassium chloride IV","Replaces total-body K⁺","Prevents hypokalemia","UO ≥ 30 mL/h; never IV push"]],

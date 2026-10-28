@@ -120,16 +120,16 @@ module.exports = [
             means: 'Sweating with cool, clammy skin is a strong clue — the opposite of the warm, dry skin of hyperglycemia.' },
           { t: 'Cool, clammy skin', see: 'Pale, cool and moist skin.',
             why: '**Epinephrine constricts skin vessels** while the sweat glands are active.',
-            means: 'No dehydration and **no ketones** — this is not DKA or HHS.' },
+            means: 'A **typical** sign of hypoglycemia, but a skin finding can’t confirm or rule out anything on its own — **check the glucose** and assess for other concerning findings.' },
           { t: 'Confusion and behavior change (neuroglycopenia)', see: 'Difficulty thinking, slurred speech, irritability, combativeness, unusual behavior.',
             why: '**Neurons depend on a continuous glucose supply** and store only minutes’ worth. When glucose falls, brain cells run out of energy and stop working normally.',
             means: 'The client may no longer be able to treat themselves or **swallow safely**, which changes the route of treatment. Can be mistaken for intoxication or a stroke — **check the glucose**.' },
           { t: 'Seizures and loss of consciousness', see: 'Unresponsive or seizing.',
             why: 'Severe brain **energy failure**; untreated, it can cause brain damage or death.',
-            means: '**Severe hypoglycemia**: nothing by mouth; **glucagon or IV dextrose** now, side-lying position, protect the airway.' },
+            means: '**Severe hypoglycemia**: nothing by mouth; side-lying, protect the airway; **glucagon or IV dextrose** now and **get emergency help** (rapid response in the hospital, 911 at home).' },
           { t: 'Hypoglycemia unawareness', see: 'Low glucose with few or no warning symptoms.',
             why: 'After years of diabetes or frequent lows, the **counterregulatory epinephrine response weakens**, so the early warning signs no longer appear.',
-            means: 'These clients test more often and use **fingertip checks only**; older adults are at higher risk.' }
+            means: 'These clients check glucose more often. Meter checks use the **fingertip, not alternate sites** (forearm, thigh), which lag behind; **CGM with low alerts** is recommended for people at high risk of hypoglycemia. Older adults are at higher risk.' }
         ],
         cards: ['56-hypoglycemia-the-15-15-rule > Symptoms (Box 56.10)', '56-hypoglycemia-the-15-15-rule > Recognizing it > Older adults']
       },
@@ -146,7 +146,7 @@ module.exports = [
         cards: ['56-hypoglycemia-the-15-15-rule > The 15-15 rule', '56-hypoglycemia-the-15-15-rule > 15 g examples (Box 56.11)']
       },
       ta: {
-        gist: '**Below 70 → 15 g** fast carbohydrate (**30 g below 50**), **recheck in 15 minutes**, repeat until resolved. Unable to swallow → **glucagon** (position side-lying for emesis) or **IV dextrose** per protocol.',
+        gist: '**Below 70 → 15 g** fast carbohydrate (**30 g below 50**), **recheck in 15 minutes**, repeat until resolved. Unable to swallow → **nothing by mouth**, side-lying, **glucagon** or **IV dextrose** per protocol, and **get emergency help right away**; any repeat glucagon dose follows the product label or protocol.',
         cards: ['56-hypoglycemia-the-15-15-rule > In the hospital', '56-hypoglycemia-the-15-15-rule > Can\'t swallow — glucagon and dextrose',
           '56-hypoglycemia-the-15-15-rule > Moderate and severe at home']
       },

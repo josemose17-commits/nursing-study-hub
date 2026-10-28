@@ -17,8 +17,9 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610271918"></script>
-<script src="./say.js?v=202610271918"></script>
+<script src="./nav.js?v=202610280003"></script>
+<script src="./hypo-lab.js?v=202610280003"></script>
+<script src="./say.js?v=202610280003"></script>
 </head>
 <body>
 <x-dc>
@@ -50,47 +51,47 @@
   .fbstep.next::before { content: "↓ "; color: var(--color-accent); }
   .fbrule .fbt { color: var(--color-accent-100); }
 </style>
-<script src="data/extra-questions.js?v=202610271918"></script>
-<script src="data/recall-22-23.js?v=202610271918"></script>
-<script src="data/recall-24-25.js?v=202610271918"></script>
-<script src="data/ngn-22-25.js?v=202610271918"></script>
-<script src="data/explain/22.js?v=202610271918"></script>
-<script src="data/explain/23.js?v=202610271918"></script>
-<script src="data/explain/24.js?v=202610271918"></script>
-<script src="data/explain/25.js?v=202610271918"></script>
-<script src="data/explain/cards.js?v=202610271918"></script>
-<script src="data/cj-tags.js?v=202610271918"></script>
-<script src="data/e3/q/13.js?v=202610271918"></script>
-<script src="data/e3/q/14.js?v=202610271918"></script>
-<script src="data/e3/q/15.js?v=202610271918"></script>
-<script src="data/e3/q/16.js?v=202610271918"></script>
-<script src="data/e3/q/17.js?v=202610271918"></script>
-<script src="data/e3/q/22.js?v=202610271918"></script>
-<script src="data/e3/q/23.js?v=202610271918"></script>
-<script src="data/e3/q/24.js?v=202610271918"></script>
-<script src="data/e3/q/25.js?v=202610271918"></script>
-<script src="data/e3/q/45.js?v=202610271918"></script>
-<script src="data/e3/q/46.js?v=202610271918"></script>
-<script src="data/e3/q/47.js?v=202610271918"></script>
-<script src="data/e3/q/48.js?v=202610271918"></script>
-<script src="data/e3/q/49.js?v=202610271918"></script>
-<script src="data/e3/q/50.js?v=202610271918"></script>
-<script src="data/e3/q/51.js?v=202610271918"></script>
-<script src="data/e3/q/52.js?v=202610271918"></script>
-<script src="data/e3/q/53.js?v=202610271918"></script>
-<script src="data/e3/q/55.js?v=202610271918"></script>
-<script src="data/e3/q/56.js?v=202610271918"></script>
-<script src="data/e3/q/more.js?v=202610271918"></script>
-<script src="data/e3/cases.js?v=202610271918"></script>
-<script src="data/e3/cj-tags.js?v=202610271918"></script>
-<script src="data/e3/drugs-gi.js?v=202610271918"></script>
-<script src="data/e3/drugs-endo.js?v=202610271918"></script>
-<script src="data/e3/drugs-final.js?v=202610271918"></script>
-<script src="data/glossary.js?v=202610271918"></script>
-<script src="data/e3/glossary.js?v=202610271918"></script>
-<script src="data/e3/topic-index.js?v=202610271918"></script>
-<script src="data/e3/focus-rules.js?v=202610271918"></script>
-<script src="data/e3/focus-final.js?v=202610271918"></script>
+<script src="data/extra-questions.js?v=202610280003"></script>
+<script src="data/recall-22-23.js?v=202610280003"></script>
+<script src="data/recall-24-25.js?v=202610280003"></script>
+<script src="data/ngn-22-25.js?v=202610280003"></script>
+<script src="data/explain/22.js?v=202610280003"></script>
+<script src="data/explain/23.js?v=202610280003"></script>
+<script src="data/explain/24.js?v=202610280003"></script>
+<script src="data/explain/25.js?v=202610280003"></script>
+<script src="data/explain/cards.js?v=202610280003"></script>
+<script src="data/cj-tags.js?v=202610280003"></script>
+<script src="data/e3/q/13.js?v=202610280003"></script>
+<script src="data/e3/q/14.js?v=202610280003"></script>
+<script src="data/e3/q/15.js?v=202610280003"></script>
+<script src="data/e3/q/16.js?v=202610280003"></script>
+<script src="data/e3/q/17.js?v=202610280003"></script>
+<script src="data/e3/q/22.js?v=202610280003"></script>
+<script src="data/e3/q/23.js?v=202610280003"></script>
+<script src="data/e3/q/24.js?v=202610280003"></script>
+<script src="data/e3/q/25.js?v=202610280003"></script>
+<script src="data/e3/q/45.js?v=202610280003"></script>
+<script src="data/e3/q/46.js?v=202610280003"></script>
+<script src="data/e3/q/47.js?v=202610280003"></script>
+<script src="data/e3/q/48.js?v=202610280003"></script>
+<script src="data/e3/q/49.js?v=202610280003"></script>
+<script src="data/e3/q/50.js?v=202610280003"></script>
+<script src="data/e3/q/51.js?v=202610280003"></script>
+<script src="data/e3/q/52.js?v=202610280003"></script>
+<script src="data/e3/q/53.js?v=202610280003"></script>
+<script src="data/e3/q/55.js?v=202610280003"></script>
+<script src="data/e3/q/56.js?v=202610280003"></script>
+<script src="data/e3/q/more.js?v=202610280003"></script>
+<script src="data/e3/cases.js?v=202610280003"></script>
+<script src="data/e3/cj-tags.js?v=202610280003"></script>
+<script src="data/e3/drugs-gi.js?v=202610280003"></script>
+<script src="data/e3/drugs-endo.js?v=202610280003"></script>
+<script src="data/e3/drugs-final.js?v=202610280003"></script>
+<script src="data/glossary.js?v=202610280003"></script>
+<script src="data/e3/glossary.js?v=202610280003"></script>
+<script src="data/e3/topic-index.js?v=202610280003"></script>
+<script src="data/e3/focus-rules.js?v=202610280003"></script>
+<script src="data/e3/focus-final.js?v=202610280003"></script>
 <script src="focus.js?v=202610232058"></script>
 <script src="ncjmm.js?v=202610232058"></script>
 </helmet>
@@ -684,6 +685,9 @@
                   </sc-for>
                   <a href="NCLEX Strategies.html" style="font-size:12.5px;">Every strategy and question type, explained →</a>
                 </div>
+              </sc-if>
+              <sc-if value="{{ fb.hasHypoVisual }}" hint-placeholder-val="{{ false }}">
+                <details class="hl-inline"><summary>Visual review: low-glucose treatment routes</summary><div data-hypo-overview></div><p><a href="Exam 3 Learn.html#hypoglycemia">Rehearse the patient decisions →</a></p></details>
               </sc-if>
               <sc-if value="{{ fb.hasTerms }}" hint-placeholder-val="{{ false }}">
                 <div style="display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:1px solid var(--color-neutral-800);">
@@ -2373,6 +2377,7 @@ class Component extends DCLogic {
             (it.st || []).filter(k => NC.strategies[k]).map(k => ({ h: 'Strategy', t: NC.strategies[k][0] + ' — ' + NC.strategies[k][1] })));
           v.fb = Object.assign(fbBase, {
             scoreLine: 'NCLEX scoring: ' + got + ' of ' + max + ' point' + (max === 1 ? '' : 's') + (SR ? ' · ' + SR[0] + ' — ' + SR[1] : ''), hasScore: true, tags, hasTags: tags.length > 0,
+            hasHypoVisual: CHS.includes('56') && (it.cs === 'hypo' || (it.topics || []).includes('56-hypoglycemia-the-15-15-rule')),
             terms, hasTerms: terms.length > 0, ask: X.ask, hasAsk: !!X.ask, cues: (X.cues || []).map(t => ({ t })), hasCues: !!(X.cues || []).length,
             optHead: bd.optHead, groups: bd.groups, chain, hasChain: chain.length > 0, rule: X.rule || '', hasRule: !!X.rule,
             askWhy: !full, diag: diag.map(x => ({ head: RLABEL[x.k].split(' — ')[0].split(' (')[0], line: x.line })),

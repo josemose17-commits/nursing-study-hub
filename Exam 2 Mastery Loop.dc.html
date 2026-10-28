@@ -16,8 +16,9 @@
   @media (prefers-reduced-motion: reduce) { #dc-root > * { animation: none; } }
 </style>
 <script src="./support.js?v=202610022100"></script>
-<script src="./nav.js?v=202610271918"></script>
-<script src="./say.js?v=202610271918"></script>
+<script src="./nav.js?v=202610280003"></script>
+<script src="./hypo-lab.js?v=202610280003"></script>
+<script src="./say.js?v=202610280003"></script>
 </head>
 <body>
 <x-dc>
@@ -672,6 +673,9 @@
                   </sc-for>
                   <a href="NCLEX Strategies.html" style="font-size:12.5px;">Every strategy and question type, explained →</a>
                 </div>
+              </sc-if>
+              <sc-if value="{{ fb.hasHypoVisual }}" hint-placeholder-val="{{ false }}">
+                <details class="hl-inline"><summary>Visual review: low-glucose treatment routes</summary><div data-hypo-overview></div><p><a href="Exam 3 Learn.html#hypoglycemia">Rehearse the patient decisions →</a></p></details>
               </sc-if>
               <sc-if value="{{ fb.hasTerms }}" hint-placeholder-val="{{ false }}">
                 <div style="display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:1px solid var(--color-neutral-800);">
@@ -2241,6 +2245,7 @@ class Component extends DCLogic {
             (it.st || []).filter(k => NC.strategies[k]).map(k => ({ h: 'Strategy', t: NC.strategies[k][0] + ' — ' + NC.strategies[k][1] })));
           v.fb = Object.assign(fbBase, {
             scoreLine: 'NCLEX scoring: ' + got + ' of ' + max + ' point' + (max === 1 ? '' : 's') + (SR ? ' · ' + SR[0] + ' — ' + SR[1] : ''), hasScore: true, tags, hasTags: tags.length > 0,
+            hasHypoVisual: CHS.includes('56') && (it.cs === 'hypo' || (it.topics || []).includes('56-hypoglycemia-the-15-15-rule')),
             terms, hasTerms: terms.length > 0, ask: X.ask, hasAsk: !!X.ask, cues: (X.cues || []).map(t => ({ t })), hasCues: !!(X.cues || []).length,
             optHead: bd.optHead, groups: bd.groups, chain, hasChain: chain.length > 0, rule: X.rule || '', hasRule: !!X.rule,
             askWhy: !full, diag: diag.map(x => ({ head: RLABEL[x.k].split(' — ')[0].split(' (')[0], line: x.line })),

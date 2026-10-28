@@ -25,7 +25,7 @@ assert(H.steps.find(s => s.id === 'glucagon-route').options.find(o => o[2])[1].i
 // Rehearsal is saved with a draft but never scores the lesson or grants review credit.
 const ctx = vm.createContext({ window: {} }); vm.runInContext(read('data/e3/lessons.js'), ctx);
 const lessons = JSON.parse(JSON.stringify(ctx.window.EXAM3_LESSONS.lessons)), l = lessons.find(l => l.id === 'hypoglycemia');
-assert.equal(l.studio, 'hypoglycemia'); assert.equal(lessons.filter(l => l.studio).length, 1);
+assert.equal(l.studio, 'hypoglycemia'); assert.equal(lessons.filter(l => l.studio).length, 29);
 const state = C.blank(); C.start(state, l, 1000); state.session.hypoPractice = s;
 assert.equal(C.finish(state, l, 1001), false); assert.deepEqual(state.lessons, {});
 let restored = C.restore(JSON.stringify(state), lessons); assert(restored.session.hypoPractice.complete);
@@ -35,10 +35,10 @@ assert(restored.session.hypoPractice.complete, 'Switching lessons lost the rehea
 assert.deepEqual(l.questions.map(q => q.id), ['hypo-a', '56|trad|10']);
 restored.session.stage = 'apply'; restored.session.picks = l.questions[0].a; restored.session.checks = l.checks.map(() => true);
 assert(C.finish(restored, l, 1004)); assert.equal(restored.lessons[l.id].attempts, 1); assert(!restored.lessons[l.id].delayedPasses);
-assert(read('map.js').includes("t.id === '" + H.NOTE + "'"));
+assert(read('map.js').includes('data-study-note'));
 for (const page of ['Exam 2 Mastery Loop.dc.html', 'Exam 3 Mastery Loop.dc.html', 'Final Mastery Loop.dc.html']) {
-  const html = read(page); assert(html.includes('data-hypo-overview')); assert(html.includes('fb.hasHypoVisual')); assert(html.includes("CHS.includes('56')"));
+  const html = read(page); assert(html.includes('data-study-review')); assert(html.includes('fb.hasStudyReview'));  assert(html.includes("CHS.includes('56')"));
 }
 assert(read('learn.js').includes("t.stage = 'understand'; t.eligible = false"));
 assert(!/speechSynthesis|\.play\(|autoplay/.test(read('hypo-lab.js')));
-console.log('Six coached decisions: safe routes, wrong-answer recovery, double-submit protection, draft/reload persistence, corruption recovery, independent scoring, one-lesson scope, notes/test integration and optional-audio checks passed.');
+console.log('Six coached decisions: safe routes, wrong-answer recovery, double-submit protection, draft/reload persistence, corruption recovery, independent scoring, all-lesson metadata, notes/test integration and optional-audio checks passed.');

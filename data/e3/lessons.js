@@ -32,6 +32,7 @@ window.EXAM3_LESSONS = {
         "glands",
         "insulin"
       ],
+      "studio": "dka",
       "caseId": "dka",
       "update": "crisis",
       "questions": [
@@ -99,6 +100,7 @@ window.EXAM3_LESSONS = {
         "Name a new GI finding that should not be dismissed as age."
       ],
       "requires": [],
+      "studio": "gi-aging",
       "questions": [
         {
           "id": "45|trad|11",
@@ -163,6 +165,7 @@ window.EXAM3_LESSONS = {
         "Explain why pain location supports assessment but does not prove a diagnosis."
       ],
       "requires": [],
+      "studio": "quadrants",
       "questions": [
         {
           "id": "quadrants-a",
@@ -223,6 +226,7 @@ window.EXAM3_LESSONS = {
         "Explain the eating and swallowing risks after a topical oral anesthetic."
       ],
       "requires": [],
+      "studio": "mouth",
       "questions": [
         {
           "id": "46|ngn|0",
@@ -295,6 +299,7 @@ window.EXAM3_LESSONS = {
         "Explain why new chest pain and dysphagia change the priority."
       ],
       "requires": [],
+      "studio": "gerd",
       "drugs": true,
       "questions": [
         {
@@ -371,6 +376,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "gerd"
       ],
+      "studio": "hernia",
       "questions": [
         {
           "id": "46|trad|7",
@@ -436,6 +442,7 @@ window.EXAM3_LESSONS = {
         "Identify NSAID-related risk and explain adherence and test of cure."
       ],
       "requires": [],
+      "studio": "pud",
       "drugs": true,
       "update": "hpylori",
       "questions": [
@@ -504,6 +511,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "pud"
       ],
+      "studio": "ulcer-drugs",
       "drugs": true,
       "questions": [
         {
@@ -571,6 +579,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "pud"
       ],
+      "studio": "gi-bleed",
       "caseId": "ugib",
       "questions": [
         {
@@ -638,6 +647,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "gi-bleed"
       ],
+      "studio": "gastric-cancer",
       "questions": [
         {
           "id": "47|trad|6",
@@ -711,6 +721,7 @@ window.EXAM3_LESSONS = {
         "Explain thyroid negative feedback and the direction of PTH’s calcium effect."
       ],
       "requires": [],
+      "studio": "glands",
       "questions": [
         {
           "id": "glands-a",
@@ -771,6 +782,7 @@ window.EXAM3_LESSONS = {
         "Adapt prevention to the patient’s restrictions and report a new change."
       ],
       "requires": [],
+      "studio": "endocrine-aging",
       "questions": [
         {
           "id": "53|trad|0",
@@ -835,6 +847,7 @@ window.EXAM3_LESSONS = {
         "Explain how storage or a missed void can invalidate the test."
       ],
       "requires": [],
+      "studio": "urine",
       "questions": [
         {
           "id": "53|trad|15",
@@ -899,6 +912,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "glands"
       ],
+      "studio": "hypothyroid",
       "drugs": true,
       "questions": [
         {
@@ -973,6 +987,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "hypothyroid"
       ],
+      "studio": "myxedema",
       "questions": [
         {
           "id": "myxedema-a",
@@ -1036,6 +1051,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "glands"
       ],
+      "studio": "hyperthyroid",
       "drugs": true,
       "questions": [
         {
@@ -1103,6 +1119,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "hyperthyroid"
       ],
+      "studio": "thyroidectomy",
       "caseId": "thyroidectomy",
       "questions": [
         {
@@ -1192,6 +1209,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "hyperthyroid"
       ],
+      "studio": "thyroid-storm",
       "questions": [
         {
           "id": "storm-a",
@@ -1255,6 +1273,7 @@ window.EXAM3_LESSONS = {
         "hypothyroid",
         "thyroidectomy"
       ],
+      "studio": "thyroiditis-cancer",
       "questions": [
         {
           "id": "55|trad|15",
@@ -1328,6 +1347,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "glands"
       ],
+      "studio": "calcium",
       "drugs": true,
       "questions": [
         {
@@ -1395,6 +1415,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "glands"
       ],
+      "studio": "diabetes-types",
       "questions": [
         {
           "id": "56|trad|21",
@@ -1461,6 +1482,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "diabetes-types"
       ],
+      "studio": "monitoring",
       "questions": [
         {
           "id": "56|trad|0",
@@ -1527,6 +1549,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "glands"
       ],
+      "studio": "insulin",
       "drugs": true,
       "questions": [
         {
@@ -1590,6 +1613,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "diabetes-types"
       ],
+      "studio": "diabetes-drugs",
       "drugs": true,
       "update": "crisis",
       "questions": [
@@ -1658,8 +1682,8 @@ window.EXAM3_LESSONS = {
       "requires": [
         "insulin"
       ],
-      "caseId": "hypo",
       "studio": "hypoglycemia",
+      "caseId": "hypo",
       "questions": [
         {
           "id": "hypo-a",
@@ -1724,6 +1748,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "diabetes-types"
       ],
+      "studio": "hhs",
       "update": "crisis",
       "questions": [
         {
@@ -1788,6 +1813,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "diabetes-types"
       ],
+      "studio": "diabetes-complications",
       "questions": [
         {
           "id": "56|trad|19",
@@ -1856,6 +1882,7 @@ window.EXAM3_LESSONS = {
         "insulin",
         "hypoglycemia"
       ],
+      "studio": "self-management",
       "questions": [
         {
           "id": "56|trad|14",
@@ -1922,6 +1949,7 @@ window.EXAM3_LESSONS = {
       "requires": [
         "insulin"
       ],
+      "studio": "hospital-diabetes",
       "questions": [
         {
           "id": "56|trad|13",

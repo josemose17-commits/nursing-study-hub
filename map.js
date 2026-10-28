@@ -335,10 +335,10 @@
     if (m) setTimeout(function () { m.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 30);
   });
 
-  function ensureHypoLab() {
-    if (window.HypoLab || document.querySelector('script[data-hypo-lab]')) return;
-    var script = document.createElement('script'); script.dataset.hypoLab = '1';
-    script.src = 'hypo-lab.js?v=202610280003'; document.head.appendChild(script);
+  function ensureStudyStudio() {
+    if (window.Exam3Studio || document.querySelector('script[data-study-studio]')) return;
+    var script = document.createElement('script'); script.dataset.studyStudio = '1';
+    script.src = 'study-studio.js?v=202610281219'; document.head.appendChild(script);
   }
   function renderTab(delay) {
     tabs.querySelectorAll('[data-tab]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.tab === tab); });
@@ -349,9 +349,8 @@
     if (tab === 'notes' && t) {
       var hasShort = !!(window.NOTES_SHORT || {})[t.id];
       body.innerHTML = '<div class="bdwrap' + (quiz && hasShort ? ' quiz' : '') + '">' + whyLink(t.id) + (hasShort ? bdToolbar('notes') : '') + picturesHtml(picsFor(t.id, nodesFor[t.id])) + videosHtml(vidsFor(t.id, null)) + '<div class="notes">' + t.html + '</div></div>';
-      if (t.id === '56-hypoglycemia-the-15-15-rule') {
-        body.insertAdjacentHTML('afterbegin', '<details class="hl-inline"><summary>Visual review: choose a safe low-glucose treatment route</summary><div data-hypo-overview></div><p><a href="Exam 3 Learn.html#hypoglycemia">Rehearse the patient decisions in the lesson →</a></p></details>');
-        ensureHypoLab();
+      if (['45', '46', '47', '53', '55', '56'].indexOf(t.ch) >= 0) {
+        body.insertAdjacentHTML('afterbegin', '<div data-study-note="' + esc(t.id) + '"></div>'); ensureStudyStudio();
       }
       if (hasShort && bdMode === 'quick') shortenNotes(body.querySelector('.notes'), t.id);
       markWordsLater(body.querySelector('.notes'), delay);

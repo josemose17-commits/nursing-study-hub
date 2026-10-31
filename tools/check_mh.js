@@ -3,8 +3,14 @@
 // well formed, every answer key points at a real option, every link and video tag points at something that exists,
 // and "Exam 4 Map.html" loads every data file. Run: node tools/check_mh.js
 const fs = require('fs'), path = require('path'), vm = require('vm');
-const ROOT = path.join(__dirname, '..'), DIR = path.join(ROOT, 'data/mh');
-const page = fs.readFileSync(path.join(ROOT, 'Exam 4 Map.html'), 'utf8');
+const ROOT = path.join(__dirname, '..');
+// Each exam page and its data folder; WEEKS are the syllabus weeks its notes and questions may belong to.
+const EXAMS = [['data/mh', 'Exam 4 Map.html', [11, 12]], ['data/mh5', 'Exam 5 Map.html', [13, 14, 15]]];
+let total = 0;
+for (const [DIRNAME, PAGE, WEEKS] of EXAMS) {
+if (!fs.existsSync(path.join(ROOT, DIRNAME))) continue;
+const DIR = path.join(ROOT, DIRNAME);
+const page = fs.readFileSync(path.join(ROOT, PAGE), 'utf8');
 const win = {};
 const ctx = vm.createContext({ window: win });
 const files = fs.readdirSync(DIR).filter(f => f.endsWith('.js')).sort();
@@ -12,7 +18,7 @@ const errs = [];
 const err = m => errs.push(m);
 for (const f of files) {
   vm.runInContext(fs.readFileSync(path.join(DIR, f), 'utf8'), ctx, { filename: f });
-  if (!page.includes('data/mh/' + f + '?v=')) err(`Exam 4 Map.html does not load data/mh/${f}`);
+  if (!page.includes(DIRNAME + '/' + f + '?v=')) err(`${PAGE} does not load ${DIRNAME}/${f}`);
 }
 const C = win.MH_CONDS || [], T = win.MH_TOPICS || [], D = win.MH_DRILLS || [], Q = win.MH_Q || [], V = win.MH_VIDEOS || [];
 const STEPS = ['rc', 'ac', 'ph', 'gs', 'ta', 'eo'];
@@ -31,7 +37,7 @@ function uniq(id, where) { if (ids.has(id)) err(`duplicate id ${id} (${where})`)
 C.forEach(c => {
   const w = 'condition ' + c.id; uniq('c-' + c.id, w);
   ['id', 'group', 'name', 'short', 'patient'].forEach(k => str(c[k], `${w}.${k}`));
-  if (![11, 12].includes(c.week)) err(`${w}: week must be 11 or 12`);
+  if (!WEEKS.includes(c.week)) err(`${w}: week must be one of ${WEEKS}`);
   if (!Array.isArray(c.report) || c.report.length !== 4) err(`${w}: report must be [S, B, A, R]`); else c.report.forEach((r, i) => { str(r, `${w} report ${i}`); bold(r, `${w} report ${i}`); });
   STEPS.forEach(k => {
     const s = c.steps && c.steps[k];
@@ -45,7 +51,7 @@ C.forEach(c => {
 T.forEach(t => {
   const w = 'topic ' + t.id; uniq('t-' + t.id, w);
   ['id', 'ch', 'title', 'short', 'lead'].forEach(k => str(t[k], `${w}.${k}`)); bold(t.lead, w + ' lead');
-  if (![11, 12].includes(t.week)) err(`${w}: week must be 11 or 12`);
+  if (!WEEKS.includes(t.week)) err(`${w}: week must be one of ${WEEKS}`);
   (t.terms || []).forEach((x, i) => term(x, `${w} term ${i}`));
   if (!(t.cards || []).length) err(`${w}: no cards`);
   (t.cards || []).forEach((x, i) => card(x, `${w} card ${i}`));
@@ -74,7 +80,7 @@ const links = new Set([...C.map(c => 'c-' + c.id), ...T.map(t => 't-' + t.id)]);
 Q.forEach(q => {
   const w = 'question ' + q.id; uniq(q.id, w);
   str(q.stem, w); str(q.why, w + ' why'); bold(q.why, w + ' why'); bold(q.stem, w);
-  if (![11, 12].includes(q.wk)) err(`${w}: wk must be 11 or 12`);
+  if (!WEEKS.includes(q.wk)) err(`${w}: wk must be one of ${WEEKS}`);
   if (!links.has(q.link)) err(`${w}: link ${q.link} doesn't exist`);
   if (!Array.isArray(q.opts) || q.opts.length < 3) err(`${w}: needs at least 3 options`);
   const a = Array.isArray(q.a) ? q.a : [q.a];
@@ -95,5 +101,6 @@ V.forEach(v => {
 C.forEach(c => { if (!V.some(v => v.tags.includes(c.id))) err(`condition ${c.id}: no video`); });
 T.forEach(t => { if (!V.some(v => v.tags.includes(t.id))) err(`topic ${t.id}: no video`); });
 
-if (errs.length) { console.error(errs.join('\n')); console.error(`\n${errs.length} problem(s)`); process.exit(1); }
-console.log(`Exam 4 data OK: ${C.length} conditions, ${T.length} topics, ${D.length} drills (${D.reduce((n, d) => n + d.items.length, 0)} items), ${Q.length} questions (${Q.filter(q => Array.isArray(q.a)).length} select-all), ${V.length} videos.`);
+if (errs.length) { console.error(PAGE + ':\n' + errs.join('\n')); console.error(`\n${errs.length} problem(s)`); process.exit(1); }
+console.log(`${PAGE} data OK: ${C.length} conditions, ${T.length} topics, ${D.length} drills (${D.reduce((n, d) => n + d.items.length, 0)} items), ${Q.length} questions (${Q.filter(q => Array.isArray(q.a)).length} select-all), ${V.length} videos.`);
+}

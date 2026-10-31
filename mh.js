@@ -5,6 +5,9 @@
 //   Test              NCLEX-style questions (single answer and select-all) with rationales, scored and remembered
 // The address keeps your place (#c-bipolar, #t-legal, #p-comm, #test), so Back and refresh work.
 (function () {
+  // The page names its exam in window.MH_CFG: progress key prefix, syllabus weeks (with a label each) and the Topics intro.
+  var CFG = window.MH_CFG || { prefix: 'e4-', weeks: [[11, 'Week 11 topics'], [12, 'Week 12 disorders']],
+    topicsIntro: 'Week 11 is the foundation (how mental health care works, talks and protects people). Week 12 is the mood and anxiety disorders, which have their own walk-throughs under' };
   var CONDS = window.MH_CONDS || [], TOPICS = window.MH_TOPICS || [], DRILLS = window.MH_DRILLS || [], QS = window.MH_Q || [], VIDS = window.MH_VIDEOS || [];
   var root = document.getElementById('cj'), tabs = document.getElementById('mh-tabs');
   if (!root) return;
@@ -22,8 +25,8 @@
   // ---------- helpers ----------
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function md(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*([^*\s][^*]*?)\*/g, '$1<i>$2</i>'); }
-  function load(k, d) { try { var v = JSON.parse(localStorage.getItem('e4-' + k)); return v == null ? d : v; } catch (e) { return d; } }
-  function save(k, v) { try { localStorage.setItem('e4-' + k, JSON.stringify(v)); } catch (e) {} }
+  function load(k, d) { try { var v = JSON.parse(localStorage.getItem(CFG.prefix + k)); return v == null ? d : v; } catch (e) { return d; } }
+  function save(k, v) { try { localStorage.setItem(CFG.prefix + k, JSON.stringify(v)); } catch (e) {} }
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   function vidsFor(tag) { return VIDS.filter(function (v) { return v.tags.indexOf(tag) >= 0; }); }
   function videosHtml(list, label) {
@@ -102,8 +105,8 @@
   // ---------- Topics ----------
   var readT = load('topics', {});
   function topicsHome() {
-    return '<div class="glass cj-intro"><h2>The syllabus topics</h2><p>Week 11 is the foundation (how mental health care works, talks and protects people). Week 12 is the mood and anxiety disorders, which have their own walk-throughs under <button class="linkbtn" data-go="think">Think it through</button>.</p></div>' +
-      [11, 12].map(function (w) {
+    return '<div class="glass cj-intro"><h2>The syllabus topics</h2><p>' + CFG.topicsIntro + ' <button class="linkbtn" data-go="think">Think it through</button>.</p></div>' +
+      CFG.weeks.map(function (W) { var w = W[0];
         var list = TOPICS.filter(function (t) { return t.week === w; });
         if (!list.length) return '';
         return '<section class="cj-sys"><h2>Week ' + w + '</h2><div class="mh-topics">' + list.map(function (t) {
@@ -184,8 +187,7 @@
   // ---------- Test ----------
   var hist = load('test', {}), test = null;
   function qPool(set) {
-    if (set === 'w11') return QS.filter(function (q) { return q.wk === 11; });
-    if (set === 'w12') return QS.filter(function (q) { return q.wk === 12; });
+    if (/^w\d+$/.test(set)) return QS.filter(function (q) { return q.wk === +set.slice(1); });
     if (set === 'miss') return QS.filter(function (q) { var h = hist[q.id]; return h && h[h.length - 1] === 0; });
     if (set === 'new') return QS.filter(function (q) { return !hist[q.id]; });
     if (set && set.indexOf('link:') === 0) return QS.filter(function (q) { return q.link === set.slice(5); });
@@ -193,7 +195,7 @@
   }
   function testHome() {
     var tried = Object.keys(hist).length, right = Object.keys(hist).filter(function (k) { var h = hist[k]; return h[h.length - 1] === 1; }).length;
-    var sets = [['all', 'Everything'], ['w11', 'Week 11 topics'], ['w12', 'Week 12 disorders'], ['new', 'Not tried yet'], ['miss', 'Missed last time']];
+    var sets = [['all', 'Everything']].concat(CFG.weeks.map(function (W) { return ['w' + W[0], W[1]]; }), [['new', 'Not tried yet'], ['miss', 'Missed last time']]);
     return '<div class="glass mh-play"><h2 style="margin:0">Test yourself</h2><p class="mh-lead">NCLEX-style questions: single answer and <b>select all that apply</b>. Each one shows the rationale, and the ones you miss come back under “Missed last time.”</p>' +
       '<p class="mh-hist">' + QS.length + ' questions · tried ' + tried + ' · right on the last try ' + right + '</p>' +
       '<div class="cj-h">Which questions</div><div class="mh-week">' + sets.map(function (s) { var n = qPool(s[0]).length; return '<button class="pill" data-set="' + s[0] + '"' + (n ? '' : ' disabled') + ' aria-pressed="' + (testSet === s[0]) + '">' + s[1] + ' · ' + n + '</button>'; }).join('') + '</div>' +

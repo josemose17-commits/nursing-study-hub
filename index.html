@@ -31,6 +31,7 @@
   .more li { margin-bottom: 4px; }
   .switch { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; border: 1px solid var(--color-divider); background: var(--color-neutral-900); align-self: flex-start; }
   .switch button { font: inherit; font-size: 14px; color: var(--color-neutral-300); background: transparent; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+  @media (max-width: 520px) { .switch { display: flex; flex-wrap: wrap; justify-content: center; border-radius: 18px; align-self: stretch; } .switch button { padding: 7px 12px; } }
   .switch button[aria-pressed="true"] { background: var(--color-accent); color: #04160e; font-weight: 600; }
   .exam { display: flex; flex-direction: column; gap: 18px; }
   .exam[hidden] { display: none; }
@@ -55,12 +56,35 @@
     <span class="soon-go">Semester: countdowns, this week, grades →</span>
   </a>
   <div class="switch" role="group" aria-label="Which exam">
+    <button type="button" data-exam="1" aria-pressed="false">Exam 1</button>
     <button type="button" data-exam="2" aria-pressed="true">Exam 2</button>
     <button type="button" data-exam="3" aria-pressed="false">Exam 3</button>
     <button type="button" data-exam="4" aria-pressed="false">Exam 4</button>
     <button type="button" data-exam="5" aria-pressed="false">Exam 5</button>
     <button type="button" data-exam="F" aria-pressed="false">Final</button>
   </div>
+
+  <section class="exam" data-exam="1" hidden>
+  <div>
+    <div class="kicker">NRS 114 · Med-Surg · Exam 1</div>
+    <h1>Surgery, immunity, cancer, infection.</h1>
+  </div>
+  <p class="lead">Exam 1 (September 16) covered weeks 1–2, and it comes back on the comprehensive final. Week 1: perioperative care (ch 9). Week 2: inflammation and immunity, allergy and immunity conditions, cancer, and infection (ch 16–19).</p>
+
+  <div class="glass next">
+    <div><b data-e1="title">Start here</b><span data-e1="body">Walk an emergency or complication through the six clinical judgment steps, then drill and test it.</span></div>
+    <a class="btn btn-primary go" data-e1="go" href="Exam 1 Map.html">Think it through</a>
+  </div>
+
+  <div class="tiles">
+    <a class="glass tile wide" href="Exam 1 Map.html#think"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v4M12 8 6 13M12 8l6 5M6 13v3M18 13v3M4 16h4v4H4zM16 16h4v4h-4zM10 2h4v4h-4z"/></svg><span class="step">1 · Understand</span><b>Think it through</b><p>Opioid respiratory depression after surgery, malignant hyperthermia, wound evisceration, anaphylaxis, ACE-inhibitor angioedema, lupus, HIV and AIDS, neutropenic fever, tumor lysis syndrome, spinal cord compression, C. diff and an MRSA wound turning septic, each walked through the six clinical judgment steps with every finding explained, an SBAR example and videos.</p></a>
+    <a class="glass tile" href="Exam 1 Map.html#topics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h6a2 2 0 0 1 2 2v16a4 4 0 0 0-4-2H4zM20 3h-6a2 2 0 0 0-2 2v16a4 4 0 0 1 4-2h4z"/></svg><span class="step">1 · Learn</span><b>Topics</b><p>Before, during and after surgery; inflammation and the white cells; antibody- and cell-mediated immunity; hypersensitivity types; autoimmunity, Lyme disease and transplant rejection; cancer biology, treatment and side effects; oncologic emergencies; infection and isolation precautions.</p></a>
+    <a class="glass tile" href="Exam 1 Map.html#practice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg><span class="step">2 · Do it</span><b>Practice drills</b><p>Which precautions, PPE order, hypersensitivity types, active vs passive immunity, which white cell, wound drainage, post-op complications, oncologic emergencies, safe cancer care, who first.</p></a>
+    <a class="glass tile" href="Semester.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg><span class="step">Plan</span><b>Semester</b><p>Countdowns to the final, this week, and grades.</p></a>
+    <a class="glass tile" href="NCLEX Strategies.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg><span class="step">Strategy</span><b>NCLEX strategies</b><p>How to pick the best answer, prioritization and select-all items.</p></a>
+    <a class="glass tile wide" href="Exam 1 Map.html#test"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg><span class="step">3 · Prove it</span><b>Test</b><p>NCLEX-style questions with select-all-that-apply, each with a rationale and a link back to what to study. Misses come back.</p><em data-e1="status"></em></a>
+  </div>
+  </section>
 
   <section class="exam" data-exam="2">
   <div>
@@ -263,6 +287,13 @@
   var e4 = function (n) { return document.querySelector('[data-e4="' + n + '"]'); };
   if (t4.length) { e4('status').textContent = r4 + ' of ' + t4.length + ' tried right on the last try'; var m4 = t4.length - r4; e4('title').textContent = m4 ? m4 + ' question' + (m4 > 1 ? 's' : '') + ' to redo' : 'Keep going'; e4('body').textContent = m4 ? 'Retest what you missed, then study the links it gives you.' : 'Try the questions you haven’t seen yet, or a drill.'; e4('go').textContent = 'Open the test'; e4('go').href = 'Exam 4 Map.html#test'; }
   else if (s4) { e4('title').textContent = 'Keep thinking it through'; e4('body').textContent = s4 + ' disorder' + (s4 > 1 ? 's' : '') + ' started. Finish the six steps, then take the test.'; }
+  // Exam 1: same summary from e1-test and e1-steps.
+  (function () {
+    var T = read('e1-test') || {}, S = read('e1-steps') || {}, t = Object.keys(T), r = t.filter(function (k) { var h = T[k]; return h[h.length - 1] === 1; }).length, n = Object.keys(S).length;
+    var q = function (x) { return document.querySelector('[data-e1="' + x + '"]'); };
+    if (t.length) { q('status').textContent = r + ' of ' + t.length + ' tried right on the last try'; var m = t.length - r; q('title').textContent = m ? m + ' question' + (m > 1 ? 's' : '') + ' to redo' : 'Keep going'; q('body').textContent = m ? 'Retest what you missed, then study the links it gives you.' : 'Try the questions you haven’t seen yet, or a drill.'; q('go').textContent = 'Open the test'; q('go').href = 'Exam 1 Map.html#test'; }
+    else if (n) { q('title').textContent = 'Keep thinking it through'; q('body').textContent = n + ' condition' + (n > 1 ? 's' : '') + ' started. Finish the six steps, then take the test.'; }
+  })();
   // Exam 5: same summary from e5-test and e5-steps.
   (function () {
     var T = read('e5-test') || {}, S = read('e5-steps') || {}, t = Object.keys(T), r = t.filter(function (k) { var h = T[k]; return h[h.length - 1] === 1; }).length, n = Object.keys(S).length;
@@ -305,7 +336,7 @@
   box.hidden = false;
 })();
 </script>
-<script src="nav.js?v=202610312200"></script>
+<script src="nav.js?v=202611010100"></script>
 <script src="say.js?v=202610271830"></script>
 <script>
 (function () {

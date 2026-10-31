@@ -67,7 +67,7 @@
     var groups = [];
     CONDS.forEach(function (c) { if (groups.indexOf(c.group) < 0) groups.push(c.group); });
     return '<div class="glass cj-intro"><h2>Think like the nurse, one step at a time</h2>' +
-      '<p>Pick a disorder. It opens into the six steps of clinical judgment in bedside order: what you notice, what it means, what comes first, what should happen, what you do, and whether it worked. Every finding has its <b>why</b>.</p>' +
+      '<p>Pick a ' + (CFG.noun || 'disorder') + '. It opens into the six steps of clinical judgment in bedside order: what you notice, what it means, what comes first, what should happen, what you do, and whether it worked. Every finding has its <b>why</b>.</p>' +
       '<details class="cj-steps-how"><summary>The six steps</summary><ol class="cj-legend">' + SK.map(function (k) { return '<li><b>' + STEPS[k][0] + '</b><span>' + STEPS[k][2] + '</span></li>'; }).join('') + '</ol></details>' +
       quizBtn() + '</div>' +
       groups.map(function (g) {
@@ -81,9 +81,9 @@
   function condHtml(c) {
     var i = CONDS.indexOf(c), prev = CONDS[i - 1], next = CONDS[i + 1];
     var qn = QS.filter(function (q) { return q.link === 'c-' + c.id; }).length;
-    return '<div class="cj-top"><button class="pill" data-go="think">← All disorders</button>' + quizBtn() + '</div>' +
+    return '<div class="cj-top"><button class="pill" data-go="think">← All ' + (CFG.noun || 'disorder') + 's</button>' + quizBtn() + '</div>' +
       '<div class="glass cj-head"><div class="kicker">' + esc(c.group) + ' · Week ' + c.week + '</div><h2>' + esc(c.name) + '</h2>' +
-      '<p class="cj-patient"><span>The client</span>' + esc(c.patient) + '</p></div>' +
+      '<p class="cj-patient"><span>' + (CFG.who || 'The client') + '</span>' + esc(c.patient) + '</p></div>' +
       videosHtml(vidsFor(c.id), 'Watch first') +
       '<ol class="cj-ladder">' + SK.filter(function (k) { return c.steps[k]; }).map(function (k, si, arr) {
         var s = c.steps[k], m = STEPS[k], terms = s.terms || [], cards = s.cards || [];

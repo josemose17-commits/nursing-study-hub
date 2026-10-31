@@ -5,7 +5,7 @@
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const ROOT = path.join(__dirname, '..');
 // Each exam page and its data folder; WEEKS are the syllabus weeks its notes and questions may belong to.
-const EXAMS = [['data/mh', 'Exam 4 Map.html', [11, 12]], ['data/mh5', 'Exam 5 Map.html', [13, 14, 15]]];
+const EXAMS = [['data/e1', 'Exam 1 Map.html', [1, 2]], ['data/mh', 'Exam 4 Map.html', [11, 12]], ['data/mh5', 'Exam 5 Map.html', [13, 14, 15]]];
 let total = 0;
 for (const [DIRNAME, PAGE, WEEKS] of EXAMS) {
 if (!fs.existsSync(path.join(ROOT, DIRNAME))) continue;

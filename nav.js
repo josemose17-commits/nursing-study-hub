@@ -12,7 +12,7 @@
     if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = last;
   } catch (e) {}
   // Pages each exam has so far; a missing one gets no tab.
-  var HAS = { '2': ['Map', 'Drugs', 'Mastery'], '3': ['Learn', 'Route', 'Map', 'Drugs', 'Mastery'], '4': ['Map'], '5': ['Map'], 'F': ['Map', 'Drugs', 'Mastery'] };
+  var HAS = { '1': ['Map'], '2': ['Map', 'Drugs', 'Mastery'], '3': ['Learn', 'Route', 'Map', 'Drugs', 'Mastery'], '4': ['Map'], '5': ['Map'], 'F': ['Map', 'Drugs', 'Mastery'] };
   if (!HAS[EXAM]) EXAM = '2';
   var PAGE = EXAM === 'F' ? { Learn: '', Route: '', Map: 'Final Map.html', Drugs: 'Exam 3 Drug Cards.dc.html', Mastery: 'Final Mastery Loop.dc.html' }
     : { Learn: 'Exam ' + EXAM + ' Learn.html', Route: 'Exam ' + EXAM + ' Route.html', Map: 'Exam ' + EXAM + ' Map.html', Drugs: 'Exam ' + EXAM + ' Drug Cards.dc.html', Mastery: 'Exam ' + EXAM + ' Mastery Loop.dc.html' };
@@ -58,7 +58,7 @@
   // Moving progress between devices: everything this site saves (keys starting e2- / e3- / e4- / e5- / fin- / exam2- / sem- / clin-) is packed into a link.
   // Opening the link on another device asks first, then replaces that device's progress. The data rides in the
   // part of the address after #, which browsers never send to the server.
-  var SYNC = /^(e2-|e3-|e4-|e5-|fin-|exam2-|sem-|clin-|map-noembed$)/;
+  var SYNC = /^(e1-|e2-|e3-|e4-|e5-|fin-|exam2-|sem-|clin-|map-noembed$)/;
   function b64(bytes) { var s = ''; for (var i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
   function unb64(t) { t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; var s = atob(t), out = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) out[i] = s.charCodeAt(i); return out; }
   function pipe(bytes, stream) { return new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer().then(function (b) { return new Uint8Array(b); }); }
@@ -124,7 +124,7 @@
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up — once per page,
   // since each page's HTML (and the data it names) is cached separately.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610312330';
+  var BUILD = '202611010100';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     // Builds before 202610282230 reloaded only once per session for every page. This page is already current, so clear

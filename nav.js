@@ -124,7 +124,7 @@
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up — once per page,
   // since each page's HTML (and the data it names) is cached separately.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202610312200';
+  var BUILD = '202610312330';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     // Builds before 202610282230 reloaded only once per session for every page. This page is already current, so clear

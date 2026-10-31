@@ -142,6 +142,106 @@ window.MH_DRILLS = [
   ]
 },
 {
+  id: 'intoxwd', type: 'sort', kind: 'Sort it', topic: 'substances', title: 'Intoxication or withdrawal?',
+  intro: 'Read the findings and name the substance state.',
+  ask: 'Which is it?',
+  choices: ['Opioid intoxication', 'Opioid withdrawal', 'Alcohol withdrawal', 'Stimulant intoxication', 'Stimulant withdrawal', 'Sedative intoxication', 'Cannabis intoxication', 'PCP intoxication'],
+  items: [
+    { q: 'Pinpoint pupils, RR 8, nodding off, slurred speech.', a: 'Opioid intoxication', why: 'Miosis + respiratory depression → naloxone.' },
+    { q: 'Yawning, runny nose, tearing, gooseflesh, dilated pupils, cramps, diarrhea.', a: 'Opioid withdrawal', why: 'Classic “cold turkey” picture.' },
+    { q: '8 hours after the last drink: tremor, sweating, HR 118, BP 170/100.', a: 'Alcohol withdrawal', why: 'Autonomic hyperactivity; give a benzodiazepine per CIWA.' },
+    { q: 'Euphoric, wide pupils, chest pain, HR 140, paranoid, feels bugs under the skin.', a: 'Stimulant intoxication', why: 'Cocaine or amphetamine; watch for MI and stroke.' },
+    { q: 'Sleeping 16 hours a day, ravenous, deeply depressed after a cocaine binge.', a: 'Stimulant withdrawal', why: 'The crash; assess suicide risk.' },
+    { q: 'Unsteady gait, nystagmus, slurred speech after taking extra alprazolam.', a: 'Sedative intoxication', why: 'CNS depression; dangerous with alcohol.' },
+    { q: 'Red eyes, munchies, dry mouth, time seems to slow down.', a: 'Cannabis intoxication', why: 'Conjunctival injection + increased appetite.' },
+    { q: 'Violent, nystagmus, doesn’t react to pain, hyperthermic.', a: 'PCP intoxication', why: 'Can’t be talked down; safety first.' }
+  ]
+},
+{
+  id: 'ddd', type: 'sort', kind: 'Sort it', topic: 'neurocog', title: 'Delirium, dementia or depression?',
+  intro: 'An older adult isn’t thinking clearly. Which is it?',
+  ask: 'Which is most likely?',
+  choices: ['Delirium', 'Dementia', 'Depression'],
+  items: [
+    { q: 'Fine yesterday; today disoriented, picking at the air, febrile with a UTI.', a: 'Delirium', why: 'Acute, fluctuating, medical cause.' },
+    { q: 'Over 3 years, gradually forgot names, then how to cook, now gets lost in her neighborhood.', a: 'Dementia', why: 'Slow and progressive.' },
+    { q: 'Since his wife died 2 months ago: poor concentration, no energy, poor hygiene, answers “I don’t know.”', a: 'Depression', why: 'Pseudodementia; refer for evaluation and treatment.' },
+    { q: 'Post-op ICU patient, alert one hour and drowsy and confused the next.', a: 'Delirium', why: 'Fluctuating consciousness.' },
+    { q: 'Alert, but can’t name a pen or remember the date; slow decline since retiring 5 years ago.', a: 'Dementia', why: 'Agnosia and memory loss; consciousness intact.' },
+    { q: 'Worse in the early morning, wakes at 4 a.m., sad, apathetic, lost weight.', a: 'Depression', why: 'Vegetative signs and morning worsening.' }
+  ]
+},
+{
+  id: 'adterms', type: 'sort', kind: 'Name it', topic: 'neurocog', title: 'Dementia vocabulary',
+  intro: 'Name the finding.',
+  ask: 'Which term?',
+  choices: ['Aphasia', 'Apraxia', 'Agnosia', 'Agraphia', 'Confabulation', 'Perseveration', 'Hyperorality', 'Sundowning'],
+  items: [
+    { q: 'Can’t find the word for “cup” and points instead.', a: 'Aphasia', why: 'Language loss.' },
+    { q: 'Puts his arms into his trouser legs; can’t brush his teeth though his hands work.', a: 'Apraxia', why: 'Loss of purposeful movement.' },
+    { q: 'Holds a spoon and asks what it is; doesn’t recognize his wife.', a: 'Agnosia', why: 'Can’t recognize objects or people.' },
+    { q: 'Can no longer read the paper or sign her name.', a: 'Agraphia', why: 'Loss of reading and writing.' },
+    { q: 'In bed all weekend but says he went to a Sunday lunch with his family.', a: 'Confabulation', why: 'Fills memory gaps; not lying.' },
+    { q: 'Keeps saying “hello, hello, hello” long after the greeting.', a: 'Perseveration', why: 'Repetition after the stimulus has stopped.' },
+    { q: 'Tries to eat soap shaped like fruit.', a: 'Hyperorality', why: 'Puts objects in the mouth.' },
+    { q: 'Calm all morning; agitated and wandering at dusk.', a: 'Sundowning', why: 'Worse late in the day.' }
+  ]
+},
+{
+  id: 'pdmatch', type: 'sort', kind: 'Match the patient', topic: 'personality', title: 'Which personality disorder?',
+  intro: 'Match the description to the personality disorder.',
+  ask: 'Which disorder?',
+  choices: ['Paranoid', 'Schizoid', 'Schizotypal', 'Borderline', 'Antisocial', 'Histrionic', 'Narcissistic', 'Avoidant', 'Dependent', 'Obsessive-compulsive'],
+  items: [
+    { q: 'Believes the HMO sent her records to every doctor so she can’t get treatment; won’t give her phone number.', a: 'Paranoid', why: 'Pervasive distrust and suspicion.' },
+    { q: 'A night-shift loner, content alone, never dated, flat expression.', a: 'Schizoid', why: 'Detached and doesn’t want relationships.' },
+    { q: 'Thinks truck drivers talk about him on their radios; superstitious, odd speech.', a: 'Schizotypal', why: 'Ideas of reference, odd beliefs, magical thinking.' },
+    { q: 'Idealizes, then hates, her partner; burns herself when he leaves the room.', a: 'Borderline', why: 'Splitting, fear of abandonment, self-harm.' },
+    { q: 'Multiple assaults, cons people, no remorse, conduct problems since 13.', a: 'Antisocial', why: 'Disregard for others’ rights.' },
+    { q: 'Dramatic, flirtatious with the male nurse, wants to be the center of attention.', a: 'Histrionic', why: 'Attention-seeking and seductive.' },
+    { q: 'Cuts the line, berates staff for small errors, expects special treatment.', a: 'Narcissistic', why: 'Entitled, grandiose, no empathy.' },
+    { q: 'Turned down a promotion because it meant meeting customers; fears criticism.', a: 'Avoidant', why: 'Social inhibition from fear of rejection.' },
+    { q: 'Had her mother move in because she can’t make parenting decisions alone.', a: 'Dependent', why: 'Needs to be cared for.' },
+    { q: 'Argues over every policy detail; work is never finished because it isn’t perfect.', a: 'Obsessive-compulsive', why: 'Perfectionism and control (personality, not OCD).' }
+  ]
+},
+{
+  id: 'manip', type: 'pick', kind: 'Pick the reply', topic: 'personality', title: 'Limits, splitting and manipulation',
+  intro: 'Patients with personality disorders test limits. Pick the most therapeutic response.',
+  items: [
+    { say: '“You’re the only nurse who really cares. The others are useless.”', why: 'Don’t accept the split; keep the team united.', opts: [
+      { t: '“All of the staff are here to help you. What happened with the other nurses?”', ok: true, tech: 'Presenting reality + exploring', why: 'Refuses the special role and explores the concern.' },
+      { t: '“Thank you. I do try harder than most.”', tech: 'Accepting the split', why: 'Feeds splitting and divides staff.' },
+      { t: '“That’s a terrible thing to say about them.”', tech: 'Defensive and judging', why: 'Gets into a power struggle.' },
+      { t: '“I’ll make sure you only get me from now on.”', tech: 'Rescuing', why: 'Reinforces splitting.' }
+    ] },
+    { say: '“If you don’t give me my Ativan right now, I’ll cut myself.”', why: 'Safety, plus calm, consistent limits; don’t reward threats.', opts: [
+      { t: '“I’m concerned for your safety and I’ll stay with you. Your next dose is at 2 p.m. Let’s talk about what you’re feeling.”', ok: true, tech: 'Limit + safety + exploring feelings', why: 'Holds the limit, ensures safety, invites words instead of action.' },
+      { t: '“Fine, here’s an extra dose.”', tech: 'Giving in', why: 'Rewards the threat.' },
+      { t: '“Go ahead, then.”', tech: 'Dismissing', why: 'Unsafe and punitive.' },
+      { t: '“You’ll be restrained if you say that again.”', tech: 'Threatening', why: 'Coercive.' }
+    ] },
+    { say: '(An antisocial patient, smiling:) “You’re too pretty to be stuck here. Bet you could get me out early.”', why: 'Name the behavior and set a professional limit.', opts: [
+      { t: '“Comments about my appearance aren’t part of our professional relationship. Let’s talk about your treatment goals.”', ok: true, tech: 'Limit setting', why: 'Direct, calm, refocuses on treatment.' },
+      { t: 'Smile and change the subject.', tech: 'Avoiding', why: 'Leaves the manipulation unaddressed.' },
+      { t: '“Thanks! I’ll see what I can do.”', tech: 'Accepting the manipulation', why: 'Opens the door to more.' },
+      { t: '“How dare you talk to me like that!”', tech: 'Emotional reaction', why: 'Gives him a reaction to work with.' }
+    ] },
+    { say: '(A narcissistic patient:) “I’m far smarter than the people running this place. I shouldn’t have to go to group.”', why: 'Avoid power struggles; don’t challenge the grandiosity head-on.', opts: [
+      { t: '“Group is part of everyone’s plan here. It starts at 10. What would make it worthwhile for you?”', ok: true, tech: 'Neutral limit + collaboration', why: 'Holds the expectation without a power struggle.' },
+      { t: '“You’re not smarter than the staff.”', tech: 'Challenging grandiosity', why: 'Starts a power struggle.' },
+      { t: '“You’re right, you can skip it.”', tech: 'Giving in', why: 'Reinforces entitlement.' },
+      { t: '“Why do you think you’re so special?”', tech: '“Why” question', why: 'Judging and confrontational.' }
+    ] },
+    { say: '(A paranoid patient:) “Why are you writing that down? Who’s going to read it?”', why: 'Be honest, clear and neutral; keep your word.', opts: [
+      { t: '“I’m writing what we discussed in your chart. Only your treatment team reads it. You can ask to see it.”', ok: true, tech: 'Honest, clear explanation', why: 'Straightforward information reduces suspicion.' },
+      { t: '“Don’t worry about it.”', tech: 'Dismissing', why: 'Increases suspicion.' },
+      { t: '“Nobody, I promise.”', tech: 'False reassurance', why: 'Untrue, and breaks trust when discovered.' },
+      { t: '(Big friendly smile) “Oh, you’re my favorite, I’d never share anything!”', tech: 'Too friendly', why: 'Overly friendly behavior raises suspicion.' }
+    ] }
+  ]
+},
+{
   id: 'p5priority', type: 'pick', kind: 'Who first?', topic: null, title: 'Who do you see first?',
   intro: 'Prioritize like the NCLEX: physiological emergencies and safety first.',
   items: [

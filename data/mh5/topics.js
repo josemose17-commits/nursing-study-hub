@@ -120,5 +120,63 @@ window.MH_TOPICS = [
     ['Refeeding syndrome lab to watch?', '**Phosphate** (also K⁺ and Mg²⁺).'],
     ['FDA-approved drug for binge-eating disorder?', '**Lisdexamfetamine (Vyvanse)**.']
   ]
+},
+{
+  id: 'substances', week: 14, ch: 'Chapter 22', title: 'Substance use and addiction',
+  short: 'Intoxication and withdrawal for every substance, the DEA schedules, gambling, and the care continuum.',
+  lead: 'Addiction is a **chronic, relapsing brain disease**: craving, seeking and using despite harm. Drugs hijack the **dopamine reward pathway** (ventral tegmental area), plus the opioid and GABA systems. Know four words: **addiction**, **intoxication** (being under the influence), **tolerance** (needing more for the same effect) and **withdrawal** (the substance-specific syndrome when stopping). **Process addictions** like **gambling** use the same reward circuits.',
+  cards: [
+    { h: 'Intoxication vs withdrawal, by substance', tag: 'High yield', b: ['**Alcohol**: slurred speech, poor coordination → withdrawal: **tremor (6–8 h), seizures (12–24 h), DTs (within 72 h)**. Dangerous.', '**Sedatives and benzodiazepines**: slurred speech, ataxia, **respiratory depression with alcohol or opioids** → withdrawal: anxiety, tremor, insomnia, **seizures**. Dangerous: **taper**.', '**Opioids**: **pinpoint pupils**, sedation, low RR → withdrawal: **dilated pupils**, yawning, tearing, runny nose, gooseflesh, cramps, diarrhea. Miserable but rarely deadly.', '**Stimulants** (cocaine, amphetamines): euphoria, ↑ HR and BP, **dilated pupils**, chest pain, paranoia, “cocaine bugs” → withdrawal (“crash”): fatigue, hypersomnia, hunger, **depression and suicidal thoughts**.', '**Cannabis**: red eyes, hunger, dry mouth, tachycardia, slowed time → withdrawal (after about a week): irritability, insomnia, poor appetite.', '**Hallucinogens (LSD)**: perceptual changes, synesthesia, dilated pupils → “talk them down”; flashbacks (hallucinogen persisting perception disorder).', '**PCP**: **violence**, nystagmus, high BP, numbness to pain, hyperthermia → **can’t be talked down**; low stimulation, benzodiazepine, restraint if needed.', '**Inhalants** (glue, aerosols, gasoline): disinhibition, nystagmus → **“sudden sniffing death”** (arrhythmia); mostly teens.', '**Tobacco**: withdrawal: irritability, anxiety, poor concentration, insomnia, hunger. Treat with nicotine replacement, **bupropion**, **varenicline**.', '**Caffeine**: over 250 mg → restlessness, tachycardia, GI upset; overdose (energy drinks) → arrhythmia, seizures; withdrawal headache within 12–24 h.'] },
+    { h: 'Screening and assessment', b: ['**SBIRT**: screening, brief intervention, referral to treatment.', '**CAGE** (2 or more = significant), **CAGE-AID** (adds drugs), **AUDIT**, **T-ACE**, CIWA-Ar for alcohol withdrawal, urine drug screens.', 'Assess co-occurring mental illness, trauma history, family history, strengths and **readiness to change**.', 'Look at your own attitudes: addiction is a disease, not a choice.'] },
+    { h: 'Alcohol facts', b: ['Standard drink = 14 g alcohol (12 oz beer, 5 oz wine, 1.5 oz liquor).', '**Binge drinking**: 4+ drinks (women) or 5+ (men) in about 2 hours. **Heavy**: 8+ per week (women), 15+ per week (men).', 'Alcohol use disorder: 2 or more of 11 criteria in 12 months (mild 2–3, moderate 4–5, severe 6+).', '40–60% genetic; flushing genes (aldehyde dehydrogenase) protect.', '**Blackouts**: alcohol blocks new memories forming (hippocampus).'] },
+    { h: 'Gambling disorder', b: ['Preoccupied, chases losses, lies, borrows, may commit crimes; it activates the reward pathway like a drug.', '**Gamblers Anonymous**, CBT; SSRIs, mood stabilizers, **naltrexone** for severe cases.', 'Progress sounds like: “**Gambling activates the reward pathways in my brain.**”'] },
+    { h: 'Teens and vaping', b: ['E-cigarettes: rapid spread among youth, flavored products, lung injury; the FDA banned most flavored cartridges in 2020.', 'Today’s cannabis is far more potent (THC 17–28% vs under 2% before the 1990s).'] }
+  ],
+  recall: [
+    ['Pinpoint pupils + coma + RR 6?', '**Opioid overdose**: airway, **naloxone**, watch for re-sedation.'],
+    ['Which two withdrawals can be fatal?', '**Alcohol** and **benzodiazepine/sedative** withdrawal (seizures, DTs).'],
+    ['When do alcohol withdrawal seizures occur?', '**12–24 hours** after the last drink.'],
+    ['Disulfiram + alcohol causes?', 'Nausea and vomiting, flushing, sweating, headache, **dyspnea**, confusion.'],
+    ['Buprenorphine timing?', 'Only once in **early withdrawal** (12–24 h after the last opioid), or it precipitates withdrawal.'],
+    ['Schedule with the highest misuse potential and no medical use?', '**Schedule I**.']
+  ]
+},
+{
+  id: 'neurocog', week: 15, ch: 'Chapter 23', title: 'Neurocognitive disorders',
+  short: 'Delirium vs dementia vs depression, the vocabulary of dementia, and caring for families.',
+  lead: '**Delirium** affects lower-level cognition (attention, orientation) and is **acute and usually reversible**. **Mild** and **major neurocognitive disorders** (major = **dementia**) affect higher cognition (memory, language, executive function, social cognition); dementia is **progressive and irreversible**. **Alzheimer’s disease** causes 60–80% of dementias.',
+  cards: [
+    { h: 'Compare', tag: 'High yield', b: ['**Onset**: delirium sudden (hours to days) · dementia slow (months to years) · depression gradual, worse with crisis.', '**Course**: delirium **fluctuates**, worse at night · dementia progressive (sundowning) · depression worse in the morning.', '**Attention**: impaired in delirium · intact early in dementia · poor concentration in depression.', '**Cause**: delirium = medical illness, drugs, withdrawal · dementia = Alzheimer’s, vascular, Lewy body, etc. · depression = losses, illness.', '**Reversible?** Delirium yes · dementia no · depression yes.', 'An older adult with **new confusion** → think **delirium** first; a grieving older adult with poor concentration → **depression** (pseudodementia).'] },
+    { h: 'Types of dementia', b: ['**Alzheimer’s** (60–80%): memory first.', '**Vascular** (5–10%): stepwise after strokes; impaired judgment, slow gait.', '**Frontotemporal**: onset 45–60; **personality change and disinhibition** first.', '**Lewy body**: Alzheimer’s-like plus **visual hallucinations**, movement problems, sleep disorders (very sensitive to antipsychotics).', '**Parkinson’s disease** dementia; mixed causes are common.'] },
+    { h: 'Vocabulary', b: ['**Aphasia** (language), **apraxia** (purposeful movement), **agnosia** (recognizing objects or people), **agraphia** (reading and writing).', '**Confabulation** (filling gaps, not lying), **perseveration** (repeating), **hyperorality** (mouthing objects), **sundowning** (worse in the evening).', '**Executive function** (planning, problem-solving), **social cognition** (recognizing people and social cues).'] },
+    { h: 'Risk and protection', b: ['Age is the biggest risk; **APOE e4**; early-onset genes (under 1%); Down syndrome.', '**Heart health = brain health**: hypertension, diabetes, obesity, inactivity, high cholesterol; head injuries.', 'Protective: education and mental activity (**cognitive reserve**), exercise, social engagement, diet, sleep.'] },
+    { h: 'Care principles', b: ['**Person-centered**, unconditional positive regard; **distraction, not confrontation**; don’t quiz.', 'One simple direction at a time; introduce yourself; consistent routine and caregivers.', 'Finger foods, weekly weights, scheduled toileting, morning light, no restraints.', 'Families: support groups, respite, adult day care, legal and financial planning, grief.', 'Nurses: realistic expectations, journaling, exercise and relaxation to manage stress.'] }
+  ],
+  recall: [
+    ['“She was fine last night, but this morning she’s confused.”', 'Suggests **delirium** (acute).'],
+    ['An 85-year-old suddenly disheveled, incoherent, smelling of urine?', 'Likely **UTI → delirium**.'],
+    ['Can’t recognize faces of old coworkers?', 'A deficit in **social cognition**.'],
+    ['Side effects to watch with donepezil?', 'Insomnia, **bradycardia**, dizziness, headache, GI upset.'],
+    ['Why finger foods in dementia?', 'They **increase intake** throughout the day for someone who won’t sit to eat.']
+  ]
+},
+{
+  id: 'personality', week: 15, ch: 'Chapter 24', title: 'Personality disorders',
+  short: 'All ten disorders in three clusters, with the nursing approach for each.',
+  lead: 'Personality is a person’s lasting pattern of thinking, feeling and behaving. A **personality disorder** is an **inflexible, maladaptive** pattern that impairs relationships and functioning; people often believe the problem lies **outside** themselves. They usually enter care for a **comorbid** problem (depression, anxiety, substance use, self-harm). Personality still changes slowly across life, so treatment can help. Judge personality **within the person’s culture**.',
+  cards: [
+    { h: 'Cluster A: odd or eccentric', b: ['**Paranoid**: distrust, suspicion, holds grudges, **projection** → keep every promise, be clear and neutral (not overly friendly), explain procedures, set limits on threats.', '**Schizoid**: detached loner, restricted emotion, doesn’t want relationships → respect privacy, don’t push socialization, protect from ridicule.', '**Schizotypal**: **magical thinking**, odd beliefs and speech, ideas of reference, social anxiety; **can be made aware** of distortions (unlike schizophrenia) → respect isolation, assess for suicide, low-dose antipsychotics.'] },
+    { h: 'Cluster B: dramatic, emotional, erratic', b: ['**Borderline**: unstable relationships, identity and mood; **splitting**; self-harm; fear of abandonment → consistent limits, DBT.', '**Antisocial**: violates others’ rights, deceit, no remorse; conduct disorder before 15 → safety, consistent consequences.', '**Histrionic**: attention-seeking, dramatic, **seductive**, vague speech → keep it **professional**, encourage concrete language, assess suicide gestures.', '**Narcissistic**: grandiose, entitled, no empathy, **fragile self-esteem** underneath → stay neutral, **avoid power struggles**, don’t challenge grandiosity directly, model empathy.'] },
+    { h: 'Cluster C: anxious or fearful', b: ['**Avoidant**: intense fear of rejection, feels inadequate → friendly, accepting, reassuring; don’t push social situations; assertiveness training.', '**Dependent**: submissive, clinging, can’t make decisions, fears being alone → address current stressors, teach assertiveness, watch for countertransference.', '**Obsessive-compulsive personality**: perfectionism, rigidity, control, workaholic (**ego-syntonic**, unlike OCD) → avoid power struggles, provide structure, allow extra time.'] },
+    { h: 'Primitive defenses', b: ['**Splitting**, **projection**, **regression**, **undoing**, acting out.', 'An ego-syntonic pattern = the person sees their behavior as acceptable.'] },
+    { h: 'Treatment overall', b: ['Psychotherapy first (CBT, DBT, schema-focused, mentalization-based, group).', 'No FDA-approved drugs: treat target symptoms (SSRIs, mood stabilizers, low-dose antipsychotics).', 'Clinical supervision for staff: these patients stir strong reactions.'] }
+  ],
+  recall: [
+    ['Which personality disorders are “odd or eccentric”?', '**Paranoid, schizoid, schizotypal** (Cluster A).'],
+    ['“I’d really like to hurt her for hurting me.” Next step?', 'Assess immediately for **violence** risk.'],
+    ['Schizotypal vs schizophrenia?', 'Schizotypal patients **can be made aware** of their odd beliefs; delusions are not fixed.'],
+    ['Bupropion for a schizoid patient aims to?', '**Increase the pleasure of living**.'],
+    ['Primitive defenses seen in personality disorders?', 'Splitting staff, **undoing** (favors after anger), **regression** (rocking, humming).']
+  ]
 }
 ];

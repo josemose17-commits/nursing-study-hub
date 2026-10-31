@@ -1,0 +1,9 @@
+# Exam 4 · mental health data
+
+Loaded by `Exam 4 Map.html` and drawn by `mh.js`. Everything here is written for this site in our own words from Varcarolis' *Foundations of Psychiatric-Mental Health Nursing* (9e) chapters; don't paste textbook text into it (the site is public). Text supports `**bold**` and `*italic*`. Run `node tools/check_mh.js` after any change: it checks the shape of every entry, every answer key, link and video tag, and that the page loads every file here. Bump the `?v=` on the page's script tags when a file changes.
+
+- `cond-*.js` push conditions onto `window.MH_CONDS`: `{ id, group, name, week, short, patient, report: [S, B, A, R], steps: { rc, ac, ph, gs, ta, eo } }`. Each step is `{ gist, terms?, cards? }`. A term is `{ t, see, why, means }` (the clinical word, what it looks like, why the body or mind does it, what it tells the nurse). A card is `{ h, b: [bullets], why?, tag? }` (`tag: 'If it worsens'` flags it red).
+- `topics.js` — `window.MH_TOPICS`: `{ id, week, ch, title, short, lead, terms?, cards, recall?: [[question, answer]] }`, one per syllabus topic.
+- `drills.js` — `window.MH_DRILLS`. `type: 'pick'` items have their own options `{ t, ok?, tech?, why }` (exactly one `ok`); `type: 'sort'` items `{ q, a, why }` are sorted into the drill's `choices` (four are shown at a time when there are more than six). `topic` links a drill to a topic.
+- `questions.js` — `window.MH_Q`: `{ id, wk, link, stem, opts, a, why }`; `a` is an option index, or an array of indexes for select all that apply (the stem must then say so). `link` is `c-<condition>` or `t-<topic>`.
+- `videos.js` — `window.MH_VIDEOS`: `{ id, title, see, tags }`; tags are condition or topic ids. Check a new id with YouTube oEmbed (`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=<id>&format=json` returns 200 when it exists and can be embedded).

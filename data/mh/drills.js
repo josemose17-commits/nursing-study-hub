@@ -243,7 +243,7 @@ window.MH_DRILLS = [
   ]
 },
 {
-  id: 'medsafety', type: 'sort', kind: 'Make the call', topic: null, title: 'Psych med safety calls',
+  id: 'medsafety', type: 'sort', kind: 'Make the call', topic: 'neuro', title: 'Psych med safety calls',
   intro: 'A patient reports a finding on lithium, an antidepressant or an anxiolytic. Expected, hold and notify, or emergency?',
   ask: 'What do you do?',
   choices: ['Expected: teach and keep giving', 'Hold the dose and notify the provider', 'Emergency: act now'],
@@ -261,7 +261,15 @@ window.MH_DRILLS = [
     { q: 'Started buspirone 4 days ago and says it isn’t helping yet.', a: 'Expected: teach and keep giving', why: 'Buspirone takes 2–4 weeks to work.' },
     { q: 'On valproate: bruising easily, and platelets are 60,000.', a: 'Hold the dose and notify the provider', why: 'Thrombocytopenia is a known adverse effect.' },
     { q: 'An 18-year-old in week 2 of fluoxetine says, “I’ve been thinking about ending it.”', a: 'Emergency: act now', why: 'New suicidal thinking early in treatment (black box warning, under 25): safety first.' },
-    { q: 'On bupropion: has a seizure history and wants to quit smoking.', a: 'Hold the dose and notify the provider', why: 'Bupropion lowers the seizure threshold.' }
+    { q: 'On bupropion: has a seizure history and wants to quit smoking.', a: 'Hold the dose and notify the provider', why: 'Bupropion lowers the seizure threshold.' },
+    { q: 'On haloperidol: temperature 40 °C, “lead-pipe” rigid muscles, confusion and a BP swinging from 90/50 to 170/100.', a: 'Emergency: act now', why: 'Neuroleptic malignant syndrome: stop the antipsychotic, cool, support; a medical emergency.' },
+    { q: 'On haloperidol: day 2, sudden neck twisting and eyes rolled upward.', a: 'Emergency: act now', why: 'Acute dystonia (can involve the airway): give the ordered anticholinergic (benztropine or diphenhydramine) now.' },
+    { q: 'On clozapine: sore throat and fever; ANC 900.', a: 'Hold the dose and notify the provider', why: 'Possible neutropenia and infection; clozapine is held, and the program rules guide what follows.' },
+    { q: 'On quetiapine: sleepy for the first week of treatment.', a: 'Expected: teach and keep giving', why: 'H1 blockade causes sedation; tolerance develops. No driving until the effect is known.' },
+    { q: 'On olanzapine: weight up 6 kg in 3 months and fasting glucose 128.', a: 'Hold the dose and notify the provider', why: 'Metabolic syndrome risk: report for a plan (diet, exercise, labs, possible switch). (Don’t stop on your own.)' },
+    { q: 'Took zolpidem; this morning the family found food cooked overnight that she doesn’t remember making.', a: 'Hold the dose and notify the provider', why: 'Complex sleep behavior: the FDA warns not to take it again after an episode.' },
+    { q: 'On donepezil: heart rate 46 and felt faint when standing.', a: 'Hold the dose and notify the provider', why: 'Cholinesterase inhibitors raise acetylcholine → bradycardia and syncope.' },
+    { q: 'On trazodone: an erection lasting 4 hours.', a: 'Emergency: act now', why: 'Priapism is a urologic emergency.' }
   ]
 },
 {
@@ -291,6 +299,92 @@ window.MH_DRILLS = [
       { t: 'Insight into why she stopped her lithium.', why: 'Insight comes after physical stabilization.' },
       { t: 'Joining the afternoon group.', why: 'Groups overstimulate acute mania.' },
       { t: 'Teaching about her diagnosis.', why: 'She can’t learn in acute mania.' }
+    ] }
+  ]
+},
+{
+  id: 'receptor', type: 'sort', kind: 'Match the cause', topic: 'neuro', title: 'Receptor → side effect',
+  intro: 'A drug blocks a receptor and the patient gets a side effect. Name the receptor behind it. Learn this once and it explains TCAs, antipsychotics and more.',
+  ask: 'Which receptor action causes this?',
+  choices: ['H1 (histamine) blocked', 'M1 (acetylcholine) blocked', 'Alpha-1 blocked', 'D2 blocked: nigrostriatal', 'D2 blocked: tuberoinfundibular', 'Serotonin stimulated', 'GABA-A enhanced'],
+  items: [
+    { q: 'A patient on amitriptyline is drowsy all morning and has gained 4 kg.', a: 'H1 (histamine) blocked', why: 'Histamine keeps the brain alert and regulates appetite; blocking H1 → sedation and weight gain.' },
+    { q: 'A patient on chlorpromazine has a dry mouth, blurred vision and hasn’t had a bowel movement in 4 days.', a: 'M1 (acetylcholine) blocked', why: 'Anticholinergic effects: dry, blurry, constipated, can’t pee, fast heart.' },
+    { q: 'An older adult on a TCA is newly confused and can’t pass urine.', a: 'M1 (acetylcholine) blocked', why: 'Anticholinergic effects; older adults get confusion and urinary retention.' },
+    { q: 'A patient on trazodone gets dizzy and nearly falls when getting out of bed.', a: 'Alpha-1 blocked', why: 'Alpha-1 keeps blood vessels constricted when standing; blocked → orthostatic hypotension. Rise slowly.' },
+    { q: 'A patient on haloperidol has a shuffling gait, a mask-like face and a tremor.', a: 'D2 blocked: nigrostriatal', why: 'Drug-induced parkinsonism, a form of EPS.' },
+    { q: 'A patient on haloperidol can’t sit still and paces constantly, feeling restless inside.', a: 'D2 blocked: nigrostriatal', why: 'Akathisia, a form of EPS (don’t mistake it for anxiety or agitation).' },
+    { q: 'A woman on risperidone stops having periods and has milk leaking from her breasts.', a: 'D2 blocked: tuberoinfundibular', why: 'Dopamine normally holds prolactin down; blocking it → high prolactin.' },
+    { q: 'A man on risperidone develops breast enlargement.', a: 'D2 blocked: tuberoinfundibular', why: 'Hyperprolactinemia → gynecomastia.' },
+    { q: 'A patient in week 1 of sertraline has nausea and loose stools.', a: 'Serotonin stimulated', why: 'Serotonin acts on 5-HT3 and 5-HT4 receptors in the gut and brainstem.' },
+    { q: 'A patient on paroxetine reports delayed orgasm and low libido.', a: 'Serotonin stimulated', why: '5-HT2 stimulation inhibits the orgasm reflex and lowers dopamine (libido).' },
+    { q: 'A patient on lorazepam is unsteady on her feet and can’t recall what happened after the dose.', a: 'GABA-A enhanced', why: 'GABA receptors are abundant in the cerebellum (ataxia); anterograde amnesia.' },
+    { q: 'A patient on olanzapine is very sleepy and hungry all the time.', a: 'H1 (histamine) blocked', why: 'H1 (plus 5-HT2C) blockade → sedation and appetite.' }
+  ]
+},
+{
+  id: 'transmitter', type: 'sort', kind: 'Name it', topic: 'neuro', title: 'Which neurotransmitter?',
+  intro: 'Name the neurotransmitter behind the illness or the drug.',
+  ask: 'Which neurotransmitter?',
+  choices: ['Dopamine', 'Serotonin', 'Norepinephrine', 'GABA', 'Glutamate', 'Acetylcholine'],
+  items: [
+    { q: 'Too much activity in the mesolimbic pathway causes hallucinations and delusions.', a: 'Dopamine', why: 'Antipsychotics work by blocking D2 receptors.' },
+    { q: 'Benzodiazepines make this calming transmitter work better.', a: 'GABA', why: 'The main inhibitory transmitter.' },
+    { q: 'Donepezil keeps this from being broken down, to slow memory loss.', a: 'Acetylcholine', why: 'Cholinesterase inhibitors raise acetylcholine.' },
+    { q: 'Memantine blocks excess stimulation by this transmitter at NMDA receptors.', a: 'Glutamate', why: 'Too much glutamate is excitotoxic in Alzheimer disease.' },
+    { q: 'Low levels are linked with depression, poor sleep and appetite change; SSRIs raise it.', a: 'Serotonin', why: 'Serotonin regulates mood, sleep, appetite, pain and sex.' },
+    { q: 'Drives the fight-or-flight response; SNRIs raise it, which can raise BP.', a: 'Norepinephrine', why: 'Norepinephrine acts on the sympathetic nervous system.' },
+    { q: 'Low levels cause Parkinson disease; stimulants for ADHD raise it.', a: 'Dopamine', why: 'Dopamine controls movement and reward.' },
+    { q: 'Esketamine blocks the NMDA receptor that this transmitter stimulates.', a: 'Glutamate', why: 'Esketamine is an NMDA antagonist.' },
+    { q: 'Buspirone acts as a partial agonist at this transmitter’s 1A receptor.', a: 'Serotonin', why: '5-HT1A partial agonist.' },
+    { q: 'Lowered in anxiety, mania and seizure disorders; valproate may boost it.', a: 'GABA', why: 'GABA is the main brake on neuronal firing.' }
+  ]
+},
+{
+  id: 'culture', type: 'pick', kind: 'Make the call', topic: 'culture', title: 'Culturally congruent care',
+  intro: 'Patients from different cultures. Pick the culturally competent action.',
+  items: [
+    { q: 'A Spanish-speaking patient with limited English is admitted for depression. His 15-year-old daughter offers to translate.', why: 'Use a professional interpreter, never family, especially in mental health.', opts: [
+      { t: 'Thank her, and call a professional medical interpreter.', ok: true, why: 'Accurate, confidential, and the patient can speak freely.' },
+      { t: 'Let the daughter interpret, since she knows him best.', why: 'He may hide symptoms (suicidal thoughts, family conflict) in front of his child, and terms get lost.' },
+      { t: 'Speak slowly and loudly in English.', why: 'Doesn’t solve the language barrier.' },
+      { t: 'Use gestures and a translation app for the whole interview.', why: 'Not adequate for a psychiatric assessment.' }
+    ] },
+    { q: 'A Korean patient complains of epigastric pain, palpitations and aches, and denies feeling sad. Her husband died 2 months ago.', why: 'Distress may be expressed physically (somatization).', opts: [
+      { t: 'Explore her grief and screen for depression while treating the physical complaints.', ok: true, why: 'Recognizes somatization and a possible cultural syndrome (hwa-byung).' },
+      { t: 'Tell her the pain is “all in her head.”', why: 'Dismissive; the pain is real to her.' },
+      { t: 'Focus only on GI testing.', why: 'Misses depression.' },
+      { t: 'Insist she admit she is depressed.', why: 'Pushes a Western label and damages trust.' }
+    ] },
+    { q: 'A Vietnamese child has linear red marks on her back. Her father says he rubbed a coin on her to remove “wind” illness.', why: 'Coining is a traditional remedy, not abuse.', opts: [
+      { t: 'Recognize coining as a cultural remedy; assess the child and ask about other treatments used.', ok: true, why: 'Understands the practice and still assesses the child.' },
+      { t: 'Report the father for child abuse right away.', why: 'Misreads a known cultural practice (assess, but don’t assume abuse).' },
+      { t: 'Tell the father the practice is useless.', why: 'Ethnocentric; harms trust.' },
+      { t: 'Ignore it; it’s not your business.', why: 'Still assess the child and how the remedy fits with treatment.' }
+    ] },
+    { q: 'A patient’s family wants to make the treatment decisions and asks that the patient not be told the full prognosis.', why: 'Some cultures make decisions as a family; ask the patient how they want information handled.', opts: [
+      { t: 'Ask the patient privately how they want information shared and who should make decisions.', ok: true, why: 'Respects both the culture and the patient’s right to choose.' },
+      { t: 'Tell the family that, by law, only the patient decides.', why: 'True for consent, but it ignores the patient’s own cultural preference.' },
+      { t: 'Agree to keep everything from the patient.', why: 'May violate the patient’s rights; ask the patient first.' },
+      { t: 'Tell the patient everything immediately, in front of the family.', why: 'Disregards cultural norms and the patient’s wishes.' }
+    ] },
+    { q: 'A Muslim patient is prescribed a new diet during Ramadan. What should the nurse do first?', why: 'Assess dietary and religious considerations before teaching.', opts: [
+      { t: 'Ask about dietary practices and fasting, and plan meals and medication times around them.', ok: true, why: 'Identify cultural and religious needs first, then build the plan.' },
+      { t: 'Explain why the diet is more important than fasting.', why: 'Ethnocentric.' },
+      { t: 'Order a standard meal tray three times a day.', why: 'Ignores the fasting schedule.' },
+      { t: 'Ask the family to make the patient eat.', why: 'Overrides the patient’s beliefs.' }
+    ] },
+    { q: 'A patient from Mexico says she has susto after a frightening accident and wants to see a curandero (folk healer).', why: 'Accommodate neutral practices alongside treatment.', opts: [
+      { t: 'Support the healer’s visit and include it in the plan alongside the prescribed treatment.', ok: true, why: 'Accommodates a neutral practice and builds on her own healing system.' },
+      { t: 'Explain that folk healing doesn’t work.', why: 'Ethnocentric and dismissive.' },
+      { t: 'Say a visit isn’t allowed in the hospital.', why: 'Usually possible; it supports trust and adherence.' },
+      { t: 'Treat her belief as a delusion.', why: 'Cultural explanations are not psychotic symptoms.' }
+    ] },
+    { q: 'Which statement by a nurse shows ethnocentrism?', why: 'Ethnocentrism assumes your own way is the only right way.', opts: [
+      { t: '“Our treatment will fix this; your family remedies won’t help.”', ok: true, why: 'Dismisses the patient’s culture as wrong.' },
+      { t: '“What do you think is causing these symptoms?”', why: 'A culturally sensitive (Kleinman) question.' },
+      { t: '“How have these symptoms affected your work?”', why: 'A neutral, functional question.' },
+      { t: '“What would you like us to do to help?”', why: 'Patient-centered.' }
     ] }
   ]
 }

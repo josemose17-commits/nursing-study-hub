@@ -47,5 +47,16 @@ window.MH_VIDEOS = [
   { id: 't_59thyrje8', title: 'Nurse–client relationship and therapeutic communication (Level Up RN)', see: 'The phases of the relationship, boundaries and the techniques', tags: ['relationship', 'comm'] },
   { id: '0gZimLvfC2g', title: 'Therapeutic vs nontherapeutic communication (Level Up RN)', see: 'Each technique with an example, and the blocks to avoid', tags: ['comm'] },
   { id: 's86DDGAqkS4', title: 'Stress, general adaptation syndrome and anxiety (Level Up RN)', see: 'Alarm, resistance and exhaustion, and the levels of anxiety', tags: ['stress'] },
-  { id: 'jQvkjEjgib0', title: 'Defense mechanisms (Level Up RN)', see: 'Each defense mechanism with an example of what the patient says', tags: ['stress'] }
+  { id: 'jQvkjEjgib0', title: 'Defense mechanisms (Level Up RN)', see: 'Each defense mechanism with an example of what the patient says', tags: ['stress'] },
+  // Chapter 3 · brain and psych meds
+  { id: 'LNs9ruzoTmI', title: '2-Minute Neuroscience: the limbic system', see: 'The amygdala, hippocampus and related areas that handle emotion, memory and drives', tags: ['neuro'] },
+  { id: 'QAeBKRaNri0', title: '2-Minute Neuroscience: the HPA axis', see: 'Hypothalamus (CRH) → pituitary (ACTH) → adrenal cortex (cortisol), and the feedback loop', tags: ['neuro', 'stress'] },
+  { id: 'eTmQWS6djyc', title: 'Neurotransmitters and teaching for psych meds (Level Up RN)', see: 'Which neurotransmitter each drug class raises or blocks, and the teaching points that follow', tags: ['neuro'] },
+  { id: 'XlEGpphUtZk', title: 'Pharmacokinetics vs pharmacodynamics', see: 'What the body does to the drug (ADME) vs what the drug does to the body', tags: ['neuro'] },
+  { id: '1FOHoLaWzzU', title: 'Antipsychotic medications (Level Up RN)', see: 'First vs second generation, EPS, NMS, metabolic effects and clozapine monitoring', tags: ['neuro'] },
+  { id: '3o9ClIbVXDE', title: 'Extrapyramidal symptoms explained (MEDMAX)', see: 'Acute dystonia, akathisia, parkinsonism and tardive dyskinesia, and when each appears', tags: ['neuro'] },
+  // Chapter 5 · culture
+  { id: 'PBfxwJqj4PY', title: 'Cultural considerations (Level Up RN)', see: 'Communication, interpreters, beliefs about illness and complementary practices', tags: ['culture'] },
+  { id: 'r62Zp99U67Y', title: 'Becoming a culturally competent nurse (Johnson & Johnson Nursing)', see: 'Nurses describing how they learn from patients instead of assuming', tags: ['culture'] },
+  { id: 'VrYmQDiunSc', title: 'A culturally informed approach to mental health (TEDx)', see: 'How culture shapes how distress is felt, described and treated, including somatic symptoms', tags: ['culture'] }
 ];

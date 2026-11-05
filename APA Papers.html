@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>APA Papers</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<link rel="stylesheet" href="apa.css?v=202611050100">
+</head>
+<body>
+<main>
+  <div>
+    <div class="kicker">NRS 114 · Writing</div>
+    <h1>APA papers</h1>
+  </div>
+  <p class="lead">Every paper type follows a pattern. Pick yours, enter the page count and topic, and get an outline that tells you what goes in each section, how many paragraphs and words each needs, and where each section falls on the page. Then download a Word file already set up in APA 7 student format. Your instructor’s rubric always wins over these defaults.</p>
+  <nav class="toc glass" aria-label="On this page">
+    <a href="#build">Build my paper</a><a href="#patterns">Paper patterns</a><a href="#format">Format</a><a href="#cite">In-text citations</a><a href="#refs">References</a><a href="#write">Writing it</a><a href="#check">Final checklist</a>
+  </nav>
+
+  <!-- ===== Builder ===== -->
+  <section class="glass" id="build">
+    <h2>Build my paper</h2>
+    <div class="step-h"><span>1</span>What kind of paper?</div>
+    <div class="types" id="types" role="radiogroup" aria-label="Paper type"></div>
+    <div class="step-h"><span>2</span>How long, and about what?</div>
+    <div class="row">
+      <label class="fld">Pages required
+        <span class="stepper"><button type="button" data-pg="-1" aria-label="One page fewer">−</button><input id="pages" type="number" min="1" max="30" step="0.5" value="3" inputmode="decimal"><button type="button" data-pg="1" aria-label="One page more">+</button></span>
+      </label>
+      <label class="fld grow">Topic <input id="topic" type="text" placeholder="e.g., heart failure, an AA meeting, bipolar disorder in a film" autocomplete="off"></label>
+    </div>
+    <div class="opts">
+      <label><input type="checkbox" id="inclusive"> My page count includes the title page and references</label>
+      <label><input type="checkbox" id="abstract"> My instructor wants an abstract</label>
+      <label id="optwrap" hidden><input type="checkbox" id="optional"> Include the personal reflection section</label>
+    </div>
+    <details class="me">
+      <summary>Title page details (for the Word file)</summary>
+      <div class="grid2">
+        <label class="fld">Your name <input id="me-name" type="text" autocomplete="name"></label>
+        <label class="fld">College or university <input id="me-school" type="text" placeholder="e.g., Department of Nursing, Your College"></label>
+        <label class="fld">Course <input id="me-course" type="text" placeholder="NRS 114: Course Name"></label>
+        <label class="fld">Instructor <input id="me-instructor" type="text" placeholder="Professor Last Name"></label>
+        <label class="fld">Due date <input id="me-due" type="text" placeholder="November 18, 2026"></label>
+        <label class="fld">Font
+          <select id="me-font"><option value="tnr">Times New Roman 12 pt</option><option value="calibri">Calibri 11 pt</option><option value="arial">Arial 11 pt</option><option value="georgia">Georgia 11 pt</option></select>
+        </label>
+      </div>
+      <p class="muted">Saved on this device only. Leave a field blank and the Word file shows a highlighted placeholder.</p>
+    </details>
+    <div class="step-h"><span>3</span>Your plan</div>
+    <div id="plan" aria-live="polite"></div>
+  </section>
+
+  <!-- ===== Patterns ===== -->
+  <section class="glass" id="patterns">
+    <h2>Paper patterns</h2>
+    <p class="lead">Almost every nursing paper is an introduction, a few body sections and a conclusion. What changes is <b>what the body sections do</b>. Learn the pattern and any topic fits it.</p>
+    <div class="grid" id="pattern-list"></div>
+    <div class="rule"><b>The shape of every paper.</b> The introduction is a funnel: start broad (why the topic matters), narrow to your focus, and end with the <b>thesis or purpose statement</b>. Each body section proves one part of that thesis. The conclusion is the funnel upside down: restate the thesis in new words, sum up, and end on why it matters. No new sources in the conclusion.</div>
+  </section>
+
+  <!-- ===== Format ===== -->
+  <section class="glass" id="format">
+    <h2>APA 7 student paper format</h2>
+    <div class="grid">
+      <div class="card"><b class="t">Page setup</b><ul>
+        <li><b>1-inch margins</b> on all sides; US letter.</li>
+        <li>One font throughout: <b>Times New Roman 12</b>, or Calibri 11, Arial 11, Georgia 11.</li>
+        <li><b>Double-space everything</b>, including the title page and references. No extra space before or after paragraphs.</li>
+        <li>Align left (ragged right edge); don’t justify.</li>
+        <li>Indent the first line of every paragraph <b>0.5 inch</b> (use Tab or paragraph settings, not spaces).</li>
+        <li><b>Page number</b> in the top right corner of every page, starting with 1 on the title page.</li>
+        <li>Student papers have <b>no running head</b> unless your instructor asks.</li>
+      </ul></div>
+      <div class="card"><b class="t">Title page</b>
+        <div class="paper tp" aria-hidden="true"><i class="pn">1</i><span class="sp"></span><b>Title of the Paper in Title Case</b><span class="sp1"></span><span>Your Name</span><span>Department of Nursing, College Name</span><span>NRS 114: Course Name</span><span>Professor Name</span><span>November 18, 2026</span></div>
+        <ul><li>Title <b>bold, centered</b>, 3–4 lines down from the top; one blank double-spaced line after it.</li><li>Then name, department and school, course number and name, instructor, due date, each centered on its own line.</li><li>The title page usually does <b>not count</b> toward the page requirement.</li></ul></div>
+      <div class="card"><b class="t">The first page of text</b>
+        <div class="paper" aria-hidden="true"><i class="pn">2</i><b class="c">Title of the Paper in Title Case</b><span class="ln ind"></span><span class="ln"></span><span class="ln"></span><b class="c">Level 1 Heading</b><span class="ln ind"></span><span class="ln"></span><b class="l">Level 2 Heading</b><span class="ln ind"></span><span class="ln short"></span></div>
+        <ul><li>Repeat the full title, bold and centered, at the top. <b>Don’t write “Introduction”</b>: the first paragraphs are assumed to be the introduction.</li><li>Sections continue on the same page; no page break between sections (only before the references).</li></ul></div>
+      <div class="card"><b class="t">Abstract (only if asked)</b><ul><li>Its own page after the title page: <b>Abstract</b> bold and centered.</li><li>One paragraph, <b>no indent</b>, 150–250 words: purpose, main points, conclusion. Write it last.</li><li>Optional line below: indented <i>Keywords:</i> (italic) followed by 3–5 keywords.</li></ul></div>
+    </div>
+    <h3 class="sub">Headings</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Level</th><th>How it looks</th><th>Use it for</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><div class="hd h1">Centered, Bold, Title Case</div></td><td>Main sections (Signs and Symptoms, Nursing Care, Conclusion)</td></tr>
+        <tr><td>2</td><td><div class="hd h2">Flush Left, Bold, Title Case</div></td><td>Parts of a main section (each nursing diagnosis, each theme)</td></tr>
+        <tr><td>3</td><td><div class="hd h3">Flush Left, Bold Italic, Title Case</div></td><td>Parts of a level 2 section</td></tr>
+        <tr><td>4</td><td><div class="hd h4"><b>Indented, Bold, Title Case, Ending With a Period.</b> Text starts on the same line.</div></td><td>Rare in student papers</td></tr>
+        <tr><td>5</td><td><div class="hd h4"><b><i>Indented, Bold Italic, Title Case, Ending With a Period.</i></b> Text continues.</div></td><td>Rare</td></tr>
+      </tbody></table></div>
+    <p class="muted">Use levels in order (no level 2 without a level 1 above it), and use at least two subsections when you split a section. Papers under 2 pages usually need no headings.</p>
+  </section>
+
+  <!-- ===== In-text citations ===== -->
+  <section class="glass" id="cite">
+    <h2>In-text citations</h2>
+    <p class="lead">Cite every fact, number or idea that came from a source, <b>even when you paraphrase</b>. Each in-text citation matches an entry on the references page, and every reference is cited at least once.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Source has</th><th>Parenthetical</th><th>Narrative</th></tr></thead>
+      <tbody>
+        <tr><td>One author</td><td>(Halter, 2022)</td><td>Halter (2022) explained…</td></tr>
+        <tr><td>Two authors</td><td>(Lopez &amp; Chen, 2023)</td><td>Lopez and Chen (2023)…</td></tr>
+        <tr><td>Three or more</td><td>(Ignatavicius et al., 2024)</td><td>Ignatavicius et al. (2024)…</td></tr>
+        <tr><td>Organization</td><td>First: (American Nurses Association [ANA], 2025). After: (ANA, 2025)</td><td>The American Nurses Association (ANA, 2025)…</td></tr>
+        <tr><td>No author</td><td>(<i>Title of Webpage</i>, 2024) or (“Title of Article,” 2024)</td><td><i>Title of Webpage</i> (2024)…</td></tr>
+        <tr><td>No date</td><td>(Mayo Clinic, n.d.)</td><td>Mayo Clinic (n.d.)…</td></tr>
+        <tr><td>Direct quote</td><td>(Halter, 2022, p. 214)</td><td>Halter (2022) stated that “…” (p. 214).</td></tr>
+        <tr><td>Two sources, one idea</td><td>(Chen, 2023; Lopez, 2021)</td><td>Alphabetical, separated by a semicolon</td></tr>
+        <tr><td>A source cited inside another</td><td>(Beck, 1979, as cited in Halter, 2022)</td><td>Only the source you read goes in the references</td></tr>
+        <tr><td>Personal communication</td><td>(J. Rivera, personal communication, October 2, 2026)</td><td>Not in the references (interviews, emails, lectures you can’t retrieve)</td></tr>
+      </tbody></table></div>
+    <div class="grid">
+      <div class="card"><b class="t">Paraphrase, don’t quote</b><p>Nursing instructors want your own words. Read the passage, close it, write the idea in your words, then check you didn’t copy phrases. Still cite it. Keep quotes for exact definitions or striking statements, and use few of them.</p><span class="ex">Quotes under 40 words go in “quotation marks” with a page number. Quotes of 40 or more words are a block: new line, indented 0.5 inch, no quotation marks, citation after the final period.</span></div>
+      <div class="card"><b class="t">How often to cite</b><p>Cite the first time you use a source in a paragraph. In a narrative citation, you can leave out the year in later sentences of the same paragraph. A new paragraph that uses the source again needs a new citation.</p><span class="ex">Patients with heart failure benefit from daily weights (Ignatavicius et al., 2024). [new paragraph] Daily weights also detect fluid gain early (Ignatavicius et al., 2024).</span></div>
+      <div class="card"><b class="t">Privacy in reflection and case papers</b><p>Never name patients or meeting members, and use no initials, room numbers or birthdates (HIPAA). For AA, NA and Al-Anon, anonymity is a core tradition: describe what was shared without identifying who shared it. What a person told you is not cited as a source.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== References ===== -->
+  <section class="glass" id="refs">
+    <h2>References page</h2>
+    <div class="grid">
+      <div class="card"><b class="t">Rules</b><ul>
+        <li>New page, <b>References</b> bold and centered at the top.</li>
+        <li><b>Alphabetical</b> by the first author’s last name; double-spaced; <b>0.5-inch hanging indent</b>.</li>
+        <li>Up to 20 authors listed: last name, initials, with “&amp;” before the last.</li>
+        <li>Article and book titles in <b>sentence case</b> (only the first word, the first word after a colon, and proper nouns capitalized). Journal names in Title Case.</li>
+        <li><i>Italics</i>: book titles, webpage titles, journal names and volume numbers. Not article titles.</li>
+        <li>DOIs as links: https://doi.org/10.xxxx. No “Retrieved from.”</li>
+      </ul></div>
+      <div class="card"><b class="t">Patterns to copy</b>
+        <p class="refx">Author, A. A., &amp; Author, B. B. (Year). Title of the article. <i>Journal Name, 12</i>(3), 45–52. https://doi.org/10.xxxx/xxxxx</p>
+        <p class="refx">Author, A. A. (Year). <i>Title of the book</i> (2nd ed.). Publisher.</p>
+        <p class="refx">Organization Name. (Year, Month Day). <i>Title of the webpage</i>. Site Name. URL</p>
+        <p class="refx">Director, A. A. (Director). (Year). <i>Title of the film</i> [Film]. Studio.</p>
+      </div>
+      <div class="card"><b class="t">Sources you will use often</b>
+        <p class="refx">American Psychiatric Association. (2022). <i>Diagnostic and statistical manual of mental disorders</i> (5th ed., text rev.). https://doi.org/10.1176/appi.books.9780890425787</p>
+        <p class="refx">Halter, M. J. (2022). <i>Varcarolis’ foundations of psychiatric-mental health nursing: A clinical approach</i> (9th ed.). Elsevier.</p>
+        <p class="refx">Ignatavicius, D. D., Rebar, C. R., &amp; Heimgartner, N. M. (2024). <i>Medical-surgical nursing: Concepts for clinical judgment and collaborative care</i> (11th ed.). Elsevier.</p>
+        <p class="muted">Check the edition and year on your own book’s copyright page and change them to match.</p>
+      </div>
+    </div>
+    <h3 class="sub">Reference builder</h3>
+    <div class="rb glass-in">
+      <div class="kinds" id="kinds" role="tablist" aria-label="Source type"></div>
+      <div class="grid2" id="rb-fields"></div>
+      <div class="rb-out" id="rb-out" aria-live="polite"></div>
+      <div class="btns"><button type="button" class="btn btn-primary" id="rb-add">Add to my references</button><button type="button" class="btn" id="rb-copy">Copy</button><button type="button" class="btn" id="rb-clear">Clear the form</button></div>
+      <div id="myrefs"></div>
+    </div>
+  </section>
+
+  <!-- ===== Writing ===== -->
+  <section class="glass" id="write">
+    <h2>Writing it</h2>
+    <ol class="steps">
+      <li><b>Read the rubric first</b><span class="looks">Highlight the required sections, page limit, number and type of sources, and due date. Turn the rubric’s sections into your headings so the grader finds each one.</span></li>
+      <li><b>Find sources before writing</b><span class="looks">Use the library databases (CINAHL, PubMed), not a general web search. Prefer peer-reviewed sources from the last 5 years, plus your textbook and organizations (CDC, WHO, ANA). Wikipedia, blogs and .com health sites are not scholarly.</span></li>
+      <li><b>Write a thesis or purpose sentence</b><span class="looks">One sentence that says what the paper will show. Every section must support it.</span></li>
+      <li><b>Draft from the outline</b><span class="looks">Use the Word file: replace each highlighted note with your paragraph. Don’t polish yet. The body comes first; write the introduction and conclusion last.</span></li>
+      <li><b>Revise for meaning, then for rules</b><span class="looks">Read it aloud. Check that every paragraph has a topic sentence and a citation, then work through the final checklist below.</span></li>
+    </ol>
+    <div class="grid">
+      <div class="card"><b class="t">The paragraph pattern (MEAL)</b><ul>
+        <li><b>M</b>ain idea: a topic sentence that makes one claim.</li>
+        <li><b>E</b>vidence: a paraphrased fact from a source, cited.</li>
+        <li><b>A</b>nalysis: your explanation of why it matters or how it connects (the part most students skip).</li>
+        <li><b>L</b>ink: a sentence that ties back to the thesis or leads to the next paragraph.</li></ul>
+        <span class="ex">4–6 sentences, about 120–180 words. One idea per paragraph; a new idea starts a new paragraph.</span></div>
+      <div class="card"><b class="t">Scholarly voice</b><ul>
+        <li>No contractions (don’t → do not), slang, or questions to the reader.</li>
+        <li>Be specific: “three times a week” instead of “often.”</li>
+        <li>First person (“I”) is allowed in APA 7 for what <i>you</i> did and in reflections, but many nursing instructors don’t allow it in formal papers. Follow the rubric.</li>
+        <li>Avoid “I feel,” “I think,” “obviously,” “proves.” Research “suggests” or “indicates.”</li></ul></div>
+      <div class="card"><b class="t">Bias-free language</b><ul>
+        <li><b>Person-first</b>: “a person with schizophrenia,” “a patient with a substance use disorder,” not “a schizophrenic” or “an addict.”</li>
+        <li>Use the singular “they” when gender is unknown.</li>
+        <li>“Older adults,” not “the elderly.” Name racial and ethnic groups with capitals (Black, Hispanic or Latino, Asian).</li></ul></div>
+      <div class="card"><b class="t">Numbers and abbreviations</b><ul>
+        <li>Words for zero to nine, numerals for 10 and up; but always numerals for ages, doses, percentages, times, scores and measurements (a 7-year-old, 5 mg, 3%).</li>
+        <li>Spell out a number that starts a sentence.</li>
+        <li>Define an abbreviation the first time: heart failure (HF). Then use only the abbreviation.</li></ul></div>
+      <div class="card"><b class="t">Transitions</b><ul>
+        <li>Adding: furthermore, in addition, similarly.</li>
+        <li>Contrasting: however, in contrast, conversely.</li>
+        <li>Cause and effect: therefore, as a result, consequently.</li>
+        <li>Examples: for example, specifically.</li>
+        <li>Concluding: overall, in summary, ultimately.</li></ul></div>
+      <div class="card"><b class="t">Academic integrity</b><p>Your instructor and the plagiarism checker see copied phrasing, even when it’s cited. Write from your notes, not from the source. If you use an AI tool, check your course policy first and cite or disclose it as required. Never submit text you can’t explain.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== Checklist ===== -->
+  <section class="glass" id="check">
+    <h2>Final checklist</h2>
+    <p class="lead">Go through it before you submit. Your checks are saved on this device.</p>
+    <ul class="checks" id="checks"></ul>
+    <button type="button" class="btn" id="check-reset">Uncheck all</button>
+  </section>
+</main>
+<script src="apa-core.js?v=202611050100"></script>
+<script src="apa.js?v=202611050100"></script>
+<script src="nav.js?v=202611050100"></script>
+<script src="say.js?v=202610281219"></script>
+</body>
+</html>

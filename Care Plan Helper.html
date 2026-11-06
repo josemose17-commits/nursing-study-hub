@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#04160e">
 <title>Care Plan Helper</title>
 <link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
-<link rel="stylesheet" href="careplan.css?v=202611061900">
+<link rel="stylesheet" href="careplan.css?v=202611062100">
 </head>
 <body>
 <main>
@@ -14,7 +14,7 @@
     <div class="kicker">NRS 114 · Clinical</div>
     <h1>Care plan helper</h1>
   </div>
-  <p class="lead">Fill in your Clinical Reasoning Plan of Care one box at a time. Every box shows the questions a nurse asks to answer it, plus an example. Vital signs and labs are flagged as you type, and the NANDA-I finder suggests diagnoses with goals, interventions and rationales to start from. When you’re done, download it as a Word file in the same order as the paper form.</p>
+  <p class="lead">Fill in your Clinical Reasoning Plan of Care one box at a time. Every box lists exactly what goes in that answer, the questions a nurse asks to find it, and an example. Vital signs and labs are flagged as you type, and the NANDA-I finder suggests diagnoses with goals, interventions and rationales to start from. When you’re done, download it as a Word file in the same order as the paper form.</p>
 
   <div class="glass pbar">
     <label class="fld">Patient <select id="pt" aria-label="Choose a patient"></select></label>
@@ -31,6 +31,7 @@
   <!-- ===== Fill my form ===== -->
   <div class="tabpanel" id="tab-fill" role="tabpanel" aria-labelledby="tb-fill">
     <div class="note">Your form says notes from the medical record <b>may not be copied</b>: everything must be in your own words, and rationales need scholarly sources cited in APA 7. <span id="exintro"></span></div>
+    <div class="incbar"><p>Each answer box has a <b>What goes here</b> list of everything it needs. Tick each part as you write it.</p><button type="button" class="mini" id="inc-toggle" aria-pressed="true">Hide the lists</button></div>
     <nav class="toc glass" id="toc" aria-label="Form sections"></nav>
     <div id="form"></div>
   </div>
@@ -110,13 +111,14 @@
   <datalist id="citelist"></datalist>
   <div class="toast" id="toast" role="status" hidden></div>
 </main>
-<script src="data/careplan/nanda-index.js?v=202611061900"></script>
-<script src="data/careplan/nanda-guides.js?v=202611061900"></script>
-<script src="data/careplan/form.js?v=202611061900"></script>
-<script src="data/careplan/labs.js?v=202611061900"></script>
+<script src="data/careplan/nanda-index.js?v=202611062100"></script>
+<script src="data/careplan/nanda-guides.js?v=202611062100"></script>
+<script src="data/careplan/form.js?v=202611062100"></script>
+<script src="data/careplan/labs.js?v=202611062100"></script>
+<script src="data/careplan/include.js?v=202611062100"></script>
 <script src="apa-core.js?v=202611061900"></script>
-<script src="careplan.js?v=202611061900"></script>
-<script src="nav.js?v=202611061900"></script>
+<script src="careplan.js?v=202611062100"></script>
+<script src="nav.js?v=202611062100"></script>
 <script src="say.js?v=202610281219"></script>
 </body>
 </html>

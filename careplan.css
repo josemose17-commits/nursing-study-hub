@@ -239,3 +239,23 @@ th { font-size: 12px; color: var(--color-neutral-400); font-weight: 500; }
 .tbl { overflow-x: auto; }
 
 .toast { position: fixed; left: 50%; bottom: 104px; transform: translateX(-50%); z-index: 50; max-width: min(92vw, 440px); padding: 10px 16px; border-radius: 14px; background: var(--color-neutral-800); color: var(--color-neutral-100); border: 1px solid var(--color-accent-700); box-shadow: var(--shadow-lg); font-size: 14px; text-align: center; }
+
+/* what goes here */
+.incbar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; font-size: 13.5px; color: var(--color-neutral-300); padding: 0 4px; }
+.incbar p { margin: 0; flex: 1 1 240px; }
+details.inc { margin: 2px 0 10px; border-radius: 12px; border: 1px solid var(--color-accent-700); background: rgba(245, 196, 0, .06); }
+details.inc > summary { cursor: pointer; padding: 7px 12px; font-size: 13px; font-weight: 600; color: var(--color-accent-200); list-style: none; display: flex; align-items: center; gap: 8px; }
+details.inc > summary::-webkit-details-marker { display: none; }
+details.inc > summary::before { content: "\25B8"; font-size: 11px; transition: transform .15s; }
+details.inc[open] > summary::before { transform: rotate(90deg); }
+details.inc .cnt { margin-left: auto; font-weight: 500; font-size: 12px; color: var(--color-neutral-400); }
+details.inc .len { margin: 0 12px 4px; font-size: 12.5px; color: var(--color-neutral-300); font-style: italic; }
+details.inc ul { list-style: none; padding: 0 12px 8px; margin: 0; }
+details.inc li { margin: 0; }
+details.inc label { display: flex; gap: 8px; align-items: flex-start; padding: 4px 0; font-size: 13.5px; line-height: 1.4; color: var(--color-neutral-200); cursor: pointer; }
+details.inc input { margin-top: 3px; flex: none; accent-color: var(--color-accent); }
+details.inc input:checked + span { color: var(--color-neutral-400); text-decoration: line-through; text-decoration-color: var(--color-neutral-600); }
+.fh { display: block; font-size: 11.5px; line-height: 1.35; color: var(--color-neutral-400); font-weight: 400; margin-top: 1px; }
+.fe > .fh { margin: -2px 0 4px; }
+.miss { display: block; font-size: 11.5px; color: #f3b48a; font-weight: 500; }
+.miss:empty { display: none; }

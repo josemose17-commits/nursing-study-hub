@@ -83,19 +83,34 @@
   }
   function exTable(head, rows) { return '<div class="tbl"><table><tr>' + head.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>' + rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></div>'; }
 
+  // ---------- "What goes here" checklists ----------
+  var INC = window.CP_INC || {}, SHOWINC = true;
+  try { SHOWINC = localStorage.getItem('cp-showinc') !== '0'; } catch (e) {}
+  function idOf(k) { return String(k).replace(/[^A-Za-z0-9]/g, '-'); }
+  // key: the entry in CP_INC; sk: where the ticks are stored (one per patient, per problem for the care plan)
+  function incBox(key, label, sk) {
+    var d = INC[key]; if (!d || !d.items) return '';
+    sk = sk || key; var on = (get('inc') || {})[sk] || {}, n = d.items.filter(function (x, i) { return on[i]; }).length;
+    return '<details class="inc"' + (SHOWINC ? ' open' : '') + '><summary>' + esc(label || 'What goes here') + ' <span class="cnt" id="ic-' + idOf(sk) + '">' + n + '/' + d.items.length + '</span></summary>' +
+      (d.len ? '<p class="len">' + esc(d.len) + '</p>' : '') + '<ul>' + d.items.map(function (t, i) {
+        return '<li><label><input type="checkbox" data-inc="' + esc(sk) + '" data-n="' + d.items.length + '" data-i="' + i + '"' + (on[i] ? ' checked' : '') + '><span>' + esc(t) + '</span></label></li>';
+      }).join('') + '</ul></details>';
+  }
+  function fh(key) { return typeof INC[key] === 'string' ? '<small class="fh">' + esc(INC[key]) + '</small>' : ''; }
+
   // ---------- item renderers ----------
   var ME_KEYS = ['student', 'instructor', 'course', 'semester'];
   function fieldPath(k) { return (ME_KEYS.indexOf(k) >= 0 ? 'me.' : 'info.') + k; }
   var R = {};
-  R.grid = function (it) { return '<div class="item">' + helps(it) + '<div class="fgrid">' + it.fields.map(function (f) { return '<label class="fld">' + esc(f[1]) + inp(fieldPath(f[0]), f[2]) + '</label>'; }).join('') + '</div></div>'; };
+  R.grid = function (it) { return '<div class="item">' + helps(it) + '<div class="fgrid">' + it.fields.map(function (f) { return '<label class="fld">' + esc(f[1]) + inp(fieldPath(f[0]), f[2]) + fh('f.' + f[0]) + '</label>'; }).join('') + '</div></div>'; };
   R.note = function (it) { return '<p class="note item">' + it.html + '</p>'; };
-  R.line = function (it) { return wrap(it, '<label class="fld">' + esc(it.label) + inp(it.k, it.ph) + '</label>'); };
+  R.line = function (it) { return wrap(it, '<label class="fld">' + esc(it.label) + inp(it.k, it.ph) + fh(it.k) + '</label>'); };
   R.text = function (it) {
     var extra = '';
     if (it.diag) extra = '<div class="btns sm"><button type="button" class="mini" data-q4>Use the statement from my care plan</button><button type="button" class="mini" data-tab="find">Find a diagnosis</button></div>';
     if (it.k === 'q5') extra = '<div class="btns sm"><button type="button" class="mini" data-q5>Copy my care plan interventions</button></div>';
     if (it.k === 'q3') extra = '<p class="cite-hint">Priority order: airway, breathing, circulation, then safety (Maslow’s physiological needs first), then comfort and teaching. An actual problem usually beats a risk.</p>';
-    return wrap(it, qh(it.q) + helps(it) + ta(it.k) + (it.cite ? citeIns(it.k) : '') + extra);
+    return wrap(it, qh(it.q) + incBox(it.k) + helps(it) + ta(it.k) + (it.cite ? citeIns(it.k) : '') + extra);
   };
   function rowsWidget(it, cols, min, addLabel) {
     var rows = get(it.k), n = Math.max(min, Array.isArray(rows) ? rows.length : 0), h = '<div class="rows">';
@@ -107,28 +122,28 @@
     }
     return h + '</div><button type="button" class="mini" data-add="' + it.k + '">+ ' + addLabel + '</button>';
   }
-  R.support = function (it) { return wrap(it, qh(it.q) + helps(it) + rowsWidget(it, [['Name', 'initials or first name'], ['Relationship to Patient', 'e.g., daughter']], 2, 'Add a person')); };
+  R.support = function (it) { return wrap(it, qh(it.q) + incBox('support') + helps(it) + rowsWidget(it, [['Name', 'initials or first name'], ['Relationship to Patient', 'e.g., daughter']], 2, 'Add a person')); };
   var MEDCOLS = [['Medication', 'generic name'], ['Dose, route, frequency', ''], ['Class', ''], ['Treats (PMH)', 'which disease?'], ['What I check', 'before giving']];
   R.meds = function (it) {
-    return wrap(it, qh(it.q) + helps(it, exBox(exTable(MEDCOLS.map(function (c) { return c[0]; }), it.ex))) + rowsWidget(it, MEDCOLS, 3, 'Add a medication'));
+    return wrap(it, qh(it.q) + incBox('meds') + helps(it, exBox(exTable(MEDCOLS.map(function (c) { return c[0]; }), it.ex))) + rowsWidget(it, MEDCOLS, 3, 'Add a medication'));
   };
-  R.pmhmeds = function (it) { return wrap(it, qh(it.q) + helps(it) + '<div class="links" id="pmhlinks"></div>' + ta('pmhmeds', 'Anything to add: a disease with no medication, a medication with no matching disease…')); };
+  R.pmhmeds = function (it) { return wrap(it, qh(it.q) + incBox('pmhmeds') + helps(it) + '<div class="links" id="pmhlinks"></div>' + ta('pmhmeds', 'Anything to add: a disease with no medication, a medication with no matching disease…')); };
   R.orders = function (it) {
     var cols = [['Physician orders', 'e.g., Oxygen 2 L NC', 'ta'], ['Rationale', 'why for THIS patient', 'ta'], ['Expected Outcome', 'what shows it worked', 'ta']];
-    return wrap(it, qh(it.q) + helps(it, exBox(exTable(cols.map(function (c) { return c[0]; }), it.ex))) + rowsWidget(it, cols, 3, 'Add an order') + citeIns('orders'));
+    return wrap(it, qh(it.q) + incBox('orders') + helps(it, exBox(exTable(cols.map(function (c) { return c[0]; }), it.ex))) + rowsWidget(it, cols, 3, 'Add an order') + citeIns('orders'));
   };
   function stageOf(age) { return isNaN(age) ? -1 : age < 1 ? 0 : age < 3 ? 1 : age < 6 ? 2 : age < 12 ? 3 : age < 18 ? 4 : age < 40 ? 5 : age < 65 ? 6 : 7; }
   function expected() { var a = num(get('info.age')), s = stageOf(a); return s < 0 ? '' : ERIK[s][0] + ': ' + ERIK[s][1]; }
   R.erikson = function (it) {
     var opts = '<option value="">Choose the stage you see…</option>' + ERIK.map(function (e, i) { return '<option value="' + i + '"' + (String(get('erik.stage')) === String(i) ? ' selected' : '') + '>' + esc(e[0] + ': ' + e[1]) + '</option>'; }).join('');
-    return wrap(it, qh(it.q) + helps(it) + '<div class="erik-exp" id="erik-exp"></div>' + inp('erik.lvl', 'Expected stage for their age') +
-      qh(it.qa, 'sm') + '<div class="helps">' + exBox(it.exa) + '</div><label class="fld">Stage you observed<select data-p="erik.stage">' + opts + '</select></label>' + ta('erik.a', 'Achieved or not, and how you can tell') +
-      qh(it.qb, 'sm') + '<div class="helps">' + exBox(it.exb) + '</div>' + ta('erik.b') + '<div class="erik-hint" id="erik-hint"></div>');
+    return wrap(it, qh(it.q) + incBox('erik') + helps(it) + '<div class="erik-exp" id="erik-exp"></div>' + inp('erik.lvl', 'Expected stage for their age') +
+      qh(it.qa, 'sm') + incBox('erik.a') + '<div class="helps">' + exBox(it.exa) + '</div><label class="fld">Stage you observed<select data-p="erik.stage">' + opts + '</select></label>' + ta('erik.a', 'Achieved or not, and how you can tell') +
+      qh(it.qb, 'sm') + incBox('erik.b') + '<div class="helps">' + exBox(it.exb) + '</div>' + ta('erik.b') + '<div class="erik-hint" id="erik-hint"></div>');
   };
   var SB = { S: 'Situation', B: 'Background', A: 'Assessment', R: 'Recommendation' };
   R.sbar = function (it) {
     return wrap(it, qh(it.q) + (it.tip ? '<p class="cite-hint">' + esc(it.tip) + '</p>' : '') + ['S', 'B', 'A', 'R'].map(function (x) {
-      return '<div class="sbar"><span class="sb" aria-hidden="true">' + x + '</span><div class="sbf">' + qh(SB[x] + ':', 'sm') + '<div class="helps">' + askBox(it.ask && it.ask[x]) + exBox(it.ex && it.ex[x]) + '</div>' + ta(it.k + '.' + x) + '</div></div>';
+      return '<div class="sbar"><span class="sb" aria-hidden="true">' + x + '</span><div class="sbf">' + qh(SB[x] + ':', 'sm') + incBox(it.k + '.' + x) + '<div class="helps">' + askBox(it.ask && it.ask[x]) + exBox(it.ex && it.ex[x]) + '</div>' + ta(it.k + '.' + x) + '</div></div>';
     }).join(''));
   };
   R.vitals = function (it) {
@@ -136,14 +151,14 @@
     var ex = it.ex ? '<ul>' + keys.map(function (v) { return it.ex[v[0]] ? '<li><b>' + v[1] + ':</b> ' + esc(it.ex[v[0]]) + '</li>' : ''; }).join('') + '</ul>' : '';
     return wrap(it, qh(it.q) + '<div class="helps">' + askBox(it.ask) + askBox(keys.map(function (v) { return v[1] + ': ' + v[2]; }), '', 'Normal ranges') + exBox(ex) + '</div>' +
       '<div class="vgrid">' + keys.map(function (v) {
-        return '<label class="fld vf">' + v[1] + ':' + inp(it.k + '.' + v[0], v[0] === 'spo2' ? '% and device' : v[0] === 't' ? '°F or °C' : v[0] === 'bp' ? '120/80' : v[0] === 'pain' ? '0–10, where' : '') + '<span class="flag" id="f-' + it.k + '-' + v[0] + '"></span>' + (it.compare ? '<span class="was" id="was-' + it.k + '-' + v[0] + '"></span>' : '') + '</label>';
+        return '<label class="fld vf">' + v[1] + ':' + inp(it.k + '.' + v[0], v[0] === 'spo2' ? '% and device' : v[0] === 't' ? '°F or °C' : v[0] === 'bp' ? '120/80' : v[0] === 'pain' ? '0–10, where' : '') + fh('vs.' + v[0]) + '<span class="flag" id="f-' + it.k + '-' + v[0] + '"></span><span class="miss" id="m-' + it.k + '-' + v[0] + '"></span>' + (it.compare ? '<span class="was" id="was-' + it.k + '-' + v[0] + '"></span>' : '') + '</label>';
       }).join('') + '</div><div class="vnote" id="vn-' + it.k + '"></div>');
   };
   R.systems = function (it) {
     var order = it.order === 'eval' ? window.CP_EVAL_ORDER : SYS.map(function (s) { return s[0]; });
-    return wrap(it, qh(it.q) + (it.compare ? '<p class="cite-hint">Reassess every system. For each one: what changed since your first assessment, and does it show the plan is working?</p>' : '') + order.map(function (key) {
+    return wrap(it, qh(it.q) + (it.compare ? incBox('sys2') : '') + order.map(function (key) {
       var s = SYSM[key], path = it.k + '.' + key;
-      return '<div class="sysrow">' + qh(s[1].toUpperCase() + ':', 'sm') + '<div class="helps">' + askBox(s[2]) + exBox(s[3]) +
+      return '<div class="sysrow">' + qh(s[1].toUpperCase() + ':', 'sm') + incBox('sys.' + key, 'What goes here', it.k + '.' + key) + '<div class="helps">' + askBox(s[2]) + exBox(s[3]) +
         (it.compare ? '<button type="button" class="mini" data-copy="' + it.compare + '.' + key + '" data-to="' + path + '">Start from my first assessment</button>' : '') + '</div>' + ta(path) + '</div>';
     }).join(''));
   };
@@ -178,7 +193,7 @@
   }
   function flagHtml(f) { if (!f) return ''; var crit = f.indexOf('!') > 0, b = f.charAt(0); return '<b class="lf ' + (crit ? 'crit' : b === 'A' ? 'abn' : 'out') + '" title="' + (crit ? 'Possible critical value: notify now' : '') + '">' + (b === 'H' ? 'High' : b === 'L' ? 'Low' : 'Abnormal') + (crit ? ' · critical?' : '') + '</b>'; }
   R.labs = function (it) {
-    return wrap(it, qh(it.q) + helps(it) + '<p class="note">Ranges are common adult values. If your lab report shows a different range, type it in the range box and the flags follow it. Counts like 15.8 for WBC or 210 for platelets are read as thousands.</p>' + LABS.map(function (pn) {
+    return wrap(it, qh(it.q) + incBox('labs') + helps(it) + '<p class="note">Ranges are common adult values. If your lab report shows a different range, type it in the range box and the flags follow it. Counts like 15.8 for WBC or 210 for platelets are read as thousands.</p>' + LABS.map(function (pn) {
       var has = pn.rows.some(function (r) { return filled(get('labs.' + r.k + '.i')) || filled(get('labs.' + r.k + '.c')); });
       return '<details class="panel" id="lp-' + pn.id + '"' + (has || pn.id === 'cbc' || pn.id === 'bmp' ? ' open' : '') + '><summary><b>' + esc(pn.name) + '</b><span class="pc" id="pc-' + pn.id + '"></span></summary>' +
         '<div class="lhead" aria-hidden="true"><span>' + esc(pn.name) + '</span><span>Normal range</span><span>Initial value</span><span>Current value</span><span>Clinical significance/trends</span></div>' +
@@ -214,13 +229,13 @@
       '<label class="fld">Value' + inp(b + '.val') + '</label>' +
       '<label class="fld">High/Low<select data-p="' + b + '.hl"><option value=""></option><option' + (hl === 'High' ? ' selected' : '') + '>High</option><option' + (hl === 'Low' ? ' selected' : '') + '>Low</option></select></label>' +
       '<label class="fld">Normal value' + inp(b + '.norm') + '</label>' +
-      '<label class="fld">Critical value' + inp(b + '.crit', 'check your facility’s list') + '</label></div>' +
-      qh('Relevance', 'sm') + hint(g ? g.rel : '') + ta(b + '.rel', 'Why does this lab matter for this patient?') +
-      qh(i ? 'What caused derangement?' : 'What caused imbalance?', 'sm') + hint(cause) + ta(b + '.cause') +
-      qh('Treatment', 'sm') + hint(d && d.tx) + ta(b + '.tx', 'What did the provider order?') +
-      qh('Nsg. Assessments/interventions required:', 'sm') + hint(d && d.nsg) + ta(b + '.nsg') + citeIns(b + '.nsg');
+      '<label class="fld">Critical value' + inp(b + '.crit', 'check your facility’s list') + '</label></div>' + fh('fe.lab') + fh('fe.norm') +
+      qh('Relevance', 'sm') + fh('fe.rel') + hint(g ? g.rel : '') + ta(b + '.rel', 'Why does this lab matter for this patient?') +
+      qh(i ? 'What caused derangement?' : 'What caused imbalance?', 'sm') + fh('fe.cause') + hint(cause) + ta(b + '.cause') +
+      qh('Treatment', 'sm') + fh('fe.tx') + hint(d && d.tx) + ta(b + '.tx', 'What did the provider order?') +
+      qh('Nsg. Assessments/interventions required:', 'sm') + fh('fe.nsg') + hint(d && d.nsg) + ta(b + '.nsg') + citeIns(b + '.nsg');
   }
-  R.fe = function (it) { return wrap(it, qh(it.q) + helps(it) + [0, 1].map(function (i) { return '<div class="fe" id="fe-' + i + '">' + feBlock(i) + '</div>'; }).join('')); };
+  R.fe = function (it) { return wrap(it, qh(it.q) + incBox('fe') + helps(it) + [0, 1].map(function (i) { return '<div class="fe" id="fe-' + i + '">' + feBlock(i) + '</div>'; }).join('')); };
   function feAuto(i) {
     var b = 'fe.' + i, k = get(b + '.lab'), r = LABM[k]; if (!r) return;
     var v = filled(get('labs.' + k + '.c')) ? get('labs.' + k + '.c') : get('labs.' + k + '.i') || '', f = labFlag(r, v).charAt(0);
@@ -284,17 +299,16 @@
         h += '<div class="step-h"><span>' + n++ + '</span>As evidenced by: what you saw and measured</div><p class="cite-hint">Use your patient’s real data and numbers (SpO₂ 91% on 2 L, RR 24), not the textbook list.</p>' +
           chips(b + '.ae', g ? g.cues : []) + inp(b + '.aex', 'Your patient’s data, e.g., SpO₂ 91% on 2 L, RR 24, crackles RLL');
       } else h += '<p class="note">A risk diagnosis has no “as evidenced by”: the problem hasn’t happened, so the risk factors are your evidence.</p>';
-      h += '<div class="step-h"><span>' + n++ + '</span>Client problem (Related to… as evidenced by…)</div><textarea data-p="' + b + '.stmt" class="stmt" rows="2">' + esc(get(b + '.stmt') || buildStmt(i)) + '</textarea>' +
+      h += '<div class="step-h"><span>' + n++ + '</span>Client problem (Related to… as evidenced by…)</div>' + incBox(t === 'risk' ? 'plan.stmt.risk' : t === 'promo' ? 'plan.stmt.promo' : 'plan.stmt', 'What goes in the statement', 'plan.stmt#' + i) + '<textarea data-p="' + b + '.stmt" class="stmt" rows="2">' + esc(get(b + '.stmt') || buildStmt(i)) + '</textarea>' +
         '<div class="btns sm"><button type="button" class="mini" data-rebuild="' + i + '">Rebuild from my choices</button>' + (i === 0 ? '<button type="button" class="mini" data-q4>Copy to question 4</button>' : '') + '</div>';
       h += '<div class="step-h"><span>' + n++ + '</span>Client-centered goals (expected outcomes)</div>' +
-        '<details class="help"><summary>How to write a goal</summary><ul><li>About the patient, not the nurse: “The patient will…” or “The patient’s SpO₂ stays…”, never “Give oxygen.”</li><li>One action you can see or hear: states, demonstrates, walks, rates, maintains. Not “understands” or “knows.”</li><li>A number or criterion: SpO₂ 92% or higher, pain 3/10 or less, 3 signs.</li><li>A time frame. Short term: by the end of your shift or within hours to days. Long term: by discharge or over weeks.</li><li>It must answer the problem: the goal for impaired gas exchange is about oxygenation.</li></ul></details>' +
-        qh('Short term:', 'sm') + sugs(b + '.stg', g ? g.stg : []) + ta(b + '.stg', 'The patient will… by…') + '<div class="smart" id="sm-' + i + '-stg"></div>' +
-        qh('Long term:', 'sm') + sugs(b + '.ltg', g ? g.ltg : []) + ta(b + '.ltg', 'By discharge, the patient will…') + '<div class="smart" id="sm-' + i + '-ltg"></div>';
-      h += '<div class="step-h"><span>' + n++ + '</span>Nursing interventions and scientific rationale</div>' +
+        qh('Short term:', 'sm') + incBox('plan.stg', 'What goes in a short-term goal', 'plan.stg#' + i) + sugs(b + '.stg', g ? g.stg : []) + ta(b + '.stg', 'The patient will… by…') + '<div class="smart" id="sm-' + i + '-stg"></div>' +
+        qh('Long term:', 'sm') + incBox('plan.ltg', 'What goes in a long-term goal', 'plan.ltg#' + i) + sugs(b + '.ltg', g ? g.ltg : []) + ta(b + '.ltg', 'By discharge, the patient will…') + '<div class="smart" id="sm-' + i + '-ltg"></div>';
+      h += '<div class="step-h"><span>' + n++ + '</span>Nursing interventions and scientific rationale</div>' + incBox('plan.iv', 'What goes in this part', 'plan.iv#' + i) +
         '<p class="cite-hint">Start with assessments, then what you do, teach and coordinate. Every rationale needs a scholarly source (your textbook counts): find the point, put it in your own words, and cite it.</p>' +
         '<div id="ivs-' + i + '">' + ivRows(i) + '</div><div class="btns sm">' + (g ? '<button type="button" class="mini" data-addsug="' + i + '">Add the suggested interventions</button>' : '') + '<button type="button" class="mini" data-addiv="' + i + '">+ Add an intervention</button></div>';
       var ev = get(b + '.ev.s') || '';
-      h += '<div class="step-h"><span>' + n++ + '</span>Evaluation</div><div class="radios" role="radiogroup" aria-label="Was the goal met?">' + [['met', 'Goal met'], ['partly', 'Partially met'], ['not', 'Not met']].map(function (o) {
+      h += '<div class="step-h"><span>' + n++ + '</span>Evaluation</div>' + incBox('plan.ev', 'What goes in the evaluation', 'plan.ev#' + i) + '<div class="radios" role="radiogroup" aria-label="Was the goal met?">' + [['met', 'Goal met'], ['partly', 'Partially met'], ['not', 'Not met']].map(function (o) {
         return '<label><input type="radio" name="ev-' + i + '" data-p="' + b + '.ev.s" value="' + o[0] + '"' + (ev === o[0] ? ' checked' : '') + '> ' + o[1] + '</label>';
       }).join('') + '</div>' + '<div class="helps">' + exBox(g && g.ev) + '</div>' + ta(b + '.ev.d', 'The data that proves it: before and after numbers, what the patient said or did') + ta(b + '.ev.next', 'Next: continue, revise (what changes?) or resolve the plan');
     }
@@ -341,6 +355,7 @@
     var it = ITEMS[k]; if (!it) return;
     VIT.forEach(function (v) {
       var el = $('#f-' + k + '-' + v[0]); if (el) { var f = vitFlag(k, v[0]); el.textContent = f; el.className = 'flag' + (f && !/^MAP/.test(f) ? ' on' : ''); }
+      var ms = $('#m-' + k + '-' + v[0]); if (ms) { var raw = String(get(k + '.' + v[0]) || '').trim(); ms.textContent = !raw ? '' : v[0] === 'spo2' && !/[a-z]/i.test(raw) ? 'Add the device and flow (room air, 2 L NC).' : v[0] === 'pain' && !/[a-z]{3,}/i.test(raw) ? 'Add the location and what it feels like.' : v[0] === 'bp' && !/[a-z]{3,}/i.test(raw) && /\//.test(raw) ? 'Add the arm and position if your instructor wants them.' : ''; }
       var w = $('#was-' + k + '-' + v[0]); if (w) { var o = get(it.compare + '.' + v[0]); w.textContent = filled(o) ? 'was ' + o : ''; }
     });
     var T = F(get(k + '.t')), HR = num(get(k + '.p')), RR = num(get(k + '.r')), bp = String(get(k + '.bp') || '').match(/(\d+)\s*\//), SBP = bp ? +bp[1] : NaN;
@@ -482,6 +497,11 @@
       if (to === 'orders') { navigator.clipboard && navigator.clipboard.writeText(el.value); el.value = ''; toast('Citation copied. Paste it at the end of the rationale.'); return; }
       if (cur0.indexOf(el.value) < 0) { set(to, cur0.replace(/\s+$/, '') + (cur0.trim() ? ' ' : '') + el.value); var t = $('[data-p="' + to + '"]'); if (t) { t.value = get(to); grow(t); } }
       el.value = ''; updProgress();
+    }
+    if (el.hasAttribute && el.hasAttribute('data-inc') && e.type === 'change') {
+      var ik = el.getAttribute('data-inc'), io = get('inc') || {}; io[ik] = io[ik] || {}; io[ik][el.getAttribute('data-i')] = el.checked; set('inc', io);
+      var cn = document.getElementById('ic-' + idOf(ik)); if (cn) cn.textContent = Object.keys(io[ik]).filter(function (x) { return io[ik][x]; }).length + '/' + el.getAttribute('data-n');
+      return;
     }
     if (el.hasAttribute && el.hasAttribute('data-cue') && e.type === 'change') { var cs = get('cues') || {}; cs[el.getAttribute('data-cue')] = el.checked; set('cues', cs); suggest(); }
   }
@@ -769,6 +789,9 @@
     main.addEventListener('input', onInput); main.addEventListener('change', onInput); main.addEventListener('click', onClick);
     $('#dxq').addEventListener('input', function () { search(this.value); });
     $('#cue-auto').addEventListener('click', autoCues);
+    function incLabel() { var t = $('#inc-toggle'); t.textContent = SHOWINC ? 'Hide the lists' : 'Show the lists'; t.setAttribute('aria-pressed', SHOWINC); }
+    incLabel();
+    $('#inc-toggle').addEventListener('click', function () { SHOWINC = !SHOWINC; try { localStorage.setItem('cp-showinc', SHOWINC ? '1' : '0'); } catch (e) {} $$('details.inc').forEach(function (d) { d.open = SHOWINC; }); incLabel(); });
     $('#cue-clear').addEventListener('click', function () { set('cues', {}); $('#autonote').innerHTML = ''; renderFind(); });
     $('#pt').addEventListener('change', function () { pick(this.value); renderAll(); });
     $('#pt-new').addEventListener('click', function () { pick(newPlan()); renderAll(); showTab('fill'); window.scrollTo(0, 0); toast('New patient started. Your student details carry over.'); });

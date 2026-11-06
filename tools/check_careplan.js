@@ -4,7 +4,7 @@
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const ROOT = path.join(__dirname, '..'), errs = [], err = m => errs.push(m);
 const ctx = { window: {} }; vm.createContext(ctx);
-['nanda-index.js', 'nanda-guides.js', 'form.js', 'labs.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/careplan', f), 'utf8'), ctx, { filename: f }));
+['nanda-index.js', 'nanda-guides.js', 'form.js', 'labs.js', 'include.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/careplan', f), 'utf8'), ctx, { filename: f }));
 const W = ctx.window;
 
 // NANDA-I index
@@ -73,6 +73,25 @@ W.CP_FORM.forEach(sec => {
 });
 ['cc', 'pmh', 'q4', 'q5', 'sbar1', 'sbar2', 'sbar3', 'vs1', 'vs2', 'sys1', 'sys2', 'orders', 'labs', 'fe', 'plan'].forEach(k => { if (!keys.has(k)) err(`form is missing ${k}`); });
 
+// "What goes here": every answer box has a list, every single field has a one-line hint, and no entry is unused.
+const INC = W.CP_INC || {}, need = new Set();
+function list(k) { need.add(k); const d = INC[k]; if (!d || !Array.isArray(d.items) || !d.items.length) err(`what-goes-here list missing for ${k}`); else d.items.forEach((t, i) => { if (!t || t.length < 8) err(`${k}: item ${i + 1} is empty`); }); }
+function line(k) { need.add(k); if (typeof INC[k] !== 'string' || INC[k].length < 10) err(`what-goes-here hint missing for ${k}`); }
+W.CP_FORM.forEach(sec => sec.items.forEach(it => {
+  switch (it.type) {
+    case 'grid': it.fields.forEach(f => line('f.' + f[0])); break;
+    case 'line': line(it.k); break;
+    case 'text': case 'support': case 'meds': case 'pmhmeds': case 'orders': case 'labs': list(it.k); break;
+    case 'erikson': ['erik', 'erik.a', 'erik.b'].forEach(list); break;
+    case 'sbar': ['S', 'B', 'A', 'R'].forEach(x => list(it.k + '.' + x)); break;
+    case 'vitals': W.CP_VITALS.forEach(v => { if (it.pain || v[0] !== 'pain') line('vs.' + v[0]); }); break;
+    case 'systems': W.CP_SYSTEMS.forEach(s => list('sys.' + s[0])); if (it.compare) list(it.k); break;
+    case 'fe': list('fe'); ['lab', 'rel', 'norm', 'cause', 'tx', 'nsg'].forEach(c => line('fe.' + c)); break;
+    case 'plan': ['stmt', 'stmt.risk', 'stmt.promo', 'stg', 'ltg', 'iv', 'ev'].forEach(x => list('plan.' + x)); break;
+  }
+}));
+Object.keys(INC).forEach(k => { if (!need.has(k)) err(`what-goes-here entry ${k} is not used by any box`); });
+
 // Labs
 const LK = new Set();
 W.CP_LABS.forEach(pn => pn.rows.forEach(r => {
@@ -98,7 +117,7 @@ Object.keys(W.CP_FE).forEach(k => {
 
 // Page
 const page = fs.readFileSync(path.join(ROOT, 'Care Plan Helper.html'), 'utf8');
-['data/careplan/nanda-index.js', 'data/careplan/nanda-guides.js', 'data/careplan/form.js', 'data/careplan/labs.js', 'apa-core.js', 'careplan.js', 'careplan.css', 'nav.js'].forEach(f => {
+['data/careplan/nanda-index.js', 'data/careplan/nanda-guides.js', 'data/careplan/form.js', 'data/careplan/labs.js', 'data/careplan/include.js', 'apa-core.js', 'careplan.js', 'careplan.css', 'nav.js'].forEach(f => {
   if (!new RegExp(f.replace(/[./]/g, m => '\\' + m) + '\\?v=').test(page)) err(`Care Plan Helper.html does not load ${f} with a ?v= version`);
 });
 if (typeof require(path.join(ROOT, 'apa-core.js')).zip !== 'function') err('apa-core.js does not export zip');
@@ -107,4 +126,4 @@ const nav = fs.readFileSync(path.join(ROOT, 'nav.js'), 'utf8'), sync = /SYNC\s*=
 if (sync && new RegExp(sync[1].slice(1, -1)).test('cp-plans')) err('nav.js SYNC would copy cp-plans (patient data) between devices');
 
 if (errs.length) { console.error(errs.map(e => '✗ ' + e).join('\n')); process.exit(1); }
-console.log(`✓ care plan helper: ${n} NANDA-I labels, ${W.CP_GUIDES.length} guides, ${CUE.size} cues, ${keys.size} form keys, ${LK.size} labs, ${Object.keys(W.CP_FE).length} F&E guides`);
+console.log(`✓ care plan helper: ${need.size} what-goes-here lists and hints, ${n} NANDA-I labels, ${W.CP_GUIDES.length} guides, ${CUE.size} cues, ${keys.size} form keys, ${LK.size} labs, ${Object.keys(W.CP_FE).length} F&E guides`);

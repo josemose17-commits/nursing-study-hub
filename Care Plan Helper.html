@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Care Plan Helper</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<link rel="stylesheet" href="careplan.css?v=202611061900">
+</head>
+<body>
+<main>
+  <div>
+    <div class="kicker">NRS 114 · Clinical</div>
+    <h1>Care plan helper</h1>
+  </div>
+  <p class="lead">Fill in your Clinical Reasoning Plan of Care one box at a time. Every box shows the questions a nurse asks to answer it, plus an example. Vital signs and labs are flagged as you type, and the NANDA-I finder suggests diagnoses with goals, interventions and rationales to start from. When you’re done, download it as a Word file in the same order as the paper form.</p>
+
+  <div class="glass pbar">
+    <label class="fld">Patient <select id="pt" aria-label="Choose a patient"></select></label>
+    <div class="btns"><button type="button" class="btn" id="pt-new">New patient</button><button type="button" class="btn" id="pt-del">Delete</button></div>
+    <p class="muted"><b>Initials only:</b> no names, birth dates, record numbers or photos. Your answers stay in this browser on this device and are never synced or uploaded. <span id="saved"></span></p>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Care plan helper">
+    <button type="button" role="tab" id="tb-fill" data-tab="fill" aria-controls="tab-fill" aria-selected="true">Fill my form</button>
+    <button type="button" role="tab" id="tb-find" data-tab="find" aria-controls="tab-find" aria-selected="false" tabindex="-1">Find a diagnosis</button>
+    <button type="button" role="tab" id="tb-dl" data-tab="dl" aria-controls="tab-dl" aria-selected="false" tabindex="-1">Download</button>
+  </div>
+
+  <!-- ===== Fill my form ===== -->
+  <div class="tabpanel" id="tab-fill" role="tabpanel" aria-labelledby="tb-fill">
+    <div class="note">Your form says notes from the medical record <b>may not be copied</b>: everything must be in your own words, and rationales need scholarly sources cited in APA 7. <span id="exintro"></span></div>
+    <nav class="toc glass" id="toc" aria-label="Form sections"></nav>
+    <div id="form"></div>
+  </div>
+
+  <!-- ===== Find a diagnosis ===== -->
+  <div class="tabpanel" id="tab-find" role="tabpanel" aria-labelledby="tb-find" hidden>
+    <section class="glass">
+      <h2>Find a NANDA-I diagnosis</h2>
+      <p class="lead">All 277 labels from NANDA-I 2024–2026 (13th edition), with their code and the page to read in your book. About 60 of the ones used most on med-surg, surgical and mental health units have a plain-words guide here: the cues to look for, related factors, goals, interventions with rationales and an evaluation.</p>
+      <div class="row"><label class="fld">Search the labels <input type="search" id="dxq" placeholder="e.g., gas exchange, pain, falls, anxiety, activity intolerance" autocomplete="off"></label></div>
+      <div id="dxres" aria-live="polite"></div>
+      <details class="help how" style="margin-top:12px">
+        <summary>How to write the statement</summary>
+        <div class="card">
+          <p><b>Problem-focused</b> (it’s happening now):<span class="fmt">[Label] related to [cause] as evidenced by [what you saw and measured]</span></p>
+          <p><b>Risk</b> (it could happen):<span class="fmt">Risk for [label] related to [risk factors]</span> No “as evidenced by”: there are no signs yet.</p>
+          <p><b>Health promotion</b> (the patient wants to do better):<span class="fmt">Readiness for enhanced [label] as evidenced by [what the patient says or does]</span></p>
+          <ul>
+            <li>The related factor must be something nursing can change. A medical diagnosis (pneumonia, heart failure) is an associated condition, not a related factor.</li>
+            <li>“As evidenced by” uses your patient’s real data: SpO₂ 91% on 2 L, not “low oxygen.”</li>
+            <li>Prove it: the label should be the one your data supports, not the one that sounds closest.</li>
+            <li>Priority: airway, breathing, circulation, then safety, then the rest of Maslow. An actual problem usually comes before a risk.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <section class="glass" id="dxview" hidden aria-live="polite"></section>
+
+    <section class="glass">
+      <h2>Start from your patient’s cues</h2>
+      <p class="lead">Tick what you found. Diagnoses that match the most cues rise to the top.</p>
+      <div class="btns"><button type="button" class="btn" id="cue-auto">Tick cues from my vitals and labs</button><button type="button" class="btn" id="cue-clear">Clear</button></div>
+      <div id="autonote" aria-live="polite"></div>
+      <div class="cuegs" id="cues"></div>
+      <h3 class="sub">Suggested diagnoses</h3>
+      <div id="sugg" aria-live="polite"></div>
+    </section>
+
+    <section class="glass">
+      <h2>Browse by domain</h2>
+      <p class="lead">The book’s 13 domains and their classes, with every label in each.</p>
+      <div id="browse"></div>
+    </section>
+    <p class="muted">Labels, codes and page numbers come from NANDA International, Inc., <i>Nursing diagnoses: Definitions and classification 2024–2026</i> (13th ed.). The book’s definitions and indicator lists are not reproduced here; every guide is written for this site in plain words.</p>
+  </div>
+
+  <!-- ===== Download ===== -->
+  <div class="tabpanel" id="tab-dl" role="tabpanel" aria-labelledby="tb-dl" hidden>
+    <section class="glass">
+      <h2>Download</h2>
+      <p class="lead">The Word file follows the paper form: the same headings, questions and tables, with your answers filled in. Open it, check it, and adjust the formatting your instructor wants.</p>
+      <div class="btns"><button type="button" class="btn btn-primary" id="dl-docx">Download Word file</button><button type="button" class="btn" id="dl-copy">Copy as text</button></div>
+      <h3 class="sub">What’s filled in</h3>
+      <ul id="dlprog"></ul>
+      <h3 class="sub">References</h3>
+      <div id="refpick"></div>
+      <h3 class="sub">Before you hand it in</h3>
+      <ul class="checks">
+        <li>Everything is in your own words. Nothing is copied from the chart, the textbook or this page.</li>
+        <li>Initials only. No name, birth date, record number or room photo.</li>
+        <li>Every rationale has an in-text citation, and every citation is on the References page.</li>
+        <li>Question 4 matches the problem statement on the care plan.</li>
+        <li>Each goal has the patient as the subject, something measurable, and a time frame.</li>
+        <li>The evaluation uses data: before and after numbers, what the patient said or did.</li>
+        <li>Critical values were reported right away, and you said so.</li>
+      </ul>
+    </section>
+    <section class="glass">
+      <h2>Back up or move your work</h2>
+      <p class="lead">Your care plans live only in this browser. Clearing site data deletes them. Save a backup file to keep a copy or to move them to another device.</p>
+      <div class="btns"><button type="button" class="btn" id="dl-backup">Save a backup file</button><label class="btn file-btn">Open a backup file<input type="file" id="dl-restore" accept=".json,application/json"></label></div>
+    </section>
+  </div>
+
+  <datalist id="dxlist"></datalist>
+  <datalist id="citelist"></datalist>
+  <div class="toast" id="toast" role="status" hidden></div>
+</main>
+<script src="data/careplan/nanda-index.js?v=202611061900"></script>
+<script src="data/careplan/nanda-guides.js?v=202611061900"></script>
+<script src="data/careplan/form.js?v=202611061900"></script>
+<script src="data/careplan/labs.js?v=202611061900"></script>
+<script src="apa-core.js?v=202611061900"></script>
+<script src="careplan.js?v=202611061900"></script>
+<script src="nav.js?v=202611061900"></script>
+<script src="say.js?v=202610281219"></script>
+</body>
+</html>

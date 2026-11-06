@@ -361,6 +361,6 @@
     return list.filter(Boolean).sort(function (a, b) { return a[0].t.localeCompare(b[0].t); });
   }
 
-  var API = { TYPES: TYPES, WPP: WPP, WPARA: WPARA, plan: plan, reference: reference, sentenceCase: sentenceCase, titleCase: titleCase, people: people, docx: docx, exampleRefs: exampleRefs, EXAMPLES: EXAMPLES, crc32: crc32 };
+  var API = { TYPES: TYPES, WPP: WPP, WPARA: WPARA, plan: plan, reference: reference, sentenceCase: sentenceCase, titleCase: titleCase, people: people, docx: docx, exampleRefs: exampleRefs, EXAMPLES: EXAMPLES, crc32: crc32, zip: zip };
   if (typeof module !== 'undefined' && module.exports) module.exports = API; else root.APA = API;
 })(this);

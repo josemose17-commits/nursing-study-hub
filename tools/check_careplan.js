@@ -4,7 +4,7 @@
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const ROOT = path.join(__dirname, '..'), errs = [], err = m => errs.push(m);
 const ctx = { window: {} }; vm.createContext(ctx);
-['nanda-index.js', 'nanda-guides.js', 'form.js', 'labs.js', 'include.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/careplan', f), 'utf8'), ctx, { filename: f }));
+['nanda-index.js', 'nanda-guides.js', 'form.js', 'labs.js', 'include.js', 'questions.js'].forEach(f => vm.runInContext(fs.readFileSync(path.join(ROOT, 'data/careplan', f), 'utf8'), ctx, { filename: f }));
 const W = ctx.window;
 
 // NANDA-I index
@@ -92,6 +92,22 @@ W.CP_FORM.forEach(sec => sec.items.forEach(it => {
 }));
 Object.keys(INC).forEach(k => { if (!need.has(k)) err(`what-goes-here entry ${k} is not used by any box`); });
 
+// "Questions to ask": well-formed lists on the boxes that need them, every entry used, Erikson questions for all 8 stages.
+const ASKQ = W.CP_ASKQ || {}, qUsed = new Set(['client', 'plan.stmt', 'plan.stg', 'plan.iv', 'plan.ev']);
+W.CP_SYSTEMS.forEach(s => qUsed.add('sys.' + s[0]));
+W.CP_FORM.forEach(sec => sec.items.forEach(it => { if (it.k) qUsed.add(it.k); }));
+Object.keys(ASKQ).forEach(k => {
+  const d = ASKQ[k];
+  if (!qUsed.has(k)) err(`questions entry ${k} matches no box`);
+  if (!['pt', 'rn', 'them'].some(g => Array.isArray(d[g]) && d[g].length)) err(`questions ${k}: no questions`);
+  ['pt', 'rn', 'them'].forEach(g => (d[g] || []).forEach((q, i) => { if (typeof q !== 'string' || q.length < 8) err(`questions ${k}.${g}[${i}] is empty`); }));
+  Object.keys(d).forEach(g => { if (!['pt', 'rn', 'them', 'tip'].includes(g)) err(`questions ${k}: unknown group ${g}`); });
+});
+['client', 'support', 'cc', 'social', 'pmh', 'psh', 'meds', 'sbar1', 'vs1', 'vs2', 'sys2', 'labs', 'fe', 'sbar2', 'sbar3', 'pcc1', 'pcc2', 'pcc3', 'plan.stg', 'plan.ev']
+  .concat(W.CP_SYSTEMS.map(s => 'sys.' + s[0])).forEach(k => { if (!ASKQ[k]) err(`no questions to ask for ${k}`); });
+if (!(W.CP_ERIK_Q && W.CP_ERIK_Q.length === 8 && W.CP_ERIK_Q.every(a => a.length >= 2))) err('Erikson questions must cover all 8 stages');
+if (!(W.CP_INTERVIEW_TIPS && W.CP_INTERVIEW_TIPS.length >= 4)) err('interview tips missing');
+
 // Labs
 const LK = new Set();
 W.CP_LABS.forEach(pn => pn.rows.forEach(r => {
@@ -117,7 +133,7 @@ Object.keys(W.CP_FE).forEach(k => {
 
 // Page
 const page = fs.readFileSync(path.join(ROOT, 'Care Plan Helper.html'), 'utf8');
-['data/careplan/nanda-index.js', 'data/careplan/nanda-guides.js', 'data/careplan/form.js', 'data/careplan/labs.js', 'data/careplan/include.js', 'apa-core.js', 'careplan.js', 'careplan.css', 'nav.js'].forEach(f => {
+['data/careplan/nanda-index.js', 'data/careplan/nanda-guides.js', 'data/careplan/form.js', 'data/careplan/labs.js', 'data/careplan/include.js', 'data/careplan/questions.js', 'apa-core.js', 'careplan.js', 'careplan.css', 'nav.js'].forEach(f => {
   if (!new RegExp(f.replace(/[./]/g, m => '\\' + m) + '\\?v=').test(page)) err(`Care Plan Helper.html does not load ${f} with a ?v= version`);
 });
 if (typeof require(path.join(ROOT, 'apa-core.js')).zip !== 'function') err('apa-core.js does not export zip');
@@ -126,4 +142,4 @@ const nav = fs.readFileSync(path.join(ROOT, 'nav.js'), 'utf8'), sync = /SYNC\s*=
 if (sync && new RegExp(sync[1].slice(1, -1)).test('cp-plans')) err('nav.js SYNC would copy cp-plans (patient data) between devices');
 
 if (errs.length) { console.error(errs.map(e => '✗ ' + e).join('\n')); process.exit(1); }
-console.log(`✓ care plan helper: ${need.size} what-goes-here lists and hints, ${n} NANDA-I labels, ${W.CP_GUIDES.length} guides, ${CUE.size} cues, ${keys.size} form keys, ${LK.size} labs, ${Object.keys(W.CP_FE).length} F&E guides`);
+console.log(`✓ care plan helper: ${need.size} what-goes-here lists and hints, ${Object.keys(ASKQ).length} question lists, ${n} NANDA-I labels, ${W.CP_GUIDES.length} guides, ${CUE.size} cues, ${keys.size} form keys, ${LK.size} labs, ${Object.keys(W.CP_FE).length} F&E guides`);

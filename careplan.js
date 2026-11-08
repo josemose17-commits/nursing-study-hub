@@ -76,7 +76,10 @@
   }
   function exBox(ex) { return ex ? '<details class="help ex"><summary>Example</summary>' + (typeof ex === 'string' ? '<p>' + esc(ex) + '</p>' : ex) + '</details>' : ''; }
   function helps(it, extra) { var h = askBox(Array.isArray(it.ask) ? it.ask : null, it.tip) + (typeof it.ex === 'string' ? exBox(it.ex) : '') + (extra || ''); return h ? '<div class="helps">' + h + '</div>' : ''; }
-  function wrap(it, html) { return '<div class="item it-' + it.type + '" id="w-' + it.k + '">' + html + '</div>'; }
+  function unitAttrs(key, label, target) { return ' data-cp-unit="' + esc(key) + '" data-cp-label="' + esc(label || key) + '"' + (target ? ' data-cp-target="' + esc(target) + '"' : ''); }
+  function unit(key, label, html, target) { return '<div class="cp-unit"' + unitAttrs(key, label, target) + '>' + html + '</div>'; }
+  function wrap(it, html) { return '<div class="item it-' + it.type + '" id="w-' + it.k + '"' + (['line','text','pmhmeds','vitals'].indexOf(it.type)>=0?unitAttrs(it.k,it.q||it.label,it.k):'') + '>' + html + '</div>'; }
+  function renderEvent(before) { if(document.dispatchEvent&&window.CustomEvent)document.dispatchEvent(new window.CustomEvent(before?'careplan-before-render':'careplan-render')); }
   function citeIns(path) {
     if (!REFS.length) return '<p class="cite-hint">Rationales need a scholarly source. Save your sources in the <a href="APA Papers.html#refs">APA reference builder</a> and they show up here to insert.</p>';
     return '<select class="cite-ins" data-for="' + path + '" aria-label="Insert a citation"><option value="">Insert a citation…</option>' + REFS.map(function (r) { return '<option>' + esc(r.cite.p) + '</option>'; }).join('') + '</select>';
@@ -84,8 +87,8 @@
   function exTable(head, rows) { return '<div class="tbl"><table><tr>' + head.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>' + rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></div>'; }
 
   // ---------- "What goes here" checklists ----------
-  var INC = window.CP_INC || {}, SHOWINC = true;
-  try { SHOWINC = localStorage.getItem('cp-showinc') !== '0'; } catch (e) {}
+  var INC = window.CP_INC || {}, SHOWINC = false;
+  try { SHOWINC = localStorage.getItem('cp-showinc') === '1'; } catch (e) {}
   function idOf(k) { return String(k).replace(/[^A-Za-z0-9]/g, '-'); }
   // key: the entry in CP_INC; sk: where the ticks are stored (one per patient, per problem for the care plan)
   function incBox(key, label, sk) {
@@ -113,7 +116,7 @@
   var ME_KEYS = ['student', 'instructor', 'course', 'semester'];
   function fieldPath(k) { return (ME_KEYS.indexOf(k) >= 0 ? 'me.' : 'info.') + k; }
   var R = {};
-  R.grid = function (it) { return '<div class="item">' + (it.fields[0][0] === 'initials' ? askQ('client') : '') + helps(it) + '<div class="fgrid">' + it.fields.map(function (f) { return '<label class="fld">' + esc(f[1]) + inp(fieldPath(f[0]), f[2]) + fh('f.' + f[0]) + '</label>'; }).join('') + '</div></div>'; };
+  R.grid = function (it) { return '<div class="item">' + (it.fields[0][0] === 'initials' ? askQ('client') : '') + helps(it) + '<div class="fgrid">' + it.fields.map(function (f) { return unit(fieldPath(f[0]),f[1],'<label class="fld">' + esc(f[1]) + inp(fieldPath(f[0]), f[2]) + fh('f.' + f[0]) + '</label>',fieldPath(f[0])); }).join('') + '</div></div>'; };
   R.note = function (it) { return '<p class="note item">' + it.html + '</p>'; };
   R.line = function (it) { return wrap(it, '<label class="fld">' + esc(it.label) + inp(it.k, it.ph) + fh(it.k) + '</label>'); };
   R.text = function (it) {
@@ -126,7 +129,7 @@
   function rowsWidget(it, cols, min, addLabel) {
     var rows = get(it.k), n = Math.max(min, Array.isArray(rows) ? rows.length : 0), h = '<div class="rows">';
     for (var i = 0; i < n; i++) {
-      h += '<div class="rw cols' + cols.length + '"><span class="rn">' + (i + 1) + '</span>' + cols.map(function (c, j) {
+      h += '<div class="rw cols' + cols.length + '"'+unitAttrs(it.k+'.'+i,(it.k==='meds'?'Medication':it.k==='orders'?'Medical order':'Support person')+' '+(i+1),it.k+'.'+i+'.'+(it.k==='meds'?4:it.k==='orders'?1:0))+'><span class="rn">' + (i + 1) + '</span>' + cols.map(function (c, j) {
         var p = it.k + '.' + i + '.' + j;
         return '<label class="fld">' + esc(c[0]) + (c[2] === 'ta' ? ta(p, c[1]) : inp(p, c[1])) + '</label>';
       }).join('') + '<button type="button" class="x" data-del="' + it.k + '.' + i + '" aria-label="Remove row ' + (i + 1) + '">×</button></div>';
@@ -147,14 +150,15 @@
   function expected() { var a = num(get('info.age')), s = stageOf(a); return s < 0 ? '' : ERIK[s][0] + ': ' + ERIK[s][1]; }
   R.erikson = function (it) {
     var opts = '<option value="">Choose the stage you see…</option>' + ERIK.map(function (e, i) { return '<option value="' + i + '"' + (String(get('erik.stage')) === String(i) ? ' selected' : '') + '>' + esc(e[0] + ': ' + e[1]) + '</option>'; }).join('');
-    return wrap(it, qh(it.q) + incBox('erik') + '<details class="askq"' + (SHOWINC ? ' open' : '') + '><summary>Questions to ask</summary><div id="erik-q">' + erikQ() + '</div></details>' + helps(it) + '<div class="erik-exp" id="erik-exp"></div>' + inp('erik.lvl', 'Expected stage for their age') +
-      qh(it.qa, 'sm') + incBox('erik.a') + '<div class="helps">' + exBox(it.exa) + '</div><label class="fld">Stage you observed<select data-p="erik.stage">' + opts + '</select></label>' + ta('erik.a', 'Achieved or not, and how you can tell') +
-      qh(it.qb, 'sm') + incBox('erik.b') + '<div class="helps">' + exBox(it.exb) + '</div>' + ta('erik.b') + '<div class="erik-hint" id="erik-hint"></div>');
+    return wrap(it, qh(it.q) + incBox('erik') + '<details class="askq"' + (SHOWINC ? ' open' : '') + '><summary>Questions to ask</summary><div id="erik-q">' + erikQ() + '</div></details>' + helps(it) +
+      unit('erik.lvl','Expected Erikson stage','<div class="erik-exp" id="erik-exp"></div>'+inp('erik.lvl','Expected stage for their age'),'erik.lvl') +
+      unit('erik.a','Assessed developmental level',qh(it.qa,'sm')+incBox('erik.a')+'<div class="helps">'+exBox(it.exa)+'</div><label class="fld">Stage you observed<select data-p="erik.stage">'+opts+'</select></label>'+ta('erik.a','Achieved or not, and how you can tell'),'erik.a') +
+      unit('erik.b','Behaviors supporting the developmental assessment',qh(it.qb,'sm')+incBox('erik.b')+'<div class="helps">'+exBox(it.exb)+'</div>'+ta('erik.b')+'<div class="erik-hint" id="erik-hint"></div>','erik.b'));
   };
   var SB = { S: 'Situation', B: 'Background', A: 'Assessment', R: 'Recommendation' };
   R.sbar = function (it) {
     return wrap(it, qh(it.q) + askQ(it.k) + (it.tip ? '<p class="cite-hint">' + esc(it.tip) + '</p>' : '') + ['S', 'B', 'A', 'R'].map(function (x) {
-      return '<div class="sbar"><span class="sb" aria-hidden="true">' + x + '</span><div class="sbf">' + qh(SB[x] + ':', 'sm') + incBox(it.k + '.' + x) + '<div class="helps">' + askBox(it.ask && it.ask[x]) + exBox(it.ex && it.ex[x]) + '</div>' + ta(it.k + '.' + x) + '</div></div>';
+      return '<div class="sbar"'+unitAttrs(it.k+'.'+x,SB[x],it.k+'.'+x)+'><span class="sb" aria-hidden="true">' + x + '</span><div class="sbf">' + qh(SB[x] + ':', 'sm') + incBox(it.k + '.' + x) + '<div class="helps">' + askBox(it.ask && it.ask[x]) + exBox(it.ex && it.ex[x]) + '</div>' + ta(it.k + '.' + x) + '</div></div>';
     }).join(''));
   };
   R.vitals = function (it) {
@@ -169,7 +173,7 @@
     var order = it.order === 'eval' ? window.CP_EVAL_ORDER : SYS.map(function (s) { return s[0]; });
     return wrap(it, qh(it.q) + (it.compare ? incBox('sys2') + askQ('sys2') : '') + order.map(function (key) {
       var s = SYSM[key], path = it.k + '.' + key;
-      return '<div class="sysrow">' + qh(s[1].toUpperCase() + ':', 'sm') + incBox('sys.' + key, 'What goes here', it.k + '.' + key) + (it.compare ? '' : askQ('sys.' + key)) + '<div class="helps">' + askBox(s[2]) + exBox(s[3]) +
+      return '<div class="sysrow"'+unitAttrs(path,s[1],path)+'>' + qh(s[1].toUpperCase() + ':', 'sm') + incBox('sys.' + key, 'What goes here', it.k + '.' + key) + (it.compare ? '' : askQ('sys.' + key)) + '<div class="helps">' + askBox(s[2]) + exBox(s[3]) +
         (it.compare ? '<button type="button" class="mini" data-copy="' + it.compare + '.' + key + '" data-to="' + path + '">Start from my first assessment</button>' : '') + '</div>' + ta(path) + '</div>';
     }).join(''));
   };
@@ -210,7 +214,7 @@
         '<div class="lhead" aria-hidden="true"><span>' + esc(pn.name) + '</span><span>Normal range</span><span>Initial value</span><span>Current value</span><span>Clinical significance/trends</span></div>' +
         pn.rows.map(function (r) {
           var b = 'labs.' + r.k;
-          return '<div class="lrow" id="lr-' + r.k + '"><div class="ln">' + esc(r.n) + '</div>' +
+          return '<div class="lrow" id="lr-' + r.k + '"'+unitAttrs(b,r.n,b+'.s')+'><div class="ln">' + esc(r.n) + '</div>' +
             '<label class="fld"><span class="lab-l">Normal range</span><input type="text" data-p="' + b + '.r" value="' + esc(get(b + '.r') || defRange(r)) + '" autocomplete="off"></label>' +
             '<label class="fld"><span class="lab-l">Initial value</span>' + inp(b + '.i') + '<span class="lfl" id="lf-' + r.k + '-i"></span></label>' +
             '<label class="fld"><span class="lab-l">Current value</span>' + inp(b + '.c') + '<span class="lfl" id="lf-' + r.k + '-c"></span></label>' +
@@ -235,16 +239,16 @@
     function hint(t) { return t ? '<details class="help"><summary>Ideas to check against your patient</summary><p>' + esc(t) + '</p><p class="tip">Keep what fits your patient and write it in your own words, with a source.</p></details>' : ''; }
     var cause = d ? d.cause : r && hl ? (hl === 'High' ? r.up : r.dn) : '';
     return '<div class="fe-h">Lab ' + (i + 1) + (d ? ' · ' + esc(d.name) : '') + '</div>' +
-      '<div class="fgrid">' +
-      '<label class="fld">Lab<select data-p="' + b + '.lab">' + opts + '</select></label>' +
-      '<label class="fld">Value' + inp(b + '.val') + '</label>' +
-      '<label class="fld">High/Low<select data-p="' + b + '.hl"><option value=""></option><option' + (hl === 'High' ? ' selected' : '') + '>High</option><option' + (hl === 'Low' ? ' selected' : '') + '>Low</option></select></label>' +
-      '<label class="fld">Normal value' + inp(b + '.norm') + '</label>' +
-      '<label class="fld">Critical value' + inp(b + '.crit', 'check your facility’s list') + '</label></div>' + fh('fe.lab') + fh('fe.norm') +
-      qh('Relevance', 'sm') + fh('fe.rel') + hint(g ? g.rel : '') + ta(b + '.rel', 'Why does this lab matter for this patient?') +
-      qh(i ? 'What caused derangement?' : 'What caused imbalance?', 'sm') + fh('fe.cause') + hint(cause) + ta(b + '.cause') +
-      qh('Treatment', 'sm') + fh('fe.tx') + hint(d && d.tx) + ta(b + '.tx', 'What did the provider order?') +
-      qh('Nsg. Assessments/interventions required:', 'sm') + fh('fe.nsg') + hint(d && d.nsg) + ta(b + '.nsg') + citeIns(b + '.nsg');
+      unit(b+'.values','Lab '+(i+1)+': values and ranges','<div class="fgrid">'+
+      '<label class="fld">Lab<select data-p="'+b+'.lab">'+opts+'</select></label>'+
+      '<label class="fld">Value'+inp(b+'.val')+'</label>'+
+      '<label class="fld">High/Low<select data-p="'+b+'.hl"><option value=""></option><option'+(hl==='High'?' selected':'')+'>High</option><option'+(hl==='Low'?' selected':'')+'>Low</option></select></label>'+
+      '<label class="fld">Normal value'+inp(b+'.norm')+'</label>'+
+      '<label class="fld">Critical value'+inp(b+'.crit','check your facility’s list')+'</label></div>'+fh('fe.lab')+fh('fe.norm'),b+'.val')+
+      unit(b+'.rel','Lab '+(i+1)+': relevance',qh('Relevance','sm')+fh('fe.rel')+hint(g?g.rel:'')+ta(b+'.rel','Why does this lab matter for this patient?'),b+'.rel')+
+      unit(b+'.cause','Lab '+(i+1)+': cause',qh(i?'What caused derangement?':'What caused imbalance?','sm')+fh('fe.cause')+hint(cause)+ta(b+'.cause'),b+'.cause')+
+      unit(b+'.tx','Lab '+(i+1)+': treatment',qh('Treatment','sm')+fh('fe.tx')+hint(d&&d.tx)+ta(b+'.tx','What did the provider order?'),b+'.tx')+
+      unit(b+'.nsg','Lab '+(i+1)+': nursing assessment / interventions',qh('Nsg. Assessments/interventions required:','sm')+fh('fe.nsg')+hint(d&&d.nsg)+ta(b+'.nsg')+citeIns(b+'.nsg'),b+'.nsg');
   }
   R.fe = function (it) { return wrap(it, qh(it.q) + incBox('fe') + askQ('fe') + helps(it) + [0, 1].map(function (i) { return '<div class="fe" id="fe-' + i + '">' + feBlock(i) + '</div>'; }).join('')); };
   function feAuto(i) {
@@ -289,7 +293,7 @@
     rows.forEach(function (r, j) {
       if (!r) return;
       var b = 'plan.' + i + '.iv.' + j;
-      h += '<div class="iv"><div class="iv-h"><span class="rn">' + (j + 1) + '</span><select data-p="' + b + '.0" aria-label="Type">' + Object.keys(IVT).map(function (k) { return '<option value="' + k + '"' + (r[0] === k ? ' selected' : '') + '>' + IVT[k] + '</option>'; }).join('') + '</select>' +
+      h += '<div class="iv"'+unitAttrs(b,'Problem '+(i+1)+': intervention '+(j+1),b+'.1')+'><div class="iv-h"><span class="rn">' + (j + 1) + '</span><select data-p="' + b + '.0" aria-label="Type">' + Object.keys(IVT).map(function (k) { return '<option value="' + k + '"' + (r[0] === k ? ' selected' : '') + '>' + IVT[k] + '</option>'; }).join('') + '</select>' +
         '<button type="button" class="x" data-deliv="' + i + '.' + j + '" aria-label="Remove intervention ' + (j + 1) + '">×</button></div>' +
         '<label class="fld">Nursing intervention' + ta(b + '.1') + '</label>' +
         '<label class="fld">Scientific rationale' + ta(b + '.2') + '</label>' +
@@ -298,38 +302,23 @@
     return h || '<p class="cite-hint">No interventions yet.</p>';
   }
   function probHtml(i) {
-    var b = 'plan.' + i, d = DX[get(b + '.c')], g = d && G[d.c], t = d ? d.t : 'problem', n = 1, h = '';
-    h += '<div class="prob" id="prob-' + i + '"><div class="prob-h"><b>Problem ' + (i + 1) + (i === 0 ? ' (your priority)' : '') + '</b>' + (i > 0 ? '<button type="button" class="mini" data-delprob="' + i + '">Remove</button>' : '') + '</div>';
-    h += '<div class="step-h"><span>' + n++ + '</span>NANDA-I diagnosis</div><label class="fld">Search the labels<input type="text" list="dxlist" data-dx="' + i + '" value="' + esc(d ? d.l + ' (' + d.c + ')' : '') + '" placeholder="e.g., gas exchange, acute pain, falls" autocomplete="off"></label><div class="dxinfo">' + dxInfo(d) + '</div>';
-    if (d) {
-      if (t !== 'promo') {
-        h += '<div class="step-h"><span>' + n++ + '</span>' + (t === 'risk' ? 'Related to: the risk factors your patient has' : 'Related to: the cause, something nursing can change') + '</div>' +
-          '<p class="cite-hint">Tap the ones that fit, or write your own. A medical diagnosis (pneumonia, a fracture) is not a related factor: name what it causes that you can treat.</p>' + chips(b + '.rf', g ? g.factors : []) + inp(b + '.rfx', 'In your own words, for your patient');
-      }
-      if (t !== 'risk') {
-        h += '<div class="step-h"><span>' + n++ + '</span>As evidenced by: what you saw and measured</div><p class="cite-hint">Use your patient’s real data and numbers (SpO₂ 91% on 2 L, RR 24), not the textbook list.</p>' +
-          chips(b + '.ae', g ? g.cues : []) + inp(b + '.aex', 'Your patient’s data, e.g., SpO₂ 91% on 2 L, RR 24, crackles RLL');
-      } else h += '<p class="note">A risk diagnosis has no “as evidenced by”: the problem hasn’t happened, so the risk factors are your evidence.</p>';
-      h += '<div class="step-h"><span>' + n++ + '</span>Client problem (Related to… as evidenced by…)</div>' + incBox(t === 'risk' ? 'plan.stmt.risk' : t === 'promo' ? 'plan.stmt.promo' : 'plan.stmt', 'What goes in the statement', 'plan.stmt#' + i) + askQ('plan.stmt') + '<textarea data-p="' + b + '.stmt" class="stmt" rows="2">' + esc(get(b + '.stmt') || buildStmt(i)) + '</textarea>' +
-        '<div class="btns sm"><button type="button" class="mini" data-rebuild="' + i + '">Rebuild from my choices</button>' + (i === 0 ? '<button type="button" class="mini" data-q4>Copy to question 4</button>' : '') + '</div>';
-      h += '<div class="step-h"><span>' + n++ + '</span>Client-centered goals (expected outcomes)</div>' + askQ('plan.stg') +
-        qh('Short term:', 'sm') + incBox('plan.stg', 'What goes in a short-term goal', 'plan.stg#' + i) + sugs(b + '.stg', g ? g.stg : []) + ta(b + '.stg', 'The patient will… by…') + '<div class="smart" id="sm-' + i + '-stg"></div>' +
-        qh('Long term:', 'sm') + incBox('plan.ltg', 'What goes in a long-term goal', 'plan.ltg#' + i) + sugs(b + '.ltg', g ? g.ltg : []) + ta(b + '.ltg', 'By discharge, the patient will…') + '<div class="smart" id="sm-' + i + '-ltg"></div>';
-      h += '<div class="step-h"><span>' + n++ + '</span>Nursing interventions and scientific rationale</div>' + incBox('plan.iv', 'What goes in this part', 'plan.iv#' + i) + askQ('plan.iv') +
-        '<p class="cite-hint">Start with assessments, then what you do, teach and coordinate. Every rationale needs a scholarly source (your textbook counts): find the point, put it in your own words, and cite it.</p>' +
-        '<div id="ivs-' + i + '">' + ivRows(i) + '</div><div class="btns sm">' + (g ? '<button type="button" class="mini" data-addsug="' + i + '">Add the suggested interventions</button>' : '') + '<button type="button" class="mini" data-addiv="' + i + '">+ Add an intervention</button></div>';
-      var ev = get(b + '.ev.s') || '';
-      h += '<div class="step-h"><span>' + n++ + '</span>Evaluation</div>' + incBox('plan.ev', 'What goes in the evaluation', 'plan.ev#' + i) + askQ('plan.ev') + '<div class="radios" role="radiogroup" aria-label="Was the goal met?">' + [['met', 'Goal met'], ['partly', 'Partially met'], ['not', 'Not met']].map(function (o) {
-        return '<label><input type="radio" name="ev-' + i + '" data-p="' + b + '.ev.s" value="' + o[0] + '"' + (ev === o[0] ? ' checked' : '') + '> ' + o[1] + '</label>';
-      }).join('') + '</div>' + '<div class="helps">' + exBox(g && g.ev) + '</div>' + ta(b + '.ev.d', 'The data that proves it: before and after numbers, what the patient said or did') + ta(b + '.ev.next', 'Next: continue, revise (what changes?) or resolve the plan');
+    var b='plan.'+i,d=DX[get(b+'.c')],g=d&&G[d.c],t=d?d.t:'problem';
+    var h='<div class="prob" id="prob-'+i+'"><div class="prob-h"><b>Problem '+(i+1)+(i===0?' (your priority)':'')+'</b>'+(i>0?'<button type="button" class="mini" data-delprob="'+i+'">Remove</button>':'')+'</div>';
+    h+=unit(b+'.dx','Problem '+(i+1)+': select a diagnosis','<div class="step-h">NANDA-I diagnosis</div><label class="fld">Search the labels<input type="text" list="dxlist" data-dx="'+i+'" value="'+esc(d?d.l+' ('+d.c+')':'')+'" placeholder="e.g., gas exchange, acute pain, falls" autocomplete="off"></label><div class="dxinfo">'+dxInfo(d)+'</div>');
+    if(d){
+      if(t!=='promo')h+=unit(b+'.rfx','Problem '+(i+1)+': related / risk factors','<div class="step-h">'+(t==='risk'?'Related to: the risk factors your patient has':'Related to: the cause, something nursing can change')+'</div><p class="cite-hint">Select the factors supported by your patient. Verify the label and related factors in your assigned book.</p>'+chips(b+'.rf',g?g.factors:[])+inp(b+'.rfx','In your own words, for your patient'),b+'.rfx');
+      if(t!=='risk')h+=unit(b+'.aex','Problem '+(i+1)+': supporting cues','<div class="step-h">As evidenced by: what you saw and measured</div><p class="cite-hint">Use your patient’s actual findings and numbers.</p>'+chips(b+'.ae',g?g.cues:[])+inp(b+'.aex','Your patient’s specific findings'),b+'.aex');
+      h+=unit(b+'.stmt','Problem '+(i+1)+': nursing statement','<div class="step-h">Client problem (Related to… as evidenced by…)</div>'+incBox(t==='risk'?'plan.stmt.risk':t==='promo'?'plan.stmt.promo':'plan.stmt','What goes in the statement','plan.stmt#'+i)+askQ('plan.stmt')+'<textarea data-p="'+b+'.stmt" class="stmt" rows="2">'+esc(get(b+'.stmt')||buildStmt(i))+'</textarea><div class="btns sm"><button type="button" class="mini" data-rebuild="'+i+'">Rebuild from my choices</button>'+(i===0?'<button type="button" class="mini" data-q4>Copy to question 4</button>':'')+'</div>',b+'.stmt');
+      h+=unit(b+'.stg','Problem '+(i+1)+': short-term goal',qh('Short term:','sm')+incBox('plan.stg','What goes in a short-term goal','plan.stg#'+i)+sugs(b+'.stg',g?g.stg:[])+ta(b+'.stg','The patient will… by…')+'<div class="smart" id="sm-'+i+'-stg"></div>',b+'.stg');
+      h+=unit(b+'.ltg','Problem '+(i+1)+': long-term goal',qh('Long term:','sm')+incBox('plan.ltg','What goes in a long-term goal','plan.ltg#'+i)+sugs(b+'.ltg',g?g.ltg:[])+ta(b+'.ltg','By discharge, the patient will…')+'<div class="smart" id="sm-'+i+'-ltg"></div>',b+'.ltg');
+      h+='<div id="ivs-'+i+'">'+ivRows(i)+'</div>';
+      h+=unit(b+'.iv.add','Problem '+(i+1)+': add interventions',incBox('plan.iv','What goes in this part','plan.iv#'+i)+askQ('plan.iv')+'<p class="cite-hint">Add planned actions with patient-specific parameters. Each scientific rationale needs a scholarly source and citation.</p><div class="btns sm">'+(g?'<button type="button" class="mini" data-addsug="'+i+'">Add suggested interventions for review</button>':'')+'<button type="button" class="mini" data-addiv="'+i+'">+ Add an intervention</button></div>');
+      var ev=get(b+'.ev.s')||'';
+      h+=unit(b+'.ev','Problem '+(i+1)+': evaluation',incBox('plan.ev','What goes in the evaluation','plan.ev#'+i)+askQ('plan.ev')+'<div class="radios" role="radiogroup" aria-label="Was the goal met?">'+[['met','Goal met'],['partly','Partially met'],['not','Not met']].map(function(o){return '<label><input type="radio" name="ev-'+i+'" data-p="'+b+'.ev.s" value="'+o[0]+'"'+(ev===o[0]?' checked':'')+'> '+o[1]+'</label>';}).join('')+'</div><div class="helps">'+exBox(g&&g.ev)+'</div><label class="fld">Evidence for the evaluation'+ta(b+'.ev.d','Before and after findings and the goal criterion')+'</label><label class="fld">Next plan'+ta(b+'.ev.next','Continue, revise or resolve, with the reason')+'</label>',b+'.ev.d');
     }
-    return h + '</div>';
+    return h+'</div>';
   }
-  R.plan = function (it) {
-    var n = Math.max(1, planArr().length), h = '<p class="lead sm">The last page of your form. Build one problem per diagnosis; the first is your priority and should match question 4.</p>';
-    for (var i = 0; i < n; i++) h += probHtml(i);
-    return wrap(it, h + '<button type="button" class="btn" data-addprob>+ Add another problem</button>');
-  };
+  R.plan=function(it){var n=Math.max(1,planArr().length),h='<p class="lead sm">Build one problem per diagnosis. Your priority statement should match question 4.</p>';for(var i=0;i<n;i++)h+=probHtml(i);return wrap(it,h+unit('plan.add','Add another nursing problem','<button type="button" class="btn" data-addprob>+ Add another problem</button>'));};
   function smart(i, which) {
     var el = $('#sm-' + i + '-' + which); if (!el) return;
     var t = String(get('plan.' + i + '.' + which) || ''); if (!t.trim()) { el.innerHTML = ''; return; }
@@ -457,19 +446,12 @@
   }
 
   // ---------- render ----------
-  function renderForm() {
-    $('#form').innerHTML = FORM.map(function (sec) { return '<section class="glass cp-sec" id="s-' + sec.id + '"><h2>' + esc(sec.title) + '</h2>' + sec.items.map(function (it) { return R[it.type](it); }).join('') + '</section>'; }).join('');
-    refreshAll();
-  }
-  function rerender(k) {
-    var el = $('#w-' + k); if (!el) return;
-    el.outerHTML = R[ITEMS[k].type](ITEMS[k]);
-    if (k === 'plan') planArr().forEach(function (x, i) { smart(i, 'stg'); smart(i, 'ltg'); });
-    if (k === 'meds') updPmh();
-    $$('#w-' + k + ' textarea').forEach(grow); updProgress();
-  }
-  function rerenderProb(i) { var el = $('#prob-' + i); if (!el) return rerender('plan'); el.outerHTML = probHtml(i); smart(i, 'stg'); smart(i, 'ltg'); $$('#prob-' + i + ' textarea').forEach(grow); updProgress(); }
-  function rerenderFe(i) { var el = $('#fe-' + i); if (el) { el.innerHTML = feBlock(i); $$('#fe-' + i + ' textarea').forEach(grow); } }
+  function formMarkup(){return FORM.map(function(sec){return '<section class="glass cp-sec" id="s-'+sec.id+'"><h2>'+esc(sec.title)+'</h2>'+sec.items.map(function(it){return R[it.type](it);}).join('')+'</section>';}).join('');}
+  function renderForm(){renderEvent(true);$('#form').innerHTML=formMarkup();refreshAll();renderEvent(false);}
+  function rerender(k){renderEvent(true);var el=$('#w-'+k);if(!el){renderEvent(false);return;}el.outerHTML=R[ITEMS[k].type](ITEMS[k]);if(k==='plan')planArr().forEach(function(x,i){smart(i,'stg');smart(i,'ltg');});if(k==='meds')updPmh();$$('#w-'+k+' textarea').forEach(grow);updProgress();renderEvent(false);}
+  function rerenderProb(i){renderEvent(true);var el=$('#prob-'+i);if(!el){renderEvent(false);return rerender('plan');}el.outerHTML=probHtml(i);smart(i,'stg');smart(i,'ltg');$$('#prob-'+i+' textarea').forEach(grow);updProgress();renderEvent(false);}
+  function rerenderFe(i){renderEvent(true);var el=$('#fe-'+i);if(el){el.innerHTML=feBlock(i);$$('#fe-'+i+' textarea').forEach(grow);}renderEvent(false);}
+  function renderIv(i){renderEvent(true);var el=$('#ivs-'+i);if(el)el.innerHTML=ivRows(i);updProgress();renderEvent(false);}
   function renderPatients() {
     var sel = $('#pt'); if (!sel) return;
     sel.innerHTML = byRecent().map(function (id) {
@@ -545,11 +527,11 @@
     if ((a = b.getAttribute('data-rebuild'))) { set('plan.' + a + '.stmtEd', false); autoStmt(+a); return; }
     if (b.hasAttribute('data-q4')) { var s = get('plan.0.stmt'); if (!filled(s)) { toast('Build the care plan statement first (last section).'); return; } if (filled(get('q4')) && get('q4') !== s && !confirm('Replace your answer to question 4 with the care plan statement?')) return; set('q4', s); var q = $('[data-p="q4"]'); if (q) { q.value = s; grow(q); } toast('Question 4 now matches your care plan.'); updProgress(); return; }
     if (b.hasAttribute('data-q5')) { var ivs = (get('plan.0.iv') || []).filter(function (r) { return r && filled(r[1]); }); if (!ivs.length) { toast('Add interventions to the care plan first.'); return; } var txt = ivs.map(function (r) { return r[1]; }).join('\n'); if (filled(get('q5')) && !confirm('Replace your answer to question 5?')) return; set('q5', txt); var q5 = $('[data-p="q5"]'); if (q5) { q5.value = txt; grow(q5); } updProgress(); return; }
-    if ((a = b.getAttribute('data-addsug'))) { i = +a; var g = G[get('plan.' + i + '.c')]; if (!g) return; arr = (get('plan.' + i + '.iv') || []).filter(Boolean); var have = arr.map(function (r) { return r[1]; }); g.iv.forEach(function (r) { if (have.indexOf(r[1]) < 0) arr.push([r[0], r[1], r[2], '']); }); set('plan.' + i + '.iv', arr); $('#ivs-' + i).innerHTML = ivRows(i); $$('#ivs-' + i + ' textarea').forEach(grow); updProgress(); return; }
-    if ((a = b.getAttribute('data-addiv'))) { i = +a; arr = (get('plan.' + i + '.iv') || []).filter(Boolean); arr.push(['A', '', '', '']); set('plan.' + i + '.iv', arr); $('#ivs-' + i).innerHTML = ivRows(i); var last = $$('#ivs-' + i + ' .iv'); last = last[last.length - 1]; if (last) $('textarea', last).focus(); return; }
-    if ((a = b.getAttribute('data-deliv'))) { k = a.split('.'); arr = (get('plan.' + k[0] + '.iv') || []).filter(Boolean); arr.splice(+k[1], 1); set('plan.' + k[0] + '.iv', arr); $('#ivs-' + k[0]).innerHTML = ivRows(+k[0]); $$('#ivs-' + k[0] + ' textarea').forEach(grow); updProgress(); return; }
-    if (b.hasAttribute('data-addprob')) { arr = planArr().slice(); if (!arr.length) arr.push({}); arr.push({}); set('plan', arr); rerender('plan'); var pr = $('#prob-' + (arr.length - 1)); if (pr) pr.scrollIntoView({ block: 'start' }); return; }
-    if ((a = b.getAttribute('data-delprob'))) { if (!confirm('Remove problem ' + (+a + 1) + ' and everything in it?')) return; arr = planArr().slice(); arr.splice(+a, 1); set('plan', arr); rerender('plan'); return; }
+    if ((a = b.getAttribute('data-addsug'))) { i = +a; var g = G[get('plan.' + i + '.c')]; if (!g) return; arr = (get('plan.' + i + '.iv') || []).filter(Boolean); var have = arr.map(function (r) { return r[1]; }); g.iv.forEach(function (r) { if (have.indexOf(r[1]) < 0) arr.push([r[0], r[1], r[2], '']); }); set('plan.' + i + '.iv', arr); renderIv(i); $$('#ivs-' + i + ' textarea').forEach(grow); updProgress(); return; }
+    if ((a = b.getAttribute('data-addiv'))) { i = +a; arr = (get('plan.' + i + '.iv') || []).filter(Boolean); arr.push(['A', '', '', '']); set('plan.' + i + '.iv', arr); renderIv(i); var last = $$('#ivs-' + i + ' .iv'); last = last[last.length - 1]; if (last && !(window.CPWorkspace && window.CPWorkspace.active())) $('textarea', last).focus(); return; }
+    if ((a = b.getAttribute('data-deliv'))) { k = a.split('.'); arr = (get('plan.' + k[0] + '.iv') || []).filter(Boolean); arr.splice(+k[1], 1); set('plan.' + k[0] + '.iv', arr); renderIv(+k[0]); $$('#ivs-' + k[0] + ' textarea').forEach(grow); updProgress(); return; }
+    if (b.hasAttribute('data-addprob')) { arr = planArr().slice(); if (!arr.length) arr.push({}); arr.push({}); set('plan', arr); rerender('plan'); var pr = $('#prob-' + (arr.length - 1)); if (pr && !(window.CPWorkspace && window.CPWorkspace.active())) pr.scrollIntoView({ block: 'start' }); return; }
+    if ((a = b.getAttribute('data-delprob'))) { if (!confirm('Remove problem ' + (+a + 1) + ' and everything in it?')) return; if(window.CPWorkspace)window.CPWorkspace.removed('plan.',+a); arr = planArr().slice(); arr.splice(+a, 1); set('plan', arr); rerender('plan'); return; }
     if ((a = b.getAttribute('data-dxopen'))) { showTab('find'); openDx(a); return; }
     if ((a = b.getAttribute('data-use'))) { usePlan(a, b.getAttribute('data-mode')); return; }
   }
@@ -558,7 +540,7 @@
     if (mode === 'add') { i = A.length && A[0] && A[0].c ? A.length : 0; }
     else if (A[0] && A[0].c && A[0].c !== code && (filled(A[0].stg) || filled(A[0].stmt) || (A[0].iv || []).length) && !confirm('Replace problem 1 (' + (DX[A[0].c] ? DX[A[0].c].l : '') + ')? Its goals and evaluation stay; interventions you wrote stay too.')) return;
     setDx(i, code); showTab('fill'); rerender('plan');
-    var el = $('#prob-' + i); if (el) el.scrollIntoView({ block: 'start' });
+    if(window.CPWorkspace&&window.CPWorkspace.open)window.CPWorkspace.open('plan.'+i+'.stmt');else{var el=$('#prob-'+i);if(el)el.scrollIntoView({block:'start'});}
     toast('Added to your care plan as problem ' + (i + 1) + '.');
   }
 
@@ -872,7 +854,7 @@
       rd.readAsText(f);
     });
     $('#refpick').addEventListener('change', function (e) { var i = e.target.getAttribute('data-ref'); if (i == null) return; var pk = get('refs') || {}; pk[REFS[+i].cite.p] = e.target.checked; set('refs', pk); });
-    $('#dlprog').addEventListener('click', function (e) { var a = e.target.closest('a[data-go]'); if (!a) return; e.preventDefault(); showTab('fill'); var s = document.getElementById(a.getAttribute('data-go')); if (s) s.scrollIntoView({ block: 'start' }); });
+    $('#dlprog').addEventListener('click', function (e) { var a = e.target.closest('a[data-go]'); if (!a) return; e.preventDefault(); showTab('fill'); if(window.CPWorkspace&&window.CPWorkspace.openSection){window.CPWorkspace.openSection(a.getAttribute('data-go').replace(/^s-/,''));return;}var s = document.getElementById(a.getAttribute('data-go')); if (s) s.scrollIntoView({ block: 'start' }); });
     window.addEventListener('focus', function () { var n = REFS.length; loadRefs(); if (REFS.length !== n) $$('.cite-ins, .cite-hint').length && renderForm(); });
     var h = (location.hash || '').slice(1), saved = ''; try { saved = localStorage.getItem('cp-tab') || ''; } catch (e) {}
     showTab(h === 'find' || h === 'download' ? (h === 'download' ? 'dl' : 'find') : ['fill', 'find', 'dl'].indexOf(saved) >= 0 ? saved : 'fill');
@@ -880,5 +862,6 @@
   });
   function fallbackCopy(t) { var x = document.createElement('textarea'); x.value = t; x.style.position = 'fixed'; x.style.opacity = '0'; document.body.appendChild(x); x.select(); try { document.execCommand('copy'); } catch (e) {} x.remove(); }
   // For tools/check_careplan.js
-  window.CP_TEST = { interviewList: interviewList, interviewDocx: interviewDocx, DX: DX, DXL: DXL, outline: outline, docx: docx, plainText: plainText, labFlag: labFlag, vitFlag: vitFlag, buildStmt: buildStmt, set: set, get: get };
+  window.CP_HELPER={get:get,set:function(path,value){set(path,value);var el=$('[data-p=\"'+path+'\"]');if(el){el.value=value;grow(el);}after(path,el);},patient:function(){return cur;},showTab:showTab,toast:toast,formMarkup:formMarkup,fields:ITEMS,labs:LABM};
+  window.CP_TEST = { formMarkup:formMarkup, interviewList: interviewList, interviewDocx: interviewDocx, DX: DX, DXL: DXL, outline: outline, docx: docx, plainText: plainText, labFlag: labFlag, vitFlag: vitFlag, buildStmt: buildStmt, set: set, get: get };
 })();

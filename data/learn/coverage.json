@@ -1,0 +1,2692 @@
+{
+  "source": "Existing authored notes and question banks; see per-lesson references. No raw-book completeness claim.",
+  "exams": {
+    "e1": {
+      "label": "Exam 1",
+      "chapters": [
+        "9",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "lessons": 25,
+      "gradedItems": 76,
+      "coachedActivities": 73,
+      "notes": 25,
+      "coverage": {
+        "t-preop": {
+          "chapters": [
+            "9"
+          ],
+          "notes": [
+            "t-preop"
+          ],
+          "questions": [
+            "q1-pre-2",
+            "q1-pre-3",
+            "q1-pre-4",
+            "q1-pre-5",
+            "q1-pre-6"
+          ]
+        },
+        "t-intraop": {
+          "chapters": [
+            "9"
+          ],
+          "notes": [
+            "t-intraop"
+          ],
+          "questions": [
+            "q1-in-5",
+            "q1-in-6"
+          ]
+        },
+        "t-postop": {
+          "chapters": [
+            "9"
+          ],
+          "notes": [
+            "t-postop"
+          ],
+          "questions": [
+            "q1-post-5",
+            "q1-post-6",
+            "q1-post-7",
+            "q1-post-8",
+            "q1-post-9"
+          ]
+        },
+        "t-inflam": {
+          "chapters": [
+            "16"
+          ],
+          "notes": [
+            "t-inflam"
+          ],
+          "questions": [
+            "q1-inf-2",
+            "q1-inf-3",
+            "q1-inf-4"
+          ]
+        },
+        "t-immunity": {
+          "chapters": [
+            "16"
+          ],
+          "notes": [
+            "t-immunity"
+          ],
+          "questions": [
+            "q1-imm-2",
+            "q1-imm-3",
+            "q1-imm-4"
+          ]
+        },
+        "t-hyper": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "t-hyper"
+          ],
+          "questions": [
+            "q1-hyp-2",
+            "q1-hyp-3"
+          ]
+        },
+        "t-autoimm": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "t-autoimm"
+          ],
+          "questions": [
+            "q1-aut-2",
+            "q1-aut-3"
+          ]
+        },
+        "t-cancerbio": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "t-cancerbio"
+          ],
+          "questions": [
+            "q1-cb-2",
+            "q1-cb-3",
+            "q1-cb-4",
+            "q1-cb-5"
+          ]
+        },
+        "t-cancertx": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "t-cancertx"
+          ],
+          "questions": [
+            "q1-tx-1",
+            "q1-tx-3",
+            "q1-tx-4",
+            "q1-tx-5",
+            "q1-tx-6"
+          ]
+        },
+        "t-sidefx": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "t-sidefx"
+          ],
+          "questions": [
+            "q1-se-1",
+            "q1-se-3",
+            "q1-se-4"
+          ]
+        },
+        "t-oncemerg": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "t-oncemerg"
+          ],
+          "questions": [
+            "q1-oe-2",
+            "q1-oe-3",
+            "q1-oe-4"
+          ]
+        },
+        "t-infect": {
+          "chapters": [
+            "19"
+          ],
+          "notes": [
+            "t-infect"
+          ],
+          "questions": [
+            "q1-ic-7",
+            "q1-ic-8"
+          ]
+        },
+        "t-precautions": {
+          "chapters": [
+            "19"
+          ],
+          "notes": [
+            "t-precautions"
+          ],
+          "questions": [
+            "q1-ic-1",
+            "q1-ic-3",
+            "q1-ic-4",
+            "q1-ic-5"
+          ]
+        },
+        "c-neutro": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "c-neutro"
+          ],
+          "questions": [
+            "q1-ne-2",
+            "q1-ne-3",
+            "q1-ne-4"
+          ]
+        },
+        "c-tls": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "c-tls"
+          ],
+          "questions": [
+            "q1-tls-2",
+            "q1-tls-3"
+          ]
+        },
+        "c-scc": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "c-scc"
+          ],
+          "questions": [
+            "q1-scc-1",
+            "q1-scc-2"
+          ]
+        },
+        "c-anaphylaxis": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "c-anaphylaxis"
+          ],
+          "questions": [
+            "q1-ana-2",
+            "q1-ana-3",
+            "q1-ana-4",
+            "q1-ana-5"
+          ]
+        },
+        "c-angio": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "c-angio"
+          ],
+          "questions": [
+            "q1-ang-1",
+            "q1-ang-2"
+          ]
+        },
+        "c-sle": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "c-sle"
+          ],
+          "questions": [
+            "q1-sle-2",
+            "q1-sle-3",
+            "q1-sle-4"
+          ]
+        },
+        "c-hiv": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "c-hiv"
+          ],
+          "questions": [
+            "q1-hiv-1",
+            "q1-hiv-3",
+            "q1-hiv-4",
+            "q1-hiv-5",
+            "q1-hiv-6",
+            "q1-hiv-7"
+          ]
+        },
+        "c-cdiff": {
+          "chapters": [
+            "19"
+          ],
+          "notes": [
+            "c-cdiff"
+          ],
+          "questions": [
+            "q1-cd-2",
+            "q1-cd-3",
+            "q1-cd-4"
+          ]
+        },
+        "c-mrsa": {
+          "chapters": [
+            "19"
+          ],
+          "notes": [
+            "c-mrsa"
+          ],
+          "questions": [
+            "q1-mr-2",
+            "q1-mr-3"
+          ]
+        },
+        "c-postresp": {
+          "chapters": [
+            "9"
+          ],
+          "notes": [
+            "c-postresp"
+          ],
+          "questions": [
+            "q1-post-2",
+            "q1-post-3"
+          ]
+        },
+        "c-malhyp": {
+          "chapters": [
+            "9"
+          ],
+          "notes": [
+            "c-malhyp"
+          ],
+          "questions": [
+            "q1-in-3",
+            "q1-in-4"
+          ]
+        },
+        "c-evisc": {
+          "chapters": [
+            "9"
+          ],
+          "notes": [
+            "c-evisc"
+          ],
+          "questions": [
+            "q1-ev-2",
+            "q1-ev-3"
+          ]
+        }
+      }
+    },
+    "e2": {
+      "label": "Exam 2",
+      "chapters": [
+        "22",
+        "23",
+        "24",
+        "25",
+        "27",
+        "28",
+        "29",
+        "30",
+        "33",
+        "34"
+      ],
+      "lessons": 26,
+      "gradedItems": 113,
+      "coachedActivities": 73,
+      "notes": 81,
+      "coverage": {
+        "resp-prevention": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-inhalation-injury-and-smoking-cessation",
+            "22-questions-to-ask-this-patient",
+            "22-adpie"
+          ],
+          "questions": [
+            "learn|prevention-risk",
+            "learn|prevention-plan"
+          ]
+        },
+        "pack-years": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-inhalation-injury-and-smoking-cessation",
+            "22-questions-to-ask-this-patient"
+          ],
+          "questions": [
+            "learn|pack-years-one",
+            "learn|pack-years-two"
+          ]
+        },
+        "resp-aging": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-overview",
+            "22-questions-to-ask-this-patient"
+          ],
+          "questions": [
+            "learn|aging-reserve",
+            "learn|aging-change"
+          ]
+        },
+        "resp-assessment": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-overview",
+            "22-reading-the-numbers-oximetry-capnography",
+            "22-oxygen-as-a-drug-devices-doses-hazards",
+            "22-breath-sounds-sound-to-mechanism",
+            "22-diagnostic-tests-and-your-job-around-eac"
+          ],
+          "questions": [
+            "22|c|2",
+            "22|c|8",
+            "22|c|1",
+            "22|n|0",
+            "22|n|2"
+          ]
+        },
+        "resp-procedures": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-endoscopy-thoracentesis-and-biopsy-the-n",
+            "22-diagnostic-tests-and-your-job-around-eac"
+          ],
+          "questions": [
+            "22|c|7",
+            "22|c|0",
+            "22|n|1",
+            "22|n|3"
+          ]
+        },
+        "upper-airway": {
+          "chapters": [
+            "23"
+          ],
+          "notes": [
+            "23-overview",
+            "23-obstructive-sleep-apnea-the-full-picture",
+            "23-obstruction-epistaxis-and-trauma",
+            "23-head-and-neck-cancer-treatment-and-surgi",
+            "23-obstructive-sleep-apnea",
+            "23-epistaxis-trauma-and-obstruction",
+            "23-head-and-neck-cancer-and-the-laryngectom",
+            "23-adpie"
+          ],
+          "questions": [
+            "23|c|3",
+            "23|c|5",
+            "23|c|6",
+            "23|c|2",
+            "23|c|4",
+            "23|c|7",
+            "23|c|0",
+            "23|n|0",
+            "23|n|1",
+            "23|n|2",
+            "23|n|3"
+          ]
+        },
+        "asthma": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "24-overview",
+            "24-asthma-the-full-picture",
+            "24-adpie"
+          ],
+          "questions": [
+            "24|c|1",
+            "24|c|8",
+            "24|n|2"
+          ]
+        },
+        "copd": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "24-overview",
+            "24-copd-the-gas-exchange-concept-exemplar"
+          ],
+          "questions": [
+            "24|c|2",
+            "24|n|0",
+            "24|n|3"
+          ]
+        },
+        "chest-tubes": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "24-lung-cancer-and-the-chest-tube",
+            "24-cystic-fibrosis-in-the-adult",
+            "24-pulmonary-arterial-hypertension-and-idio"
+          ],
+          "questions": [
+            "24|c|3",
+            "24|c|7",
+            "24|c|5",
+            "24|n|1"
+          ]
+        },
+        "pneumonia": {
+          "chapters": [
+            "25"
+          ],
+          "notes": [
+            "25-overview",
+            "25-pneumonia-the-gas-exchange-concept-exemp",
+            "25-seasonal-influenza-and-pandemic-infectio",
+            "25-covid-19-the-infection-concept-exemplar",
+            "25-rhinosinusitis-peritonsillar-abscess-ant",
+            "25-adpie"
+          ],
+          "questions": [
+            "25|c|4",
+            "25|c|7",
+            "25|c|5",
+            "25|c|6",
+            "25|c|8",
+            "25|n|0",
+            "25|n|2"
+          ]
+        },
+        "tuberculosis": {
+          "chapters": [
+            "25"
+          ],
+          "notes": [
+            "25-tuberculosis"
+          ],
+          "questions": [
+            "25|c|2",
+            "25|c|3",
+            "25|n|1",
+            "25|n|3"
+          ]
+        },
+        "cardiac-aging": {
+          "chapters": [
+            "27"
+          ],
+          "notes": [
+            "27-overview",
+            "27-the-physical-exam-skin-pulses-sounds-num",
+            "27-the-cardiac-assessment-in-order",
+            "27-structure-coronary-supply-and-the-cardia",
+            "27-blood-pressure-regulation-and-the-vascul",
+            "27-chest-discomfort-telling-the-sources-apa",
+            "27-adpie"
+          ],
+          "questions": [
+            "learn|cardiac-aging-change",
+            "27|c|7",
+            "27|n|1"
+          ]
+        },
+        "cardiac-tests": {
+          "chapters": [
+            "27"
+          ],
+          "notes": [
+            "27-tests-and-the-nursing-care-around-each"
+          ],
+          "questions": [
+            "27|c|1",
+            "27|c|2",
+            "27|c|3",
+            "27|c|4",
+            "27|c|5",
+            "27|c|6",
+            "27|n|0",
+            "27|n|2",
+            "27|n|3"
+          ]
+        },
+        "ecg-recording": {
+          "chapters": [
+            "28"
+          ],
+          "notes": [
+            "28-overview",
+            "28-the-conduction-system-and-its-four-prope",
+            "28-recording-the-rhythm-leads-paper-monitor",
+            "28-the-nine-step-analysis-normal-rhythms-an",
+            "28-adpie"
+          ],
+          "questions": [
+            "learn|ecg-artifact",
+            "learn|ecg-paper"
+          ]
+        },
+        "ecg-analysis": {
+          "chapters": [
+            "28"
+          ],
+          "notes": [
+            "28-the-rhythms-and-what-each-one-does-to-ou",
+            "28-devices-drugs-and-the-safety-rules",
+            "28-recording-the-rhythm-leads-paper-monitor",
+            "28-the-nine-step-analysis-normal-rhythms-an",
+            "28-sinus-dysrhythmias-and-pacing",
+            "28-atrial-dysrhythmias-and-atrial-fibrillat",
+            "28-antidysrhythmic-drug-classes-vaughn-will"
+          ],
+          "questions": [
+            "28|c|1",
+            "28|c|4",
+            "28|c|5",
+            "28|c|6",
+            "28|c|8",
+            "28|n|2",
+            "28|n|3"
+          ]
+        },
+        "rhythm-drugs": {
+          "chapters": [
+            "28"
+          ],
+          "notes": [
+            "28-devices-drugs-and-the-safety-rules",
+            "28-atrial-dysrhythmias-and-atrial-fibrillat",
+            "28-antidysrhythmic-drug-classes-vaughn-will"
+          ],
+          "questions": [
+            "28|c|3",
+            "28|c|7",
+            "28|n|0",
+            "28|n|1"
+          ]
+        },
+        "heart-failure": {
+          "chapters": [
+            "29"
+          ],
+          "notes": [
+            "29-overview",
+            "29-heart-failure-drug-classes-what-each-lev",
+            "29-types-staging-and-the-compensatory-casca",
+            "29-assessing-heart-failure-both-sides-and-t",
+            "29-reducing-afterload-and-preload-the-drug-",
+            "29-improving-contractility-and-the-newer-ag",
+            "29-devices-surgery-pulmonary-edema-and-livi",
+            "29-adpie"
+          ],
+          "questions": [
+            "29|c|1",
+            "29|c|2",
+            "29|c|5",
+            "29|c|6",
+            "29|c|7",
+            "29|n|0",
+            "29|n|2",
+            "29|n|3"
+          ]
+        },
+        "valves-heart-inflammation": {
+          "chapters": [
+            "29"
+          ],
+          "notes": [
+            "29-valves-cardiomyopathy-and-the-inflamed-h"
+          ],
+          "questions": [
+            "29|c|3",
+            "29|n|1"
+          ]
+        },
+        "hypertension": {
+          "chapters": [
+            "30"
+          ],
+          "notes": [
+            "30-overview",
+            "30-hypertension-aneurysm-and-acute-occlusio",
+            "30-hypertension-mechanisms-causes-and-drug-",
+            "30-adpie"
+          ],
+          "questions": [
+            "30|c|8",
+            "30|n|1"
+          ]
+        },
+        "arterial-venous": {
+          "chapters": [
+            "30"
+          ],
+          "notes": [
+            "30-hypertension-aneurysm-and-acute-occlusio",
+            "30-arteriosclerosis-atherosclerosis-and-lip",
+            "30-peripheral-arterial-disease-stages-ulcer",
+            "30-revascularization-graft-care-and-acute-o",
+            "30-aneurysms-dissection-and-the-other-arter"
+          ],
+          "questions": [
+            "30|c|3",
+            "30|c|6",
+            "30|n|3"
+          ]
+        },
+        "dvt-anticoagulants": {
+          "chapters": [
+            "30"
+          ],
+          "notes": [
+            "30-vte-dvt-and-anticoagulation",
+            "30-venous-thromboembolism-risk-scoring-and-"
+          ],
+          "questions": [
+            "30|c|1",
+            "30|c|2",
+            "30|c|4",
+            "30|c|7",
+            "30|n|0",
+            "30|n|2"
+          ]
+        },
+        "hematology-labs": {
+          "chapters": [
+            "33"
+          ],
+          "notes": [
+            "33-overview",
+            "33-hemostasis-the-cascade-and-the-brakes-on",
+            "33-the-hematologic-history-drugs-genes-and-",
+            "33-head-to-toe-assessment-aging-adaptations",
+            "33-adpie"
+          ],
+          "questions": [
+            "33|c|1",
+            "33|c|2",
+            "33|c|3",
+            "33|c|4",
+            "33|c|5",
+            "33|c|7",
+            "33|n|0",
+            "33|n|2",
+            "33|n|3"
+          ]
+        },
+        "sickle-cell": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "34-sickle-cell-disease-the-full-picture",
+            "34-adpie"
+          ],
+          "questions": [
+            "34|c|1",
+            "34|n|1"
+          ]
+        },
+        "anemia": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "34-overview",
+            "34-the-anemias-cause-to-cue-to-care",
+            "34-the-anemias-cause-by-cause"
+          ],
+          "questions": [
+            "34|c|3",
+            "34|c|6",
+            "34|c|7",
+            "34|n|3"
+          ]
+        },
+        "leukemia": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "34-white-cell-cancers-and-clotting-failures",
+            "34-leukemia-treatment-by-type-and-protectin",
+            "34-hematopoietic-stem-cell-transplantation-"
+          ],
+          "questions": [
+            "learn|leukemia-bleeding",
+            "33|c|6",
+            "33|n|1"
+          ]
+        },
+        "transfusion": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "34-overview",
+            "34-white-cell-cancers-and-clotting-failures"
+          ],
+          "questions": [
+            "34|c|5",
+            "34|n|0"
+          ]
+        }
+      }
+    },
+    "e4": {
+      "label": "Exam 4",
+      "chapters": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "8",
+        "9",
+        "10",
+        "13",
+        "14",
+        "15",
+        "16",
+        "25"
+      ],
+      "lessons": 19,
+      "gradedItems": 63,
+      "coachedActivities": 50,
+      "notes": 19,
+      "coverage": {
+        "t-intro": {
+          "chapters": [
+            "1"
+          ],
+          "notes": [
+            "t-intro"
+          ],
+          "questions": [
+            "q-intro-1",
+            "q-intro-2"
+          ]
+        },
+        "t-culture": {
+          "chapters": [
+            "5"
+          ],
+          "notes": [
+            "t-culture"
+          ],
+          "questions": [
+            "q-cult-2",
+            "q-cult-3",
+            "q-cult-4",
+            "q-cult-5",
+            "q-cult-6"
+          ]
+        },
+        "t-dx": {
+          "chapters": [
+            "1",
+            "13",
+            "14",
+            "15",
+            "16"
+          ],
+          "notes": [
+            "t-dx"
+          ],
+          "questions": [
+            "q-dx-2",
+            "q-dx-3"
+          ]
+        },
+        "t-life": {
+          "chapters": [
+            "2"
+          ],
+          "notes": [
+            "t-life"
+          ],
+          "questions": [
+            "q-life-1",
+            "q-life-2"
+          ]
+        },
+        "t-settings": {
+          "chapters": [
+            "4",
+            "6"
+          ],
+          "notes": [
+            "t-settings"
+          ],
+          "questions": [
+            "q-set-1",
+            "q-set-2"
+          ]
+        },
+        "t-legal": {
+          "chapters": [
+            "6"
+          ],
+          "notes": [
+            "t-legal"
+          ],
+          "questions": [
+            "q-legal-2",
+            "q-legal-3",
+            "q-legal-4",
+            "q-legal-5",
+            "q-legal-6"
+          ]
+        },
+        "t-theories": {
+          "chapters": [
+            "2"
+          ],
+          "notes": [
+            "t-theories"
+          ],
+          "questions": [
+            "q-theory-1",
+            "q-theory-2"
+          ]
+        },
+        "t-neuro": {
+          "chapters": [
+            "3"
+          ],
+          "notes": [
+            "t-neuro"
+          ],
+          "questions": [
+            "q-neuro-2",
+            "q-neuro-3",
+            "q-neuro-4",
+            "q-neuro-5",
+            "q-neuro-6",
+            "q-neuro-7",
+            "q-neuro-8",
+            "q-neuro-9",
+            "q-neuro-10",
+            "q-neuro-11",
+            "q-neuro-12"
+          ]
+        },
+        "t-relationship": {
+          "chapters": [
+            "8"
+          ],
+          "notes": [
+            "t-relationship"
+          ],
+          "questions": [
+            "q-rel-2",
+            "q-rel-3"
+          ]
+        },
+        "t-comm": {
+          "chapters": [
+            "9"
+          ],
+          "notes": [
+            "t-comm"
+          ],
+          "questions": [
+            "q-comm-2",
+            "q-comm-3"
+          ]
+        },
+        "t-stress": {
+          "chapters": [
+            "10",
+            "15"
+          ],
+          "notes": [
+            "t-stress"
+          ],
+          "questions": [
+            "q-stress-2",
+            "q-stress-3",
+            "q-stress-4"
+          ]
+        },
+        "t-trauma": {
+          "chapters": [
+            "10",
+            "16"
+          ],
+          "notes": [
+            "t-trauma"
+          ],
+          "questions": [
+            "q-trauma-1",
+            "learn|trauma-choice"
+          ]
+        },
+        "c-anxiety": {
+          "chapters": [
+            "15"
+          ],
+          "notes": [
+            "c-anxiety"
+          ],
+          "questions": [
+            "q-anx-1",
+            "q-anx-3"
+          ]
+        },
+        "c-ocd": {
+          "chapters": [
+            "15"
+          ],
+          "notes": [
+            "c-ocd"
+          ],
+          "questions": [
+            "q-ocd-1",
+            "q-ocd-2"
+          ]
+        },
+        "c-bipolar": {
+          "chapters": [
+            "13"
+          ],
+          "notes": [
+            "c-bipolar"
+          ],
+          "questions": [
+            "q-bp-2",
+            "q-bp-3",
+            "q-bp-4",
+            "q-bp-5",
+            "q-bp-6"
+          ]
+        },
+        "c-mdd": {
+          "chapters": [
+            "14"
+          ],
+          "notes": [
+            "c-mdd"
+          ],
+          "questions": [
+            "q-mdd-2",
+            "q-mdd-3",
+            "q-mdd-4",
+            "q-mdd-5",
+            "q-mdd-6",
+            "q-mdd-7"
+          ]
+        },
+        "c-suicide": {
+          "chapters": [
+            "25"
+          ],
+          "notes": [
+            "c-suicide"
+          ],
+          "questions": [
+            "q-sui-2",
+            "q-sui-3",
+            "q-sui-4"
+          ]
+        },
+        "c-nssi": {
+          "chapters": [
+            "25"
+          ],
+          "notes": [
+            "c-nssi"
+          ],
+          "questions": [
+            "q-nssi-1",
+            "q-nssi-2"
+          ]
+        },
+        "c-ptsd": {
+          "chapters": [
+            "16"
+          ],
+          "notes": [
+            "c-ptsd"
+          ],
+          "questions": [
+            "q-ptsd-2",
+            "q-ptsd-3",
+            "q-ptsd-4"
+          ]
+        }
+      }
+    },
+    "e5": {
+      "label": "Exam 5",
+      "chapters": [
+        "3",
+        "11",
+        "12",
+        "16",
+        "17",
+        "18",
+        "22",
+        "23",
+        "24"
+      ],
+      "lessons": 23,
+      "gradedItems": 65,
+      "coachedActivities": 64,
+      "notes": 23,
+      "coverage": {
+        "t-spectrum": {
+          "chapters": [
+            "12"
+          ],
+          "notes": [
+            "t-spectrum"
+          ],
+          "questions": [
+            "q5-sz-9",
+            "q5-sz-10"
+          ]
+        },
+        "t-antipsychotics": {
+          "chapters": [
+            "3",
+            "12"
+          ],
+          "notes": [
+            "t-antipsychotics"
+          ],
+          "questions": [
+            "q5-ap-3",
+            "q5-ap-4",
+            "q5-ap-5",
+            "q5-ap-6",
+            "q5-ap-7"
+          ]
+        },
+        "t-kids": {
+          "chapters": [
+            "11"
+          ],
+          "notes": [
+            "t-kids"
+          ],
+          "questions": [
+            "q5-ch-3",
+            "q5-ch-4",
+            "q5-ch-5",
+            "q5-ch-6",
+            "q5-ch-10"
+          ]
+        },
+        "t-attach": {
+          "chapters": [
+            "16"
+          ],
+          "notes": [
+            "t-attach"
+          ],
+          "questions": [
+            "q5-at-2",
+            "q5-at-3"
+          ]
+        },
+        "t-somafact": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "t-somafact"
+          ],
+          "questions": [
+            "q5-so-5",
+            "q5-so-6"
+          ]
+        },
+        "t-feeding": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "t-feeding"
+          ],
+          "questions": [
+            "q5-ea-9",
+            "q5-ea-10"
+          ]
+        },
+        "t-substances": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "t-substances"
+          ],
+          "questions": [
+            "q5-su-3",
+            "q5-su-6",
+            "q5-su-7",
+            "q5-su-8"
+          ]
+        },
+        "t-neurocog": {
+          "chapters": [
+            "23"
+          ],
+          "notes": [
+            "t-neurocog"
+          ],
+          "questions": [
+            "q5-nc-8",
+            "learn|neurocog-change"
+          ]
+        },
+        "t-personality": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "t-personality"
+          ],
+          "questions": [
+            "q5-pd-2",
+            "q5-pd-3",
+            "q5-pd-9",
+            "q5-pd-11"
+          ]
+        },
+        "c-adhd": {
+          "chapters": [
+            "11"
+          ],
+          "notes": [
+            "c-adhd"
+          ],
+          "questions": [
+            "q5-ch-2",
+            "q5-ch-7"
+          ]
+        },
+        "c-autism": {
+          "chapters": [
+            "11"
+          ],
+          "notes": [
+            "c-autism"
+          ],
+          "questions": [
+            "q5-ch-8",
+            "q5-ch-9"
+          ]
+        },
+        "c-anorexia": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "c-anorexia"
+          ],
+          "questions": [
+            "q5-ea-2",
+            "q5-ea-3",
+            "q5-ea-4"
+          ]
+        },
+        "c-bulimia": {
+          "chapters": [
+            "18"
+          ],
+          "notes": [
+            "c-bulimia"
+          ],
+          "questions": [
+            "q5-ea-6",
+            "q5-ea-7"
+          ]
+        },
+        "c-delirium": {
+          "chapters": [
+            "23"
+          ],
+          "notes": [
+            "c-delirium"
+          ],
+          "questions": [
+            "q5-nc-3",
+            "q5-nc-6",
+            "q5-nc-7"
+          ]
+        },
+        "c-alz": {
+          "chapters": [
+            "23"
+          ],
+          "notes": [
+            "c-alz"
+          ],
+          "questions": [
+            "q5-nc-4",
+            "q5-nc-5",
+            "q5-nc-9",
+            "q5-nc-10"
+          ]
+        },
+        "c-bpd": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "c-bpd"
+          ],
+          "questions": [
+            "q5-pd-4",
+            "q5-pd-5",
+            "q5-pd-6"
+          ]
+        },
+        "c-aspd": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "c-aspd"
+          ],
+          "questions": [
+            "q5-pd-7",
+            "q5-pd-10"
+          ]
+        },
+        "c-schizo": {
+          "chapters": [
+            "12"
+          ],
+          "notes": [
+            "c-schizo"
+          ],
+          "questions": [
+            "q5-sz-1",
+            "q5-sz-4",
+            "q5-sz-5",
+            "q5-sz-6",
+            "q5-sz-7"
+          ]
+        },
+        "c-nms": {
+          "chapters": [
+            "12"
+          ],
+          "notes": [
+            "c-nms"
+          ],
+          "questions": [
+            "q5-ap-1",
+            "learn|nms-response"
+          ]
+        },
+        "c-somatic": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "c-somatic"
+          ],
+          "questions": [
+            "q5-so-2",
+            "q5-so-3"
+          ]
+        },
+        "c-did": {
+          "chapters": [
+            "16"
+          ],
+          "notes": [
+            "c-did"
+          ],
+          "questions": [
+            "q5-di-2",
+            "q5-di-3"
+          ]
+        },
+        "c-alcohol": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "c-alcohol"
+          ],
+          "questions": [
+            "q5-su-1",
+            "q5-su-10",
+            "q5-su-11"
+          ]
+        },
+        "c-opioid": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "c-opioid"
+          ],
+          "questions": [
+            "q5-su-2",
+            "q5-su-12"
+          ]
+        }
+      }
+    },
+    "final": {
+      "label": "Final",
+      "chapters": [
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "22",
+        "23",
+        "24",
+        "25",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "55",
+        "56"
+      ],
+      "lessons": 83,
+      "gradedItems": 286,
+      "coachedActivities": 244,
+      "notes": 193,
+      "coverage": {
+        "fluid-balance": {
+          "chapters": [
+            "13"
+          ],
+          "notes": [
+            "13-overview",
+            "13-body-water-compartments-and-iv-solutions",
+            "13-hormones-raas-and-daily-intake-and-outpu",
+            "13-dehydration-the-concept-exemplar",
+            "13-rehydrating-safely",
+            "13-fluid-overload",
+            "13-adpie"
+          ],
+          "questions": [
+            "13|c|1",
+            "13|c|5",
+            "13|c|6",
+            "13|c|11",
+            "13|c|12",
+            "13|c|13",
+            "13|c|14"
+          ]
+        },
+        "potassium": {
+          "chapters": [
+            "13"
+          ],
+          "notes": [
+            "13-potassium-hypokalemia-and-hyperkalemia"
+          ],
+          "questions": [
+            "13|c|3",
+            "13|c|9",
+            "13|c|10"
+          ]
+        },
+        "sodium-calcium-magnesium": {
+          "chapters": [
+            "13"
+          ],
+          "notes": [
+            "13-sodium-hyponatremia-and-hypernatremia",
+            "13-calcium-hypocalcemia-and-hypercalcemia",
+            "13-magnesium-hypomagnesemia-and-hypermagnes"
+          ],
+          "questions": [
+            "13|c|7",
+            "13|c|8",
+            "13|c|15"
+          ]
+        },
+        "abg": {
+          "chapters": [
+            "14"
+          ],
+          "notes": [
+            "14-overview",
+            "14-reading-an-arterial-blood-gas",
+            "14-buffers-lungs-kidneys-and-compensation",
+            "14-adpie"
+          ],
+          "questions": [
+            "14|c|4",
+            "14|c|7"
+          ]
+        },
+        "acidosis": {
+          "chapters": [
+            "14"
+          ],
+          "notes": [
+            "14-acidosis-the-concept-exemplar",
+            "14-recognizing-acidosis",
+            "14-caring-for-acidosis"
+          ],
+          "questions": [
+            "14|c|2",
+            "14|c|3",
+            "14|c|6"
+          ]
+        },
+        "alkalosis": {
+          "chapters": [
+            "14"
+          ],
+          "notes": [
+            "14-alkalosis"
+          ],
+          "questions": [
+            "14|c|5",
+            "14|c|8"
+          ]
+        },
+        "iv-plan": {
+          "chapters": [
+            "15"
+          ],
+          "notes": [
+            "15-overview",
+            "15-iv-fluids-blood-and-the-prescription",
+            "15-infusion-systems-containers-tubing-conne",
+            "15-iv-therapy-in-older-adults",
+            "15-adpie"
+          ],
+          "questions": [
+            "15|c|1",
+            "15|c|4",
+            "15|c|9",
+            "15|c|11",
+            "15|c|17"
+          ]
+        },
+        "peripheral-iv": {
+          "chapters": [
+            "15"
+          ],
+          "notes": [
+            "15-peripheral-catheters-short-catheters-and",
+            "15-daily-care-assessing-dressing-flushing-a",
+            "15-complications-of-iv-therapy",
+            "15-iv-therapy-in-older-adults"
+          ],
+          "questions": [
+            "15|c|3",
+            "15|c|12",
+            "15|c|16"
+          ]
+        },
+        "central-lines": {
+          "chapters": [
+            "15"
+          ],
+          "notes": [
+            "15-central-lines-piccs-central-catheters-tu",
+            "15-daily-care-assessing-dressing-flushing-a",
+            "15-complications-of-iv-therapy"
+          ],
+          "questions": [
+            "15|c|6",
+            "15|c|7",
+            "15|c|8",
+            "15|c|10"
+          ]
+        },
+        "special-infusion-routes": {
+          "chapters": [
+            "15"
+          ],
+          "notes": [
+            "15-other-routes-subcutaneous-intraosseous-a"
+          ],
+          "questions": [
+            "15|c|14",
+            "15|c|15"
+          ]
+        },
+        "immune-defense": {
+          "chapters": [
+            "16"
+          ],
+          "notes": [
+            "16-overview",
+            "16-how-immunity-is-gained-innate-and-adapti",
+            "16-antibody-mediated-immunity",
+            "16-cell-mediated-immunity-and-cytokines",
+            "16-adpie"
+          ],
+          "questions": [
+            "16|c|7",
+            "16|c|8",
+            "16|c|9"
+          ]
+        },
+        "inflammation-cells": {
+          "chapters": [
+            "16"
+          ],
+          "notes": [
+            "16-self-vs-non-self-immune-cells-and-the-wb",
+            "16-inflammation-cells-phagocytosis-and-the"
+          ],
+          "questions": [
+            "16|c|1",
+            "16|c|2",
+            "16|c|3",
+            "16|c|4",
+            "16|c|5",
+            "16|c|12",
+            "16|c|13"
+          ]
+        },
+        "immune-aging": {
+          "chapters": [
+            "16"
+          ],
+          "notes": [
+            "16-immunity-in-older-adults"
+          ],
+          "questions": [
+            "16|c|10",
+            "16|c|11"
+          ]
+        },
+        "allergy-airway": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "17-overview",
+            "17-hypersensitivity-the-four-types",
+            "17-angioedema",
+            "17-anaphylaxis",
+            "17-adpie"
+          ],
+          "questions": [
+            "17|c|2",
+            "17|c|3",
+            "17|c|4",
+            "17|c|5",
+            "17|c|6",
+            "17|c|28",
+            "17|n|5"
+          ]
+        },
+        "lupus": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "17-autoimmunity-and-lupus-sle-recognizing-i",
+            "17-caring-for-lupus-pain-fatigue-drugs-and"
+          ],
+          "questions": [
+            "17|c|8",
+            "17|c|9",
+            "17|c|10",
+            "17|n|9"
+          ]
+        },
+        "hiv": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "17-hiv-the-virus-the-stages-and-how-it-spre",
+            "17-preventing-hiv-safer-sex-syringes-prep-p",
+            "17-hiv-history-and-testing",
+            "17-hiv-drugs-cart-resistance-and-iris",
+            "17-stage-iii-aids-infections-complications"
+          ],
+          "questions": [
+            "17|c|12",
+            "17|c|13",
+            "17|c|14",
+            "17|c|16",
+            "17|c|17",
+            "17|c|18",
+            "17|c|19",
+            "17|c|20",
+            "17|c|21",
+            "17|c|26",
+            "17|c|29",
+            "17|n|20",
+            "17|n|23"
+          ]
+        },
+        "lyme": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "17-lyme-disease"
+          ],
+          "questions": [
+            "17|c|22",
+            "17|n|26"
+          ]
+        },
+        "transplant-immunity": {
+          "chapters": [
+            "17"
+          ],
+          "notes": [
+            "17-transplant-rejection-and-anti-rejection"
+          ],
+          "questions": [
+            "17|c|23",
+            "17|c|24"
+          ]
+        },
+        "gi-tests": {
+          "chapters": [
+            "45"
+          ],
+          "notes": [
+            "45-gi-labs-and-stool-tests",
+            "45-imaging-and-endoscopy-egd-ercp-capsule",
+            "45-colonoscopy-sigmoidoscopy-and-colorectal",
+            "45-overview",
+            "45-gi-changes-with-aging",
+            "45-gi-history-and-the-abdominal-exam",
+            "45-adpie"
+          ],
+          "questions": [
+            "45|c|4",
+            "45|c|6",
+            "45|c|10",
+            "45|c|13"
+          ]
+        },
+        "upper-gi-cancer-trauma": {
+          "chapters": [
+            "46"
+          ],
+          "notes": [
+            "46-oral-tumors-oral-cancer-and-salivary-gla",
+            "46-esophageal-cancer-and-esophagectomy",
+            "46-esophageal-trauma",
+            "46-overview",
+            "46-stomatitis-the-tissue-integrity-exemplar",
+            "46-gerd-the-nutrition-exemplar",
+            "46-treating-gerd-diet-lifestyle-drugs-proce",
+            "46-hiatal-hernia-and-fundoplication-care",
+            "46-adpie"
+          ],
+          "questions": [
+            "46|c|1",
+            "46|c|8",
+            "46|c|9",
+            "46|c|11",
+            "46|c|15"
+          ]
+        },
+        "adrenal-assessment": {
+          "chapters": [
+            "53"
+          ],
+          "notes": [
+            "53-the-adrenal-glands-aldosterone-cortisol",
+            "53-endocrine-assessment-history-and-physica",
+            "53-overview",
+            "53-pituitary-thyroid-parathyroid-and-pancre",
+            "53-aging-and-covid-19-what-changes-in-the-g",
+            "53-diagnostic-tests-and-the-nurse-s-job",
+            "53-adpie"
+          ],
+          "questions": [
+            "53|c|2",
+            "53|c|8",
+            "53|c|9",
+            "53|c|12",
+            "53|c|13"
+          ]
+        },
+        "bowel-obstruction": {
+          "chapters": [
+            "48"
+          ],
+          "notes": [
+            "48-overview",
+            "48-intestinal-obstruction-the-elimination-e",
+            "48-caring-for-obstruction-the-ng-tube-fluid",
+            "48-adpie"
+          ],
+          "questions": [
+            "48|c|4",
+            "48|c|10",
+            "48|c|17",
+            "48|n|2",
+            "48|n|3"
+          ]
+        },
+        "colorectal-ostomy": {
+          "chapters": [
+            "48"
+          ],
+          "notes": [
+            "48-colorectal-cancer-risk-screening-and-dia",
+            "48-colorectal-cancer-treatment-surgery-and"
+          ],
+          "questions": [
+            "48|c|6",
+            "48|c|7",
+            "48|c|11",
+            "48|c|12",
+            "48|c|15",
+            "48|c|16",
+            "48|n|6"
+          ]
+        },
+        "ibs": {
+          "chapters": [
+            "48"
+          ],
+          "notes": [
+            "48-irritable-bowel-syndrome"
+          ],
+          "questions": [
+            "48|c|9",
+            "48|c|13",
+            "48|n|9"
+          ]
+        },
+        "trauma-hernia": {
+          "chapters": [
+            "48"
+          ],
+          "notes": [
+            "48-abdominal-trauma",
+            "48-hernias-and-hemorrhoids"
+          ],
+          "questions": [
+            "48|c|1",
+            "48|c|2",
+            "48|c|14",
+            "48|c|18",
+            "48|n|8",
+            "48|n|12"
+          ]
+        },
+        "acute-abdomen": {
+          "chapters": [
+            "49"
+          ],
+          "notes": [
+            "49-overview",
+            "49-peritonitis-the-infection-exemplar",
+            "49-appendicitis",
+            "49-diverticular-disease",
+            "49-adpie"
+          ],
+          "questions": [
+            "49|c|8",
+            "49|c|9",
+            "49|c|12",
+            "49|c|15",
+            "49|n|2",
+            "49|n|10",
+            "49|n|11"
+          ]
+        },
+        "ibd": {
+          "chapters": [
+            "49"
+          ],
+          "notes": [
+            "49-ulcerative-colitis-the-inflammation-exem",
+            "49-treating-ulcerative-colitis-drugs-diet-a",
+            "49-surgery-for-ulcerative-colitis-the-j-pou",
+            "49-crohn-s-disease"
+          ],
+          "questions": [
+            "49|c|1",
+            "49|c|2",
+            "49|c|10",
+            "49|c|11",
+            "49|c|13",
+            "49|c|16",
+            "49|n|8",
+            "49|n|9"
+          ]
+        },
+        "ileostomy": {
+          "chapters": [
+            "49"
+          ],
+          "notes": [
+            "49-surgery-for-ulcerative-colitis-the-j-pou"
+          ],
+          "questions": [
+            "49|c|17",
+            "49|n|6"
+          ]
+        },
+        "enteric-celiac": {
+          "chapters": [
+            "49"
+          ],
+          "notes": [
+            "49-gastroenteritis",
+            "49-celiac-disease-and-parasitic-infections"
+          ],
+          "questions": [
+            "49|c|4",
+            "49|c|5",
+            "49|c|6",
+            "49|c|18",
+            "49|c|19",
+            "49|n|4"
+          ]
+        },
+        "cirrhosis": {
+          "chapters": [
+            "50"
+          ],
+          "notes": [
+            "50-overview",
+            "50-cirrhosis-the-cellular-regulation-exempl",
+            "50-portal-hypertension-ascites-and-varices",
+            "50-assessing-cirrhosis-history-signs-and-te",
+            "50-managing-ascites-diet-diuretics-paracent",
+            "50-confusion-pruritus-and-going-home-with-c",
+            "50-adpie"
+          ],
+          "questions": [
+            "50|c|1",
+            "50|c|7",
+            "50|c|17"
+          ]
+        },
+        "varices": {
+          "chapters": [
+            "50"
+          ],
+          "notes": [
+            "50-portal-hypertension-ascites-and-varices",
+            "50-bleeding-varices-prevention-and-emergenc"
+          ],
+          "questions": [
+            "50|c|2",
+            "50|c|6"
+          ]
+        },
+        "encephalopathy": {
+          "chapters": [
+            "50"
+          ],
+          "notes": [
+            "50-hepatic-encephalopathy-hepatorenal-syndr",
+            "50-confusion-pruritus-and-going-home-with-c"
+          ],
+          "questions": [
+            "50|c|8",
+            "50|c|9",
+            "50|c|10",
+            "50|c|15",
+            "50|c|16"
+          ]
+        },
+        "hepatitis": {
+          "chapters": [
+            "50"
+          ],
+          "notes": [
+            "50-viral-hepatitis-a-to-e-the-infection-exe",
+            "50-hepatitis-prevention-signs-and-blood-tes",
+            "50-hepatitis-care-antiviral-drugs-and-preve"
+          ],
+          "questions": [
+            "50|c|11",
+            "50|c|13",
+            "50|c|14"
+          ]
+        },
+        "fatty-liver": {
+          "chapters": [
+            "50"
+          ],
+          "notes": [
+            "50-nonalcoholic-fatty-liver-disease-nafld-a"
+          ],
+          "questions": [
+            "50|c|18",
+            "50|c|20"
+          ]
+        },
+        "liver-transplant": {
+          "chapters": [
+            "50"
+          ],
+          "notes": [
+            "50-liver-transplantation"
+          ],
+          "questions": [
+            "50|c|21",
+            "50|c|22",
+            "50|c|23"
+          ]
+        },
+        "gallbladder": {
+          "chapters": [
+            "51"
+          ],
+          "notes": [
+            "51-overview",
+            "51-cholecystitis-the-inflammation-exemplar",
+            "51-recognizing-cholecystitis-signs-and-test",
+            "51-treating-cholecystitis-pain-drugs-and-dr",
+            "51-cholecystectomy-laparoscopic-and-open",
+            "51-adpie"
+          ],
+          "questions": [
+            "51|c|0",
+            "51|c|5",
+            "51|c|6",
+            "51|c|7",
+            "51|c|8",
+            "51|c|9"
+          ]
+        },
+        "acute-pancreatitis": {
+          "chapters": [
+            "51"
+          ],
+          "notes": [
+            "51-acute-pancreatitis-the-inflammation-exem",
+            "51-recognizing-acute-pancreatitis-pain-sign",
+            "51-caring-for-acute-pancreatitis-pain-npo-a"
+          ],
+          "questions": [
+            "51|c|1",
+            "51|c|10",
+            "51|c|11",
+            "51|c|16"
+          ]
+        },
+        "chronic-pancreatitis": {
+          "chapters": [
+            "51"
+          ],
+          "notes": [
+            "51-chronic-pancreatitis"
+          ],
+          "questions": [
+            "51|c|12",
+            "51|c|13"
+          ]
+        },
+        "pancreatic-cancer": {
+          "chapters": [
+            "51"
+          ],
+          "notes": [
+            "51-pancreatic-cancer-risk-signs-and-treatme",
+            "51-the-whipple-procedure-surgery-and-recove"
+          ],
+          "questions": [
+            "51|c|14",
+            "51|c|15"
+          ]
+        },
+        "nutrition-screen": {
+          "chapters": [
+            "52"
+          ],
+          "notes": [
+            "52-overview",
+            "52-healthy-eating-diets-and-food-sensitivit",
+            "52-nutrition-screening-and-body-measurement",
+            "52-undernutrition-the-nutrition-exemplar",
+            "52-feeding-the-undernourished-patient-meals",
+            "52-adpie"
+          ],
+          "questions": [
+            "52|c|4",
+            "52|c|5",
+            "52|c|17",
+            "52|c|18",
+            "52|c|19",
+            "52|c|20"
+          ]
+        },
+        "enteral-nutrition": {
+          "chapters": [
+            "52"
+          ],
+          "notes": [
+            "52-tube-feeding-total-enteral-nutrition"
+          ],
+          "questions": [
+            "52|c|6",
+            "52|c|7",
+            "52|c|8"
+          ]
+        },
+        "parenteral-nutrition": {
+          "chapters": [
+            "52"
+          ],
+          "notes": [
+            "52-parenteral-nutrition-ppn-and-tpn"
+          ],
+          "questions": [
+            "52|c|10",
+            "52|c|11"
+          ]
+        },
+        "weight-bariatric": {
+          "chapters": [
+            "52"
+          ],
+          "notes": [
+            "52-obesity-the-nutrition-exemplar",
+            "52-treating-obesity-diet-exercise-drugs-and",
+            "52-bariatric-surgery-care-before-and-after"
+          ],
+          "questions": [
+            "52|c|1",
+            "52|c|3",
+            "52|c|13",
+            "52|c|14",
+            "52|c|15",
+            "52|c|16"
+          ]
+        },
+        "resp-prevention": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-inhalation-injury-and-smoking-cessation",
+            "22-questions-to-ask-this-patient",
+            "22-adpie",
+            "22-the-airway-lungs-and-aging-in-detail"
+          ],
+          "questions": [
+            "learn|prevention-risk",
+            "learn|prevention-plan"
+          ]
+        },
+        "pack-years": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-inhalation-injury-and-smoking-cessation",
+            "22-questions-to-ask-this-patient"
+          ],
+          "questions": [
+            "learn|pack-years-one",
+            "learn|pack-years-two"
+          ]
+        },
+        "resp-aging": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-overview",
+            "22-questions-to-ask-this-patient"
+          ],
+          "questions": [
+            "learn|aging-reserve",
+            "learn|aging-change"
+          ]
+        },
+        "resp-assessment": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-overview",
+            "22-reading-the-numbers-oximetry-capnography",
+            "22-oxygen-as-a-drug-devices-doses-hazards",
+            "22-breath-sounds-sound-to-mechanism",
+            "22-diagnostic-tests-and-your-job-around-eac"
+          ],
+          "questions": [
+            "22|c|2",
+            "22|c|8",
+            "22|c|1",
+            "22|n|0",
+            "22|n|2"
+          ]
+        },
+        "resp-procedures": {
+          "chapters": [
+            "22"
+          ],
+          "notes": [
+            "22-endoscopy-thoracentesis-and-biopsy-the-n",
+            "22-diagnostic-tests-and-your-job-around-eac"
+          ],
+          "questions": [
+            "22|c|7",
+            "22|c|0",
+            "22|n|1",
+            "22|n|3"
+          ]
+        },
+        "upper-airway": {
+          "chapters": [
+            "23"
+          ],
+          "notes": [
+            "23-overview",
+            "23-obstructive-sleep-apnea-the-full-picture",
+            "23-obstruction-epistaxis-and-trauma",
+            "23-head-and-neck-cancer-treatment-and-surgi",
+            "23-obstructive-sleep-apnea",
+            "23-epistaxis-trauma-and-obstruction",
+            "23-head-and-neck-cancer-and-the-laryngectom",
+            "23-adpie"
+          ],
+          "questions": [
+            "23|c|3",
+            "23|c|5",
+            "23|c|6",
+            "23|c|2",
+            "23|c|4",
+            "23|c|7",
+            "23|c|0",
+            "23|n|0",
+            "23|n|1",
+            "23|n|2",
+            "23|n|3"
+          ]
+        },
+        "asthma": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "24-overview",
+            "24-asthma-the-full-picture",
+            "24-adpie",
+            "24-drugs-and-inhalers-for-asthma-and-copd"
+          ],
+          "questions": [
+            "24|c|1",
+            "24|c|8",
+            "24|n|2"
+          ]
+        },
+        "copd": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "24-overview",
+            "24-copd-the-gas-exchange-concept-exemplar"
+          ],
+          "questions": [
+            "24|c|2",
+            "24|n|0",
+            "24|n|3"
+          ]
+        },
+        "chest-tubes": {
+          "chapters": [
+            "24"
+          ],
+          "notes": [
+            "24-lung-cancer-and-the-chest-tube",
+            "24-cystic-fibrosis-in-the-adult",
+            "24-pulmonary-arterial-hypertension-and-idio"
+          ],
+          "questions": [
+            "24|c|3",
+            "24|c|7",
+            "24|c|5",
+            "24|n|1"
+          ]
+        },
+        "pneumonia": {
+          "chapters": [
+            "25"
+          ],
+          "notes": [
+            "25-overview",
+            "25-pneumonia-the-gas-exchange-concept-exemp",
+            "25-seasonal-influenza-and-pandemic-infectio",
+            "25-covid-19-the-infection-concept-exemplar",
+            "25-rhinosinusitis-peritonsillar-abscess-ant",
+            "25-adpie"
+          ],
+          "questions": [
+            "25|c|4",
+            "25|c|7",
+            "25|c|5",
+            "25|c|6",
+            "25|c|8",
+            "25|n|0",
+            "25|n|2"
+          ]
+        },
+        "tuberculosis": {
+          "chapters": [
+            "25"
+          ],
+          "notes": [
+            "25-tuberculosis"
+          ],
+          "questions": [
+            "25|c|2",
+            "25|c|3",
+            "25|n|1",
+            "25|n|3"
+          ]
+        },
+        "dka": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-dka-and-hhs-the-hyperglycemic-emergencie",
+            "56-overview",
+            "56-adpie"
+          ],
+          "questions": [
+            "56|trad|30",
+            "56|trad|32"
+          ]
+        },
+        "gi-aging": {
+          "chapters": [
+            "45"
+          ],
+          "notes": [
+            "45-gi-changes-with-aging"
+          ],
+          "questions": [
+            "45|trad|11",
+            "45|trad|12"
+          ]
+        },
+        "quadrants": {
+          "chapters": [
+            "45"
+          ],
+          "notes": [
+            "45-gi-history-and-the-abdominal-exam",
+            "45-overview"
+          ],
+          "questions": [
+            "quadrants-a",
+            "quadrants-b"
+          ]
+        },
+        "mouth": {
+          "chapters": [
+            "46"
+          ],
+          "notes": [
+            "46-stomatitis-the-tissue-integrity-exemplar"
+          ],
+          "questions": [
+            "46|ngn|0",
+            "mouth-b"
+          ]
+        },
+        "gerd": {
+          "chapters": [
+            "46"
+          ],
+          "notes": [
+            "46-gerd-the-nutrition-exemplar",
+            "46-treating-gerd-diet-lifestyle-drugs-proce"
+          ],
+          "questions": [
+            "46|ngn|4",
+            "46|trad|2"
+          ]
+        },
+        "hernia": {
+          "chapters": [
+            "46"
+          ],
+          "notes": [
+            "46-hiatal-hernia-and-fundoplication-care"
+          ],
+          "questions": [
+            "46|trad|7",
+            "46|trad|6"
+          ]
+        },
+        "pud": {
+          "chapters": [
+            "47"
+          ],
+          "notes": [
+            "47-gastritis",
+            "47-peptic-ulcer-disease-the-infection-exemp",
+            "47-overview",
+            "47-adpie"
+          ],
+          "questions": [
+            "47|trad|7",
+            "47|trad|20"
+          ]
+        },
+        "ulcer-drugs": {
+          "chapters": [
+            "47"
+          ],
+          "notes": [
+            "47-ulcer-and-gastritis-drugs-table-47-1"
+          ],
+          "questions": [
+            "47|trad|1",
+            "47|trad|2"
+          ]
+        },
+        "gi-bleed": {
+          "chapters": [
+            "47"
+          ],
+          "notes": [
+            "47-upper-gi-bleeding-and-ulcer-emergencies"
+          ],
+          "questions": [
+            "47|trad|15",
+            "47|trad|16"
+          ]
+        },
+        "gastric-cancer": {
+          "chapters": [
+            "47"
+          ],
+          "notes": [
+            "47-gastric-cancer-and-life-after-gastrectom"
+          ],
+          "questions": [
+            "47|trad|6",
+            "47|ngn|6"
+          ]
+        },
+        "glands": {
+          "chapters": [
+            "53"
+          ],
+          "notes": [
+            "53-pituitary-thyroid-parathyroid-and-pancre"
+          ],
+          "questions": [
+            "glands-a",
+            "glands-b"
+          ]
+        },
+        "endocrine-aging": {
+          "chapters": [
+            "53"
+          ],
+          "notes": [
+            "53-aging-and-covid-19-what-changes-in-the-g"
+          ],
+          "questions": [
+            "53|trad|0",
+            "53|trad|5"
+          ]
+        },
+        "urine": {
+          "chapters": [
+            "53"
+          ],
+          "notes": [
+            "53-diagnostic-tests-and-the-nurse-s-job"
+          ],
+          "questions": [
+            "53|trad|15",
+            "urine-b"
+          ]
+        },
+        "hypothyroid": {
+          "chapters": [
+            "55"
+          ],
+          "notes": [
+            "55-hypothyroidism-the-cellular-regulation-e",
+            "55-overview",
+            "55-adpie"
+          ],
+          "questions": [
+            "55|trad|5",
+            "55|trad|14"
+          ]
+        },
+        "myxedema": {
+          "chapters": [
+            "55"
+          ],
+          "notes": [
+            "55-myxedema-coma"
+          ],
+          "questions": [
+            "myxedema-a",
+            "myxedema-b"
+          ]
+        },
+        "hyperthyroid": {
+          "chapters": [
+            "55"
+          ],
+          "notes": [
+            "55-hyperthyroidism-and-graves-disease",
+            "55-treating-hyperthyroidism-drugs-radioacti"
+          ],
+          "questions": [
+            "55|trad|1",
+            "55|trad|3"
+          ]
+        },
+        "thyroidectomy": {
+          "chapters": [
+            "55"
+          ],
+          "notes": [
+            "55-thyroidectomy-and-thyroid-storm"
+          ],
+          "questions": [
+            "55|ngn|4",
+            "55|ngn|3"
+          ]
+        },
+        "thyroid-storm": {
+          "chapters": [
+            "55"
+          ],
+          "notes": [
+            "55-thyroidectomy-and-thyroid-storm"
+          ],
+          "questions": [
+            "storm-a",
+            "storm-b"
+          ]
+        },
+        "thyroiditis-cancer": {
+          "chapters": [
+            "55"
+          ],
+          "notes": [
+            "55-thyroiditis-and-thyroid-cancer"
+          ],
+          "questions": [
+            "55|trad|15",
+            "55|trad|16"
+          ]
+        },
+        "calcium": {
+          "chapters": [
+            "55"
+          ],
+          "notes": [
+            "55-hypoparathyroidism-and-hyperparathyroidi"
+          ],
+          "questions": [
+            "55|trad|9",
+            "55|trad|10"
+          ]
+        },
+        "diabetes-types": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-types-risk-and-screening"
+          ],
+          "questions": [
+            "56|trad|21",
+            "56|trad|34"
+          ]
+        },
+        "monitoring": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-diagnosing-and-monitoring-glucose-a1c-cg"
+          ],
+          "questions": [
+            "56|trad|0",
+            "56|trad|33"
+          ]
+        },
+        "insulin": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-insulin-types-timing-injection-and-stora"
+          ],
+          "questions": [
+            "insulin-a",
+            "insulin-b"
+          ]
+        },
+        "diabetes-drugs": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-antidiabetic-drugs-non-insulin"
+          ],
+          "questions": [
+            "56|trad|3",
+            "56|trad|31"
+          ]
+        },
+        "hypoglycemia": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-hypoglycemia-the-15-15-rule"
+          ],
+          "questions": [
+            "hypo-a",
+            "56|trad|10"
+          ]
+        },
+        "hhs": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-dka-and-hhs-the-hyperglycemic-emergencie"
+          ],
+          "questions": [
+            "hhs-a",
+            "hhs-b"
+          ]
+        },
+        "diabetes-complications": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-chronic-complications-vessels-eyes-nerve",
+            "56-foot-care-kidneys-and-preventing-injury"
+          ],
+          "questions": [
+            "56|trad|19",
+            "56|trad|17"
+          ]
+        },
+        "self-management": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-eating-and-exercise-with-diabetes",
+            "56-teaching-self-management"
+          ],
+          "questions": [
+            "56|trad|14",
+            "56|trad|35"
+          ]
+        },
+        "hospital-diabetes": {
+          "chapters": [
+            "56"
+          ],
+          "notes": [
+            "56-diabetes-in-the-hospital-and-around-surg"
+          ],
+          "questions": [
+            "56|trad|13",
+            "56|trad|27"
+          ]
+        }
+      }
+    }
+  }
+}

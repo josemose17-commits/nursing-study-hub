@@ -6,7 +6,29 @@
 })(typeof window === 'object' ? window : globalThis, function () {
   'use strict';
   const DAY = 86400000, RETRY = 600000;
-  function blank() { return { version: 1, lessons: {}, drafts: {}, session: null }; }
+  function blank() { return { version: 1, lessons: {}, drafts: {}, session: null, misses: { version: 1, items: {} } }; }
+  function restoreMisses(s, lessons) {
+    const valid = (m, key) => {
+      const l = m && lessons.find(l => l.id === m.lesson);
+      return l && Number.isInteger(m.variant) && !!l.questions[m.variant] && key === m.lesson + ':' + m.variant;
+    };
+    if (s.misses && s.misses.version === 1 && s.misses.items && typeof s.misses.items === 'object') {
+      s.misses.items = Object.fromEntries(Object.entries(s.misses.items).filter(([key,m]) => valid(m,key)).map(([key,m]) => {
+        const l=lessons.find(l=>l.id===m.lesson);
+        return [key,{...m,recall:Array.isArray(m.recall)?m.recall.filter(i=>Number.isInteger(i)&&i>=0&&i<l.checks.length):[]}];
+      }));
+      return;
+    }
+    s.misses = { version: 1, items: {} };
+    // Recover the retained old history, without inventing which individual recall points were missed.
+    for (const l of lessons) for (const h of (Array.isArray(s.lessons[l.id]?.history)?s.lessons[l.id].history:[])) {
+      if(!h||typeof h!=='object')continue;
+      if (!Number.isInteger(h.variant) || !l.questions[h.variant]) continue;
+      const key=l.id+':'+h.variant, old=s.misses.items[key];
+      if (!h.correct || !h.recalled) s.misses.items[key]={lesson:l.id,variant:h.variant,at:h.at,count:(old?.count||0)+1,decision:!h.correct,recall:[],recallUnknown:!h.recalled,repairedAt:null};
+      else if(old) old.repairedAt=h.at;
+    }
+  }
   function restore(raw, lessons) {
     let s; try { s = JSON.parse(raw); } catch (_) {}
     if (!s || s.version !== 1 || !s.lessons || typeof s.lessons !== 'object' || Array.isArray(s.lessons)) return blank();
@@ -22,6 +44,7 @@
     }
     if (!valid(s.session)) s.session = null;
     s.drafts = Object.fromEntries(Object.entries(s.drafts && typeof s.drafts === 'object' ? s.drafts : {}).filter(([id,t]) => ids.has(id) && valid(t) && t.id === id));
+    restoreMisses(s, lessons);
     return s;
   }
   function grade(question, picks) {
@@ -49,6 +72,10 @@
     p.attempts = (p.attempts || 0) + 1;
     p.completedAt = now; p.recallAt = now; p.recalled = recalled; p.correct = correct;
     p.history = (Array.isArray(p.history) ? p.history : []).concat({ at: now, variant: t.variant, correct, recalled, delayed: t.eligible }).slice(-30);
+    if (!state.misses || state.misses.version !== 1) state.misses = { version: 1, items: {} };
+    const key=lesson.id+':'+t.variant, old=state.misses.items[key];
+    if(!success) state.misses.items[key]={lesson:lesson.id,variant:t.variant,at:now,count:(old?.count||0)+1,decision:!correct,recall:t.checks.flatMap((ok,i)=>ok?[]:[i]),recallUnknown:false,repairedAt:null};
+    else if(old) old.repairedAt=now;
     if (!success) { p.streak = 0; p.needsReview = true; p.dueAt = now + RETRY; }
     else if (t.eligible) {
       p.streak = Math.min(3, (p.streak || 0) + 1); p.needsReview = false;
@@ -79,11 +106,24 @@
         return pre ? foundation(pre, seen) : l;
       }
       const l = foundation(target);
-      if (l.id !== target.id) return { lesson: l, reason: 'A foundation for “' + target.title + '”, selected using missed topics and your exam’s chapter weights.' };
-      return { lesson: l, reason: l.notes.some(n => missed.has(n)) ? 'This connects to a missed point in your last Mastery report.' : 'A ready lesson, balancing prerequisites and your exam’s chapter weights.' };
+      if (l.id !== target.id) return { lesson: l, reason: 'A foundation for “' + target.title + '”, selected using missed topics and chapter coverage.' };
+      return { lesson: l, reason: l.notes.some(n => missed.has(n)) ? 'This connects to a recorded missed topic in your test history.' : 'A ready lesson, balancing prerequisites and chapter coverage.' };
     }
     const next = rows.filter(x => Number.isFinite(x.p.dueAt)).sort((a, b) => a.p.dueAt - b.p.dueAt)[0];
     return next ? { lesson: next.lesson, reason: 'No reviews are due. You can practise early; the scheduled date will stay the same.', early: true } : null;
   }
-  return { DAY, RETRY, blank, restore, grade, start, finish, recommend };
+  function missEntries(state, lessons, includeRepaired=false) {
+    const ids=new Set(lessons.map(l=>l.id));
+    return Object.entries(state.misses?.items||{}).filter(([,m])=>ids.has(m.lesson)&&(includeRepaired||!m.repairedAt)).map(([key,m])=>({key,...m})).sort((a,b)=>Number(!!a.repairedAt)-Number(!!b.repairedAt)||(b.at||0)-(a.at||0));
+  }
+  function retryMiss(state, lesson, variant, now, random=Math.random) {
+    if(!state.misses?.items[lesson.id+':'+variant]||!lesson.questions[variant])return null;
+    // An independent repair can coexist with an unfinished ordinary lesson draft.
+    if(state.session&&!['feedback','done'].includes(state.session.stage))state.drafts[state.session.id]=state.session;
+    const p=state.lessons[lesson.id]||{},order=lesson.questions[variant].o.map((_,i)=>i);
+    for(let i=order.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+    state.session={id:lesson.id,variant,order,stage:'recall',picks:[],draft:'',revealed:false,checks:lesson.checks.map(()=>false),eligible:!!p.completedAt&&Number.isFinite(p.dueAt)&&now>=p.dueAt,startedAt:now,repair:true};
+    return state.session;
+  }
+  return { DAY, RETRY, blank, restore, grade, start, finish, recommend, restoreMisses, missEntries, retryMiss };
 });

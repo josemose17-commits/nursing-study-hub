@@ -166,7 +166,7 @@
       var runtime = document.createElement('script'); runtime.src = base + 'word-parts.js?v=' + version;
       runtime.onload = function () {
         var terms = (window.WORD_PARTS_DATA || {}).terms || {};
-        Object.keys(terms).forEach(function (key) { var t = terms[key]; if (t.type === 'word-parts' && !E[key]) { addWord(key, '', key); DEF[key] = { def: t.definition }; } });
+        Object.keys(terms).forEach(function (key) { var t = terms[key]; if ((t.type === 'word-parts' || t.learn) && !E[key]) { addWord(key, '', key); DEF[key] = { def: t.definition }; } });
         compile(); if (on) scan(); window.dispatchEvent(new Event('wordparts-ready'));
       };
       document.head.appendChild(runtime);

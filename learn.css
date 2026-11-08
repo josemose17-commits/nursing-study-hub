@@ -50,3 +50,16 @@ td, th { text-align: left; padding: 9px; border-bottom: 1px solid var(--color-di
 .hl-close { margin-top:28px; padding-top:22px; border-top:1px solid var(--color-divider); }
 
 .catalog .catalog-explore { display:block; font-size:13px; color:var(--color-accent-200); padding:7px 0; }
+
+.learn-exams { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+.learn-exams a { border:1px solid var(--color-divider); border-radius:99px; padding:9px 14px; text-decoration:none; font-size:13px; }
+.learn-exams [aria-current] { background:var(--color-accent-900); border-color:var(--color-accent-300); color:var(--color-text); }
+.chapter-picker, .miss-bank { border:1px solid var(--color-divider); border-radius:16px; padding:6px 18px; margin:20px 0; }
+.chapter-options { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:0 12px; }
+.scope p:first-of-type { margin-top:12px; }
+.learn-term-help { margin:18px 0; }
+.ss-chapter-detail { border-top:1px solid var(--color-divider); padding:6px 0; }
+.ss-chapter-detail li { margin-bottom:8px; }
+.ss-node, .ss-scene, .ss-chapter-detail, .option span, .feedback, .catalog li { overflow-wrap:anywhere; min-width:0; }
+.miss-bank .catalog .btn { min-height:44px; color:var(--color-accent-200); padding:10px 14px; border:1px solid var(--color-divider); border-radius:10px; }
+@media(max-width:420px) { .chapter-options { grid-template-columns:1fr; } .learn-exams a { flex:1 0 25%; text-align:center; } }

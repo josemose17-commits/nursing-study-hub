@@ -12,9 +12,9 @@
     if (EXAM) localStorage.setItem('hub-exam', EXAM); else EXAM = last;
   } catch (e) {}
   // Pages each exam has so far; a missing one gets no tab.
-  var HAS = { '1': ['Map'], '2': ['Map', 'Drugs', 'Mastery'], '3': ['Learn', 'Route', 'Map', 'Drugs', 'Mastery'], '4': ['Map'], '5': ['Map'], 'F': ['Map', 'Drugs', 'Mastery'] };
+  var HAS = { '1': ['Learn', 'Map'], '2': ['Learn', 'Map', 'Drugs', 'Mastery'], '3': ['Learn', 'Route', 'Map', 'Drugs', 'Mastery'], '4': ['Learn', 'Map'], '5': ['Learn', 'Map'], 'F': ['Learn', 'Map', 'Drugs', 'Mastery'] };
   if (!HAS[EXAM]) EXAM = '2';
-  var PAGE = EXAM === 'F' ? { Learn: '', Route: '', Map: 'Final Map.html', Drugs: 'Exam 3 Drug Cards.dc.html', Mastery: 'Final Mastery Loop.dc.html' }
+  var PAGE = EXAM === 'F' ? { Learn: 'Final Learn.html', Route: '', Map: 'Final Map.html', Drugs: 'Exam 3 Drug Cards.dc.html', Mastery: 'Final Mastery Loop.dc.html' }
     : { Learn: 'Exam ' + EXAM + ' Learn.html', Route: 'Exam ' + EXAM + ' Route.html', Map: 'Exam ' + EXAM + ' Map.html', Drugs: 'Exam ' + EXAM + ' Drug Cards.dc.html', Mastery: 'Exam ' + EXAM + ' Mastery Loop.dc.html' };
   var TABS = [
     ['index.html', 'Home', 'M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z'],
@@ -87,11 +87,13 @@
       if (M && M.test) bits.push((x[0] === 'Final' ? 'a ' : 'an ') + x[0] + ' test in progress');
     });
     if (snap.d['e2-focus'] || snap.d['e3-focus']) bits.push('your focus topics');
-    var guided = null; try { guided = JSON.parse(snap.d['e3-learn-v1'] || 'null'); } catch (e) {}
-    if (guided && guided.lessons && typeof guided.lessons === 'object') {
-      var tried = Object.keys(guided.lessons).filter(function (id) { return guided.lessons[id] && guided.lessons[id].completedAt; }).length;
-      bits.push('Exam 3 guided study: ' + tried + ' lessons attempted' + (guided.session && guided.session.stage !== 'done' ? ', one paused' : ''));
-    }
+    [['Exam 1','e1'],['Exam 2','e2'],['Exam 3','e3'],['Exam 4','e4'],['Exam 5','e5'],['Final','fin']].forEach(function (x) {
+      var guided=null;try{guided=JSON.parse(snap.d[x[1]+'-learn-v1']||'null');}catch(e){}
+      if(guided&&guided.lessons&&typeof guided.lessons==='object'){
+        var tried=Object.keys(guided.lessons).filter(function(id){return guided.lessons[id]&&guided.lessons[id].completedAt;}).length;
+        bits.push(x[0]+' guided study: '+tried+' lessons attempted'+(guided.session&&guided.session.stage!=='done'?', one paused':''));
+      }
+    });
     return (bits.length ? bits.join(', ') : 'your saved settings') + ' — saved ' + new Date(snap.at).toLocaleString();
   }
   // Loading a snapshot (from a link or a progress file): ask first, then replace this device's progress.
@@ -124,7 +126,7 @@
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up — once per page,
   // since each page's HTML (and the data it names) is cached separately.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202611071500';
+  var BUILD = '202611081800';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     // Builds before 202610282230 reloaded only once per session for every page. This page is already current, so clear

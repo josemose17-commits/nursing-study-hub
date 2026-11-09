@@ -1,6 +1,6 @@
 # Task: add Chapter 34 to Exam 4 (map content + lessons)
 
-You are working in the repo `josemose17-commits/nursing-study-hub`, a static GitHub Pages study site for an NRS 114 student. Exam 4 is mental health (Varcarolis, *Foundations of Psychiatric-Mental Health Nursing*, 9e). Chapters 1, 2, 3, 5, 6, 8, 9, 10, 15 and 16 are already on the Exam 4 map. **Chapter 34 is missing.** The student will paste the Chapter 34 text into this conversation. Add it in two places: (A) the Exam 4 map, and (B) lessons built the same way as the Exam 3 lessons you made.
+You are working in the repo `josemose17-commits/nursing-study-hub`, a static GitHub Pages study site for an NRS 114 student. Exam 4 is mental health (Varcarolis, *Foundations of Psychiatric-Mental Health Nursing*, 9e). Chapters 1, 2, 3, 5, 6, 8, 9, 10, 15 and 16 are already on the Exam 4 map. **Chapter 34 is missing.** The student will paste the Chapter 34 text into this conversation. Add it to (A) the Exam 4 map data and (B) the Exam 4 Learn lessons, which are generated from that data.
 
 ## Hard rules
 1. **Own words only.** The site is public. Never paste or closely paraphrase textbook sentences, lists, tables or case studies. Read the chapter, then write it fresh in plain, short sentences, the way the existing `data/mh/topics.js` entries are written. Keep facts, terms and numbers accurate to the chapter.
@@ -26,21 +26,21 @@ Read `data/mh/README.md` first; it documents every shape. Text supports `**bold*
 6. In `Exam 4 Map.html`, bump the `?v=` on every `data/mh/*.js` script you changed (use a new timestamp like `YYYYMMDDHHMM`).
 7. Run `node tools/check_mh.js` and fix every error.
 
-## B. Lessons (same system as the Exam 3 Learn page you built)
-Build the Chapter 34 lessons the same way you built the Exam 3 lessons (`data/e3/lessons-src.js` → `tools/build_e3_lessons.js` → `Exam 3 Learn.html`, checked by `tools/check_e3_lessons.js`). Reuse that engine. Don't fork a new one.
-- Create an Exam 4 lesson source (e.g. `data/mh/lessons-src.js`) with lessons covering **all** of Chapter 34: teach → coached decision → recall/application questions, the same lesson shape and features as Exam 3 (scheduling and reviews, retries, draft persistence, separate recall vs application scoring).
-- Lesson questions may reuse the new `MH_Q` items by id or be written new. Keep them consistent with the map content, with no contradictions.
-- Output an `Exam 4 Learn.html` page (or add Chapter 34 lessons to an existing Exam 4 lesson page if one exists by then). Store progress under the `e4-` localStorage prefix (it is already in `nav.js` SYNC).
-- In `nav.js`, add `'Learn'` to Exam 4 in `HAS` (it becomes `'4': ['Learn', 'Map']`). The `PAGE.Learn` path `'Exam 4 Learn.html'` already follows the pattern.
-- Add a check script (or extend the existing one) so the Exam 4 lessons pass the same checks the Exam 3 lessons do, and run it.
+## B. Lessons (Exam 4 Learn, which you already built)
+`Exam 4 Learn.html` loads `data/learn/e4.js`, which `tools/build_learn_all.js` generates from the Exam 4 map data (`buildMH('mh','e4')`, settings in `tools/learn-catalog.js`, extra questions in `tools/learn-questions.js`). Lessons for Chapter 34 come from the topic, condition, drills and questions you add in Part A. To finish them:
+1. Run `node tools/build_learn_all.js` after Part A so `data/learn/e4.js` picks up Chapter 34. Never hand-edit `data/learn/e4.js`.
+2. If Chapter 34 is a **condition**, add its id to `conditionChapters.e4` in `tools/learn-catalog.js` with `'34'` (like `bipolar:'13'`).
+3. Update the Exam 4 `scope` text in `build_learn_all.js` if it lists chapters, so it mentions Chapter 34.
+4. Make sure every Chapter 34 lesson has a teach step, a coached decision and recall/application questions, the same as the other Exam 4 topics. If the generated lesson is thin, add questions in `tools/learn-questions.js` (as with `trauma-choice`) and rebuild.
+5. Run `node tools/check_learn_all.js` and fix every error. Open `Exam 4 Learn.html` at 390px and work through a Chapter 34 lesson end to end: right answer, wrong answer and retry, reload to confirm progress saved under `e4-learn-v1`.
 
 ## C. Release steps (always, in this order)
 1. Bump `BUILD` in `nav.js` and `version.json` to the same new timestamp, then update every `nav.js?v=` reference in all `.html` files to match.
 2. Rebuild the mastery pages: `node tools/build_e3_mastery.js` and `node tools/build_e3_mastery.js final`.
 3. Run **every** `tools/check_*.js` and make sure all pass.
 4. Load `Exam 4 Map.html` and the Learn page at a 390px-wide viewport. Confirm no console errors and no horizontal scroll, and that the new topic, drill, questions and lessons render and grade correctly.
-5. Add a line for Chapter 34 and the Exam 4 Learn page to `README.md`.
+5. Add Chapter 34 to the Exam 4 line in `README.md`.
 6. Commit with a clear message, then push your branch and fast-forward `main` (after the merge-base check in rule 4).
 
 ## Done means
-Chapter 34 shows on the Exam 4 map as a topic (and as a condition, if it is one), with drills and questions. Exam 4 has a Learn tab with Chapter 34 lessons. Every check passes. Nothing is copied from the textbook.
+Chapter 34 shows on the Exam 4 map as a topic (and as a condition, if it is one), with drills and questions, and its lessons appear on Exam 4 Learn. Every check passes. Nothing is copied from the textbook.

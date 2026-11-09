@@ -1,0 +1,2078 @@
+{
+  "baseline": "e3bffd7c62991bb67c181835a24bcb97e64c9d9a",
+  "lessons": [
+    {
+      "exam": "e4",
+      "id": "t-intro",
+      "title": "Mental health and mental illness",
+      "chapters": [
+        "1"
+      ],
+      "notes": [
+        "t-intro"
+      ],
+      "sections": [
+        {
+          "route": "t-intro",
+          "headings": [
+            "What’s “normal” depends on culture",
+            "How common mental illness is",
+            "Causes: it’s never just one thing",
+            "The psychiatric-mental health nurse"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-intro:active:0",
+          "type": "choice",
+          "task": "Which nursing goal best supports recovery?"
+        },
+        {
+          "id": "t-intro:active:1",
+          "type": "choice",
+          "task": "What information is most useful next?"
+        }
+      ],
+      "independentItems": [
+        "q-intro-1",
+        "q-intro-2"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-e4-diagnostics",
+      "title": "Diagnostic tools: criteria and nursing care",
+      "chapters": [
+        "1"
+      ],
+      "notes": [
+        "t-dx"
+      ],
+      "sections": [
+        {
+          "route": "t-dx",
+          "headings": [
+            "What the DSM contributes",
+            "Nursing diagnoses in mental health"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-e4-diagnostics:active:0",
+          "type": "choice",
+          "task": "Which explanation fits?"
+        },
+        {
+          "id": "t-e4-diagnostics:active:1",
+          "type": "choice",
+          "task": "Which draft outcome is easiest to evaluate?"
+        }
+      ],
+      "independentItems": [
+        "q-e4-dsm-purpose",
+        "q-e4-nursing-response"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-life",
+      "title": "Development across the lifespan",
+      "chapters": [
+        "2"
+      ],
+      "notes": [
+        "t-life"
+      ],
+      "sections": [
+        {
+          "route": "t-life",
+          "headings": [
+            "Erikson’s eight stages",
+            "Piaget: how thinking develops",
+            "Moral development: Kohlberg and Gilligan",
+            "Freud’s stages (for context)",
+            "Mental health at the ends of life"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-life:active:0",
+          "type": "choice",
+          "task": "Which response supports industry?"
+        },
+        {
+          "id": "t-life:active:1",
+          "type": "choice",
+          "task": "Which teaching change best fits the observed thinking?"
+        }
+      ],
+      "independentItems": [
+        "q-life-1",
+        "q-life-2"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-legal",
+      "title": "Legal and ethical care",
+      "chapters": [
+        "6"
+      ],
+      "notes": [
+        "t-legal"
+      ],
+      "sections": [
+        {
+          "route": "t-legal",
+          "headings": [
+            "Types of admission",
+            "Discharge types",
+            "Patients’ rights",
+            "Restraint and seclusion",
+            "Confidentiality and HIPAA",
+            "Torts and liability",
+            "Ethical principles"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-legal:active:0",
+          "type": "choice",
+          "task": "Which action best respects the discharge request?"
+        },
+        {
+          "id": "t-legal:active:1",
+          "type": "choice",
+          "task": "What governs the next action?"
+        }
+      ],
+      "independentItems": [
+        "q-legal-2",
+        "q-legal-3",
+        "q-legal-4",
+        "q-legal-5",
+        "q-legal-6"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-theories",
+      "title": "Theories and therapies",
+      "chapters": [
+        "2"
+      ],
+      "notes": [
+        "t-theories"
+      ],
+      "sections": [
+        {
+          "route": "t-theories",
+          "headings": [
+            "Freud (psychoanalytic)",
+            "Interpersonal: Sullivan and Peplau",
+            "Maslow (humanistic)",
+            "Behavioral theories (learning)",
+            "Cognitive theories",
+            "Cognitive distortions to recognize",
+            "Biological theory and therapies"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-theories:active:0",
+          "type": "choice",
+          "task": "Which approach is being used most directly?"
+        },
+        {
+          "id": "t-theories:active:1",
+          "type": "choice",
+          "task": "What changes the immediate plan?"
+        }
+      ],
+      "independentItems": [
+        "q-theory-1",
+        "q-theory-2"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-neuro",
+      "title": "The brain and psych meds",
+      "chapters": [
+        "3"
+      ],
+      "notes": [
+        "t-neuro"
+      ],
+      "sections": [
+        {
+          "route": "t-neuro",
+          "headings": [
+            "Neurotransmitters and what they do",
+            "Brain areas",
+            "The HPA axis and stress",
+            "Receptor blockade → side effect (the key)",
+            "Antianxiety and sleep drugs",
+            "Antidepressants by class",
+            "Mood stabilizers",
+            "Antipsychotics (more on Exam 5)",
+            "ADHD and Alzheimer drugs",
+            "Herbals and brain imaging"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-neuro:active:0",
+          "type": "choice",
+          "task": "Which connection best guides the next assessment?"
+        },
+        {
+          "id": "t-neuro:active:1",
+          "type": "choice",
+          "task": "Which correction is accurate?"
+        }
+      ],
+      "independentItems": [
+        "q-neuro-2",
+        "q-neuro-3",
+        "q-neuro-4",
+        "q-neuro-5",
+        "q-neuro-6",
+        "q-neuro-7",
+        "q-neuro-8",
+        "q-neuro-9",
+        "q-neuro-10",
+        "q-neuro-11",
+        "q-neuro-12"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-e4-peplau",
+      "title": "Peplau’s Model of the Nurse-Patient Relationship",
+      "chapters": [
+        "9"
+      ],
+      "notes": [
+        "t-relationship"
+      ],
+      "sections": [
+        {
+          "route": "t-relationship",
+          "headings": [
+            "Peplau’s phases"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-e4-peplau:active:0",
+          "type": "order",
+          "task": "Arrange the relationship tasks."
+        },
+        {
+          "id": "t-e4-peplau:active:1",
+          "type": "choice",
+          "task": "What is the nurse doing now?"
+        },
+        {
+          "id": "t-e4-peplau:active:2",
+          "type": "choice",
+          "task": "Which response fits the phase?"
+        }
+      ],
+      "independentItems": [
+        "q-rel-1",
+        "q-e4-peplau-working"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-comm",
+      "title": "Communication Skills for Nurses",
+      "chapters": [
+        "9"
+      ],
+      "notes": [
+        "t-comm"
+      ],
+      "sections": [
+        {
+          "route": "t-comm",
+          "headings": [
+            "Techniques that help",
+            "Blocks to avoid",
+            "Nonverbal communication",
+            "The clinical interview",
+            "How to pick the right answer on the exam"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-comm:active:0",
+          "type": "choice",
+          "task": "Which response best keeps the concern central?"
+        },
+        {
+          "id": "t-comm:active:1",
+          "type": "choice",
+          "task": "Which response fits the new task?"
+        }
+      ],
+      "independentItems": [
+        "q-comm-2",
+        "q-comm-3"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-groups-foundations",
+      "title": "Therapeutic groups: benefits and Yalom’s routes to change",
+      "chapters": [
+        "34"
+      ],
+      "notes": [
+        "t-groups"
+      ],
+      "sections": [
+        {
+          "route": "t-groups",
+          "headings": [
+            "Why use a group, and when does it fit?",
+            "Yalom: belonging, hope and contribution",
+            "Yalom: trying new relationships and making meaning"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-groups-foundations:active:0",
+          "type": "choice",
+          "task": "Which factor is most directly illustrated?"
+        },
+        {
+          "id": "t-groups-foundations:active:1",
+          "type": "choice",
+          "task": "Which factor best explains this work?"
+        }
+      ],
+      "independentItems": [
+        "q-g34-02",
+        "learn|g34-family"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-groups-design",
+      "title": "Plan the group: process, membership and setting",
+      "chapters": [
+        "34"
+      ],
+      "notes": [
+        "t-groups"
+      ],
+      "sections": [
+        {
+          "route": "t-groups",
+          "headings": [
+            "Read both the topic and the interaction",
+            "Design the group before inviting members",
+            "Hospital groups and community groups need different structure"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-groups-design:active:0",
+          "type": "choice",
+          "task": "What is the process issue?"
+        },
+        {
+          "id": "t-groups-design:active:1",
+          "type": "choice",
+          "task": "Which design choice best fits this setting?"
+        }
+      ],
+      "independentItems": [
+        "learn|g34-fit",
+        "learn|g34-room"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-groups-development",
+      "title": "Lead through orientation, working and termination",
+      "chapters": [
+        "34"
+      ],
+      "notes": [
+        "t-groups"
+      ],
+      "sections": [
+        {
+          "route": "t-groups",
+          "headings": [
+            "Orientation: build safety and a shared purpose",
+            "Working: turn disagreement into useful work",
+            "Termination and follow-up: make the ending useful"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-groups-development:active:0",
+          "type": "order",
+          "task": "Place the leader’s tasks in phase order."
+        },
+        {
+          "id": "t-groups-development:active:1",
+          "type": "choice",
+          "task": "What is the most useful leadership response?"
+        },
+        {
+          "id": "t-groups-development:active:2",
+          "type": "choice",
+          "task": "Which task belongs in the ending?"
+        }
+      ],
+      "independentItems": [
+        "q-g34-04",
+        "learn|g34-ending"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-groups-roles",
+      "title": "Recognize what a member’s behavior does for the group",
+      "chapters": [
+        "34"
+      ],
+      "notes": [
+        "t-groups"
+      ],
+      "sections": [
+        {
+          "route": "t-groups",
+          "headings": [
+            "Task roles: keep the work moving",
+            "Maintenance roles: keep participation possible",
+            "Individual roles: describe behavior without labeling the person"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-groups-roles:active:0",
+          "type": "choice",
+          "task": "Which role is most directly shown?"
+        },
+        {
+          "id": "t-groups-roles:active:1",
+          "type": "choice",
+          "task": "Which response best addresses the behavior?"
+        }
+      ],
+      "independentItems": [
+        "learn|g34-blocker",
+        "learn|g34-roles"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-groups-modalities",
+      "title": "Match group purpose, theory and evidence",
+      "chapters": [
+        "34"
+      ],
+      "notes": [
+        "t-groups"
+      ],
+      "sections": [
+        {
+          "route": "t-groups",
+          "headings": [
+            "The framework changes what the leader listens for",
+            "Choose the group purpose and the leader’s competence",
+            "Support and mutual help extend care",
+            "Research examples: skills, mood and recovery",
+            "Research examples: family, trauma and longer-term support"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-groups-modalities:active:0",
+          "type": "choice",
+          "task": "Which design most directly fits?"
+        },
+        {
+          "id": "t-groups-modalities:active:1",
+          "type": "choice",
+          "task": "What can the nurse conclude from the protocol alone?"
+        }
+      ],
+      "independentItems": [
+        "learn|g34-theory",
+        "learn|g34-evidence"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-groups-leadership",
+      "title": "Choose a leadership style and use supervision",
+      "chapters": [
+        "34"
+      ],
+      "notes": [
+        "t-groups"
+      ],
+      "sections": [
+        {
+          "route": "t-groups",
+          "headings": [
+            "Leadership style follows the group’s needs",
+            "Communication that makes a group workable",
+            "Supervision, coleadership and inclusion"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-groups-leadership:active:0",
+          "type": "choice",
+          "task": "Which adjustment supports democratic leadership?"
+        },
+        {
+          "id": "t-groups-leadership:active:1",
+          "type": "choice",
+          "task": "What is the most useful professional response?"
+        }
+      ],
+      "independentItems": [
+        "learn|g34-supervision",
+        "learn|g34-style"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-groups-safety",
+      "title": "Protect consent, confidentiality and immediate safety",
+      "chapters": [
+        "34"
+      ],
+      "notes": [
+        "t-groups"
+      ],
+      "sections": [
+        {
+          "route": "t-groups",
+          "headings": [
+            "Consent and privacy: a promise has limits",
+            "Virtual groups: preserve the frame across the screen",
+            "When group work must give way to immediate safety"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-groups-safety:active:0",
+          "type": "choice",
+          "task": "Which reply is accurate?"
+        },
+        {
+          "id": "t-groups-safety:active:1",
+          "type": "choice",
+          "task": "Which action takes priority?"
+        }
+      ],
+      "independentItems": [
+        "q-g34-08",
+        "q-g34-11"
+      ]
+    },
+    {
+      "exam": "e4",
+      "id": "t-groups-participation",
+      "title": "Respond to difficult participation and evaluate benefit",
+      "chapters": [
+        "34"
+      ],
+      "notes": [
+        "t-groups"
+      ],
+      "sections": [
+        {
+          "route": "t-groups",
+          "headings": [
+            "A member takes nearly every turn",
+            "Anger, disruption and rejected help",
+            "Silence needs curiosity, time and an invitation",
+            "Choose and measure outcomes that match the group"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-groups-participation:active:0",
+          "type": "choice",
+          "task": "Which response best supports inclusion?"
+        },
+        {
+          "id": "t-groups-participation:active:1",
+          "type": "choice",
+          "task": "Which result best shows the goal was met?"
+        }
+      ],
+      "independentItems": [
+        "q-g34-10",
+        "q-g34-12"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-spectrum",
+      "title": "The schizophrenia spectrum",
+      "chapters": [
+        "12"
+      ],
+      "notes": [
+        "t-spectrum"
+      ],
+      "sections": [
+        {
+          "route": "t-spectrum",
+          "headings": [
+            "Types of delusions",
+            "Perception words",
+            "Behavior words",
+            "Assessment guidelines",
+            "Care across the phases"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-spectrum:active:0",
+          "type": "choice",
+          "task": "Which assessment best follows?"
+        },
+        {
+          "id": "t-spectrum:active:1",
+          "type": "choice",
+          "task": "What does this observation suggest for nursing care?"
+        }
+      ],
+      "independentItems": [
+        "q5-sz-9",
+        "q5-sz-10"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-antipsychotics",
+      "title": "Antipsychotic medications",
+      "chapters": [
+        "3",
+        "12"
+      ],
+      "notes": [
+        "t-antipsychotics"
+      ],
+      "sections": [
+        {
+          "route": "t-antipsychotics",
+          "headings": [
+            "First vs second generation",
+            "EPS by timing",
+            "Dangerous effects",
+            "Clozapine",
+            "Metabolic syndrome",
+            "Long-acting injectables",
+            "Side-effect teaching"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-antipsychotics:active:0",
+          "type": "choice",
+          "task": "What is the best assessment approach?"
+        },
+        {
+          "id": "t-antipsychotics:active:1",
+          "type": "choice",
+          "task": "Which teaching is accurate?"
+        }
+      ],
+      "independentItems": [
+        "q5-ap-3",
+        "q5-ap-4",
+        "q5-ap-5",
+        "q5-ap-6",
+        "q5-ap-7"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-kids",
+      "title": "Children and neurodevelopmental disorders",
+      "chapters": [
+        "11"
+      ],
+      "notes": [
+        "t-kids"
+      ],
+      "sections": [
+        {
+          "route": "t-kids",
+          "headings": [
+            "Assessing a child",
+            "Interventions",
+            "The neurodevelopmental disorders",
+            "Laws and services"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-kids:active:0",
+          "type": "choice",
+          "task": "Which adjustment is most useful first when there is no immediate danger?"
+        },
+        {
+          "id": "t-kids:active:1",
+          "type": "choice",
+          "task": "What should the nurse do with these observations?"
+        }
+      ],
+      "independentItems": [
+        "q5-ch-3",
+        "q5-ch-4",
+        "q5-ch-5",
+        "q5-ch-6",
+        "q5-ch-10"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-attach",
+      "title": "Childhood trauma and attachment",
+      "chapters": [
+        "16"
+      ],
+      "notes": [
+        "t-attach"
+      ],
+      "sections": [
+        {
+          "route": "t-attach",
+          "headings": [
+            "Attachment disorders (severe early neglect)",
+            "PTSD in children",
+            "Arousal: polyvagal theory and the window of tolerance",
+            "Other trauma-related disorders"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-attach:active:0",
+          "type": "choice",
+          "task": "Which nursing response fits?"
+        },
+        {
+          "id": "t-attach:active:1",
+          "type": "choice",
+          "task": "Which suggestion matches stabilization?"
+        }
+      ],
+      "independentItems": [
+        "q5-at-2",
+        "q5-at-3"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-somafact",
+      "title": "Somatic, factitious and malingering",
+      "chapters": [
+        "17"
+      ],
+      "notes": [
+        "t-somafact"
+      ],
+      "sections": [
+        {
+          "route": "t-somafact",
+          "headings": [
+            "The spectrum",
+            "Risk and protective factors",
+            "Six keys for working with somatic patients",
+            "Culture"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-somafact:active:0",
+          "type": "choice",
+          "task": "Which correction is most appropriate?"
+        },
+        {
+          "id": "t-somafact:active:1",
+          "type": "choice",
+          "task": "Which response fits safe care?"
+        }
+      ],
+      "independentItems": [
+        "q5-so-5",
+        "q5-so-6"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-feeding",
+      "title": "Eating and feeding disorders",
+      "chapters": [
+        "18"
+      ],
+      "notes": [
+        "t-feeding"
+      ],
+      "sections": [
+        {
+          "route": "t-feeding",
+          "headings": [
+            "Compare the three",
+            "Hospitalize when…",
+            "Medications",
+            "Binge-eating care",
+            "Feeding disorders",
+            "Helpful extras"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-feeding:active:0",
+          "type": "choice",
+          "task": "What most directly changes the priority?"
+        },
+        {
+          "id": "t-feeding:active:1",
+          "type": "choice",
+          "task": "Which monitoring plan best addresses the new risk?"
+        }
+      ],
+      "independentItems": [
+        "q5-ea-9",
+        "q5-ea-10"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-substances",
+      "title": "Substance use and addiction",
+      "chapters": [
+        "22"
+      ],
+      "notes": [
+        "t-substances"
+      ],
+      "sections": [
+        {
+          "route": "t-substances",
+          "headings": [
+            "Intoxication vs withdrawal, by substance",
+            "Screening and assessment",
+            "Alcohol facts",
+            "Gambling disorder",
+            "Teens and vaping"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-substances:active:0",
+          "type": "choice",
+          "task": "Which response fits the immediate problem?"
+        },
+        {
+          "id": "t-substances:active:1",
+          "type": "choice",
+          "task": "Which assessment principle is most important?"
+        }
+      ],
+      "independentItems": [
+        "q5-su-3",
+        "q5-su-6",
+        "q5-su-7",
+        "q5-su-8"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-neurocog",
+      "title": "Neurocognitive disorders",
+      "chapters": [
+        "23"
+      ],
+      "notes": [
+        "t-neurocog"
+      ],
+      "sections": [
+        {
+          "route": "t-neurocog",
+          "headings": [
+            "Compare",
+            "Types of dementia",
+            "Vocabulary",
+            "Risk and protection",
+            "Care principles"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-neurocog:active:0",
+          "type": "choice",
+          "task": "What should guide the nurse’s response to today’s change?"
+        },
+        {
+          "id": "t-neurocog:active:1",
+          "type": "choice",
+          "task": "Which conclusion is safest?"
+        }
+      ],
+      "independentItems": [
+        "q5-nc-8",
+        "learn|neurocog-change"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "t-personality",
+      "title": "Personality disorders",
+      "chapters": [
+        "24"
+      ],
+      "notes": [
+        "t-personality"
+      ],
+      "sections": [
+        {
+          "route": "t-personality",
+          "headings": [
+            "Cluster A: odd or eccentric",
+            "Cluster B: dramatic, emotional, erratic",
+            "Cluster C: anxious or fearful",
+            "Primitive defenses",
+            "Treatment overall"
+          ]
+        }
+      ],
+      "recallDomains": null,
+      "activities": [
+        {
+          "id": "t-personality:active:0",
+          "type": "choice",
+          "task": "What should the team do first?"
+        },
+        {
+          "id": "t-personality:active:1",
+          "type": "choice",
+          "task": "What changes the immediate priority?"
+        }
+      ],
+      "independentItems": [
+        "q5-pd-2",
+        "q5-pd-3",
+        "q5-pd-9",
+        "q5-pd-11"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-adhd",
+      "title": "ADHD",
+      "chapters": [
+        "11"
+      ],
+      "notes": [
+        "c-adhd"
+      ],
+      "sections": [
+        {
+          "route": "c-adhd",
+          "headings": [
+            "Reasoning",
+            "Diagnosis",
+            "Often goes with"
+          ]
+        },
+        {
+          "route": "c-adhd",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-adhd",
+          "headings": [
+            "Reasoning",
+            "Common nursing diagnoses"
+          ]
+        },
+        {
+          "route": "c-adhd",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-adhd",
+          "headings": [
+            "Reasoning",
+            "Stimulants (first line)",
+            "Nonstimulants",
+            "Techniques for disruptive behavior",
+            "Activities"
+          ]
+        },
+        {
+          "route": "c-adhd",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-adhd:active:0",
+          "type": "choice",
+          "task": "Which change best supports task completion?"
+        },
+        {
+          "id": "c-adhd:active:1",
+          "type": "choice",
+          "task": "Which evaluation is most complete?"
+        }
+      ],
+      "independentItems": [
+        "q5-ch-2",
+        "q5-ch-7"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-autism",
+      "title": "Autism spectrum disorder",
+      "chapters": [
+        "11"
+      ],
+      "notes": [
+        "c-autism"
+      ],
+      "sections": [
+        {
+          "route": "c-autism",
+          "headings": [
+            "Reasoning",
+            "Facts"
+          ]
+        },
+        {
+          "route": "c-autism",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-autism",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-autism",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-autism",
+          "headings": [
+            "Reasoning",
+            "What works (and what doesn’t)",
+            "Therapies",
+            "Medications (target symptoms)"
+          ]
+        },
+        {
+          "route": "c-autism",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-autism:active:0",
+          "type": "choice",
+          "task": "Which response best addresses the observed need?"
+        },
+        {
+          "id": "c-autism:active:1",
+          "type": "choice",
+          "task": "Which outcome is most useful?"
+        }
+      ],
+      "independentItems": [
+        "q5-ch-8",
+        "q5-ch-9"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-anorexia",
+      "title": "Anorexia nervosa",
+      "chapters": [
+        "18"
+      ],
+      "notes": [
+        "c-anorexia"
+      ],
+      "sections": [
+        {
+          "route": "c-anorexia",
+          "headings": [
+            "Reasoning",
+            "Diagnosis and severity",
+            "Labs to know"
+          ]
+        },
+        {
+          "route": "c-anorexia",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-anorexia",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-anorexia",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-anorexia",
+          "headings": [
+            "Reasoning",
+            "Unit interventions",
+            "Treatment"
+          ]
+        },
+        {
+          "route": "c-anorexia",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-anorexia:active:0",
+          "type": "choice",
+          "task": "Which response best fits the immediate priority?"
+        },
+        {
+          "id": "c-anorexia:active:1",
+          "type": "choice",
+          "task": "Which interpretation changes the plan?"
+        }
+      ],
+      "independentItems": [
+        "q5-ea-2",
+        "q5-ea-3",
+        "q5-ea-4"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-bulimia",
+      "title": "Bulimia nervosa",
+      "chapters": [
+        "18"
+      ],
+      "notes": [
+        "c-bulimia"
+      ],
+      "sections": [
+        {
+          "route": "c-bulimia",
+          "headings": [
+            "Reasoning",
+            "Facts"
+          ]
+        },
+        {
+          "route": "c-bulimia",
+          "headings": [
+            "Reasoning",
+            "The binge-purge cycle"
+          ]
+        },
+        {
+          "route": "c-bulimia",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-bulimia",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-bulimia",
+          "headings": [
+            "Reasoning",
+            "Medications",
+            "Teaching"
+          ]
+        },
+        {
+          "route": "c-bulimia",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-bulimia:active:0",
+          "type": "choice",
+          "task": "Which response best connects the findings?"
+        },
+        {
+          "id": "c-bulimia:active:1",
+          "type": "choice",
+          "task": "Which follow-up best supports recovery?"
+        }
+      ],
+      "independentItems": [
+        "q5-ea-6",
+        "q5-ea-7"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-delirium",
+      "title": "Delirium",
+      "chapters": [
+        "23"
+      ],
+      "notes": [
+        "c-delirium"
+      ],
+      "sections": [
+        {
+          "route": "c-delirium",
+          "headings": [
+            "Reasoning",
+            "Common causes and risk factors"
+          ]
+        },
+        {
+          "route": "c-delirium",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-delirium",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-delirium",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-delirium",
+          "headings": [
+            "Reasoning",
+            "Communication in delirium"
+          ]
+        },
+        {
+          "route": "c-delirium",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-delirium:active:0",
+          "type": "choice",
+          "task": "Which finding most directly challenges that conclusion?"
+        },
+        {
+          "id": "c-delirium:active:1",
+          "type": "choice",
+          "task": "How should the nurse evaluate this?"
+        }
+      ],
+      "independentItems": [
+        "q5-nc-3",
+        "q5-nc-6",
+        "q5-nc-7"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-alz",
+      "title": "Alzheimer’s disease (major neurocognitive disorder)",
+      "chapters": [
+        "23"
+      ],
+      "notes": [
+        "c-alz"
+      ],
+      "sections": [
+        {
+          "route": "c-alz",
+          "headings": [
+            "Reasoning",
+            "Stages",
+            "Normal aging vs Alzheimer’s",
+            "Delirium vs dementia vs depression"
+          ]
+        },
+        {
+          "route": "c-alz",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-alz",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-alz",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-alz",
+          "headings": [
+            "Reasoning",
+            "Medications",
+            "Home safety teaching",
+            "Caregiver support"
+          ]
+        },
+        {
+          "route": "c-alz",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-alz:active:0",
+          "type": "choice",
+          "task": "Which response is most useful?"
+        },
+        {
+          "id": "c-alz:active:1",
+          "type": "choice",
+          "task": "What belongs in the plan?"
+        }
+      ],
+      "independentItems": [
+        "q5-nc-4",
+        "q5-nc-5",
+        "q5-nc-9",
+        "q5-nc-10"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-bpd",
+      "title": "Borderline personality disorder",
+      "chapters": [
+        "24"
+      ],
+      "notes": [
+        "c-bpd"
+      ],
+      "sections": [
+        {
+          "route": "c-bpd",
+          "headings": [
+            "Reasoning",
+            "Facts"
+          ]
+        },
+        {
+          "route": "c-bpd",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-bpd",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-bpd",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-bpd",
+          "headings": [
+            "Reasoning",
+            "Treatment",
+            "The nurse’s own reactions"
+          ]
+        },
+        {
+          "route": "c-bpd",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-bpd:active:0",
+          "type": "choice",
+          "task": "Which response best fits?"
+        },
+        {
+          "id": "c-bpd:active:1",
+          "type": "choice",
+          "task": "Which outcome best reflects skill development?"
+        }
+      ],
+      "independentItems": [
+        "q5-pd-4",
+        "q5-pd-5",
+        "q5-pd-6"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-aspd",
+      "title": "Antisocial personality disorder",
+      "chapters": [
+        "24"
+      ],
+      "notes": [
+        "c-aspd"
+      ],
+      "sections": [
+        {
+          "route": "c-aspd",
+          "headings": [
+            "Reasoning",
+            "Facts"
+          ]
+        },
+        {
+          "route": "c-aspd",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-aspd",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-aspd",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-aspd",
+          "headings": [
+            "Reasoning",
+            "Treatment",
+            "The other personality disorders (snapshot)"
+          ]
+        },
+        {
+          "route": "c-aspd",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-aspd:active:0",
+          "type": "choice",
+          "task": "Which action is most useful?"
+        },
+        {
+          "id": "c-aspd:active:1",
+          "type": "choice",
+          "task": "Which note best evaluates the result?"
+        }
+      ],
+      "independentItems": [
+        "q5-pd-7",
+        "q5-pd-10"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-schizo",
+      "title": "Schizophrenia — acute psychosis",
+      "chapters": [
+        "12"
+      ],
+      "notes": [
+        "c-schizo"
+      ],
+      "sections": [
+        {
+          "route": "c-schizo",
+          "headings": [
+            "Reasoning",
+            "Diagnosis",
+            "The other spectrum disorders",
+            "Speech and thought words",
+            "Phases"
+          ]
+        },
+        {
+          "route": "c-schizo",
+          "headings": [
+            "Reasoning",
+            "Why schizophrenia happens",
+            "Why patients stop medication"
+          ]
+        },
+        {
+          "route": "c-schizo",
+          "headings": [
+            "Reasoning",
+            "Priority problems"
+          ]
+        },
+        {
+          "route": "c-schizo",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-schizo",
+          "headings": [
+            "Reasoning",
+            "Responding to hallucinations",
+            "Responding to delusions",
+            "Disorganized speech",
+            "Paranoia and violence risk",
+            "Antipsychotic basics",
+            "Teaching the patient and family"
+          ]
+        },
+        {
+          "route": "c-schizo",
+          "headings": [
+            "Reasoning",
+            "If it worsens"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-schizo:active:0",
+          "type": "choice",
+          "task": "Which response best supports assessment without endorsing the belief?"
+        },
+        {
+          "id": "c-schizo:active:1",
+          "type": "choice",
+          "task": "Which next step best addresses the barrier?"
+        }
+      ],
+      "independentItems": [
+        "q5-sz-1",
+        "q5-sz-4",
+        "q5-sz-5",
+        "q5-sz-6",
+        "q5-sz-7"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-nms",
+      "title": "Antipsychotic side-effect emergencies",
+      "chapters": [
+        "12"
+      ],
+      "notes": [
+        "c-nms"
+      ],
+      "sections": [
+        {
+          "route": "c-nms",
+          "headings": [
+            "Reasoning",
+            "NMS vs serotonin syndrome vs anticholinergic toxicity"
+          ]
+        },
+        {
+          "route": "c-nms",
+          "headings": [
+            "Reasoning",
+            "Who is at risk of which effect"
+          ]
+        },
+        {
+          "route": "c-nms",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-nms",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-nms",
+          "headings": [
+            "Reasoning",
+            "Side-effect care, at a glance"
+          ]
+        },
+        {
+          "route": "c-nms",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-nms:active:0",
+          "type": "choice",
+          "task": "How should the new systemic findings be interpreted?"
+        },
+        {
+          "id": "c-nms:active:1",
+          "type": "choice",
+          "task": "Which action fits?"
+        }
+      ],
+      "independentItems": [
+        "q5-ap-1",
+        "learn|nms-response"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-somatic",
+      "title": "Somatic symptom and conversion disorders",
+      "chapters": [
+        "17"
+      ],
+      "notes": [
+        "c-somatic"
+      ],
+      "sections": [
+        {
+          "route": "c-somatic",
+          "headings": [
+            "Reasoning",
+            "Tell them apart"
+          ]
+        },
+        {
+          "route": "c-somatic",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-somatic",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-somatic",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-somatic",
+          "headings": [
+            "Reasoning",
+            "Nursing interventions",
+            "Factitious disorder and malingering"
+          ]
+        },
+        {
+          "route": "c-somatic",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-somatic:active:0",
+          "type": "choice",
+          "task": "Which reply best supports care?"
+        },
+        {
+          "id": "c-somatic:active:1",
+          "type": "choice",
+          "task": "Which change best fits that goal?"
+        }
+      ],
+      "independentItems": [
+        "q5-so-2",
+        "q5-so-3"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-did",
+      "title": "Dissociative identity disorder and amnesia",
+      "chapters": [
+        "16"
+      ],
+      "notes": [
+        "c-did"
+      ],
+      "sections": [
+        {
+          "route": "c-did",
+          "headings": [
+            "Reasoning",
+            "Facts"
+          ]
+        },
+        {
+          "route": "c-did",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-did",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-did",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-did",
+          "headings": [
+            "Reasoning",
+            "Self-awareness for the nurse"
+          ]
+        },
+        {
+          "route": "c-did",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-did:active:0",
+          "type": "choice",
+          "task": "Which response is most appropriate?"
+        },
+        {
+          "id": "c-did:active:1",
+          "type": "choice",
+          "task": "Which action fits stabilization?"
+        }
+      ],
+      "independentItems": [
+        "q5-di-2",
+        "q5-di-3"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-alcohol",
+      "title": "Alcohol withdrawal and delirium tremens",
+      "chapters": [
+        "22"
+      ],
+      "notes": [
+        "c-alcohol"
+      ],
+      "sections": [
+        {
+          "route": "c-alcohol",
+          "headings": [
+            "Reasoning",
+            "Blood alcohol levels",
+            "Screening",
+            "Damage from long-term drinking"
+          ]
+        },
+        {
+          "route": "c-alcohol",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-alcohol",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-alcohol",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-alcohol",
+          "headings": [
+            "Reasoning",
+            "Medications for alcohol use disorder",
+            "The continuum of care",
+            "Family and the nurse"
+          ]
+        },
+        {
+          "route": "c-alcohol",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-alcohol:active:0",
+          "type": "choice",
+          "task": "What should guide monitoring?"
+        },
+        {
+          "id": "c-alcohol:active:1",
+          "type": "choice",
+          "task": "Which principle is correct?"
+        }
+      ],
+      "independentItems": [
+        "q5-su-1",
+        "q5-su-10",
+        "q5-su-11"
+      ]
+    },
+    {
+      "exam": "e5",
+      "id": "c-opioid",
+      "title": "Opioid overdose and withdrawal",
+      "chapters": [
+        "22"
+      ],
+      "notes": [
+        "c-opioid"
+      ],
+      "sections": [
+        {
+          "route": "c-opioid",
+          "headings": [
+            "Reasoning",
+            "DEA schedules"
+          ]
+        },
+        {
+          "route": "c-opioid",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-opioid",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-opioid",
+          "headings": [
+            "Reasoning"
+          ]
+        },
+        {
+          "route": "c-opioid",
+          "headings": [
+            "Reasoning",
+            "Opioid treatment medications"
+          ]
+        },
+        {
+          "route": "c-opioid",
+          "headings": [
+            "Reasoning"
+          ]
+        }
+      ],
+      "recallDomains": [
+        "cues and mechanism",
+        "priority and actions",
+        "evaluation"
+      ],
+      "activities": [
+        {
+          "id": "c-opioid:active:0",
+          "type": "choice",
+          "task": "Which response fits the remaining risk?"
+        },
+        {
+          "id": "c-opioid:active:1",
+          "type": "choice",
+          "task": "What takes priority?"
+        }
+      ],
+      "independentItems": [
+        "q5-su-2",
+        "q5-su-12"
+      ]
+    }
+  ]
+}

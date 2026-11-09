@@ -55,7 +55,8 @@ const oldQ=vm.createContext({window:{}});vm.runInContext(cp.execFileSync('git',[
 for(const q of oldQ.window.MH_Q)assert.deepEqual(clone(B.MH_Q.find(n=>n.id===q.id)),clone(q));
 const oldL=vm.createContext({window:{}});vm.runInContext(cp.execFileSync('git',['show','HEAD:data/learn/e4.js'],{cwd:ROOT,encoding:'utf8'}),oldL);
 for(const l of oldL.window.LEARN_DATA.lessons){const next=lessons.find(x=>x.id===l.id);assert(next);assert.deepEqual(next.questions.slice(0,l.questions.length),clone(l.questions),l.id+' checkpoint positions changed');}
-assert.equal(read('data/learn/e5.js'),cp.execFileSync('git',['show','HEAD:data/learn/e5.js'],{cwd:ROOT,encoding:'utf8'}),'Exam 5 lesson redesign has not yet been approved');
+// Exam 5 teaching now has its own approved redesign. Its grading/progress
+// preservation is checked in check_mh_active_lessons, independently of this scope.
 for(const page of ['Exam 4 Map.html','Exam 4 Learn.html','index.html'])assert(read(page).includes('data/mh/study-guide.js?v='));
 const sync=/SYNC\s*=\s*(\/.*\/)/.exec(read('nav.js'));assert(new RegExp(sync[1].slice(1,-1)).test(G.key));assert(!new RegExp(sync[1].slice(1,-1)).test('cp-plans'));
 console.log('✓ Exam 4 study guide: exact assigned scope; 9 topic entries / 14 drills / 43 practice questions / 16 lessons; persistent Map/Learn focus; scoped misses and recommendations; existing grading and progress preserved');

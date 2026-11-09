@@ -7,16 +7,16 @@
   report: [
     'I’m calling about Ms. K., admitted for alcohol detox. I’m concerned she is progressing toward severe withdrawal.',
     'She has long-term heavy daily drinking with prior attempts to quit, depression, and peripheral neuropathy. Her last drink was about 8 hours ago.',
-    'She has a coarse tremor, diaphoresis and vomiting, and she is now confused with garbled speech. BP 168/98, HR 112, temperature 38.1, and her CIWA-Ar is 24. I removed an alcohol-containing cough syrup from her belongings.',
-    'I’m asking for a benzodiazepine on the CIWA protocol, IV fluids, thiamine before any glucose, a multivitamin with folate, magnesium, and seizure precautions. Please see her: her confusion this early worries me for delirium tremens.'
+    'She has a coarse tremor, diaphoresis and vomiting, and is now confused with garbled speech. BP 168/98, HR 112 and temperature 38.1. Her earlier CIWA-Ar was 24 before she stopped giving reliable answers. I removed an alcohol-containing cough syrup from her belongings.',
+    'Please assess her urgently for complicated withdrawal and other causes of confusion. I’m requesting the appropriate withdrawal and observational-monitoring protocol, prescribed benzodiazepine treatment, thiamine, fluid/electrolyte review and seizure precautions. Urgent glucose, if needed, must not wait for thiamine.'
   ],
   steps: {
     rc: {
-      gist: 'Know the **timeline**: tremor ("the shakes") **6–8 hours** after the last drink; hallucinations or psychosis from **8–10 hours**; **withdrawal seizures at 12–24 hours**; **delirium tremens (DTs)** any time in the **first 72 hours**. Watch **autonomic signs** (↑ HR, BP and temperature, sweating), agitation, vomiting, confusion and **visual or tactile hallucinations**. Use the **CIWA-Ar** scale. Screen with **CAGE** or **AUDIT**.',
+      gist: 'The chapter’s **typical timing** emphasizes tremor around **6–8 hours**, perceptual symptoms around **8–10 hours**, seizures around **12–24 hours** and DTs in the early days. Timing varies: do not use these windows to rule out a complication. Watch **autonomic signs**, agitation, vomiting, confusion and perceptual changes. Use **CIWA-Ar** only when the patient can reliably report symptoms; withdrawal delirium requires appropriate observational/delirium monitoring. **CAGE** and **AUDIT** screen for different alcohol-use concerns.',
       terms: [
         { t: 'Withdrawal tremor and autonomic hyperactivity', see: 'Shaky hands, sweating, racing pulse, high BP, fever, anxiety, insomnia.', why: 'Long-term alcohol boosts **GABA** (the brake) and suppresses **glutamate**; the brain adapts. When alcohol stops, the brake is gone and the system **rebounds into overexcitation**.', means: 'Treat **early** with a benzodiazepine, which replaces the missing GABA effect. Rising vital signs mean withdrawal is getting worse.' },
         { t: 'Delirium tremens (DTs)', see: 'Confusion, disorientation, agitation, **visual and tactile hallucinations** (bugs on the skin), fever, sweating, tachycardia, fluctuating consciousness.', why: 'The most severe withdrawal state; more likely with medical illness (pneumonia, pancreatitis, liver disease).', means: '**Medical emergency**: up to 20% die untreated. IV lorazepam, fluids, a safe low-stimulation room, close observation, seizure precautions.' },
-        { t: 'Wernicke encephalopathy', see: 'Confusion, **ataxic gait**, **nystagmus** and eye-movement palsies.', why: '**Thiamine (B1) deficiency** from poor diet and poor absorption.', means: '**Give thiamine before glucose** (glucose uses up the last thiamine). Untreated, it becomes **Korsakoff syndrome**: permanent memory loss with **confabulation**.' },
+        { t: 'Wernicke encephalopathy', see: 'Confusion, **ataxic gait**, **nystagmus** and eye-movement palsies can suggest it; not every feature must be present.', why: '**Thiamine (B1) deficiency** can follow poor nutrition and impaired absorption.', means: '**Give prescribed thiamine promptly. Do not delay urgent glucose**: either order or concurrent administration is acceptable under ASAM guidance. Untreated deficiency can lead to lasting injury, including a **Korsakoff** memory disorder.' },
         { t: 'Tolerance', see: 'Blood alcohol 0.31 but alert and talking normally.', why: 'The brain and liver adapt, so it takes more alcohol for the same effect.', means: 'A sign of physical dependence, and a warning that withdrawal will be significant.' }
       ],
       cards: [
@@ -35,7 +35,7 @@
       gist: 'Outcomes: vital signs return to baseline, **no seizures or DTs**, no injury, she is hydrated and nourished, and then she **engages in treatment** (rehab, AA, medication-assisted treatment) and names her triggers and a relapse-prevention plan.'
     },
     ta: {
-      gist: '**Benzodiazepines** per the CIWA-Ar protocol (chlordiazepoxide, lorazepam, diazepam), **thiamine before glucose**, fluids and nutrition, seizure precautions, a calm low-stimulation and well-lit room, frequent vital signs, reorientation, and **remove alcohol-containing products** (cough syrup, mouthwash). Then rehab, relapse prevention and **AA / Al-Anon**.',
+      gist: 'Use prescribed **benzodiazepines** under the severity-based withdrawal protocol and monitor sedation and breathing. **CIWA-Ar is not recommended for withdrawal delirium**; use an appropriate observational/delirium tool and close clinical monitoring. Give prescribed **thiamine** without delaying urgent glucose; either order or concurrent administration is acceptable. Provide the prescribed fluids/nutrition, seizure precautions, a calm well-lit setting, frequent physiological review, reorientation and removal of alcohol-containing products. Follow stabilization with ongoing treatment, relapse prevention and support.',
       cards: [
         { h: 'Medications for alcohol use disorder', b: ['**Disulfiram (Antabuse)**: drinking causes severe **nausea and vomiting, flushing, sweating, headache, dyspnea and confusion**. Avoid all alcohol, including **cough syrup, mouthwash, sauces and some lotions**.', '**Naltrexone** (oral or monthly IM Vivitrol): reduces craving and the pleasure of drinking; must be **opioid-free** (about 7–10 days) first.', '**Acamprosate**: reduces craving; start on **day 5 of abstinence**; avoid in **kidney impairment**.', '**Benzodiazepines** for withdrawal; **clonidine** for mild to moderate withdrawal symptoms.'] },
         { h: 'The continuum of care', b: ['**Detox** (medically managed) → **rehab** (residential) → halfway house → **partial hospitalization** (about 6 h/day, 5 days a week) → **intensive outpatient** (about 3 h/day, 3 days a week) → **outpatient**.', 'Mutual-help throughout: **AA**; **Al-Anon** (family), **Alateen** (teens).', '**Relapse** is expected in a chronic disease: plan for triggers and coping.', '**Motivational interviewing** (stages of change: precontemplation → contemplation → preparation → action → maintenance) and **CBT**.'] },
@@ -43,7 +43,7 @@
       ]
     },
     eo: {
-      gist: 'Trend the **CIWA-Ar score** and vital signs, look for seizures and confusion, check intake and electrolytes, and later assess readiness for change, AA attendance and **relapse-prevention** skills.'
+      gist: 'Trend the **appropriate withdrawal assessment** and vital signs; use observational/delirium monitoring when reliable self-report is not possible. Watch for seizures, confusion, over-sedation and respiratory depression; check intake and electrolytes. After stabilization, assess engagement, support and **relapse-prevention** skills.'
     }
   }
 },
@@ -78,13 +78,13 @@
       gist: 'Outcomes: a stable respiratory rate and SpO₂ through the observation period; withdrawal symptoms managed; he accepts a referral for **medication-assisted treatment**; and he leaves with **naloxone** and an overdose plan.'
     },
     ta: {
-      gist: 'Airway and ventilation, **naloxone** (IN, IM, SubQ or IV; repeat as needed, since it is short-acting), continuous monitoring. For withdrawal: **clonidine** or **lofexidine**, then **buprenorphine** (only once in early withdrawal, 12–24 hours after the last opioid) or **methadone**; **naltrexone** after detox. Manage withdrawal well early on (it keeps people in treatment) and refer to **NA**.',
+      gist: 'Activate emergency help, support **airway and ventilation**, give **naloxone** by the available product’s directions/protocol and continue observation with repeat dosing as indicated. Treat withdrawal using the individualized plan. Conventional **buprenorphine** induction requires appropriate withdrawal assessment; time since last use alone is insufficient, and the needed interval varies by opioid exposure. **Methadone**, symptom-directed medicines and later **naltrexone** have different roles and precautions. Connect care with ongoing treatment and harm-reduction support.',
       cards: [
         { h: 'Opioid treatment medications', b: ['**Naloxone (Narcan)**: antagonist; reverses overdose in minutes; **short duration**: re-dose and watch. Too much → withdrawal.', '**Methadone**: long-acting agonist; once daily, only through certified programs; watch for respiratory depression, **QT**, chest pain; safest choice in pregnancy.', '**Buprenorphine (Subutex) / buprenorphine-naloxone (Suboxone)**: partial agonist, ceiling on respiratory depression; give only in **early withdrawal**, or it **precipitates withdrawal**; monthly injection and 6-month implant forms exist.', '**Naltrexone** (oral, or monthly **Vivitrol** IM): antagonist, blocks euphoria; must be opioid-free first; injection-site reactions.', '**Clonidine** and **lofexidine** (alpha-2 agonists): ease sweating, tearing and restlessness during withdrawal.'] }
       ]
     },
     eo: {
-      gist: 'Continuous RR and SpO₂ until naloxone’s effect has clearly outlasted the opioid; a withdrawal score (e.g., COWS); and engagement in treatment (accepted buprenorphine or methadone, follow-up booked, naloxone kit given).'
+      gist: 'Continue respiratory rate, ventilation, alertness and oxygenation assessment under the exposure-specific observation plan. **The opioid can outlast naloxone**, so a first awakening does not end monitoring. Repeat reversal and breathing support as indicated. Assess withdrawal with an appropriate tool, and evaluate access to treatment, follow-up and take-home naloxone.'
     }
   }
 }

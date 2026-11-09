@@ -1,0 +1,131 @@
+{
+  "baseline": "e3bffd7c62991bb67c181835a24bcb97e64c9d9a",
+  "items": [
+    {
+      "id": "q5-sz-6",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-sz-10",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-so-3",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-so-5",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-at-2",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-su-7",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-su-2",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-nc-3",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-nc-6",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-pd-9",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-pd-5",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-ch-7",
+      "fields": [
+        "why",
+        "opts[0]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-nc-9",
+      "fields": [
+        "why",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    },
+    {
+      "id": "q5-su-10",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true
+    }
+  ]
+}

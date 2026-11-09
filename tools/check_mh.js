@@ -13,7 +13,9 @@ const DIR = path.join(ROOT, DIRNAME);
 const page = fs.readFileSync(path.join(ROOT, PAGE), 'utf8');
 const win = {};
 const ctx = vm.createContext({ window: win });
-const files = fs.readdirSync(DIR).filter(f => f.endsWith('.js')).sort();
+// *-src.js files are Node-only lesson authoring inputs. Their generated browser
+// output is validated by check_learn_all and check_mh_active_lessons.
+const files = fs.readdirSync(DIR).filter(f => f.endsWith('.js') && !f.endsWith('-src.js')).sort();
 const errs = [];
 const err = m => errs.push(m);
 for (const f of files) {

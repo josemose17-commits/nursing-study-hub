@@ -3,6 +3,7 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.join(__dirname,'..'), read=f=>fs.readFileSync(path.join(root,f),'utf8');
 const catalog=require('./learn-catalog'),custom=require('./learn-questions'),learnTerms=require('./learn-terms');
+const applyMentalHealthLessons=require('./apply_mh_lessons');
 const namedTerms=[...Object.keys(learnTerms.medications),...learnTerms.stems.flatMap(([, ,ns])=>ns.split(' ')),...Object.keys(learnTerms.splits)];
 const termsIn=value=>{const text=JSON.stringify(value).toLowerCase();return namedTerms.filter(t=>new RegExp('(^|[^a-z])'+t+'([^a-z]|$)').test(text));};
 const plain=s=>String(s||'').replace(/<[^>]*>/g,' ').replace(/\*+/g,'').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
@@ -193,7 +194,7 @@ for(const topic of fin.INFO_TOPICS){
 fs.mkdirSync(path.join(root,'data/learn'),{recursive:true});
 const manifest={source:'Existing authored notes and question banks; see per-lesson references. No raw-book completeness claim.',exams:{}};
 for(const [exam,rawRows]of Object.entries(sets)){
- const rows=safetyEdits(rawRows),config=configs[exam],lessons=rows.map(x=>x.lesson),chs=[...new Set(lessons.flatMap(l=>l.chapters||[l.ch]))].sort((a,b)=>+a-+b);
+ const rows=applyMentalHealthLessons(exam,safetyEdits(rawRows)),config=configs[exam],lessons=rows.map(x=>x.lesson),chs=[...new Set(lessons.flatMap(l=>l.chapters||[l.ch]))].sort((a,b)=>+a-+b);
  config.page=config.label+' Learn.html';config.chapters=chs;
  const weights=Object.fromEntries(chs.map(ch=>[ch,Math.max(1,config.blueprint?.[ch]||1)]));
  const outputLessons=lessons.map(({sourceSections,...l})=>l);

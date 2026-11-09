@@ -21,3 +21,7 @@ See `audit/exam4-ch34-coverage.json` for objectives, sections, named concepts an
 The student's November 9 assigned list is Chapters **1, 2, 3, 6 and 34**, plus only **Peplau’s Model of the Nurse-Patient Relationship** and **Communication Skills for Nurses** from Chapter **9**. `study-guide.js` is the shared preset for Map, Learn and Home; the broader authored content remains under Everything. This list supersedes the broad week-based assumption for the exam focus. No professor question counts were supplied.
 
 The preset has 9 topic entries, 14 drills, 43 practice questions and 16 lessons. Narrow projections avoid bringing the entire Chapter 8 relationship topic or the mixed Chapter 1/13–16 diagnostic-assessment topic into the guide. Existing sources/progress are retained; two new focused lesson IDs keep old checkpoint histories stable. See `audit/exam4-study-guide.md` and run `node tools/check_e4_study_guide.js`.
+
+## Curated lesson authoring
+
+`lessons-src.js` is a Node-only authoring input for the 16 assigned lessons. It supplies three concise explanation paragraphs, a patient situation, a small visual and objective coached choices or sequences. `tools/apply_mh_lessons.js` overlays that teaching during the existing `tools/build_learn_all.js` build. It retains every authored chapter section, established independent checkpoint and recall position. Exam 5 has the corresponding source in `data/mh5/lessons-src.js`. These authoring files are not Map scripts; `check_mh_active_lessons.js` validates their output, saved-state behavior and source coverage.

@@ -15,3 +15,9 @@ The current Exam 4 foundations include Varcarolis 9e chapters 1–6, 8, 9, 10, 1
 Chapter 34 has 16 terms, 27 short section cards, 10 recall pairs, six drills (50 items), and 12 original application questions (three select-all). The table-rich chapter needs more than ten cards to cover roles, theoretical approaches, group types and treatment evidence without turning each card into a large table. `tools/learn-groups34.js` assigns every card to one of eight focused lessons; `tools/build_learn_all.js` builds them into `data/learn/e4.js` using the existing Learn/studio engine. Edit those sources, not the generated bundle. The Learn key remains `e4-learn-v1`, and existing lesson IDs are retained.
 
 See `audit/exam4-ch34-coverage.json` for objectives, sections, named concepts and review-question coverage. Run `node tools/check_mh_groups34.js` and the existing MH/Learn checks. Videos are optional and none are added for this chapter.
+
+## Current Exam 4 study-guide focus
+
+The student's November 9 assigned list is Chapters **1, 2, 3, 6 and 34**, plus only **Peplau’s Model of the Nurse-Patient Relationship** and **Communication Skills for Nurses** from Chapter **9**. `study-guide.js` is the shared preset for Map, Learn and Home; the broader authored content remains under Everything. This list supersedes the broad week-based assumption for the exam focus. No professor question counts were supplied.
+
+The preset has 9 topic entries, 14 drills, 43 practice questions and 16 lessons. Narrow projections avoid bringing the entire Chapter 8 relationship topic or the mixed Chapter 1/13–16 diagnostic-assessment topic into the guide. Existing sources/progress are retained; two new focused lesson IDs keep old checkpoint histories stable. See `audit/exam4-study-guide.md` and run `node tools/check_e4_study_guide.js`.

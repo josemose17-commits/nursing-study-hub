@@ -825,9 +825,9 @@
         "25",
         "34"
       ],
-      "lessons": 27,
-      "gradedItems": 79,
-      "coachedActivities": 74,
+      "lessons": 29,
+      "gradedItems": 86,
+      "coachedActivities": 78,
       "notes": 20,
       "coverage": {
         "t-intro": {
@@ -870,7 +870,21 @@
           ],
           "questions": [
             "q-dx-2",
-            "q-dx-3"
+            "q-dx-3",
+            "q-e4-dsm-purpose",
+            "q-e4-nursing-response"
+          ]
+        },
+        "t-e4-diagnostics": {
+          "chapters": [
+            "1"
+          ],
+          "notes": [
+            "t-dx"
+          ],
+          "questions": [
+            "q-e4-dsm-purpose",
+            "q-e4-nursing-response"
           ]
         },
         "t-life": {
@@ -955,7 +969,20 @@
           ],
           "questions": [
             "q-rel-2",
-            "q-rel-3"
+            "q-rel-3",
+            "q-e4-peplau-working"
+          ]
+        },
+        "t-e4-peplau": {
+          "chapters": [
+            "9"
+          ],
+          "notes": [
+            "t-relationship"
+          ],
+          "questions": [
+            "q-rel-1",
+            "q-e4-peplau-working"
           ]
         },
         "t-comm": {

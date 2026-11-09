@@ -11,6 +11,19 @@
   var CONDS = window.MH_CONDS || [], TOPICS = window.MH_TOPICS || [], DRILLS = window.MH_DRILLS || [], QS = window.MH_Q || [], VIDS = window.MH_VIDEOS || [];
   var root = document.getElementById('cj'), tabs = document.getElementById('mh-tabs');
   if (!root) return;
+  var GUIDE = CFG.prefix === 'e4-' && window.Exam4Guide, guideStore = GUIDE ? GUIDE.createStore({getItem:function(k){return localStorage.getItem(k);},setItem:function(k,v){localStorage.setItem(k,v);}}) : null;
+  var ALL = {conditions:CONDS,topics:TOPICS,drills:DRILLS,questions:QS}, guideMode = guideStore ? guideStore.mode() : 'all';
+  var guideSlot = document.getElementById('e4-study-guide');
+  function applyGuide() {
+    var data = GUIDE ? GUIDE.select(ALL,guideMode) : ALL;
+    CONDS=data.conditions;TOPICS=data.topics;DRILLS=data.drills;QS=data.questions;
+    if(guideSlot&&GUIDE)guideSlot.innerHTML=GUIDE.html(guideMode);
+  }
+  function focused() { return GUIDE && guideMode === 'guide'; }
+  function setGuide(mode) {
+    guideStore.set(mode);guideMode=guideStore.mode();applyGuide();run=null;test=null;testSet='all';route();
+  }
+  applyGuide();
   var STEPS = {
     rc: ['Recognize cues', 'Assessment', 'What do you notice?'],
     ac: ['Analyze cues', 'Analysis', 'What does it mean?'],
@@ -28,7 +41,7 @@
   function load(k, d) { try { var v = JSON.parse(localStorage.getItem(CFG.prefix + k)); return v == null ? d : v; } catch (e) { return d; } }
   function save(k, v) { try { localStorage.setItem(CFG.prefix + k, JSON.stringify(v)); } catch (e) {} }
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-  function vidsFor(tag) { return VIDS.filter(function (v) { return v.tags.indexOf(tag) >= 0; }); }
+  function vidsFor(tag) { return VIDS.filter(function (v) { return v.tags.indexOf(tag) >= 0&&(!focused()||!Object.prototype.hasOwnProperty.call(GUIDE.videoIds,tag)||GUIDE.videoIds[tag].indexOf(v.id)>=0); }); }
   function videosHtml(list, label) {
     if (!list.length) return '';
     return '<div class="cj-watch"><div class="cj-h">' + (label || 'Watch') + '</div><div class="cj-vids">' + list.map(function (v) {
@@ -64,6 +77,7 @@
   }
   function quizBtn() { return '<button class="pill cj-quiz" aria-pressed="' + quiz + '">' + (quiz ? '✓ Test me: step answers hidden' : 'Test me: hide each step’s answer') + '</button>'; }
   function thinkHome() {
+    if(focused())return '<div class="glass cj-intro"><h2>Start with your Exam 4 study guide</h2><p>The assigned focus is Chapters 1, 2, 3, 6 and 34, plus the two named Chapter 9 sections. Use the topic notes, guided lessons, drills and focused test.</p><div class="cj-links"><button class="pill gold" data-go="topics">Open study-guide topics →</button><button class="pill" data-guide-all>Everything · additional clinical cases</button></div></div>';
     var groups = [];
     CONDS.forEach(function (c) { if (groups.indexOf(c.group) < 0) groups.push(c.group); });
     return '<div class="glass cj-intro"><h2>Think like the nurse, one step at a time</h2>' +
@@ -105,11 +119,11 @@
   // ---------- Topics ----------
   var readT = load('topics', {});
   function topicsHome() {
-    return '<div class="glass cj-intro"><h2>The syllabus topics</h2><p>' + CFG.topicsIntro + ' <button class="linkbtn" data-go="think">Think it through</button>.</p></div>' +
+    return (focused()?'<div class="glass cj-intro"><h2>Exam 4 study guide</h2><p>Work through the assigned chapters and the two Chapter 9 sections. This same focus applies to Learn, practice, tests and missed-question review.</p></div>':'<div class="glass cj-intro"><h2>The syllabus topics</h2><p>' + CFG.topicsIntro + ' <button class="linkbtn" data-go="think">Think it through</button>.</p></div>') +
       CFG.weeks.map(function (W) { var w = W[0];
         var list = TOPICS.filter(function (t) { return t.week === w; });
         if (!list.length) return '';
-        return '<section class="cj-sys"><h2>Week ' + w + '</h2><div class="mh-topics">' + list.map(function (t) {
+        return '<section class="cj-sys"><h2>' + (focused()?'Assigned topics':'Week '+w) + '</h2><div class="mh-topics">' + list.map(function (t) {
           return '<button class="glass mh-topic" data-go="t-' + t.id + '"><small class="cj-ch">' + esc(t.ch) + '</small><b>' + esc(t.title) + '</b><span>' + esc(t.short) + '</span>' + (readT[t.id] ? '<small class="mh-done">✓ opened</small>' : '') + '</button>';
         }).join('') + '</div></section>';
       }).join('');
@@ -194,8 +208,8 @@
     return QS.slice();
   }
   function testHome() {
-    var tried = Object.keys(hist).length, right = Object.keys(hist).filter(function (k) { var h = hist[k]; return h[h.length - 1] === 1; }).length;
-    var sets = [['all', 'Everything']].concat(CFG.weeks.map(function (W) { return ['w' + W[0], W[1]]; }), [['new', 'Not tried yet'], ['miss', 'Missed last time']]);
+    var tried = QS.filter(function(q){return hist[q.id];}).length, right = QS.filter(function(q){var h=hist[q.id];return h&&h[h.length-1]===1;}).length;
+    var sets = [['all', focused()?'Exam 4 study guide':'Everything']].concat(CFG.weeks.map(function (W) { return ['w' + W[0], W[1]]; }).filter(function(s){return !focused()||qPool(s[0]).length;}), [['new', 'Not tried yet'], ['miss', 'Missed last time']]);
     return '<div class="glass mh-play"><h2 style="margin:0">Test yourself</h2><p class="mh-lead">NCLEX-style questions: single answer and <b>select all that apply</b>. Each one shows the rationale, and the ones you miss come back under “Missed last time.”</p>' +
       '<p class="mh-hist">' + QS.length + ' questions · tried ' + tried + ' · right on the last try ' + right + '</p>' +
       '<div class="cj-h">Which questions</div><div class="mh-week">' + sets.map(function (s) { var n = qPool(s[0]).length; return '<button class="pill" data-set="' + s[0] + '"' + (n ? '' : ' disabled') + ' aria-pressed="' + (testSet === s[0]) + '">' + s[1] + ' · ' + n + '</button>'; }).join('') + '</div>' +
@@ -248,22 +262,24 @@
   // ---------- routing ----------
   var VIEW_OF = { c: 'think', t: 'topics', p: 'practice' };
   function route() {
-    var h = decodeURIComponent(location.hash.slice(1)) || 'think', m = /^([ctp])-(.+)$/.exec(h), view = m ? VIEW_OF[m[1]] : h;
+    var h;try{h=decodeURIComponent(location.hash.slice(1));}catch(_){h='';}
+    h=h||(focused()?'topics':'think');var m = /^([ctp])-(.+)$/.exec(h), view = m ? VIEW_OF[m[1]] : h;
     if (['think', 'topics', 'practice', 'test'].indexOf(view) < 0) view = 'think';
     tabs.querySelectorAll('[data-go]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.go === view ? 'true' : 'false'); });
     var html;
-    if (m && m[1] === 'c' && byId(CONDS, m[2])) html = condHtml(byId(CONDS, m[2]));
-    else if (m && m[1] === 't' && byId(TOPICS, m[2])) html = topicHtml(byId(TOPICS, m[2]));
-    else if (m && m[1] === 'p' && byId(DRILLS, m[2])) { if (!run || run.d.id !== m[2]) startDrill(byId(DRILLS, m[2])); html = drillHtml(); }
+    var outside=false,entry;
+    if (m && m[1] === 'c' && (entry=byId(ALL.conditions, m[2]))) {outside=focused()&&!byId(CONDS,m[2]);html=condHtml(entry);}
+    else if (m && m[1] === 't' && (entry=byId(TOPICS,m[2])||byId(ALL.topics, m[2]))) {outside=focused()&&!byId(TOPICS,m[2]);html=topicHtml(entry);}
+    else if (m && m[1] === 'p' && (entry=byId(DRILLS,m[2])||byId(ALL.drills, m[2]))) {outside=focused()&&!byId(DRILLS,m[2]);if (!run || run.d.id !== m[2]) startDrill(entry); html = drillHtml(); }
     else if (view === 'test') html = test ? qHtml() : testHome();
     else if (view === 'topics') html = topicsHome();
     else if (view === 'practice') { run = null; html = drillsHome(); }
     else html = thinkHome();
-    root.innerHTML = html;
+    root.innerHTML = (outside?'<div class="exam-guide-notice">This item is additional review outside your Exam 4 study-guide focus. <button data-go="topics">Return to the guide</button> · <button data-guide-all>Switch to Everything</button></div>':'')+html;
   }
   function go(h) {
     if (h === 'test') test = null;
-    if (('#' + h) === location.hash || (h === 'think' && !location.hash)) { route(); }
+    if (('#' + h) === location.hash || (h === (focused()?'topics':'think') && !location.hash)) { route(); }
     else location.hash = h;
     toTop();
   }
@@ -271,6 +287,8 @@
   function toTop() { tabs.scrollIntoView({ block: 'start' }); }
   window.addEventListener('hashchange', function () { if (!/^#p-/.test(location.hash)) run = null; if (location.hash !== '#test') test = null; route(); toTop(); });
   tabs.addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) go(b.dataset.go); });
+  if(guideSlot&&GUIDE)guideSlot.addEventListener('change',function(e){if(e.target.matches('[data-exam-guide]'))setGuide(e.target.value);});
+  if(GUIDE)window.addEventListener('storage',function(e){if(e.key===GUIDE.key){guideMode=guideStore.mode();applyGuide();run=null;test=null;testSet='all';route();}});
 
   function toggle(btn, body) { var open = btn.getAttribute('aria-expanded') !== 'true'; btn.setAttribute('aria-expanded', open ? 'true' : 'false'); body.hidden = !open; return open; }
   function markStep(k) {
@@ -283,6 +301,7 @@
   }
   root.addEventListener('click', function (e) {
     var t = e.target, x;
+    if(t.closest('[data-guide-all]')){setGuide('all');return;}
     if ((x = t.closest('[data-go]'))) { go(x.dataset.go); return; }
     if ((x = t.closest('[data-test-link]'))) { test = null; if (startTest('link:' + x.dataset.testLink, 0)) { location.hash = 'test'; if (location.hash === '#test') route(); } toTop(); return; }
     if (t.closest('.cj-quiz')) { quiz = !quiz; save('quiz', quiz); route(); return; }

@@ -5,7 +5,7 @@ const source=files=>{const c=vm.createContext({window:{}});files.forEach(f=>vm.r
 const old=source(['data/e3/lessons.js','data/e3/info-topics.js']);
 const e2=source(['data/info-topics.js']);
 const catalog=require('./learn-catalog');
-const counts={e1:25,e2:26,e4:27,e5:23,final:83},keys=new Set();
+const counts={e1:25,e2:26,e4:29,e5:23,final:83},keys=new Set();
 let total=0,questions=0,activities=0;
 for(const [exam,count]of Object.entries(counts)){
  const d=source(['data/learn/'+exam+'.js']).LEARN_DATA,{lessons,config,studios}=d;
@@ -18,7 +18,7 @@ for(const [exam,count]of Object.entries(counts)){
   const dir=exam==='e1'?'e1':exam==='e4'?'mh':'mh5';
   const b=source(['data/'+dir+'/topics.js',...fs.readdirSync(path.join(root,'data',dir)).filter(f=>f.startsWith('cond-')).map(f=>'data/'+dir+'/'+f),'data/'+dir+'/questions.js']);
   const routes=b.MH_TOPICS.map(t=>'t-'+t.id).concat(b.MH_CONDS.map(t=>'c-'+t.id));
-  const expected=b.MH_TOPICS.flatMap(t=>catalog.topicLessons?.[exam]?.[t.id]?.map(part=>part.id)||['t-'+t.id]).concat(b.MH_CONDS.map(t=>'c-'+t.id));
+  const expected=b.MH_TOPICS.flatMap(t=>catalog.topicLessons?.[exam]?.[t.id]?.map(part=>part.id)||['t-'+t.id]).concat(b.MH_CONDS.map(t=>'c-'+t.id),exam==='e4'?['t-e4-diagnostics','t-e4-peplau']:[]);
   assert.deepEqual(lessons.map(l=>l.id).sort(),expected.sort());routes.forEach(id=>allowed.add(id));
  }
  const allNotes=new Set(lessons.flatMap(l=>l.notes));

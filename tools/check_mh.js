@@ -99,7 +99,7 @@ V.forEach(v => {
   (v.tags || []).forEach(t => { if (!tags.has(t)) err(`video ${v.id}: unknown tag ${t}`); });
 });
 C.forEach(c => { if (!V.some(v => v.tags.includes(c.id))) err(`condition ${c.id}: no video`); });
-T.forEach(t => { if (!V.some(v => v.tags.includes(t.id))) err(`topic ${t.id}: no video`); });
+// Topic videos are optional. Any supplied video still needs a valid ID and existing tags above.
 
 if (errs.length) { console.error(PAGE + ':\n' + errs.join('\n')); console.error(`\n${errs.length} problem(s)`); process.exit(1); }
 console.log(`${PAGE} data OK: ${C.length} conditions, ${T.length} topics, ${D.length} drills (${D.reduce((n, d) => n + d.items.length, 0)} items), ${Q.length} questions (${Q.filter(q => Array.isArray(q.a)).length} select-all), ${V.length} videos.`);

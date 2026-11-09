@@ -1,4 +1,4 @@
-// Exam 4 · Topics — the syllabus topics as notes (Varcarolis 9e chapters 1–6, 8, 9, 10, 15, 16), written in our own words.
+// Exam 4 · Topics — the syllabus topics as notes (Varcarolis 9e chapters 1–6, 8, 9, 10, 15, 16, 34), written in our own words.
 // { id, week, ch, title, short, lead, terms?: [{t, see, why, means}], cards: [{h, b: [bullets], why?, tag?}], recall?: [[question, answer]] }
 window.MH_TOPICS = [
 {
@@ -277,6 +277,419 @@ window.MH_TOPICS = [
     ['How long does a crisis usually last?', 'About **4–6 weeks**.'],
     ['First priority in crisis intervention?', '**Safety**: assess risk to self and others.'],
     ['A grounding technique?', '**5-4-3-2-1**, feet on the floor, holding ice, orienting to time and place.']
+  ]
+},
+{
+  "id": "groups",
+  "week": 11,
+  "ch": "Chapter 34",
+  "title": "Therapeutic groups",
+  "short": "How groups help, how leaders shape them, and how nurses protect participation and safety.",
+  "lead": "A therapeutic group uses shared experience and interaction to support change. The nurse plans who can benefit, shapes the discussion and evaluates what members gained. Effective leadership keeps the purpose, relationships and safety in view together.",
+  "terms": [
+    {
+      "t": "Group",
+      "see": "Several people work toward an agreed purpose and affect each other’s experience.",
+      "why": "Membership creates interdependence; one person’s response can change the next person’s behavior.",
+      "means": "Assess the relationships as well as each person’s needs."
+    },
+    {
+      "t": "Therapeutic group",
+      "see": "Members practise a useful skill, gain support or explore a difficulty together.",
+      "why": "A shared activity becomes therapeutic when it supports psychological development or growth.",
+      "means": "Choose a purpose and measure a relevant benefit; attendance alone is insufficient."
+    },
+    {
+      "t": "Group psychotherapy",
+      "see": "A trained clinician helps members examine recurring relationship patterns and psychiatric symptoms.",
+      "why": "The relationships within the session become part of a specialized treatment.",
+      "means": "Distinguish psychotherapy from RN teaching or activity facilitation; verify preparation and scope."
+    },
+    {
+      "t": "Group work",
+      "see": "The nurse plans a session, attends to participation and checks what members gained.",
+      "why": "Useful change depends on both preparation and what happens between members.",
+      "means": "Plan, facilitate and evaluate instead of merely gathering people in a room."
+    },
+    {
+      "t": "Therapeutic factors",
+      "see": "A member gains hope, feels understood or tries a new way of relating.",
+      "why": "Yalom described several routes through which the group experience can support change.",
+      "means": "Match the helpful factor to the group’s purpose; one mechanism does not explain every benefit."
+    },
+    {
+      "t": "Group content",
+      "see": "Participants discuss how to ask for help after discharge.",
+      "why": "Content is the subject matter and spoken material; a transcript captures this layer.",
+      "means": "Record the topic without mistaking it for an account of the interaction."
+    },
+    {
+      "t": "Group process",
+      "see": "People interrupt one speaker but listen closely to another discussing the same topic.",
+      "why": "Process concerns how members relate, including tone, gestures, silence and patterns of participation.",
+      "means": "Notice who responds to whom and intervene when the interaction blocks the work."
+    },
+    {
+      "t": "Group norms",
+      "see": "Members expect a turn to speak and arrive before the session begins.",
+      "why": "Shared expectations can support safety or quietly pressure members to agree.",
+      "means": "Clarify helpful expectations and address rules that silence disagreement."
+    },
+    {
+      "t": "Group phases",
+      "see": "A new group needs introductions; a mature group can work through disagreement.",
+      "why": "A group’s needs change as it forms, works and ends. Conflict can move it back to earlier tasks.",
+      "means": "Adapt the amount of structure and the leadership task to the phase."
+    },
+    {
+      "t": "Task roles",
+      "see": "A participant asks for evidence or helps the group decide its next step.",
+      "why": "These behaviors move the group toward its stated work.",
+      "means": "Reinforce useful clarification, information and goal-directed action."
+    },
+    {
+      "t": "Maintenance roles",
+      "see": "A member notices an overlooked speaker and invites their contribution.",
+      "why": "These behaviors sustain inclusion and the relationships needed for the work.",
+      "means": "Support balanced participation and repair tension without abandoning the purpose."
+    },
+    {
+      "t": "Individual roles",
+      "see": "One person repeatedly seeks applause while the agreed topic is left behind.",
+      "why": "Personal needs can displace the shared task. This describes behavior, not a permanent identity.",
+      "means": "Describe the effect, set respectful limits and explore the underlying need."
+    },
+    {
+      "t": "Feedback",
+      "see": "A member explains that an interruption made it difficult to finish a thought.",
+      "why": "Others can describe an interpersonal effect that the speaker did not notice.",
+      "means": "Make feedback specific and owned: describe the behavior and its effect without speaking for everyone."
+    },
+    {
+      "t": "Group themes and conflict",
+      "see": "Different stories keep returning to trust; two members disagree about asking for help.",
+      "why": "A theme is a recurring meaning. Conflict is an expressed difference that may expose useful work.",
+      "means": "Name a possible theme tentatively and support respectful resolution rather than suppressing every disagreement."
+    },
+    {
+      "t": "Open and closed membership",
+      "see": "An admission group welcomes new people; a fixed course keeps its original membership.",
+      "why": "Open groups admit replacements. Closed groups do not add members when someone leaves.",
+      "means": "Revisit orientation with newcomers and plan continuity for changing membership."
+    },
+    {
+      "t": "Homogeneous, heterogeneous and subgroup",
+      "see": "Members may share a central characteristic, have varied backgrounds, or form a small alliance.",
+      "why": "Similarity and diversity affect fit. A subgroup is a smaller cluster whose loyalty may compete with the whole group.",
+      "means": "Assess the actual mix and include quieter or less-connected members; these terms do not rank people’s value."
+    }
+  ],
+  "cards": [
+    {
+      "h": "Why use a group, and when does it fit?",
+      "b": [
+        "Therapeutic groups expanded when clinicians needed to help many people affected by war. A group can now support learning, coping and relationships in hospitals and community care.",
+        "One facilitator can reach several people. Peers contribute experiences the facilitator does not have, offer feedback and create chances to rehearse communication with support.",
+        "Trade-offs include divided speaking time, privacy risks, disruptive behavior and pressure to conform. A larger group does not automatically give each person enough attention.",
+        "Select for this group’s purpose, readiness and current ability to participate. Limited money, few friends or quiet listening alone are not reasons to exclude someone.",
+        "Yalom’s existential approach includes responsibility and freedom, isolation, meaning and mortality. A useful group helps people face these concerns while remaining connected."
+      ]
+    },
+    {
+      "h": "Yalom: belonging, hope and contribution",
+      "b": [
+        "**Universality:** discovering a shared struggle can reduce the feeling of being uniquely defective. Recognizing similarity differs from being promised an identical outcome.",
+        "**Instillation of hope:** seeing another member make progress can make change seem possible. Encouragement is grounded in possibility, not guaranteed recovery.",
+        "**Altruism:** contributing something useful can strengthen the helper’s sense of worth. Receiving a lecture is a different mechanism.",
+        "**Imparting information:** members gain practical knowledge from the leader or one another. Check the accuracy of peer advice before it becomes a treatment instruction.",
+        "**Group cohesiveness:** a sense of acceptance links members to each other, the leader and the whole group. Shared trust supports disclosure; forced agreement is not cohesion."
+      ]
+    },
+    {
+      "h": "Yalom: trying new relationships and making meaning",
+      "b": [
+        "**Imitative behavior:** a member tries a constructive behavior after watching it. **Development of socializing techniques:** feedback and practice improve everyday interaction.",
+        "**Interpersonal learning:** members notice their effect on others, test another response and examine the result. This involves more than memorizing communication rules.",
+        "**Corrective recapitulation of the primary family group:** familiar family interaction patterns appear in the session and can be worked through in a safer relationship setting.",
+        "**Catharsis:** expressing emotion can help when the experience is understood and integrated. Emotional intensity by itself does not prove useful treatment; uncontrolled expression can overwhelm the work.",
+        "**Existential factors:** members consider unavoidable limits, choice, loss and personal meaning. The aim is a meaningful response to life, not a promise to remove every source of suffering."
+      ]
+    },
+    {
+      "h": "Read both the topic and the interaction",
+      "b": [
+        "**Content** answers “What was discussed?” **Process** asks “How did people respond to one another?” Track tone, posture, timing, interruptions and silence as well as spoken facts.",
+        "A repeated concern such as belonging may be a **theme** across several different stories. Offer the connection tentatively and let members respond.",
+        "Make **norms** visible. Expectations about punctuality, turn-taking and privacy can support trust; an expectation of universal agreement can suppress useful differences.",
+        "Help members speak to each other rather than routing every reply through the leader. Explore how an interaction affects participation.",
+        "Invite specific **feedback** and help the group resolve **conflict**. Cohesion is associated with better outcomes, but warmth alone is not an outcome measure."
+      ]
+    },
+    {
+      "h": "Design the group before inviting members",
+      "b": [
+        "Begin with a clear name, purpose and realistic outcomes. Decide what evidence will show the group helped, not just whether the session occurred.",
+        "Choose a population whose needs fit the purpose. Consider functioning, readiness, interpersonal style and the support available to the leader.",
+        "Plan the meeting frequency, session times and treatment duration. Specify what the leader and members will each do, with consistent plans when staff rotate.",
+        "**Open** membership allows new arrivals; **closed** membership stays fixed despite departures. A group may also be time-limited or ongoing; duration and membership are separate decisions.",
+        "**Homogeneous** members share an important characteristic; **heterogeneous** members differ. Notice **subgroups**, including pairs whose separate alliance may leave others outside.",
+        "Match the room to the group. Attend to sound, privacy, light and temperature. A circle without a privileged seat supports visibility and equality; crowding or excessive distance can inhibit participation.",
+        "Avoid assigning a highly disruptive person to an inexperienced facilitator without support, or pushing a withdrawn person into an intensely probing setting without preparation."
+      ]
+    },
+    {
+      "h": "Hospital groups and community groups need different structure",
+      "b": [
+        "Outpatient membership is often more stable, allowing preparation and sustained relationships. Functioning may be more similar, but willingness still varies, including when attendance is court-ordered.",
+        "Inpatients may have different levels of functioning and may join with little preparation. Admission and discharge change the group, and unit interruptions are common.",
+        "Hospital treatment lasts only as long as the admission. Use a clear agenda and active time management; limited continuity can constrain cohesion.",
+        "An outpatient group may meet for a fixed course or continue longer, with more room for member direction. Reassess actual needs rather than applying the setting label rigidly."
+      ]
+    },
+    {
+      "h": "Orientation: build safety and a shared purpose",
+      "b": [
+        "Start the first meeting with the leader’s introduction and invite members to introduce themselves. Explain what this group is for and how the meeting will work.",
+        "Expect some caution, anxiety, politeness or silence while trust is developing. Offer structure, identify common ground and encourage member-to-member responses.",
+        "Discuss respect, confidentiality and its limits before sensitive disclosure. Turn off distracting or recording devices under the group agreement; social media posts and photos can expose other members.",
+        "Explaining the purpose during a first session is **orientation**. Deciding that purpose while designing the service is **planning**."
+      ]
+    },
+    {
+      "h": "Working: turn disagreement into useful work",
+      "b": [
+        "Help members solve problems tied to the purpose. Support communication and conduct while allowing members to do more of the work.",
+        "Tuckman’s **forming** aligns with early group formation. Within the working period, **storming** includes challenges and clashes; **norming** develops cooperation and agreed roles; **performing** focuses those roles on the task.",
+        "A challenge to the leader is not automatically treatment failure. Maintain safety, examine the disagreement and model constructive conflict resolution.",
+        "Cohesion supports doing the work, and work plus feedback can develop insight. Development is not a one-way ladder. A new conflict or membership change can require renewed structure and trust-building before the group can work effectively again."
+      ]
+    },
+    {
+      "h": "Termination and follow-up: make the ending useful",
+      "b": [
+        "Prepare for the end rather than simply cancelling the next meeting. Ask members to identify accomplishments, new understanding and goals to carry forward.",
+        "Invite feedback about what helped and what did not. Loss, disappointment or anger about ending can be discussed directly and respectfully.",
+        "Check progress during the group’s life and again at the end. Use member feedback and objective outcome measures; the chapter’s **Group Questionnaire** example examines relationships, quality and structure.",
+        "Plan follow-up or referrals around continuing needs. Completion of a group does not mean all symptoms or risks have disappeared."
+      ]
+    },
+    {
+      "h": "Task roles: keep the work moving",
+      "b": [
+        "**Orienter:** points back to the goal when discussion drifts. **Energizer:** helps the group move from discussion into a decision or action.",
+        "**Elaborator:** supplies an illustration or extends an idea so the group can use it. **Information seeker:** asks for clarification or dependable facts.",
+        "**Information giver:** contributes relevant knowledge or experience. **Opinion giver:** offers a viewpoint that may influence the group’s priorities or values.",
+        "Recognize the function of the contribution. Talking often is not automatically a task role if the group’s purpose is being displaced."
+      ]
+    },
+    {
+      "h": "Maintenance roles: keep participation possible",
+      "b": [
+        "**Gatekeeper:** notices unequal airtime and opens a route for others to speak. **Encourager:** welcomes contributions and recognizes effort.",
+        "**Harmonizer:** helps members understand and settle a difference. **Compromiser:** adjusts their own position to preserve a workable relationship.",
+        "**Standard setter:** brings shared expectations into words. **Follower:** supports the group’s direction without needing to lead it.",
+        "Maintenance supports the relationships that let the task continue. It is not the same as preventing all conflict or demanding agreement."
+      ]
+    },
+    {
+      "h": "Individual roles: describe behavior without labeling the person",
+      "b": [
+        "**Aggressor:** attacks a member or an idea. **Blocker:** repeatedly obstructs progress rather than examining the shared problem.",
+        "**Recognition seeker:** draws attention toward personal achievements. **Help seeker:** repeatedly seeks sympathy in a way that displaces the group’s work.",
+        "**Self-confessor:** brings disclosure beyond the group’s purpose or boundaries. Disclosure is not automatically therapeutic just because it is personal.",
+        "Roles can shift. Explore the need, describe the effect and reinforce useful alternatives instead of assigning a fixed identity to a member."
+      ]
+    },
+    {
+      "h": "The framework changes what the leader listens for",
+      "b": [
+        "**Humanism (humanistic approaches)** emphasizes the person’s experience and growth. Patient-centered, existential and experiential work use attentive listening and guided Socratic questions rather than imposing an answer.",
+        "**Cognitive-behavioral work** links thoughts and actions to concrete goals. Leaders plan practice, model skills, reinforce change and monitor results.",
+        "**Psychodynamic approaches**, including the chapter’s psychoanalytic and Gestalt examples, explore underlying conflict and insight through interpretation, careful challenge or enactment.",
+        "**Educational work** builds knowledge and coping through organized teaching, demonstrations, discussion and checks of understanding.",
+        "**Systems approaches** examine the person’s relationships and social context. The chapter includes Adlerian, choice/reality, feminist, family and interpersonal traditions, with attention to interaction, equality and environmental change. Leaders examine lifestyle patterns, model useful interaction and plan advocacy or activism when needed."
+      ]
+    },
+    {
+      "h": "Choose the group purpose and the leader’s competence",
+      "b": [
+        "RN-led **educational** groups build a specific skill or understanding; handouts, slides or video can support discussion. **Medication education** may be led with a pharmacist and requires checking peer advice.",
+        "**Dual-diagnosis** groups address a substance use disorder together with a mental disorder. Two psychiatric diagnoses without substance use do not meet that meaning; the leader needs competence in both areas.",
+        "**Stress-management** groups practise coping such as paced breathing, exercise, music or spiritual approaches that fit the person. **Mindfulness** develops present-moment awareness of thoughts, feelings and bodily responses.",
+        "**Community meetings** address unit information, shared concerns, patient advocacy and governance. The nurse uses current unit assessment and models appropriate interaction.",
+        "RNs may also facilitate **activity, task and support** groups within training and policy. These categories can overlap: an activity may include education or mutual support.",
+        "**Group psychotherapy** aims at symptoms and deeper patterns and requires specialized preparation and appropriate authority. PMH-APRNs and other qualified mental health professionals may provide it; ordinary RN group facilitation is not equivalent preparation."
+      ]
+    },
+    {
+      "h": "Support and mutual help extend care",
+      "b": [
+        "Match support to the person’s experience: bereavement, loss after suicide, living with cancer, veteran concerns, or patient/family needs. **NAMI** offers support, education and advocacy. Virtual support can improve access but does not guarantee anonymity.",
+        "Peer-led **self-help or mutual-help** groups share lived experience rather than replacing individualized professional treatment. **Alcoholics Anonymous (AA)** is the chapter’s prototype for twelve-step approaches.",
+        "Other named resources include **Narcotics Anonymous (NA), Gamblers Anonymous (GA), Overeaters Anonymous (OA), Adult Children of Alcoholics (ACOA), and Al-Anon** for people affected by another person’s alcohol use.",
+        "**Recovery International** offers a mental-health mutual-help approach. The **National Mental Health Consumers’ Self-Help Clearinghouse** helps people locate resources; verify a program’s current access and fit instead of assuming one group suits everyone."
+      ]
+    },
+    {
+      "h": "Leadership style follows the group’s needs",
+      "b": [
+        "**Autocratic:** the leader sets the direction and retains control. This may help a short, tightly structured unit agenda, but limits member-led exchange.",
+        "**Democratic:** the leader invites shared problem solving and substantial interaction while maintaining the therapeutic frame.",
+        "**Laissez-faire:** members have substantial freedom and little direction. A safe creative activity may tolerate this; low structure is a poor answer when containment or skill teaching is needed.",
+        "A preferred personal style is not a reason to ignore the task, phase or acuity. Flexible leadership still includes responsibility for safety."
+      ]
+    },
+    {
+      "h": "Communication that makes a group workable",
+      "b": [
+        "**Active listening** shows sustained attention; **questions** invite a useful detail; **clarification** checks the meaning of an unclear statement.",
+        "**Giving information** supplies accurate facts. In medication teaching, the chapter uses antidepressant benefit taking **four weeks or longer** as an example; timing varies and the prescribed plan still guides care.",
+        "**Confrontation** respectfully notices a mismatch between words and observed behavior. It is a therapeutic challenge, not accusation or ridicule.",
+        "**Empathy** acknowledges the experience; **reflection** returns a feeling or observation for exploration; **support** recognizes a specific effort.",
+        "**Summarizing** links the work already done to what comes next. Keep members’ participation central instead of turning every intervention into a long lecture."
+      ]
+    },
+    {
+      "h": "Supervision, coleadership and inclusion",
+      "b": [
+        "Use **clinical supervision** to examine facilitation, group dynamics, boundaries and the leader’s own reactions. **Transference and countertransference** can occur with groups as well as individual care.",
+        "An experienced colleague or qualified APRN supervisor can help a new leader develop skill. Supervisors protect professional confidentiality; leaders who provide psychotherapy also seek supervision.",
+        "**Coleaders** can model different useful responses, support a less experienced facilitator and debrief immediately. They may elicit different member reactions and offer support with strong countertransference.",
+        "A poor relationship between coleaders can undermine the group. Agree on roles and discuss differences openly rather than forming competing alliances.",
+        "Attend to racial, ethnic, economic, sexual-orientation and other differences. Explore assumptions respectfully and remove barriers that marginalize members.",
+        "Support LGBTQ inclusion. Offering pronouns can open participation, without forcing personal disclosure. The chapter’s **LGBTQ Responsive Model for Supervision of Group Work** helps leaders develop relevant awareness, knowledge and skills."
+      ]
+    },
+    {
+      "h": "Consent and privacy: a promise has limits",
+      "b": [
+        "Before participation, explain the purpose, likely benefits, risks, roles and confidentiality limits. Clarify attendance or leaving expectations and rules for contact outside the group.",
+        "The nurse has professional confidentiality duties. Peers are not bound by that professional nursing code, and legal protections vary. **Never guarantee that another member will keep a disclosure private.**",
+        "Discuss exceptions required by law and safety policy before sensitive disclosure. An agreement helps set expectations; it cannot eliminate every risk of a breach.",
+        "Protect identities in notes, teaching and any recording. Using a recording to review interaction requires appropriate consent and safeguards; it does not justify members casually filming a session.",
+        "Use training, credentialing, scope standards and current evidence to select a suitable approach. Removal is generally a last resort after attempts to address non-dangerous difficulties or repeated agreement violations."
+      ]
+    },
+    {
+      "h": "Virtual groups: preserve the frame across the screen",
+      "b": [
+        "Online options expanded during COVID-19 and can address isolation, grief, anxiety or other needs. They can improve access without being interchangeable with every in-person group.",
+        "A flat image can hide nonverbal cues. Leaders have less control over seating, interruptions and who else is nearby, and may find sustained engagement harder.",
+        "Use appropriate privacy/security measures, a suitable platform and HIPAA protections where applicable. Discuss unseen listeners, recording, device use and a private joining space.",
+        "Confirm each member’s location and the clinician’s authority to provide care there. Cross-state practice is not automatically permitted simply because the meeting is online.",
+        "Agree on emergency contacts, a local response plan and a connection-failure backup. Present remote support as helpful access, not a guarantee of secrecy or safety.",
+        "The chapter also mentions a solution-focused brief online group study protocol for adolescent anxiety. A protocol describes a planned test; it does not by itself demonstrate effectiveness."
+      ]
+    },
+    {
+      "h": "When group work must give way to immediate safety",
+      "b": [
+        "New suicidal thoughts require direct risk assessment and appropriate additional support. Calm or quiet behavior does not establish safety, and group reassurance is not a substitute for assessment.",
+        "Active paranoid beliefs, major disorganization or acute mania can make participation harder. Seek experienced support and individualize fit; a manic patient unable to attend to the group needs stabilization and a more suitable setting.",
+        "If someone threatens or attacks another member, protect the group, summon help and follow the safety protocol. Temporary removal may be necessary immediately; do not wait to finish the planned exercise.",
+        "A raised voice or limited resources alone does not establish dangerousness. Base restrictions on assessed behavior, risk and the needs of this particular group."
+      ],
+      "tag": "If it worsens"
+    },
+    {
+      "h": "A member takes nearly every turn",
+      "b": [
+        "Begin with a reminder about shared speaking time and invite other contributions. Help members notice participation patterns rather than humiliating one person.",
+        "If the pattern persists, describe what you observed and its effect in your own words. Avoid claiming to know how every other member feels.",
+        "A private conversation can explore anxiety or another need behind the talkativeness. Agree on a practical limit; the chapter gives **two or three contributions** as an example, not a universal prescription.",
+        "When the group can manage it safely, invite respectful feedback about the pattern so the member can compare intended and actual interpersonal effects."
+      ]
+    },
+    {
+      "h": "Anger, disruption and rejected help",
+      "b": [
+        "Listen without joining the attack. Describe behavior, maintain limits and consider a private check-in about what is driving the anger.",
+        "Matter-of-fact empathy can support connection without excusing harmful conduct. Feeling hurt or vulnerable may sit behind angry self-protection; do not assume a motive without exploring it.",
+        "Help members use a specific **I-statement** about an effect instead of assigning blame. Feelings can be acknowledged while behavior remains subject to limits.",
+        "When someone struggles to name emotion, invite attention to bodily sensations, current reactions and how another member may experience the interaction.",
+        "For repeated complaints followed by rejection of every suggestion, explore the interaction and the person’s own goals instead of escalating the advice-giving. Use supervision when the pattern exceeds the leader’s skill.",
+        "Peer feedback, or an appropriately consented session review, may reveal self-focused patterns. Immediate threats or violence move the priority to the safety response above."
+      ]
+    },
+    {
+      "h": "Silence needs curiosity, time and an invitation",
+      "b": [
+        "A silent member may be assessing safety, thinking carefully or doubting their ability to contribute. Silence alone does not prove refusal or lack of interest.",
+        "Allow time to organize a response and offer to return to the person. A planned round with a manageable prompt can give everyone a predictable opening.",
+        "Explore barriers without demanding sensitive disclosure. Participation enables feedback and lets others benefit from the member’s perspective.",
+        "Consider the effect on the whole group, including uncertainty about what the quiet member thinks. Pair inclusion with respect for readiness."
+      ]
+    },
+    {
+      "h": "Choose and measure outcomes that match the group",
+      "b": [
+        "In **medication education**, ask for demonstrated knowledge: medication purpose, **three important adverse effects**, the prescribed dose and timing, and significant drug–drug or drug–food interactions.",
+        "Teach-back can reveal a gap; attendance, accepting a medication’s price or saying the group was pleasant does not establish medication knowledge. The chapter’s review example includes identifying **two interactions**.",
+        "In **therapy**, assess the intended change in insight, behavior and symptoms. For alcohol-related treatment, connect use to consequences and evaluate abstinence or reduction in risky use as appropriate to the plan.",
+        "Use a consistent symptom scale when symptom change is the goal. Combine objective measures with members’ accounts of helpful and unhelpful features.",
+        "Reflect on your own group behavior: which actions advance the task, sustain inclusion or displace the work? Examine norms, preparation and the effect of leadership as part of continued learning."
+      ]
+    },
+    {
+      "h": "Research examples: skills, mood and recovery",
+      "b": [
+        "The chapter cites **group CBT** for social anxiety, bipolar disorder and adolescents with ADHD; the ADHD example combines CBT with pharmacotherapy. These examples support selecting an appropriate adjunct, not replacing every other treatment.",
+        "It also describes brief CBT for depressive/anxiety distress and an **eight-session group interpersonal therapy** approach for major depression.",
+        "For **smoking cessation**, the cited group behavior programs were studied against self-help or brief individual support. The comparison matters when interpreting a benefit.",
+        "For **substance use disorders**, the chapter discusses CBT, interpersonal, behavioral marital, modified psychodynamic, interactive, rational emotive, Gestalt and psychodrama approaches. These are treatment models, not proof that every model fits every patient."
+      ]
+    },
+    {
+      "h": "Research examples: family, trauma and longer-term support",
+      "b": [
+        "For children with marked irritability and ADHD, the chapter describes **joint parent–child sessions**. For early conduct problems, it cites **behavioral or cognitive-behavioral parenting groups** with parent and child outcomes.",
+        "For people at risk of psychosis or with early psychosis, it lists **group/family CBT**. The cited work includes pilot or noncontrolled designs; it is not equivalent to a large randomized trial.",
+        "**Seeking Safety** is the chapter’s example for co-occurring PTSD and substance use problems. **Reminiscence groups** are discussed for neurocognitive disorders, and **dialectical behavior therapy (DBT)** for borderline personality disorder.",
+        "Evidence sources in the chapter range from trials and meta-analyses to reviews and practice guidance. Verify current evidence, the actual population and clinician competence before selecting a program; a historical table is not an automatic treatment order."
+      ]
+    }
+  ],
+  "recall": [
+    [
+      "What can a group offer, and what can limit its usefulness?",
+      "Peer learning, feedback, supported skills practice, belonging and reaching several people at once can help. Shared time, privacy risk, disruptive behavior and pressure to conform can limit the benefit. Match the group to the person and purpose."
+    ],
+    [
+      "How do Yalom’s factors describe different routes to change?",
+      "Hope supports possibility; universality reduces isolation; information teaches; altruism helps the helper; corrective family recapitulation revisits relational patterns; socializing techniques build interaction skills; imitation models behavior; interpersonal learning tests its effect; cohesion supports belonging; catharsis expresses and integrates feeling; existential work addresses limits and meaning."
+    ],
+    [
+      "Content, process, norms, themes and feedback: what is the distinction?",
+      "Content is what is said. Process is how members interact. Norms are shared expectations. Themes are recurring meanings. Feedback describes a person’s effect on others; conflict can become useful work when resolved safely."
+    ],
+    [
+      "What belongs in planning and selection?",
+      "Set the purpose, name, measurable outcomes, membership and responsibilities. Arrange schedule, duration, room and seating. Consider open/closed membership, diversity, functioning, readiness, leader support and how progress will be evaluated."
+    ],
+    [
+      "What does the leader do in each phase?",
+      "Planning designs the group. Orientation introduces purpose, people, safety and expectations. Working supports problem solving and constructive conflict, including storming, norming and performing. Termination reviews gains and feelings about ending, plans next goals and obtains feedback."
+    ],
+    [
+      "How do task, maintenance and individual roles differ?",
+      "Task roles advance the work; examples include orienting and seeking reliable information. Maintenance roles sustain relationships, such as gatekeeping and harmonizing. Individual roles place a personal agenda ahead of the purpose, such as blocking or seeking recognition. Describe behavior rather than permanently labeling a person."
+    ],
+    [
+      "How do group type, theory and leader preparation fit together?",
+      "Match the purpose and population to education, medication teaching, dual-diagnosis, stress, community, activity, task or support work. Humanistic, CBT, psychodynamic, educational and systems frameworks direct different interventions. Specialized psychotherapy needs appropriate advanced preparation; peer mutual help has a different role."
+    ],
+    [
+      "What guides leadership and professional development?",
+      "Use direction for needed structure, democratic interaction for shared problem solving, and minimal direction only when the task and safety allow it. Use therapeutic communication, supervision and effective coleadership; examine transference, countertransference and barriers to inclusion."
+    ],
+    [
+      "What must be explained about privacy and safety?",
+      "Explain informed consent, professional confidentiality and its limits. Peers cannot be promised to keep disclosures private. Address devices, recording and outside contact. For virtual care, plan privacy, authorized practice, location, emergencies and disconnection. Immediate danger takes priority over the activity."
+    ],
+    [
+      "How do responses and outcomes change with the group’s problem?",
+      "Share airtime and use specific feedback for monopolization; explore anger with empathy and limits; give a silent member time and an invitation. Check medication knowledge in education, and goal-related insight, behavior and symptoms in therapy."
+    ]
   ]
 }
 ];

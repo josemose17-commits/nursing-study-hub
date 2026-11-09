@@ -78,5 +78,188 @@ window.MH_Q = [
 { id: 'q-cult-3', wk: 11, link: 't-culture', stem: 'Which statements by the nurse support a culturally sensitive assessment? Select all that apply.', opts: ['“What do you call this illness?”', '“What do you think is causing it?”', '“How do you think it should be treated?”', '“Do you consider this a serious problem?”', '“Our medicine works better than home remedies.”'], a: [0, 1, 2, 3], why: 'Kleinman’s questions explore the patient’s own explanation. The last statement is **ethnocentric**.' },
 { id: 'q-cult-4', wk: 11, link: 't-culture', stem: 'Intergenerational conflict in immigrant families often happens because acculturation is:', opts: ['Ignored due to cultural beliefs', 'Filled with traumatic experiences', 'Easier for children', 'A function of assimilation'], a: 2, why: 'Children **acculturate faster** than older adults, so values clash.' },
 { id: 'q-cult-5', wk: 11, link: 't-culture', stem: 'Which nursing actions demonstrate cultural competence? Select all that apply.', opts: ['Planning mealtimes around the patient’s prayer schedule', 'Helping the patient visit with the chaplain', 'Finding out which foods a lacto-ovo vegetarian patient eats', 'Allowing time for the patient’s spiritual healer to visit', 'Ordering standard meal trays three times daily'], a: [0, 1, 2, 3], why: 'Each one adapts care to the patient’s beliefs; a standard tray ignores them.' },
-{ id: 'q-cult-6', wk: 11, link: 't-culture', stem: 'In Campinha-Bacote’s model, which construct reduces stereotyping through direct interaction with patients of diverse backgrounds?', opts: ['Cultural awareness', 'Cultural encounters', 'Cultural desire', 'Cultural knowledge'], a: 1, why: 'Many **cultural encounters** show that individuals express their culture in individual ways.' }
+{ id: 'q-cult-6', wk: 11, link: 't-culture', stem: 'In Campinha-Bacote’s model, which construct reduces stereotyping through direct interaction with patients of diverse backgrounds?', opts: ['Cultural awareness', 'Cultural encounters', 'Cultural desire', 'Cultural knowledge'], a: 1, why: 'Many **cultural encounters** show that individuals express their culture in individual ways.' },
+{
+  "id": "q-g34-01",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "In a coping group, a participant hears others describe the same fear and says they had assumed nobody else felt it. Which therapeutic factor is most directly illustrated?",
+  "opts": [
+    "Universality",
+    "Altruism",
+    "Imparting information",
+    "Imitative behavior"
+  ],
+  "a": 0,
+  "why": "**Universality** is recognition of a shared experience. Altruism would emphasize benefit from helping another person. No teaching or copied behavior is described, so information-giving and imitation are less direct explanations."
+},
+{
+  "id": "q-g34-02",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "A nurse explains why a group may be useful while discussing its limits. Which statements are accurate? Select all that apply.",
+  "opts": [
+    "Members can practise interaction and receive peer feedback.",
+    "Membership automatically makes every disclosure confidential.",
+    "Several patients can receive help within the same session.",
+    "A useful group must contain people with identical backgrounds.",
+    "Members can learn from experiences beyond those of the leader."
+  ],
+  "a": [
+    0,
+    2,
+    4
+  ],
+  "why": "Supported practice, several-person delivery and mutual learning are potential benefits. **Privacy cannot be guaranteed**, and useful groups may be heterogeneous. Similarity can affect fit, but identical backgrounds are not a requirement."
+},
+{
+  "id": "q-g34-03",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "At the first meeting, members appear cautious. The nurse introduces the group’s purpose, explains expectations and invites introductions. Which development task is underway?",
+  "opts": [
+    "Evaluating termination",
+    "Planning before recruitment",
+    "Establishing orientation",
+    "Performing an established task"
+  ],
+  "a": 2,
+  "why": "The first session is doing **orientation** work: purpose, introductions and a safe frame. Planning sets these arrangements before the group meets. Termination reviews an ending, while performing assumes established norms and roles."
+},
+{
+  "id": "q-g34-04",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "Members challenge a facilitator’s authority during a disagreement. No one is threatening harm. Which interpretation best guides the response?",
+  "opts": [
+    "Any conflict proves the group should be ended.",
+    "Storming can be part of working; help members address the disagreement safely.",
+    "The group has completed termination.",
+    "The leader should withdraw all structure immediately."
+  ],
+  "a": 1,
+  "why": "**Storming** can include clashes and challenges during working. Constructive resolution supports development. Automatically ending the group avoids the task, and either calling it termination or abandoning structure misreads the need."
+},
+{
+  "id": "q-g34-05",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "A participant notices that two members have not spoken and creates an opening for their views. Which role is being performed?",
+  "opts": [
+    "Recognition seeker",
+    "Information giver",
+    "Blocker",
+    "Gatekeeper"
+  ],
+  "a": 3,
+  "why": "A **gatekeeper**, a maintenance role, supports access to participation. An information giver supplies content, a recognition seeker draws attention to self, and a blocker obstructs the work."
+},
+{
+  "id": "q-g34-06",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "Which referral best fits a group for co-occurring mental illness and substance use?",
+  "opts": [
+    "Panic disorder with cannabis use disorder",
+    "Social anxiety with a reading difficulty",
+    "Insomnia with seasonal allergies",
+    "Bipolar disorder with obsessive-compulsive disorder but no substance use disorder"
+  ],
+  "a": 0,
+  "why": "A **dual-diagnosis group** in this chapter addresses a mental disorder together with a substance use disorder. Two psychiatric diagnoses alone, or an unrelated physical or learning concern, do not establish that particular group purpose."
+},
+{
+  "id": "q-g34-07",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "A nurse preserves the safety rules but asks members to compare options and jointly decide how to practise a coping skill. Which leadership style predominates?",
+  "opts": [
+    "Autocratic",
+    "Democratic",
+    "Laissez-faire",
+    "Leadership is absent"
+  ],
+  "a": 1,
+  "why": "**Democratic** leadership supports shared problem solving and interaction within a therapeutic frame. An autocratic leader retains the decision; laissez-faire provides much less direction. Maintaining boundaries shows that leadership remains active."
+},
+{
+  "id": "q-g34-08",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "Before an in-person group begins, which actions support informed participation and privacy? Select all that apply.",
+  "opts": [
+    "Explain likely benefits, risks and confidentiality limits.",
+    "Guarantee that peers have the same professional duties as the nurse.",
+    "Discuss expectations about leaving and contact outside the group.",
+    "Address devices, photographs and recording.",
+    "Describe disclosure as risk-free once everyone signs an agreement."
+  ],
+  "a": [
+    0,
+    2,
+    3
+  ],
+  "why": "Consent includes risks, boundaries and confidentiality limits, with clear expectations about devices and outside contact. Peers are not governed by the nurse’s professional code, and an agreement does not remove every possibility of disclosure. **Never promise absolute confidentiality.**"
+},
+{
+  "id": "q-g34-09",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "A member repeatedly speaks over others after a general reminder. Which nurse response gives the most useful direct feedback?",
+  "opts": [
+    "“You are the selfish member of this group.”",
+    "“Everyone here is angry with you.”",
+    "“I have had to interrupt several times; I want to make space for the members still waiting.”",
+    "“I will stop inviting anyone else to speak.”"
+  ],
+  "a": 2,
+  "why": "The nurse identifies an observed pattern and its effect on participation, then supports a boundary. A character label shames the person; speaking for everyone assumes feelings the nurse has not verified. Giving up shared airtime reinforces the problem."
+},
+{
+  "id": "q-g34-10",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "A quiet member says they are still organizing their thoughts. Which next response best supports participation?",
+  "opts": [
+    "Demand an immediate account of their most painful experience.",
+    "Offer a little time and agree to return to the member with the prompt.",
+    "Explain that silence proves they are refusing treatment.",
+    "Permanently exclude the member because others speak faster."
+  ],
+  "a": 1,
+  "why": "Time and a predictable invitation can help a member formulate a contribution. Silence may reflect thoughtfulness or uncertainty about safety. Forced disclosure, labeling and exclusion ignore those possibilities."
+},
+{
+  "id": "q-g34-11",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "A novice facilitator is reviewing group fit and backup needs. Which findings call for assessment and experienced clinical support rather than routine unsupervised group management? Select all that apply.",
+  "opts": [
+    "Active paranoid beliefs are interfering with trust in the session.",
+    "A quiet member reports thoughts of acting on suicide tonight.",
+    "A member has limited income but is attentive and follows the discussion.",
+    "Acute mania prevents a member from attending to the group or respecting basic boundaries.",
+    "A member listens carefully and asks for thinking time."
+  ],
+  "a": [
+    0,
+    1,
+    3
+  ],
+  "why": "Assess the actual safety and participation needs associated with paranoia, possible imminent suicide risk and acute mania. Seek supervision, backup or individual stabilization as appropriate. **Quiet behavior can coexist with serious risk**; poverty and thoughtful silence alone are not exclusion criteria. These findings do not justify permanent diagnosis-based bans."
+},
+{
+  "id": "q-g34-12",
+  "wk": 11,
+  "link": "t-groups",
+  "stem": "A medication-education group is being evaluated. Which observation gives the strongest evidence that its learning goal was met?",
+  "opts": [
+    "Every participant attended for the full hour.",
+    "The group agreed that medication costs should never be questioned.",
+    "Members can use their prescribed plans to explain purpose, dose/timing, important adverse effects and relevant interactions.",
+    "The facilitator spoke continuously without interruption."
+  ],
+  "a": 2,
+  "why": "Demonstrated medication knowledge matches the **education outcome**. Attendance and a smooth lecture do not show understanding, and accepting cost is not a knowledge outcome or a prerequisite for care. Use teach-back and address any practical barriers."
+}
 ];

@@ -822,12 +822,13 @@
         "14",
         "15",
         "16",
-        "25"
+        "25",
+        "34"
       ],
-      "lessons": 19,
-      "gradedItems": 63,
-      "coachedActivities": 50,
-      "notes": 19,
+      "lessons": 27,
+      "gradedItems": 79,
+      "coachedActivities": 74,
+      "notes": 20,
       "coverage": {
         "t-intro": {
           "chapters": [
@@ -994,6 +995,102 @@
           "questions": [
             "q-trauma-1",
             "learn|trauma-choice"
+          ]
+        },
+        "t-groups-foundations": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "t-groups"
+          ],
+          "questions": [
+            "q-g34-02",
+            "learn|g34-family"
+          ]
+        },
+        "t-groups-design": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "t-groups"
+          ],
+          "questions": [
+            "learn|g34-fit",
+            "learn|g34-room"
+          ]
+        },
+        "t-groups-development": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "t-groups"
+          ],
+          "questions": [
+            "q-g34-04",
+            "learn|g34-ending"
+          ]
+        },
+        "t-groups-roles": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "t-groups"
+          ],
+          "questions": [
+            "learn|g34-blocker",
+            "learn|g34-roles"
+          ]
+        },
+        "t-groups-modalities": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "t-groups"
+          ],
+          "questions": [
+            "learn|g34-theory",
+            "learn|g34-evidence"
+          ]
+        },
+        "t-groups-leadership": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "t-groups"
+          ],
+          "questions": [
+            "learn|g34-supervision",
+            "learn|g34-style"
+          ]
+        },
+        "t-groups-safety": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "t-groups"
+          ],
+          "questions": [
+            "q-g34-08",
+            "q-g34-11"
+          ]
+        },
+        "t-groups-participation": {
+          "chapters": [
+            "34"
+          ],
+          "notes": [
+            "t-groups"
+          ],
+          "questions": [
+            "q-g34-10",
+            "q-g34-12"
           ]
         },
         "c-anxiety": {

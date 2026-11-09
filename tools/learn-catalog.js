@@ -3,6 +3,8 @@
 const L = (id, ch, title, match, refs, terms = []) => ({ id, ch, title, match, refs, terms });
 const R = (ch, kind, ...ids) => ids.map(i => `${ch}|${kind}|${i}`);
 module.exports = {
+  // Focused parts may share one map topic while retaining independent lesson progress.
+  topicLessons: { e4: { groups: require('./learn-groups34') } },
   e2: [
     L('resp-prevention','22','Protect the lungs: exposures, smoking and prevention',/smoking|inhalation|questions to ask/i,['prevention-risk','prevention-plan'],['nicotine','hypoxia']),
     L('pack-years','22','Pack-years: calculate the exposure, then assess the person',/questions to ask|inhalation/i,['pack-years-one','pack-years-two'],['pack-years']),

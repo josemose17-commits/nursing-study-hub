@@ -4,7 +4,8 @@ const C=require('../learn-core'),S=require('../study-studio'),H=require('../hypo
 const source=files=>{const c=vm.createContext({window:{}});files.forEach(f=>vm.runInContext(read(f),c));return clone(c.window);};
 const old=source(['data/e3/lessons.js','data/e3/info-topics.js']);
 const e2=source(['data/info-topics.js']);
-const counts={e1:25,e2:26,e4:19,e5:23,final:83},keys=new Set();
+const catalog=require('./learn-catalog');
+const counts={e1:25,e2:26,e4:27,e5:23,final:83},keys=new Set();
 let total=0,questions=0,activities=0;
 for(const [exam,count]of Object.entries(counts)){
  const d=source(['data/learn/'+exam+'.js']).LEARN_DATA,{lessons,config,studios}=d;
@@ -16,8 +17,9 @@ for(const [exam,count]of Object.entries(counts)){
  if(config.mhPrefix){
   const dir=exam==='e1'?'e1':exam==='e4'?'mh':'mh5';
   const b=source(['data/'+dir+'/topics.js',...fs.readdirSync(path.join(root,'data',dir)).filter(f=>f.startsWith('cond-')).map(f=>'data/'+dir+'/'+f),'data/'+dir+'/questions.js']);
-  const expected=b.MH_TOPICS.map(t=>'t-'+t.id).concat(b.MH_CONDS.map(t=>'c-'+t.id));
-  assert.deepEqual(lessons.map(l=>l.id).sort(),expected.sort());expected.forEach(id=>allowed.add(id));
+  const routes=b.MH_TOPICS.map(t=>'t-'+t.id).concat(b.MH_CONDS.map(t=>'c-'+t.id));
+  const expected=b.MH_TOPICS.flatMap(t=>catalog.topicLessons?.[exam]?.[t.id]?.map(part=>part.id)||['t-'+t.id]).concat(b.MH_CONDS.map(t=>'c-'+t.id));
+  assert.deepEqual(lessons.map(l=>l.id).sort(),expected.sort());routes.forEach(id=>allowed.add(id));
  }
  const allNotes=new Set(lessons.flatMap(l=>l.notes));
  assert.deepEqual([...allNotes].sort(),[...allowed].sort(),exam+' authored source section coverage');
@@ -47,7 +49,7 @@ for(const [exam,count]of Object.entries(counts)){
     assert.equal(S.choose(l.id,s,'covered').feedback,null,'no self-credit before reveal');
     assert(!S.practiceHtml(l.id,s).includes(st.answer));
     s=S.reveal(l.id,s);assert(S.practiceHtml(l.id,s).includes(S.reveal?st.answer.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])):st.answer));
-    s=S.choose(l.id,s,'again');assert.equal(S.next(l.id,s).step,i);s=S.retry(l.id,s);assert(!s.revealed);s=S.reveal(l.id,s);s=S.choose(l.id,s,'covered');
+    s=S.choose(l.id,s,'again');assert(S.practiceHtml(l.id,s).includes(st.options.find(o=>o.id==='again').why),'Show the reflection retry explanation');assert.equal(S.next(l.id,s).step,i);s=S.retry(l.id,s);assert(!s.revealed);s=S.reveal(l.id,s);s=S.choose(l.id,s,'covered');assert(S.practiceHtml(l.id,s).includes(st.options.find(o=>o.id==='covered').why),'Show the reflection success explanation');assert(!S.practiceHtml(l.id,s).includes('<p>false</p>'));
    }else if(st.kind==='choice'){
     const wrong=st.options.find(o=>!o.correct),correct=st.options.find(o=>o.correct);assert(correct);
     if(wrong){s=S.choose(l.id,s,wrong.id);assert.equal(S.next(l.id,s).step,i);s=S.retry(l.id,s);}

@@ -25,6 +25,12 @@ const refs={
  sickle:{title:'FDA: Oxbryta (voxelotor) withdrawn because of safety concerns',url:'https://www.fda.gov/drugs/drug-alerts-and-statements/fda-alerting-patients-and-health-care-professionals-about-voluntary-withdrawal-oxbryta-market-due'},
  pancreatitis:{title:'NICE NG104: acute pancreatitis and nutrition',url:'https://www.nice.org.uk/guidance/ng104/chapter/Recommendations'}
 };
+const groupSources=[
+ {title:'AGPA: group psychotherapy practice guidance and confidentiality',url:'https://agpa.org/guidelines-ethics/practice-guidelines-for-group-psychotherapy-2/'},
+ {title:'HHS: group teletherapy, preparation and privacy',url:'https://telehealth.hhs.gov/providers/best-practice-guides/telehealth-for-behavioral-health/group-teletherapy'},
+ {title:'HHS: licensure for behavioral health across jurisdictions',url:'https://telehealth.hhs.gov/licensure/licensure-for-behavioral-health'},
+ {title:'NIMH: antidepressant response takes time',url:'https://www.nimh.nih.gov/health/publications/depression'}
+];
 const updates={
  preop:['Fasting intervals such as clear liquids up to 2 hours before anesthesia apply to selected healthy patients having elective procedures. Confirm the individual anesthesia instructions and aspiration risk; a general interval is not permission to give intake against the patient’s orders.',['fasting']],
  malhyp:['Suspected malignant hyperthermia requires immediate help, discontinuing triggering agents, 100% oxygen and rapid IV dantrolene under the crisis protocol. Do not wait for fever to begin the response.',['mh']],
@@ -88,6 +94,19 @@ function buildMH(dir,exam){
  const bank=load(['data/'+dir+'/topics.js',...fs.readdirSync(path.join(root,'data/'+dir)).filter(f=>f.startsWith('cond-')&&f.endsWith('.js')).sort().map(f=>'data/'+dir+'/'+f),'data/'+dir+'/questions.js']);
  const out=[];
  for(const t of bank.MH_TOPICS){
+  const parts=catalog.topicLessons?.[exam]?.[t.id];
+  if(parts){
+   for(const part of parts){
+    const selected=part.cards.map(h=>{const card=t.cards.find(c=>c.h===h);if(!card)throw Error('Unknown teaching card: '+part.id+'/'+h);return card;});
+    const qs=part.refs.map(ref=>{if(custom[ref])return {...custom[ref],sourceId:custom[ref].id};const q=bank.MH_Q.find(q=>q.id===ref&&q.link==='t-'+t.id);if(!q)throw Error('Unknown focused question: '+ref);return mhQuestion(q);});
+    const termDefinitions=Object.fromEntries(part.terms.map(name=>{const term=(t.terms||[]).find(x=>x.t===name);if(!term)throw Error('Unknown focused term: '+name);return [name,[term.see,term.why,term.means].map(plain).join(' ')];}));
+    const why=[plain(t.lead),...selected.map(c=>plain(c.h)+': '+c.b.map(plain).join('; '))];
+    const l={id:part.id,ch:'34',chapters:['34'],title:part.title,notes:['t-'+t.id],source:'Varcarolis 9e · Chapter 34; original site-authored teaching from the supplied chapter. Focused parts share the complete map topic.',why,checks:part.recall.map(x=>plain(x[0])),recallAnswers:part.recall.map(x=>plain(x[1])),requires:[],terms:part.terms,termDefinitions,questions:qs,sourceSections:[{id:'t-'+t.id,title:part.title,blocks:selected.map(c=>({title:plain(c.h),lines:c.b.map(plain)}))}]};
+    const sources=part.id==='t-groups-safety'?groupSources.slice(0,3):part.id==='t-groups-leadership'?[groupSources[0],groupSources[3]]:[groupSources[0]];
+    out.push(finishLesson(l,{visual:{type:'compare',title:part.title,cards:selected.map(c=>({title:plain(c.h),text:c.b.map(plain).join(' · ')})),caption:'Use the full explanation, practise the decision, then retrieve the key points without looking.'},strategy:{title:'Match the group task, phase and safety need',task:plain(part.recall[0][0]),cue:plain(t.short),rule:plain(part.recall[0][1]),trap:'A group label does not replace assessment. Distinguish the purpose, the interaction and any immediate safety need.'}},part.recall,sources));
+   }
+   continue;
+  }
   const chs=chapters(t.ch),qs=bank.MH_Q.filter(q=>q.link==='t-'+t.id).map(mhQuestion);
   if(exam==='e4'&&t.id==='trauma')qs.push(custom['trauma-choice']);
   if(exam==='e5'&&t.id==='neurocog')qs.push(custom['neurocog-change']);
@@ -143,7 +162,7 @@ function safetyEdits(rows){
 const configs={
  e1:{label:'Exam 1',key:'e1-learn-v1',map:'Exam 1 Map.html',test:'Exam 1 Map.html#test',mhPrefix:'e1-',scope:'Perioperative care, immunity, cancer and infection: every currently authored topic and clinical reasoning condition for Exam 1.',weightNote:'No professor question-count blueprint is encoded here; recommendations balance chapter coverage.'},
  e2:{label:'Exam 2',key:'e2-learn-v1',map:'Exam 2 Map.html',test:'Exam 2 Mastery Loop.dc.html',drugs:'Exam 2 Drug Cards.dc.html',masteryKey:'e2-mastery-v3',scope:'All 17 named study-guide groups, with supporting lessons across chapters 22–25, 27–30 and 33–34. Full authored notes, tables and ADPIE stay linked.',weightNote:'Study-guide question counts: 22: 5; 24: 8; 25: 5; 27: 3; 28: 5; 29: 6; 30: 8; 34: 20. Chapters 23 and 33 are supporting review.',blueprint:{22:5,23:0,24:8,25:5,27:3,28:5,29:6,30:8,33:0,34:20}},
- e4:{label:'Exam 4',key:'e4-learn-v1',map:'Exam 4 Map.html',test:'Exam 4 Map.html#test',mhPrefix:'e4-',scope:'Week 11 foundations and week 12 mood, anxiety, trauma and safety content: every currently authored topic and clinical reasoning condition.',weightNote:'No professor question-count blueprint is encoded here; recommendations balance chapter coverage.'},
+ e4:{label:'Exam 4',key:'e4-learn-v1',map:'Exam 4 Map.html',test:'Exam 4 Map.html#test',mhPrefix:'e4-',scope:'Week 11 foundations, including Chapter 34 therapeutic groups, and week 12 mood, anxiety, trauma and safety content. Every currently authored topic and clinical reasoning condition is included; Chapter 34 has eight focused lessons.',weightNote:'No professor question-count blueprint is encoded here; recommendations balance chapter coverage.'},
  e5:{label:'Exam 5',key:'e5-learn-v1',map:'Exam 5 Map.html',test:'Exam 5 Map.html#test',mhPrefix:'e5-',scope:'Weeks 13–15: psychosis, somatic/dissociative disorders, children, eating, substances, neurocognitive and personality disorders. Every currently authored topic and condition is included.',weightNote:'No professor question-count blueprint is encoded here; recommendations balance chapter coverage.'},
  final:{label:'Final',key:'fin-learn-v1',map:'Final Map.html',test:'Final Mastery Loop.dc.html',drugs:'Exam 3 Drug Cards.dc.html',masteryKey:'fin-mastery-v1',scope:'Provisional final-topic path: authored notes for chapters 13–17, 22–25, 45–53, 55–56. This includes the Exam 3 lessons and respiratory review. The syllabus calls the final comprehensive; no detailed final blueprint has been provided. Use the earlier-exam links for the rest of the cumulative review.',gaps:'The Final Map also lists chapters 1, 2, 4, 7, 8, 10, 11 and 12 as planned foundations. Their full chapter notes are not present, so this path does not claim those chapters are covered.',weightNote:'Equal chapter balancing for this provisional path; these are not professor exam-question weights.'}
 };

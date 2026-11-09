@@ -387,5 +387,460 @@ window.MH_DRILLS = [
       { t: '“What would you like us to do to help?”', why: 'Patient-centered.' }
     ] }
   ]
+},
+{
+  "id": "groups-actions",
+  "type": "pick",
+  "kind": "Choose the next response",
+  "topic": "groups",
+  "title": "Lead the group: participation, boundaries and safety",
+  "intro": "Use the immediate interaction and the group’s purpose. Choose a respectful next step, then review every option.",
+  "items": [
+    {
+      "q": "One member has answered every prompt. Others have stopped trying to enter the discussion.",
+      "opts": [
+        {
+          "t": "Pause and open the next turn to members who have not had a chance yet.",
+          "why": "Restores shared airtime without shaming; follow up privately if the pattern continues.",
+          "ok": true,
+          "tech": "Gatekeeping"
+        },
+        {
+          "t": "Ask the member to leave before trying any other response.",
+          "why": "Exclusion is not the first response to non-dangerous overparticipation."
+        },
+        {
+          "t": "Assume everyone prefers this member to do the talking.",
+          "why": "Silence from others does not establish their preference."
+        }
+      ]
+    },
+    {
+      "q": "A member looks toward the floor when invited to speak and says they need a moment.",
+      "opts": [
+        {
+          "t": "Insist on an immediate personal disclosure.",
+          "why": "Pressure can increase anxiety and does not establish readiness."
+        },
+        {
+          "t": "Offer thinking time and return with a manageable invitation.",
+          "why": "Supports participation while respecting the need to formulate a response.",
+          "ok": true,
+          "tech": "Invitation with time"
+        },
+        {
+          "t": "Decide that quiet people cannot gain anything from groups.",
+          "why": "Listening may be engaged participation; explore barriers instead of labeling."
+        }
+      ]
+    },
+    {
+      "q": "During a disagreement, one member insults another. There is no immediate threat or physical aggression.",
+      "opts": [
+        {
+          "t": "Agree with the insult so the angry member feels supported.",
+          "why": "Empathy does not require joining harmful behavior."
+        },
+        {
+          "t": "Describe the disrespect, restate the boundary and explore the concern calmly.",
+          "why": "Combines a behavioral limit with an opportunity to understand the anger.",
+          "ok": true,
+          "tech": "Empathy with limits"
+        },
+        {
+          "t": "Forbid any disagreement for the rest of treatment.",
+          "why": "Safe conflict resolution can be therapeutic; a ban avoids that work."
+        }
+      ]
+    },
+    {
+      "q": "A member asks for advice, rejects every suggestion and asks the same question again.",
+      "opts": [
+        {
+          "t": "Give increasingly detailed instructions until the member agrees.",
+          "why": "More advice may repeat and strengthen the unhelpful pattern."
+        },
+        {
+          "t": "Explore what the member wants and how the advice cycle affects the group.",
+          "why": "Examines the interaction and the person’s agency instead of blaming or rescuing.",
+          "ok": true,
+          "tech": "Process focus"
+        },
+        {
+          "t": "Tell the group the member is hopeless.",
+          "why": "Judgment is harmful and gives no usable feedback."
+        }
+      ]
+    },
+    {
+      "q": "A participant quietly says they may act on suicidal thoughts tonight.",
+      "opts": [
+        {
+          "t": "Wait until the closing evaluation to preserve the agenda.",
+          "why": "A possible imminent safety need cannot wait for the lesson plan."
+        },
+        {
+          "t": "Arrange immediate individual risk assessment and clinical support while keeping the group safely supported.",
+          "why": "A quiet statement can signal serious risk; cofacilitation or backup helps protect both the person and the group.",
+          "ok": true,
+          "tech": "Safety before agenda"
+        },
+        {
+          "t": "Ask peers to promise the person will be safe.",
+          "why": "Peer reassurance cannot replace risk assessment and a clinical safety response."
+        }
+      ]
+    },
+    {
+      "q": "A new participant hesitates when introductions include pronouns.",
+      "opts": [
+        {
+          "t": "Allow people to share what they are comfortable sharing and model respectful language.",
+          "why": "Supports inclusion without forcing disclosure that could marginalize or expose a member.",
+          "ok": true,
+          "tech": "Inclusive invitation"
+        },
+        {
+          "t": "Require a disclosure before the person can stay.",
+          "why": "Forcing identity disclosure can create a barrier rather than safety."
+        },
+        {
+          "t": "Assume the person’s identity and explain it to everyone.",
+          "why": "Appearance does not authorize an assumption or public disclosure."
+        }
+      ]
+    },
+    {
+      "q": "The final session is ending and one member feels upset about losing contact with the group.",
+      "opts": [
+        {
+          "t": "Change the subject because ending feelings are outside treatment.",
+          "why": "Responses to ending belong in termination work."
+        },
+        {
+          "t": "Invite discussion of the ending, review gains and identify follow-up goals.",
+          "why": "Acknowledges the loss and connects progress with the next steps.",
+          "ok": true,
+          "tech": "Termination"
+        },
+        {
+          "t": "Promise the same group will continue indefinitely.",
+          "why": "An unsupported promise avoids the real transition."
+        }
+      ]
+    },
+    {
+      "q": "A member wants to make a phone video to remember everyone’s advice.",
+      "opts": [
+        {
+          "t": "Allow it because a patient, rather than the nurse, will hold the file.",
+          "why": "Who operates the device does not remove the risk to others."
+        },
+        {
+          "t": "Review the no-recording agreement and offer a privacy-preserving summary of approved teaching.",
+          "why": "Protects others’ information while addressing the learning need.",
+          "ok": true,
+          "tech": "Privacy protection"
+        },
+        {
+          "t": "Say that recorded group material can never be shared outside the room.",
+          "why": "That guarantee cannot be made."
+        }
+      ]
+    }
+  ]
+},
+{
+  "id": "groups-factors-connect",
+  "type": "sort",
+  "kind": "Match the function",
+  "topic": "groups",
+  "title": "Yalom: connection and meaning",
+  "intro": "Identify what the interaction is doing. The explanation distinguishes a similar-looking alternative.",
+  "choices": [
+    "Hope",
+    "Universality",
+    "Altruism",
+    "Cohesiveness",
+    "Catharsis",
+    "Existential factors"
+  ],
+  "items": [
+    {
+      "q": "Seeing a peer manage a difficult week makes recovery seem possible.",
+      "a": "Hope",
+      "why": "The change is increased belief in possibility, rather than learning a specific new technique."
+    },
+    {
+      "q": "Different people describe a worry a member had assumed was unique to them.",
+      "a": "Universality",
+      "why": "Recognizing a shared human experience reduces isolation; being accepted is related but not identical."
+    },
+    {
+      "q": "A member feels useful after helping someone prepare a question for the care team.",
+      "a": "Altruism",
+      "why": "The helper benefits from contributing; this is not simply receiving information."
+    },
+    {
+      "q": "Members trust the group enough to disagree without expecting rejection.",
+      "a": "Cohesiveness",
+      "why": "Connection and acceptance support the work; cohesion does not mean identical opinions."
+    },
+    {
+      "q": "A member expresses grief and then explores what that feeling means with the group.",
+      "a": "Catharsis",
+      "why": "Expression is being understood, not treated as helpful merely because it is intense."
+    },
+    {
+      "q": "Members discuss the choices still available to them despite unavoidable loss.",
+      "a": "Existential factors",
+      "why": "The focus is meaning, responsibility and limits rather than eliminating every loss."
+    }
+  ]
+},
+{
+  "id": "groups-factors-learn",
+  "type": "sort",
+  "kind": "Match the function",
+  "topic": "groups",
+  "title": "Yalom: learning through relationships",
+  "intro": "Identify what the interaction is doing. The explanation distinguishes a similar-looking alternative.",
+  "choices": [
+    "Information",
+    "Family-pattern recapitulation",
+    "Socializing techniques",
+    "Imitative behavior",
+    "Interpersonal learning"
+  ],
+  "items": [
+    {
+      "q": "The leader explains a reliable way to check a medication information sheet.",
+      "a": "Information",
+      "why": "Knowledge is being supplied; watching a behavior and copying it would emphasize imitation."
+    },
+    {
+      "q": "A member recognizes a familiar family struggle in their reaction to the group and tries a different response.",
+      "a": "Family-pattern recapitulation",
+      "why": "An old family relationship pattern is revisited in the current group."
+    },
+    {
+      "q": "After feedback, a member practises leaving space before another person replies.",
+      "a": "Socializing techniques",
+      "why": "The immediate aim is a usable social skill; feedback supports that practice."
+    },
+    {
+      "q": "After observing a peer ask for clarification calmly, a member copies that approach.",
+      "a": "Imitative behavior",
+      "why": "A behavior is learned by example; a lecture alone would be information-giving."
+    },
+    {
+      "q": "A member tests a different way of asking for support and examines how others respond.",
+      "a": "Interpersonal learning",
+      "why": "The interaction becomes a chance to understand and change one’s interpersonal effect."
+    }
+  ]
+},
+{
+  "id": "groups-roles",
+  "type": "sort",
+  "kind": "Match the function",
+  "topic": "groups",
+  "title": "What function does the member’s behavior serve?",
+  "intro": "Identify what the interaction is doing. The explanation distinguishes a similar-looking alternative.",
+  "choices": [
+    "Task",
+    "Maintenance",
+    "Individual"
+  ],
+  "items": [
+    {
+      "q": "Adds a practical illustration so the group can use an idea.",
+      "a": "Task",
+      "why": "Elaboration helps turn an idea into workable content."
+    },
+    {
+      "q": "Encourages a decision once the options have been explored.",
+      "a": "Task",
+      "why": "An energizer moves the agreed work forward."
+    },
+    {
+      "q": "Provides a relevant verified fact.",
+      "a": "Task",
+      "why": "Information-giving supports the task when it serves the topic."
+    },
+    {
+      "q": "Offers a viewpoint about what the group should value.",
+      "a": "Task",
+      "why": "An opinion giver influences the group’s direction; an opinion is not automatically a verified fact."
+    },
+    {
+      "q": "Asks how the discussion relates to the agreed goal.",
+      "a": "Task",
+      "why": "Orienting brings attention back to the purpose."
+    },
+    {
+      "q": "Requests the source of a claim before the group acts on it.",
+      "a": "Task",
+      "why": "An information seeker asks for clarification or dependable evidence."
+    },
+    {
+      "q": "Adjusts their own position so a disagreement can be settled.",
+      "a": "Maintenance",
+      "why": "Compromise preserves a workable relationship."
+    },
+    {
+      "q": "Welcomes a hesitant contribution and recognizes the effort.",
+      "a": "Maintenance",
+      "why": "Encouragement supports inclusion."
+    },
+    {
+      "q": "Cooperates with the shared direction without seeking leadership.",
+      "a": "Maintenance",
+      "why": "A follower supports continuity; following is not automatically disengagement."
+    },
+    {
+      "q": "Notices whose turn has been missed and invites that person in.",
+      "a": "Maintenance",
+      "why": "Gatekeeping keeps participation accessible."
+    },
+    {
+      "q": "Reminds everyone of an agreed standard for respectful discussion.",
+      "a": "Maintenance",
+      "why": "Standard setting sustains a useful group frame."
+    },
+    {
+      "q": "Helps two members understand the concern beneath their disagreement.",
+      "a": "Maintenance",
+      "why": "Harmonizing supports resolution rather than suppressing all difference."
+    },
+    {
+      "q": "Attacks a speaker instead of examining the idea.",
+      "a": "Individual",
+      "why": "Aggression displaces the work and can injure the relationship."
+    },
+    {
+      "q": "Rejects each possible next step simply to stop the group moving.",
+      "a": "Individual",
+      "why": "Blocking serves an individual pattern rather than the shared task."
+    },
+    {
+      "q": "Repeatedly seeks sympathy so all discussion returns to their own distress.",
+      "a": "Individual",
+      "why": "Help-seeking becomes an individual role when it repeatedly displaces the purpose; genuine distress still merits assessment."
+    },
+    {
+      "q": "Turns unrelated topics into an account of personal achievements.",
+      "a": "Individual",
+      "why": "Recognition-seeking uses the group primarily for attention."
+    },
+    {
+      "q": "Introduces intimate details outside the purpose despite established boundaries.",
+      "a": "Individual",
+      "why": "Self-confession beyond the agreed frame differs from relevant therapeutic disclosure."
+    }
+  ]
+},
+{
+  "id": "groups-phases",
+  "type": "sort",
+  "kind": "Match the function",
+  "topic": "groups",
+  "title": "Match the leader’s action to group development",
+  "intro": "Identify what the interaction is doing. The explanation distinguishes a similar-looking alternative.",
+  "choices": [
+    "Planning",
+    "Orientation",
+    "Working",
+    "Termination"
+  ],
+  "items": [
+    {
+      "q": "Sets eligibility, meeting arrangements and an outcome measure before recruitment.",
+      "a": "Planning",
+      "why": "This designs the group before its first session."
+    },
+    {
+      "q": "Chooses room size, privacy and a nonhierarchical seating arrangement.",
+      "a": "Planning",
+      "why": "Physical arrangements are part of preparation."
+    },
+    {
+      "q": "Introduces the purpose and reviews confidentiality limits at the first meeting.",
+      "a": "Orientation",
+      "why": "The group is establishing a safe shared frame."
+    },
+    {
+      "q": "Offers structured introductions to members who seem cautious with one another.",
+      "a": "Orientation",
+      "why": "Initial trust and familiarity are being built."
+    },
+    {
+      "q": "Helps members examine a clash and negotiate a constructive response.",
+      "a": "Working",
+      "why": "Conflict can become therapeutic work when handled safely."
+    },
+    {
+      "q": "Supports established roles as members carry out their agreed task.",
+      "a": "Working",
+      "why": "Performing uses the group’s developed norms and roles."
+    },
+    {
+      "q": "Reviews achievements and invites reactions to the final meeting.",
+      "a": "Termination",
+      "why": "The ending itself is part of the work."
+    },
+    {
+      "q": "Connects learning with the next goal and appropriate follow-up after completion.",
+      "a": "Termination",
+      "why": "Consolidating gains and planning continuity support the transition."
+    }
+  ]
+},
+{
+  "id": "groups-frameworks",
+  "type": "sort",
+  "kind": "Match the function",
+  "topic": "groups",
+  "title": "Match the intervention to the framework",
+  "intro": "Identify what the interaction is doing. The explanation distinguishes a similar-looking alternative.",
+  "choices": [
+    "Humanistic",
+    "Cognitive-behavioral",
+    "Psychodynamic",
+    "Educational",
+    "Systems"
+  ],
+  "items": [
+    {
+      "q": "Explores the person’s subjective experience and choices through attentive listening.",
+      "a": "Humanistic",
+      "why": "The focus is personal experience, growth and meaning."
+    },
+    {
+      "q": "Sets a behavior goal, models a skill and monitors repeated practice.",
+      "a": "Cognitive-behavioral",
+      "why": "Planned learning links thinking and behavior to measurable change."
+    },
+    {
+      "q": "Examines an underlying conflict reflected in repeated relationship patterns.",
+      "a": "Psychodynamic",
+      "why": "Insight into less apparent patterns is the central focus."
+    },
+    {
+      "q": "Organizes medication teaching and asks members to demonstrate understanding.",
+      "a": "Educational",
+      "why": "Knowledge and practical skill acquisition guide the intervention."
+    },
+    {
+      "q": "Examines how family relationships and unequal social conditions shape a problem.",
+      "a": "Systems",
+      "why": "The person is considered within relational and social contexts."
+    },
+    {
+      "q": "Uses reinforcement while members practise a different response to an unhelpful thought.",
+      "a": "Cognitive-behavioral",
+      "why": "Practice, monitoring and reinforcement fit the cognitive-behavioral framework."
+    }
+  ]
 }
 ];

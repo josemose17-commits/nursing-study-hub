@@ -1,0 +1,551 @@
+{
+  "chapter": "Varcarolis 9e, Chapter 34: Therapeutic Groups",
+  "source": "Chapter text supplied by the user on 2026-11-09; original prose, tables and questions are not published.",
+  "route": "Exam 4 Map.html#t-groups",
+  "learn": "Exam 4 Learn.html",
+  "lessons": [
+    {
+      "id": "t-groups-foundations",
+      "cards": [
+        "Why use a group, and when does it fit?",
+        "Yalom: belonging, hope and contribution",
+        "Yalom: trying new relationships and making meaning"
+      ],
+      "checkpoints": [
+        "q-g34-01",
+        "q-g34-02",
+        "g34-family"
+      ]
+    },
+    {
+      "id": "t-groups-design",
+      "cards": [
+        "Read both the topic and the interaction",
+        "Design the group before inviting members",
+        "Hospital groups and community groups need different structure"
+      ],
+      "checkpoints": [
+        "g34-process",
+        "g34-fit",
+        "g34-room"
+      ]
+    },
+    {
+      "id": "t-groups-development",
+      "cards": [
+        "Orientation: build safety and a shared purpose",
+        "Working: turn disagreement into useful work",
+        "Termination and follow-up: make the ending useful"
+      ],
+      "checkpoints": [
+        "q-g34-03",
+        "q-g34-04",
+        "g34-ending"
+      ]
+    },
+    {
+      "id": "t-groups-roles",
+      "cards": [
+        "Task roles: keep the work moving",
+        "Maintenance roles: keep participation possible",
+        "Individual roles: describe behavior without labeling the person"
+      ],
+      "checkpoints": [
+        "q-g34-05",
+        "g34-blocker",
+        "g34-roles"
+      ]
+    },
+    {
+      "id": "t-groups-modalities",
+      "cards": [
+        "The framework changes what the leader listens for",
+        "Choose the group purpose and the leader’s competence",
+        "Support and mutual help extend care",
+        "Research examples: skills, mood and recovery",
+        "Research examples: family, trauma and longer-term support"
+      ],
+      "checkpoints": [
+        "q-g34-06",
+        "g34-theory",
+        "g34-evidence"
+      ]
+    },
+    {
+      "id": "t-groups-leadership",
+      "cards": [
+        "Leadership style follows the group’s needs",
+        "Communication that makes a group workable",
+        "Supervision, coleadership and inclusion"
+      ],
+      "checkpoints": [
+        "q-g34-07",
+        "g34-supervision",
+        "g34-style"
+      ]
+    },
+    {
+      "id": "t-groups-safety",
+      "cards": [
+        "Consent and privacy: a promise has limits",
+        "Virtual groups: preserve the frame across the screen",
+        "When group work must give way to immediate safety"
+      ],
+      "checkpoints": [
+        "q-g34-08",
+        "q-g34-11",
+        "g34-virtual"
+      ]
+    },
+    {
+      "id": "t-groups-participation",
+      "cards": [
+        "A member takes nearly every turn",
+        "Anger, disruption and rejected help",
+        "Silence needs curiosity, time and an invitation",
+        "Choose and measure outcomes that match the group"
+      ],
+      "checkpoints": [
+        "q-g34-09",
+        "q-g34-10",
+        "q-g34-12"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "O1",
+      "focus": "Yalom factors",
+      "cards": [
+        "Why use a group, and when does it fit?",
+        "Yalom: belonging, hope and contribution",
+        "Yalom: trying new relationships and making meaning"
+      ],
+      "practice": [
+        "groups-factors-connect",
+        "groups-factors-learn"
+      ],
+      "lessons": [
+        "t-groups-foundations"
+      ]
+    },
+    {
+      "id": "O2",
+      "focus": "Content and process",
+      "cards": [
+        "Read both the topic and the interaction"
+      ],
+      "practice": [
+        "g34-process"
+      ],
+      "lessons": [
+        "t-groups-design"
+      ]
+    },
+    {
+      "id": "O3",
+      "focus": "Development and leader tasks",
+      "cards": [
+        "Orientation: build safety and a shared purpose",
+        "Working: turn disagreement into useful work",
+        "Termination and follow-up: make the ending useful",
+        "Design the group before inviting members"
+      ],
+      "practice": [
+        "groups-phases",
+        "q-g34-03",
+        "q-g34-04"
+      ],
+      "lessons": [
+        "t-groups-design",
+        "t-groups-development"
+      ]
+    },
+    {
+      "id": "O4",
+      "focus": "Task, maintenance and individual functions",
+      "cards": [
+        "Task roles: keep the work moving",
+        "Maintenance roles: keep participation possible",
+        "Individual roles: describe behavior without labeling the person"
+      ],
+      "practice": [
+        "groups-roles",
+        "q-g34-05",
+        "g34-blocker",
+        "g34-roles"
+      ],
+      "lessons": [
+        "t-groups-roles"
+      ]
+    },
+    {
+      "id": "O5",
+      "focus": "Group purposes and appropriate RN preparation",
+      "cards": [
+        "The framework changes what the leader listens for",
+        "Choose the group purpose and the leader’s competence",
+        "Support and mutual help extend care"
+      ],
+      "practice": [
+        "q-g34-06",
+        "groups-frameworks"
+      ],
+      "lessons": [
+        "t-groups-modalities"
+      ],
+      "note": "The objective mentions seven types. The table and surrounding prose use overlapping categories; every named group is covered without inventing a mutually exclusive seven-item taxonomy."
+    },
+    {
+      "id": "O6",
+      "focus": "Three leadership styles",
+      "cards": [
+        "Leadership style follows the group’s needs"
+      ],
+      "practice": [
+        "q-g34-07",
+        "g34-style"
+      ],
+      "lessons": [
+        "t-groups-leadership"
+      ]
+    },
+    {
+      "id": "O7",
+      "focus": "Professional confidentiality and its limits among peers",
+      "cards": [
+        "Consent and privacy: a promise has limits",
+        "Virtual groups: preserve the frame across the screen"
+      ],
+      "practice": [
+        "q-g34-08",
+        "g34-virtual",
+        "groups-actions"
+      ],
+      "lessons": [
+        "t-groups-safety"
+      ]
+    },
+    {
+      "id": "O8",
+      "focus": "Monopolizing, disruptive and silent participation",
+      "cards": [
+        "A member takes nearly every turn",
+        "Anger, disruption and rejected help",
+        "Silence needs curiosity, time and an invitation"
+      ],
+      "practice": [
+        "q-g34-09",
+        "q-g34-10",
+        "groups-actions"
+      ],
+      "lessons": [
+        "t-groups-participation"
+      ]
+    }
+  ],
+  "additional_sections": [
+    {
+      "source": "Introduction, group history, Box 34.1",
+      "focus": "Efficiency, mutual learning, rehearsal, belonging and drawbacks",
+      "cards": [
+        "Why use a group, and when does it fit?",
+        "Yalom: belonging, hope and contribution",
+        "Yalom: trying new relationships and making meaning"
+      ],
+      "lessons": [
+        "t-groups-foundations"
+      ]
+    },
+    {
+      "source": "Table 34.1",
+      "focus": "All eleven factors, including catharsis limits and existential themes",
+      "cards": [
+        "Yalom: belonging, hope and contribution",
+        "Yalom: trying new relationships and making meaning"
+      ],
+      "lessons": [
+        "t-groups-foundations"
+      ]
+    },
+    {
+      "source": "Box 34.2; group process discussion",
+      "focus": "Content, process, norms, themes, feedback, conflict and cohesion",
+      "cards": [
+        "Read both the topic and the interaction"
+      ],
+      "lessons": [
+        "t-groups-design"
+      ]
+    },
+    {
+      "source": "Planning and Box 34.3",
+      "focus": "Name, goals, composition, selection, schedule, duration, responsibilities, evaluation, membership, subgroups and physical setting",
+      "cards": [
+        "Design the group before inviting members"
+      ],
+      "lessons": [
+        "t-groups-design"
+      ]
+    },
+    {
+      "source": "Table 34.2",
+      "focus": "Inpatient/outpatient composition, preparation, functioning, motivation, duration, interruptions, cohesion and leadership",
+      "cards": [
+        "Hospital groups and community groups need different structure"
+      ],
+      "lessons": [
+        "t-groups-design"
+      ]
+    },
+    {
+      "source": "Orientation, working, termination, evaluation and follow-up",
+      "focus": "Four phases, Tuckman stages, regression, progress, insight, ending feelings, feedback and measures",
+      "cards": [
+        "Orientation: build safety and a shared purpose",
+        "Working: turn disagreement into useful work",
+        "Termination and follow-up: make the ending useful"
+      ],
+      "lessons": [
+        "t-groups-development"
+      ]
+    },
+    {
+      "source": "Roles and Table 34.3",
+      "focus": "Every named functional role, including information seeker and harmonizer from the prose",
+      "cards": [
+        "Task roles: keep the work moving",
+        "Maintenance roles: keep participation possible",
+        "Individual roles: describe behavior without labeling the person"
+      ],
+      "lessons": [
+        "t-groups-roles"
+      ]
+    },
+    {
+      "source": "Theoretical frameworks and Table 34.4",
+      "focus": "Five frameworks, named traditions and leadership interventions",
+      "cards": [
+        "The framework changes what the leader listens for"
+      ],
+      "lessons": [
+        "t-groups-modalities"
+      ]
+    },
+    {
+      "source": "Table 34.5 and nurse-led group discussion",
+      "focus": "All described group purposes; medication teaching, mindfulness, dual diagnosis, community governance, activity/task/support and psychotherapy scope",
+      "cards": [
+        "Choose the group purpose and the leader’s competence"
+      ],
+      "lessons": [
+        "t-groups-modalities"
+      ]
+    },
+    {
+      "source": "Box 34.4",
+      "focus": "All named support/mutual-help resources and distinction from professional treatment",
+      "cards": [
+        "Support and mutual help extend care"
+      ],
+      "lessons": [
+        "t-groups-modalities"
+      ]
+    },
+    {
+      "source": "Styles of leadership and Table 34.6",
+      "focus": "Three styles and all nine communication techniques, including medication response timing",
+      "cards": [
+        "Leadership style follows the group’s needs",
+        "Communication that makes a group workable"
+      ],
+      "lessons": [
+        "t-groups-leadership"
+      ]
+    },
+    {
+      "source": "Supervision, coleadership and cultural inclusion",
+      "focus": "Transference/countertransference, supervisor privacy, coleader benefits/risks, diversity, LGBTQ inclusion and supervision model",
+      "cards": [
+        "Supervision, coleadership and inclusion"
+      ],
+      "lessons": [
+        "t-groups-leadership"
+      ]
+    },
+    {
+      "source": "Ethical issues",
+      "focus": "Consent, confidentiality/limits, outside contact, leaving, scope, consented recording, evidence and removal",
+      "cards": [
+        "Consent and privacy: a promise has limits"
+      ],
+      "lessons": [
+        "t-groups-safety"
+      ]
+    },
+    {
+      "source": "Virtual groups",
+      "focus": "Access, COVID-era context, reduced cues, privacy/HIPAA, authorized practice, emergency/connection plans and protocol versus evidence",
+      "cards": [
+        "Virtual groups: preserve the frame across the screen"
+      ],
+      "lessons": [
+        "t-groups-safety"
+      ]
+    },
+    {
+      "source": "Review questions 6–7 and member selection",
+      "focus": "Individual risk assessment, quiet suicidal statements, paranoia, acute mania, backup; avoid exclusions based on poverty or silence",
+      "cards": [
+        "When group work must give way to immediate safety"
+      ],
+      "practice": [
+        "q-g34-11"
+      ],
+      "lessons": [
+        "t-groups-safety"
+      ]
+    },
+    {
+      "source": "Challenging behavior sections",
+      "focus": "Owned feedback, feelings, time limits, private check-in, emotion awareness, rejected advice, silence and supportive participation",
+      "cards": [
+        "A member takes nearly every turn",
+        "Anger, disruption and rejected help",
+        "Silence needs curiosity, time and an invitation"
+      ],
+      "lessons": [
+        "t-groups-participation"
+      ]
+    },
+    {
+      "source": "Expected outcomes",
+      "focus": "Education versus therapy; purpose, three adverse effects, dose/timing, interactions, insight, behavior and symptom measures",
+      "cards": [
+        "Choose and measure outcomes that match the group"
+      ],
+      "practice": [
+        "q-g34-12"
+      ],
+      "lessons": [
+        "t-groups-participation"
+      ]
+    },
+    {
+      "source": "Table 34.7 and evidence discussion",
+      "focus": "All listed population/modality associations and differing strength of trials, reviews, pilot work and protocols",
+      "cards": [
+        "Research examples: skills, mood and recovery",
+        "Research examples: family, trauma and longer-term support"
+      ],
+      "lessons": [
+        "t-groups-modalities"
+      ]
+    },
+    {
+      "source": "Critical thinking 1–2",
+      "focus": "Reflect on own roles, norms, dynamics, preparation, leadership and responses to difficult participation",
+      "cards": [
+        "Choose and measure outcomes that match the group"
+      ],
+      "practice": [
+        "g34-roles"
+      ],
+      "lessons": [
+        "t-groups-roles",
+        "t-groups-participation"
+      ]
+    }
+  ],
+  "review_concepts": [
+    {
+      "source": "R1",
+      "target": [
+        "q-g34-12",
+        "t-groups-participation"
+      ]
+    },
+    {
+      "source": "R2",
+      "target": [
+        "q-g34-09",
+        "groups-actions"
+      ]
+    },
+    {
+      "source": "R3",
+      "target": [
+        "q-g34-02",
+        "t-groups-foundations"
+      ]
+    },
+    {
+      "source": "R4",
+      "target": [
+        "g34-style",
+        "t-groups-leadership"
+      ]
+    },
+    {
+      "source": "R5",
+      "target": [
+        "q-g34-03",
+        "groups-phases"
+      ]
+    },
+    {
+      "source": "R6",
+      "target": [
+        "q-g34-11",
+        "t-groups-safety"
+      ]
+    },
+    {
+      "source": "R7",
+      "target": [
+        "q-g34-11",
+        "g34-fit",
+        "t-groups-safety"
+      ]
+    },
+    {
+      "source": "R8",
+      "target": [
+        "t-groups-leadership",
+        "q-g34-07"
+      ]
+    },
+    {
+      "source": "R9",
+      "target": [
+        "q-g34-09",
+        "groups-actions"
+      ]
+    },
+    {
+      "source": "R10",
+      "target": [
+        "q-g34-06",
+        "t-groups-modalities"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "title": "AGPA group psychotherapy practice guidance",
+      "url": "https://agpa.org/guidelines-ethics/practice-guidelines-for-group-psychotherapy-2/"
+    },
+    {
+      "title": "HHS group teletherapy",
+      "url": "https://telehealth.hhs.gov/providers/best-practice-guides/telehealth-for-behavioral-health/group-teletherapy"
+    },
+    {
+      "title": "HHS behavioral-health licensure",
+      "url": "https://telehealth.hhs.gov/licensure/licensure-for-behavioral-health"
+    },
+    {
+      "title": "NIMH depression",
+      "url": "https://www.nimh.nih.gov/health/publications/depression"
+    }
+  ]
+}

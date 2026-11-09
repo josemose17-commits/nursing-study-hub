@@ -143,7 +143,7 @@ window.CP_INC = {
     'In-text citations'] },
   q3: { len: 'A few words, plus one sentence of why.', items: [
     'The priority area (oxygenation, perfusion, infection, fluid balance, pain, safety)',
-    'Why it comes first (ABCs, then Maslow; an actual problem before a risk)'] },
+    'Why it comes first: consider current severity, ABCs, safety and time sensitivity; an imminent severe risk may outrank a less urgent actual problem'] },
   q4: { len: 'One sentence.', items: [
     'The NANDA-I label, written exactly as in the book',
     '“Related to”: the cause nursing can change (not the medical diagnosis)',
@@ -202,7 +202,7 @@ window.CP_INC = {
   'fe.rel': 'What the body uses it for, and why it matters for THIS patient’s diagnosis or meds.',
   'fe.norm': 'Normal value: your facility’s range. Critical value: from your lab’s critical list.',
   'fe.cause': 'The specific cause in this patient (the disease, a drug such as a diuretic, vomiting, poor intake).',
-  'fe.tx': 'The ordered treatment with drug, dose and route, or what is usually ordered if none yet.',
+  'fe.tx': 'The verified treatment order and its parameters. Clearly label any proposed treatment; do not write it as ordered or given.',
   'fe.nsg': 'What you assess (cardiac monitor, neuro checks, I&O), what you do (safety, giving replacement safely), what you teach, when you’d notify; cite it.',
 
   // ----- III. Evaluation -----
@@ -278,7 +278,7 @@ window.CP_INC = {
     'Tell your instructor and the nurse; notify pharmacy',
     'File a near-miss safety report (a non-punitive system)',
     'A system fix to suggest: tall-man lettering, separate storage, alerts'] },
-  info: { len: 'A short list.', items: [
+  informatics: { len: 'A short list.', items: [
     'The specific databases at your site, named (Lexicomp, Micromedex, UpToDate, Lippincott Procedures, Elsevier Clinical Skills, CINAHL)',
     'What you’d look up in each: a drug, a disease, a procedure',
     'References built into the EHR'] },

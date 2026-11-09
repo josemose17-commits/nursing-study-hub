@@ -4,7 +4,7 @@ const assert=require('assert/strict'),fs=require('fs'),path=require('path'),vm=r
 const ROOT=path.join(__dirname,'..'),W=require(path.join(ROOT,'careplan-words.js'));
 const store=new Map(),c={window:{},document:{querySelector:()=>null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)},setTimeout:()=>0,clearTimeout(){},TextEncoder,Uint8Array,ArrayBuffer,DataView,Date,console};
 vm.createContext(c);
-for(const f of ['nanda-index','nanda-guides','form','labs','include','questions','coach'])vm.runInContext(fs.readFileSync(path.join(ROOT,'data/careplan',f+'.js'),'utf8'),c,{filename:f});
+for(const f of ['nanda-index','nanda-guides','form','labs','include','questions','coach','guidance'])vm.runInContext(fs.readFileSync(path.join(ROOT,'data/careplan',f+'.js'),'utf8'),c,{filename:f});
 vm.runInContext(fs.readFileSync(path.join(ROOT,'apa-core.js'),'utf8'),c);
 c.window.APA=c.APA;
 vm.runInContext(fs.readFileSync(path.join(ROOT,'careplan.js'),'utf8'),c);

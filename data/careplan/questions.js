@@ -109,7 +109,7 @@ window.CP_ASKQ = {
   team: { rn: ['To your instructor: “I haven’t done this skill on a patient before. Can you review it with me and watch me do it?”', 'To the nurse: “Where can I find the policy for this procedure?”'] },
   ebp: { rn: ['To the charge nurse or educator: “Which clinical guidelines and references does this unit use?”', '“How do I reach the library databases from the unit computers?”'] },
   safety: { rn: ['To pharmacy: “Can you verify this label and dose? It looks like another drug.”', 'To your instructor: “Can you double-check this with me before I give it?”'] },
-  info: { rn: ['To the nurse: “Which drug and clinical references can I open from the EHR here?”'] },
+  informatics: { rn: ['To the nurse: “Which drug and clinical references can I open from the EHR here?”'] },
 
   'plan.stmt': { pt: ['What do you think is making this hard for you? (It can point to the related factor.)', 'When is it worse? What helps?'] },
   'plan.stg': { pt: ['What would you like to be able to do by the end of today?', 'What pain level would let you rest and move?', 'What do you want to be able to do when you go home?'],

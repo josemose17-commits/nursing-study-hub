@@ -26,6 +26,7 @@
     if(!text||before.includes(text))return {before,after:before,changed:false};
     return {before,after:before+(before.trim()?'\n':'')+text,changed:true};
   }
+  function replace(answer,draft){const before=String(answer||''),after=clean(draft);return {before,after:after||before,changed:!!after&&after!==before};}
   function undo(current,entry){return entry&&current===entry.after?entry.before:null;}
   function review(text,profile){
     const t=clean(text),out=[];if(!t)return [{code:'empty',hint:'Start with your actual findings or reasoning. The wording builder can help structure them.'}];
@@ -35,7 +36,8 @@
     if(/\b(reports|states|said)\b/i.test(t)&&/[“”"]/.test(t))out.push({code:'quote',hint:'Quotation marks are for the speaker’s exact words. Use reports or describes without quotes for a paraphrase.'});
     if(/\b(done|given|administered|notified|taught|educated)\b/i.test(t))out.push({code:'action',hint:'For completed care, include the actual time/action and observed response. For planned care, use future wording.'});
     if(profile&&profile.cite&&!/\([^)]*\d{4}[^)]*\)|\b[A-Z][A-Za-z -]+\s*\(\d{4}\)/.test(t))out.push({code:'citation',hint:'This rationale needs your scholarly source and in-text citation. Add the matching reference to the final document.'});
+    if(profile&&profile.sbarPart==='R'&&/\b(?:continue to monitor|monitor (?:patient|closely)|keep (?:an eye|watching))\b/i.test(t))out.push({code:'request',hint:'Name what must be checked or done, the timing, who will follow up, and the change that requires escalation.'});
     return out;
   }
-  return {assemble,append,undo,review};
+  return {assemble,append,replace,undo,review};
 });

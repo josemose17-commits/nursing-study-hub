@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#04160e">
 <title>Care Plan Helper</title>
 <link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
-<link rel="stylesheet" href="careplan.css?v=202611082130">
+<link rel="stylesheet" href="careplan.css?v=202611091437">
 </head>
 <body>
 <main>
@@ -14,7 +14,7 @@
     <div class="kicker">NRS 114 · Clinical</div>
     <h1>Care plan helper</h1>
   </div>
-  <p class="lead">Choose your form question, see exactly what to ask or check, and turn your rough facts into editable nursing wording.</p>
+  <p class="lead">Fill the care plan in your syllabus, one question at a time. Get detailed prompts, shape your facts into nursing wording, and download your answers in an editable document.</p>
 
   <div class="glass pbar">
     <label class="fld">Patient <select id="pt" aria-label="Choose a patient"></select></label>
@@ -84,9 +84,11 @@
   <!-- ===== Download ===== -->
   <div class="tabpanel" id="tab-dl" role="tabpanel" aria-labelledby="tb-dl" hidden>
     <section class="glass">
-      <h2>Download</h2>
-      <p class="lead">The Word file follows the paper form: the same headings, questions and tables, with your answers filled in. Open it, check it, and adjust the formatting your instructor wants.</p>
-      <div class="btns"><button type="button" class="btn btn-primary" id="dl-docx">Download Word file</button><button type="button" class="btn" id="dl-copy">Copy as text</button><button type="button" class="btn dl-interview">Interview questions (Word)</button></div>
+      <h2>My syllabus care plan</h2>
+      <p class="lead">Download your answers in the order of the Clinical Reasoning Plan of Care, syllabus pp. 34–47. The editable file uses landscape pages, all lab rows, and the five-column care-plan table, including a separate goals column. Text can expand, so page breaks may differ from the blank syllabus.</p>
+      <div class="btns"><button type="button" class="btn btn-primary" id="dl-docx">Download care plan (.docx)</button><button type="button" class="btn" id="dl-copy">Copy my answers</button><button type="button" class="btn dl-interview">Interview questions (Word)</button></div>
+      <details class="doc-guide" open><summary>Use this file in Google Docs</summary><ol><li>Download the care plan using the button above.</li><li>In your permitted Google Drive account, choose <b>New → File upload</b> and select the downloaded <b>.docx</b> file.</li><li>Open the uploaded file with <b>Google Docs</b>. You can edit the Word file there. To make a native Google Doc, choose <b>File → Save as Google Docs</b>.</li><li>Check table widths, page breaks and your instructor’s requirements before submitting.</li></ol><p>The helper does not upload anything to Google. Uploading the document yourself stores that copy in your Google account; follow your school and clinical site’s rules for patient information.</p><p><a href="https://support.google.com/docs/answer/9406611?hl=en" target="_blank" rel="noopener">Google’s instructions for Office files</a></p></details>
+      <details><summary>Preview the answers going into my document</summary><pre id="dl-preview"></pre></details>
       <h3 class="sub">What’s filled in</h3>
       <ul id="dlprog"></ul>
       <h3 class="sub">References</h3>
@@ -99,7 +101,7 @@
         <li>Question 4 matches the problem statement on the care plan.</li>
         <li>Each goal has the patient as the subject, something measurable, and a time frame.</li>
         <li>The evaluation uses data: before and after numbers, what the patient said or did.</li>
-        <li>Critical values were reported right away, and you said so.</li>
+        <li>Any actual notification includes who was contacted, when, and the response. Planned or hypothetical actions are clearly labeled.</li>
       </ul>
     </section>
     <section class="glass">
@@ -115,16 +117,17 @@
 </main>
 <script src="data/careplan/nanda-index.js?v=202611071500"></script>
 <script src="data/careplan/nanda-guides.js?v=202611071500"></script>
-<script src="data/careplan/form.js?v=202611071500"></script>
+<script src="data/careplan/form.js?v=202611091437"></script>
 <script src="data/careplan/labs.js?v=202611071500"></script>
-<script src="data/careplan/include.js?v=202611071500"></script>
-<script src="data/careplan/questions.js?v=202611071500"></script>
-<script src="data/careplan/coach.js?v=202611082130"></script>
+<script src="data/careplan/include.js?v=202611091437"></script>
+<script src="data/careplan/questions.js?v=202611091437"></script>
+<script src="data/careplan/coach.js?v=202611091437"></script>
+<script src="data/careplan/guidance.js?v=202611091437"></script>
 <script src="apa-core.js?v=202611061900"></script>
-<script src="careplan-words.js?v=202611082130"></script>
-<script src="careplan.js?v=202611082130"></script>
-<script src="careplan-workspace.js?v=202611082130"></script>
-<script src="nav.js?v=202611091345"></script>
+<script src="careplan-words.js?v=202611091437"></script>
+<script src="careplan.js?v=202611091437"></script>
+<script src="careplan-workspace.js?v=202611091437"></script>
+<script src="nav.js?v=202611091437"></script>
 <script src="say.js?v=202610281219"></script>
 </body>
 </html>

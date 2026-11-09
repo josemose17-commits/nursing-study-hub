@@ -1,6 +1,6 @@
 // Care plan helper: walks through the Clinical Reasoning Plan of Care with nurse-style questions, flags vital signs
 // and labs, finds NANDA-I diagnoses by label or by cues, builds the care plan, and exports a Word file.
-// Everything typed stays in this browser (localStorage keys cp-*). It is not synced and never leaves the device.
+// Answers stay in this browser (localStorage keys cp-*). Export is a user-initiated local download.
 (function () {
   'use strict';
   var FORM = window.CP_FORM, SYS = window.CP_SYSTEMS, ERIK = window.CP_ERIK, LABS = window.CP_LABS, FE = window.CP_FE,
@@ -42,7 +42,23 @@
   if (!ME.student || !ME.instructor) { var am = load('apa-me', {}) || {}; ME.student = ME.student || am.name || ''; ME.instructor = ME.instructor || am.instructor || ''; }
   function newPlan() { var id = 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); plans[id] = { id: id, created: Date.now(), updated: Date.now(), f: {} }; store('cp-plans', plans); return id; }
   function byRecent() { return Object.keys(plans).sort(function (a, b) { return (plans[b].updated || 0) - (plans[a].updated || 0); }); }
-  function pick(id) { cur = id; P = plans[id].f = plans[id].f || {}; store('cp-cur', id); }
+  function pick(id) {
+    cur = id; P = plans[id].f = plans[id].f || {};
+    // Older Informatics answers collided with the client-info object. Recover the surviving
+    // answer without guessing lost demographics; new answers have an independent key.
+    if(typeof P.info==='string'){
+      if(!filled(P.informatics))P.informatics=P.info;
+      P.info={};store('cp-plans',plans);
+    }
+    var oldCoach=P._coach&&P._coach['info::info'];
+    if(oldCoach&&!P._coach['informatics::informatics']){P._coach['informatics::informatics']=oldCoach;delete P._coach['info::info'];store('cp-plans',plans);}
+    if(P._workspace){
+      if(P._workspace.active==='info')P._workspace.active='informatics';
+      var targets=P._workspace.targets;
+      if(targets&&targets.info==='info'){targets.informatics='informatics';delete targets.info;}
+    }
+    store('cp-cur', id);
+  }
   if (!plans[cur]) cur = byRecent()[0] || newPlan();
   pick(cur);
   var saveT;
@@ -123,7 +139,7 @@
     var extra = '';
     if (it.diag) extra = '<div class="btns sm"><button type="button" class="mini" data-q4>Use the statement from my care plan</button><button type="button" class="mini" data-tab="find">Find a diagnosis</button></div>';
     if (it.k === 'q5') extra = '<div class="btns sm"><button type="button" class="mini" data-q5>Copy my care plan interventions</button></div>';
-    if (it.k === 'q3') extra = '<p class="cite-hint">Priority order: airway, breathing, circulation, then safety (Maslow’s physiological needs first), then comfort and teaching. An actual problem usually beats a risk.</p>';
+    if (it.k === 'q3') extra = '<p class="cite-hint">Consider airway, breathing, circulation, safety, severity and time sensitivity. An imminent life-threatening risk can take priority over an existing less urgent problem.</p>';
     return wrap(it, qh(it.q) + incBox(it.k) + askQ(it.k) + helps(it) + ta(it.k) + (it.cite ? citeIns(it.k) : '') + extra);
   };
   function rowsWidget(it, cols, min, addLabel) {
@@ -158,14 +174,15 @@
   var SB = { S: 'Situation', B: 'Background', A: 'Assessment', R: 'Recommendation' };
   R.sbar = function (it) {
     return wrap(it, qh(it.q) + askQ(it.k) + (it.tip ? '<p class="cite-hint">' + esc(it.tip) + '</p>' : '') + ['S', 'B', 'A', 'R'].map(function (x) {
-      return '<div class="sbar"'+unitAttrs(it.k+'.'+x,SB[x],it.k+'.'+x)+'><span class="sb" aria-hidden="true">' + x + '</span><div class="sbf">' + qh(SB[x] + ':', 'sm') + incBox(it.k + '.' + x) + '<div class="helps">' + askBox(it.ask && it.ask[x]) + exBox(it.ex && it.ex[x]) + '</div>' + ta(it.k + '.' + x) + '</div></div>';
+      var coach=window.CP_COACH&&window.CP_COACH.sbProfile(it.k,x),detail=coach&&window.CP_COACH.detail&&window.CP_COACH.detail(it.k+'.'+x,it.k+'.'+x,coach);
+      return '<div class="sbar"'+unitAttrs(it.k+'.'+x,SB[x],it.k+'.'+x)+'><span class="sb" aria-hidden="true">' + x + '</span><div class="sbf">' + qh(SB[x] + ':', 'sm') + incBox(it.k + '.' + x) + '<div class="helps">' + askBox(coach?coach.fields.map(function(f){return f.question;}):it.ask && it.ask[x]) + exBox(detail?detail.example:it.ex && it.ex[x]) + '</div>' + ta(it.k + '.' + x) + '</div></div>';
     }).join(''));
   };
   R.vitals = function (it) {
     var keys = VIT.filter(function (v) { return it.pain || v[0] !== 'pain'; });
     var ex = it.ex ? '<ul>' + keys.map(function (v) { return it.ex[v[0]] ? '<li><b>' + v[1] + ':</b> ' + esc(it.ex[v[0]]) + '</li>' : ''; }).join('') + '</ul>' : '';
     return wrap(it, qh(it.q) + askQ(it.k) + '<div class="helps">' + askBox(it.ask) + askBox(keys.map(function (v) { return v[1] + ': ' + v[2]; }), '', 'Normal ranges') + exBox(ex) + '</div>' +
-      '<div class="vgrid">' + keys.map(function (v) {
+      '<label class="fld">Actual assessment time' + inp(it.k+'.time','e.g., 0700 or 1105') + '</label><div class="vgrid">' + keys.map(function (v) {
         return '<label class="fld vf">' + v[1] + ':' + inp(it.k + '.' + v[0], v[0] === 'spo2' ? '% and device' : v[0] === 't' ? '°F or °C' : v[0] === 'bp' ? '120/80' : v[0] === 'pain' ? '0–10, where' : '') + fh('vs.' + v[0]) + '<span class="flag" id="f-' + it.k + '-' + v[0] + '"></span><span class="miss" id="m-' + it.k + '-' + v[0] + '"></span>' + (it.compare ? '<span class="was" id="was-' + it.k + '-' + v[0] + '"></span>' : '') + '</label>';
       }).join('') + '</div><div class="vnote" id="vn-' + it.k + '"></div>');
   };
@@ -208,14 +225,14 @@
   }
   function flagHtml(f) { if (!f) return ''; var crit = f.indexOf('!') > 0, b = f.charAt(0); return '<b class="lf ' + (crit ? 'crit' : b === 'A' ? 'abn' : 'out') + '" title="' + (crit ? 'Possible critical value: notify now' : '') + '">' + (b === 'H' ? 'High' : b === 'L' ? 'Low' : 'Abnormal') + (crit ? ' · critical?' : '') + '</b>'; }
   R.labs = function (it) {
-    return wrap(it, qh(it.q) + incBox('labs') + askQ('labs') + helps(it) + '<p class="note">Ranges are common adult values. If your lab report shows a different range, type it in the range box and the flags follow it. Counts like 15.8 for WBC or 210 for platelets are read as thousands.</p>' + LABS.map(function (pn) {
+    return wrap(it, qh(it.q) + incBox('labs') + askQ('labs') + helps(it) + '<p class="note">Common adult ranges appear as hints. Enter the range verified in your lab report to include it in your document. Flags use the common range until you enter one. Counts like 15.8 for WBC or 210 for platelets are read as thousands.</p>' + LABS.map(function (pn) {
       var has = pn.rows.some(function (r) { return filled(get('labs.' + r.k + '.i')) || filled(get('labs.' + r.k + '.c')); });
       return '<details class="panel" id="lp-' + pn.id + '"' + (has || pn.id === 'cbc' || pn.id === 'bmp' ? ' open' : '') + '><summary><b>' + esc(pn.name) + '</b><span class="pc" id="pc-' + pn.id + '"></span></summary>' +
         '<div class="lhead" aria-hidden="true"><span>' + esc(pn.name) + '</span><span>Normal range</span><span>Initial value</span><span>Current value</span><span>Clinical significance/trends</span></div>' +
         pn.rows.map(function (r) {
           var b = 'labs.' + r.k;
           return '<div class="lrow" id="lr-' + r.k + '"'+unitAttrs(b,r.n,b+'.s')+'><div class="ln">' + esc(r.n) + '</div>' +
-            '<label class="fld"><span class="lab-l">Normal range</span><input type="text" data-p="' + b + '.r" value="' + esc(get(b + '.r') || defRange(r)) + '" autocomplete="off"></label>' +
+            '<label class="fld"><span class="lab-l">Normal range</span><input type="text" data-p="' + b + '.r" value="' + esc(get(b + '.r') || '') + '" placeholder="' + esc(defRange(r)) + '" autocomplete="off"></label>' +
             '<label class="fld"><span class="lab-l">Initial value</span>' + inp(b + '.i') + '<span class="lfl" id="lf-' + r.k + '-i"></span></label>' +
             '<label class="fld"><span class="lab-l">Current value</span>' + inp(b + '.c') + '<span class="lfl" id="lf-' + r.k + '-c"></span></label>' +
             '<label class="fld"><span class="lab-l">Clinical significance/trends</span>' + ta(b + '.s', '', 'sm') + '</label>' +
@@ -243,8 +260,8 @@
       '<label class="fld">Lab<select data-p="'+b+'.lab">'+opts+'</select></label>'+
       '<label class="fld">Value'+inp(b+'.val')+'</label>'+
       '<label class="fld">High/Low<select data-p="'+b+'.hl"><option value=""></option><option'+(hl==='High'?' selected':'')+'>High</option><option'+(hl==='Low'?' selected':'')+'>Low</option></select></label>'+
-      '<label class="fld">Normal value'+inp(b+'.norm')+'</label>'+
-      '<label class="fld">Critical value'+inp(b+'.crit','check your facility’s list')+'</label></div>'+fh('fe.lab')+fh('fe.norm'),b+'.val')+
+      '<label class="fld">Normal value'+inp(b+'.norm',r?defRange(r)+' (verify facility)':'verify your lab report')+'</label>'+
+      '<label class="fld">Critical value'+inp(b+'.crit',g?g.crit+' (verify facility)':'check your facility’s list')+'</label></div>'+fh('fe.lab')+fh('fe.norm'),b+'.val')+
       unit(b+'.rel','Lab '+(i+1)+': relevance',qh('Relevance','sm')+fh('fe.rel')+hint(g?g.rel:'')+ta(b+'.rel','Why does this lab matter for this patient?'),b+'.rel')+
       unit(b+'.cause','Lab '+(i+1)+': cause',qh(i?'What caused derangement?':'What caused imbalance?','sm')+fh('fe.cause')+hint(cause)+ta(b+'.cause'),b+'.cause')+
       unit(b+'.tx','Lab '+(i+1)+': treatment',qh('Treatment','sm')+fh('fe.tx')+hint(d&&d.tx)+ta(b+'.tx','What did the provider order?'),b+'.tx')+
@@ -255,7 +272,7 @@
     var b = 'fe.' + i, k = get(b + '.lab'), r = LABM[k]; if (!r) return;
     var v = filled(get('labs.' + k + '.c')) ? get('labs.' + k + '.c') : get('labs.' + k + '.i') || '', f = labFlag(r, v).charAt(0);
     set(b + '.val', v); set(b + '.hl', f === 'H' ? 'High' : f === 'L' ? 'Low' : '');
-    set(b + '.norm', get('labs.' + k + '.r') || defRange(r)); set(b + '.crit', FE[k] ? FE[k].crit : '');
+    set(b + '.norm', get('labs.' + k + '.r') || ''); set(b + '.crit', '');
   }
 
   // ---------- care plan builder ----------
@@ -628,7 +645,7 @@
       sec.items.forEach(function (it) {
         switch (it.type) {
           case 'grid':
-            B.push({ kv: it.fields.map(function (f) { return [f[1], get(fieldPath(f[0])) || '']; }).concat(it.fields[0][0] === 'student' ? [['Grade', '']] : []) }); break;
+            B.push({ kv: it.fields.map(function (f) { return [f[1], get(fieldPath(f[0])) || '']; }).concat(it.fields[0][0] === 'student' ? [['Grade', '']] : [['Date of Birth', '']]) }); break;
           case 'support': B.push({ q: 'Support System:', table: { head: ['Name', 'Relationship to Patient'], rows: (get('support') || []).filter(function (r) { return r && (filled(r[0]) || filled(r[1])); }), w: [4680, 4680] } }); break;
           case 'text': B.push({ q: it.q, a: get(it.k) || '' }); break;
           case 'line': B.push({ q: it.label + ' ____:', a: get(it.k) || '' }); break;
@@ -637,17 +654,16 @@
             B.push({ q: it.q, a: get('erik.lvl') || expected() });
             B.push({ q: it.qa, a: [filled(st) ? ERIK[st][0] + ': ' + ERIK[st][1] + '.' : '', get('erik.a') || ''].join(' ').trim() });
             B.push({ q: it.qb, a: get('erik.b') || '' }); break;
-          case 'meds': B.push({ q: it.q, table: { head: MEDCOLS.map(function (c) { return c[0]; }), rows: (get('meds') || []).filter(function (r) { return r && filled(r[0]); }), w: [1700, 2100, 1600, 1760, 2200] } }); break;
+          case 'meds': B.push({ q: it.q, table: { head: MEDCOLS.map(function (c) { return c[0]; }), rows: (get('meds') || []).filter(function (r) { return r && r.some(filled); }), w: [1700, 2100, 1600, 1760, 2200] } }); break;
           case 'pmhmeds': B.push({ q: it.q, a: [pmhText(), get('pmhmeds') || ''].filter(filled).join('\n') }); break;
           case 'sbar': B.push({ q: it.q, kv: ['S', 'B', 'A', 'R'].map(function (x) { return [SB[x], get(it.k + '.' + x) || '']; }) }); break;
-          case 'vitals': B.push({ q: it.q, kv: VIT.filter(function (v) { return it.pain || v[0] !== 'pain'; }).map(function (v) { return [v[1], get(it.k + '.' + v[0]) || '']; }) }); break;
+          case 'vitals': B.push({ q: it.q, kv: [['Assessment time', get(it.k + '.time') || '']].concat(VIT.filter(function (v) { return it.pain || v[0] !== 'pain'; }).map(function (v) { return [v[1], get(it.k + '.' + v[0]) || '']; })) }); break;
           case 'systems': B.push({ q: it.q, kv: (it.order === 'eval' ? window.CP_EVAL_ORDER : SYS.map(function (s) { return s[0]; })).map(function (k) { return [SYSM[k][1].toUpperCase(), get(it.k + '.' + k) || '']; }) }); break;
-          case 'orders': B.push({ q: it.q, table: { head: ['Physician orders', 'Rationale', 'Expected Outcome'], rows: (get('orders') || []).filter(function (r) { return r && filled(r[0]); }), w: [2700, 3960, 2700] } }); break;
+          case 'orders': B.push({ q: it.q, table: { head: ['Physician orders', 'Rationale', 'Expected Outcome'], rows: (get('orders') || []).filter(function (r) { return r && r.some(filled); }), w: [2700, 3960, 2700] } }); break;
           case 'labs':
             B.push({ q: it.q });
             LABS.forEach(function (pn) {
-              var rows = pn.rows.filter(function (r) { return ['i', 'c', 's'].some(function (w) { return filled(get('labs.' + r.k + '.' + w)); }); });
-              if (rows.length) B.push({ table: { head: [pn.name, 'Normal Range', 'Initial value', 'Current value', 'Clinical Significance/Trends'], rows: rows.map(function (r) { var b = 'labs.' + r.k; return [r.n, get(b + '.r') || defRange(r), get(b + '.i') || '', get(b + '.c') || '', get(b + '.s') || '']; }), w: [1500, 1700, 1100, 1100, 3960] } });
+              B.push({ table: { head: [pn.name, 'Normal Range', 'Initial value', 'Current value', 'Clinical Significance/Trends'], rows: pn.rows.map(function (r) { var b = 'labs.' + r.k; return [r.n, get(b + '.r') || '', get(b + '.i') || '', get(b + '.c') || '', get(b + '.s') || '']; }), w: [1500, 1700, 1100, 1100, 3960] } });
             });
             break;
           case 'fe':
@@ -660,12 +676,12 @@
             break;
           case 'plan':
             (planArr().length ? planArr() : [{}]).forEach(function (pr, i) {
-              pr = pr || {}; var ivs = (pr.iv || []).filter(function (r) { return r && filled(r[1]); });
-              B.push({ pb: true, table: { head: ['CLIENT PROBLEM (Related to… as evidenced by….)', 'NURSING INTERVENTIONS', 'SCIENTIFIC RATIONALE', 'EVALUATION'], w: [2400, 2500, 2700, 1760], rows: [[
-                (pr.stmt || '') + '\n\nCLIENT CENTERED GOALS (EXPECTED OUTCOMES)\nSHORT TERM: ' + (pr.stg || '') + '\n\nLONG TERM: ' + (pr.ltg || ''),
+              pr = pr || {}; var ivs = (pr.iv || []).filter(function (r) { return r && r.slice(1).some(filled); });
+              B.push({ pb: true, table: { head: ['Client Problem (Related to… as evidenced by….)', 'Nursing Interventions', 'Scientific Rationale', 'Evaluation', 'Outcome (Client centered goals)'], w: [1900, 2200, 2200, 1560, 2000], rows: [[
+                pr.stmt || buildStmt(i),
                 ivs.map(function (r, j) { return (j + 1) + '. ' + ivType(r) + r[1]; }).join('\n'),
                 ivs.map(function (r, j) { return (j + 1) + '. ' + (r[2] || '') + (filled(r[3]) ? ' ' + String(r[3]).trim() : ''); }).join('\n'),
-                evText(pr.ev)]] }, cap: planArr().length > 1 ? 'Problem ' + (i + 1) : '' });
+                evText(pr.ev), 'Short Term Goal: ' + (pr.stg || '') + '\n\nLong Term Goal: ' + (pr.ltg || '')]] }, cap: planArr().length > 1 ? 'Problem ' + (i + 1) : '' });
             });
             break;
         }
@@ -674,14 +690,14 @@
     var refs = chosenRefs(); if (refs.length) B.push({ refs: refs });
     return B;
   }
-  function allText() { return JSON.stringify(P); }
+  function allText() { return JSON.stringify(P, function(k,v) { return k.charAt(0)==='_' || ['inc','cues','refs'].indexOf(k)>=0 ? undefined : v; }); }
   function isCited(r, txt) { var inner = String(r.cite.p || '').replace(/^\(|\)$/g, ''); return (inner && txt.indexOf(inner) >= 0) || (r.cite.n && txt.indexOf(r.cite.n) >= 0); }
   function chosenRefs() {
     var pickd = get('refs') || {}, txt = allText();
     return REFS.filter(function (r) { var k = r.cite.p; return pickd[k] != null ? pickd[k] : isCited(r, txt); })
       .sort(function (a, b) { return a.segs.map(function (s) { return s.t; }).join('').localeCompare(b.segs.map(function (s) { return s.t; }).join('')); });
   }
-  function xe(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function xe(s) { return String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function wr(t, o) {
     o = o || {}; var pr = (o.b ? '<w:b/>' : '') + (o.i ? '<w:i/>' : '') + (o.sz ? '<w:sz w:val="' + o.sz + '"/><w:szCs w:val="' + o.sz + '"/>' : '');
     return String(t).split('\n').map(function (l) { return '<w:r>' + (pr ? '<w:rPr>' + pr + '</w:rPr>' : '') + '<w:t xml:space="preserve">' + xe(l) + '</w:t></w:r>'; }).join('<w:r><w:br/></w:r>');
@@ -694,42 +710,44 @@
       return wp(m ? wr(m[1], { b: true }) + (m[2] ? wr(m[2]) : '') : l ? wr(l, o) : '', '<w:spacing w:after="40"/>');
     }).join('');
   }
-  function wtable(T) {
-    var bd = '<w:tblBorders>' + ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(function (s) { return '<w:' + s + ' w:val="single" w:sz="4" w:space="0" w:color="000000"/>'; }).join('') + '</w:tblBorders>';
+  function wtable(T,wide) {
+    var bd = '<w:tblBorders>' + ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(function (s) { return '<w:' + s + ' w:val="single" w:sz="4" w:space="0" w:color="D9D9D9"/>'; }).join('') + '</w:tblBorders>';
     var sum = T.w.reduce(function (a, b) { return a + b; }, 0);
+    var widths=T.w.map(function(w){return wide?Math.round(w*13824/sum):w;});
+    if(wide){widths[widths.length-1]+=13824-widths.reduce(function(a,b){return a+b;},0);sum=13824;}
     function row(cells, head) {
-      return '<w:tr>' + (head ? '<w:trPr><w:tblHeader/></w:trPr>' : '<w:trPr><w:cantSplit/></w:trPr>') + cells.map(function (c, j) {
-        return '<w:tc><w:tcPr><w:tcW w:w="' + T.w[j] + '" w:type="dxa"/>' + (head ? '<w:shd w:val="clear" w:color="auto" w:fill="E7E6E6"/>' : '') + '</w:tcPr>' + cellParas(c == null ? '' : c, head ? { b: true, sz: 20 } : { sz: 22 }) + '</w:tc>';
+      return '<w:tr>' + (head ? '<w:trPr><w:tblHeader/></w:trPr>' : '') + cells.map(function (c, j) {
+        return '<w:tc><w:tcPr><w:tcW w:w="' + widths[j] + '" w:type="dxa"/><w:vAlign w:val="center"/>' + (head ? '<w:shd w:val="clear" w:color="auto" w:fill="E7E6E6"/>' : '') + '</w:tcPr>' + cellParas(c == null ? '' : c, head ? { b: true, sz: 22 } : { sz: 22 }) + '</w:tc>';
       }).join('') + '</w:tr>';
     }
     var rows = T.rows.length ? T.rows : [T.head.map(function () { return ''; })];
-    return '<w:tbl><w:tblPr><w:tblW w:w="' + sum + '" w:type="dxa"/>' + bd + '<w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="80" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>' +
-      T.w.map(function (w) { return '<w:gridCol w:w="' + w + '"/>'; }).join('') + '</w:tblGrid>' + row(T.head, true) + rows.map(function (r) { return row(T.head.map(function (_, j) { return r[j]; })); }).join('') + '</w:tbl>' + wp('');
+    return '<w:tbl><w:tblPr><w:tblW w:w="' + sum + '" w:type="dxa"/>' + bd + '<w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="90" w:type="dxa"/><w:left w:w="110" w:type="dxa"/><w:bottom w:w="90" w:type="dxa"/><w:right w:w="110" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>' +
+      widths.map(function (w) { return '<w:gridCol w:w="' + w + '"/>'; }).join('') + '</w:tblGrid>' + row(T.head, true) + rows.map(function (r) { return row(T.head.map(function (_, j) { return r[j]; })); }).join('') + '</w:tbl>' + wp('');
   }
   function docx() {
     var b = [], KN = '<w:keepNext/>';
     outline().forEach(function (o) {
-      if (o.title) b.push(wp(wr(o.title, { b: true, sz: 32 }), '<w:jc w:val="center"/><w:spacing w:after="240"/>'));
+      if (o.title) b.push(wp(wr(o.title, { b: true, sz: 32 }), '<w:pStyle w:val="Title"/><w:jc w:val="center"/><w:spacing w:after="240"/>'));
       if (o.h) b.push(wp(wr(o.h, { b: true, sz: 28 }), KN + '<w:spacing w:before="320" w:after="120"/>'));
       if (o.pb) b.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>');
       if (o.cap) b.push(wp(wr(o.cap, { b: true }), KN));
       if (o.q) b.push(wp(wr(o.q, { b: true }), KN + '<w:spacing w:before="160" w:after="60"/>'));
       if (o.a != null) b.push(o.a ? paras(o.a) : wp(''));
       if (o.kv) o.kv.forEach(function (kv) { b.push(wp(wr(kv[0] + ': ', { b: true }) + wr(kv[1] || ''), '<w:ind w:left="' + (o.q ? 360 : 0) + '"/><w:spacing w:after="60"/>')); });
-      if (o.table) b.push(wtable(o.table));
+      if (o.table) b.push(wtable(o.table,true));
       if (o.refs) {
         b.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>', wp(wr('References', { b: true }), '<w:jc w:val="center"/>'));
         o.refs.forEach(function (r) { b.push(wp(r.segs.map(function (s) { return wr(s.t.replace(/\*/g, ''), { i: s.i }); }).join(''), '<w:spacing w:line="480" w:lineRule="auto" w:after="0"/><w:ind w:left="720" w:hanging="720"/>')); });
       }
     });
-    return pack(b.join(''));
+    return pack(b.join(''),true);
   }
-  function pack(body) {
+  function pack(body,wide) {
     var doc = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>' + body +
-      '<w:sectPr><w:footerReference w:type="default" r:id="rIdF"/><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>';
+      '<w:sectPr><w:footerReference w:type="default" r:id="rIdF"/>'+(wide?'<w:pgSz w:w="15840" w:h="12240" w:orient="landscape"/><w:pgMar w:top="1008" w:right="1008" w:bottom="1008" w:left="1008" w:header="504" w:footer="504" w:gutter="0"/>':'<w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>')+'</w:sectPr></w:body></w:document>';
     var rpr = '<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/>';
     var styles = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr>' + rpr + '<w:lang w:val="en-US"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:before="0" w:after="80" w:line="259" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>' +
-      '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style><w:style w:type="paragraph" w:styleId="Footer"><w:name w:val="footer"/><w:basedOn w:val="Normal"/><w:pPr><w:jc w:val="right"/></w:pPr></w:style></w:styles>';
+      '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/><w:rPr><w:color w:val="000000"/></w:rPr></w:style><w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:basedOn w:val="Normal"/><w:qFormat/><w:rPr><w:b/><w:color w:val="000000"/></w:rPr></w:style><w:style w:type="paragraph" w:styleId="Footer"><w:name w:val="footer"/><w:basedOn w:val="Normal"/><w:pPr><w:jc w:val="right"/></w:pPr></w:style></w:styles>';
     var footer = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:p><w:pPr><w:pStyle w:val="Footer"/></w:pPr><w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:t>1</w:t></w:r><w:r><w:fldChar w:fldCharType="end"/></w:r></w:p></w:ftr>';
     return window.APA.zip([
       { name: '[Content_Types].xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/></Types>' },
@@ -745,7 +763,7 @@
     psh: 'Past surgical history', erik: 'Development (Erikson)', meds: 'Current medications', pmhmeds: 'Medications and PMH', sbar1: 'Report from the nurse (SBAR)', vs1: 'Initial vital signs and pain',
     orders: 'Medical management', rad: 'Radiology/diagnostic reports', labs: 'Lab results', fe: 'Fluid and electrolytes', vs2: 'Four hours later: vital signs', sys2: 'Four hours later: assessment',
     e1: 'Evaluation', e2: 'Evaluation: the data', e3: 'Evaluation: next priorities', sbar2: 'Calling the provider (transfer)', sbar3: 'Handoff to the next nurse', pcc1: 'Patient-centered care: communication',
-    pcc2: 'Patient-centered care: preferences and values', pcc3: 'Patient-centered care: self-care', team: 'Teamwork', ebp: 'Evidence-based practice', safety: 'Safety', info: 'Informatics',
+    pcc2: 'Patient-centered care: preferences and values', pcc3: 'Patient-centered care: self-care', team: 'Teamwork', ebp: 'Evidence-based practice', safety: 'Safety', informatics: 'Informatics',
     'plan.stmt': 'Care plan: the problem', 'plan.stg': 'Care plan: goals', 'plan.iv': 'Care plan: interventions', 'plan.ev': 'Care plan: evaluation' };
   function interviewList() {
     var out = [];
@@ -797,6 +815,7 @@
   function saveFile(data, name, type) { var blob = new Blob([data], { type: type }), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500); }
   function renderDl() {
     loadRefs();
+    $('#dl-preview').textContent=plainText();
     $('#dlprog').innerHTML = FORM.map(function (sec) { var s = secStats(sec); return '<li class="' + (s[0] === s[1] ? 'ok' : '') + '"><a href="#s-' + sec.id + '" data-go="s-' + sec.id + '">' + esc(sec.title) + '</a> <small>' + s[0] + '/' + s[1] + '</small></li>'; }).join('');
     var txt = allText(), pickd = get('refs') || {};
     $('#refpick').innerHTML = REFS.length ? '<p class="muted">Ticked sources go on a References page at the end. Sources you cited are ticked for you.</p>' + REFS.map(function (r, i) {
@@ -863,5 +882,5 @@
   function fallbackCopy(t) { var x = document.createElement('textarea'); x.value = t; x.style.position = 'fixed'; x.style.opacity = '0'; document.body.appendChild(x); x.select(); try { document.execCommand('copy'); } catch (e) {} x.remove(); }
   // For tools/check_careplan.js
   window.CP_HELPER={get:get,set:function(path,value){set(path,value);var el=$('[data-p=\"'+path+'\"]');if(el){el.value=value;grow(el);}after(path,el);},patient:function(){return cur;},showTab:showTab,toast:toast,formMarkup:formMarkup,fields:ITEMS,labs:LABM};
-  window.CP_TEST = { formMarkup:formMarkup, interviewList: interviewList, interviewDocx: interviewDocx, DX: DX, DXL: DXL, outline: outline, docx: docx, plainText: plainText, labFlag: labFlag, vitFlag: vitFlag, buildStmt: buildStmt, set: set, get: get };
+  window.CP_TEST = { formMarkup:formMarkup, reloadReferences:loadRefs, interviewList: interviewList, interviewDocx: interviewDocx, DX: DX, DXL: DXL, outline: outline, docx: docx, plainText: plainText, labFlag: labFlag, vitFlag: vitFlag, buildStmt: buildStmt, set: set, get: get };
 })();

@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#04160e">
 <title>Care Plan Helper</title>
 <link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
-<link rel="stylesheet" href="careplan.css?v=202611091437">
+<link rel="stylesheet" href="careplan.css?v=202611091543">
 </head>
 <body>
 <main>
@@ -14,18 +14,18 @@
     <div class="kicker">NRS 114 · Clinical</div>
     <h1>Care plan helper</h1>
   </div>
-  <p class="lead">Fill the care plan in your syllabus, one question at a time. Get detailed prompts, shape your facts into nursing wording, and download your answers in an editable document.</p>
+  <p class="lead">Fill the care plan in your syllabus, one question at a time. Get detailed prompts, shape your facts into nursing wording, then review and export the completed form.</p>
 
   <div class="glass pbar">
     <label class="fld">Patient <select id="pt" aria-label="Choose a patient"></select></label>
     <div class="btns"><button type="button" class="btn" id="pt-new">New patient</button><button type="button" class="btn" id="pt-del">Delete</button></div>
-    <p class="muted"><b>Initials only:</b> no names, birth dates, record numbers or photos. Your answers stay in this browser on this device and are never synced or uploaded. <span id="saved"></span></p>
+    <p class="muted"><b>Initials only:</b> no names, birth dates, record numbers or photos. Answers are saved in this browser and excluded from study-progress sync. Creating a Google Doc sends only the reviewed care plan to your chosen Google account. <span id="saved"></span></p>
   </div>
 
   <div class="tabs" role="tablist" aria-label="Care plan helper">
     <button type="button" role="tab" id="tb-fill" data-tab="fill" aria-controls="tab-fill" aria-selected="true">Fill my form</button>
     <button type="button" role="tab" id="tb-find" data-tab="find" aria-controls="tab-find" aria-selected="false" tabindex="-1">Find a diagnosis</button>
-    <button type="button" role="tab" id="tb-dl" data-tab="dl" aria-controls="tab-dl" aria-selected="false" tabindex="-1">Download</button>
+    <button type="button" role="tab" id="tb-dl" data-tab="dl" aria-controls="tab-dl" aria-selected="false" tabindex="-1">Finish &amp; export</button>
   </div>
 
   <!-- ===== Fill my form ===== -->
@@ -85,9 +85,15 @@
   <div class="tabpanel" id="tab-dl" role="tabpanel" aria-labelledby="tb-dl" hidden>
     <section class="glass">
       <h2>My syllabus care plan</h2>
-      <p class="lead">Download your answers in the order of the Clinical Reasoning Plan of Care, syllabus pp. 34–47. The editable file uses landscape pages, all lab rows, and the five-column care-plan table, including a separate goals column. Text can expand, so page breaks may differ from the blank syllabus.</p>
-      <div class="btns"><button type="button" class="btn btn-primary" id="dl-docx">Download care plan (.docx)</button><button type="button" class="btn" id="dl-copy">Copy my answers</button><button type="button" class="btn dl-interview">Interview questions (Word)</button></div>
-      <details class="doc-guide" open><summary>Use this file in Google Docs</summary><ol><li>Download the care plan using the button above.</li><li>In your permitted Google Drive account, choose <b>New → File upload</b> and select the downloaded <b>.docx</b> file.</li><li>Open the uploaded file with <b>Google Docs</b>. You can edit the Word file there. To make a native Google Doc, choose <b>File → Save as Google Docs</b>.</li><li>Check table widths, page breaks and your instructor’s requirements before submitting.</li></ol><p>The helper does not upload anything to Google. Uploading the document yourself stores that copy in your Google account; follow your school and clinical site’s rules for patient information.</p><p><a href="https://support.google.com/docs/answer/9406611?hl=en" target="_blank" rel="noopener">Google’s instructions for Office files</a></p></details>
+      <p class="lead">Your entered answers go into the Clinical Reasoning Plan of Care, syllabus pp. 34–47: the same section order and questions, landscape pages, all lab rows, and the five-column care-plan table with separate goals. Answers expand, so page breaks can differ from the blank syllabus.</p>
+      <div class="google-export">
+        <h3>Turn my completed form into a Google Doc</h3>
+        <p>Review your answers, choose your permitted Google account, then create an editable Google Doc with your information already in the form. The saved document is a copy; later changes on the site do not update it.</p>
+        <div class="btns"><button type="button" class="btn btn-primary" id="google-create">Review &amp; create Google Doc</button></div>
+        <p id="google-status" class="muted" role="status" aria-live="polite"></p>
+      </div>
+      <div class="btns"><button type="button" class="btn" id="dl-docx">Download care plan (.docx)</button><button type="button" class="btn" id="dl-copy">Copy my answers</button><button type="button" class="btn dl-interview">Interview questions (Word)</button></div>
+      <details class="doc-guide"><summary>Word download and manual Google Docs import</summary><ol><li>Download the care plan using the Word button above.</li><li>In your permitted Google Drive account, choose <b>New → File upload</b> and select the downloaded <b>.docx</b> file.</li><li>Open the uploaded file with <b>Google Docs</b>. You can edit the Word file there. To make a native Google Doc, choose <b>File → Save as Google Docs</b>.</li><li>Check table widths, page breaks and your instructor’s requirements before submitting.</li></ol><p>This is an alternative to the Google Doc button. Follow your school and clinical site’s rules for information stored in Google Drive.</p><p><a href="https://support.google.com/docs/answer/9406611?hl=en" target="_blank" rel="noopener">Google’s instructions for Office files</a></p></details>
       <details><summary>Preview the answers going into my document</summary><pre id="dl-preview"></pre></details>
       <h3 class="sub">What’s filled in</h3>
       <ul id="dlprog"></ul>
@@ -114,6 +120,18 @@
   <datalist id="dxlist"></datalist>
   <datalist id="citelist"></datalist>
   <div class="toast" id="toast" role="status" hidden></div>
+  <dialog id="google-review" class="google-review" aria-labelledby="google-review-title">
+    <h2 id="google-review-title">Review my Google Doc</h2>
+    <p>Review the answers you entered for this patient. The Google Doc also keeps every blank field and table from the syllabus form. Rough drafts and other patients are excluded. Use only information permitted by your school and clinical site.</p>
+    <p id="google-review-status" role="status" aria-live="polite"></p>
+    <details open><summary>My entered answers</summary><pre id="google-preview"></pre></details>
+    <div class="btns google-actions">
+      <button type="button" class="btn btn-primary" id="google-confirm" disabled>Create my Google Doc</button>
+      <a class="btn btn-primary" id="google-open" target="_blank" rel="noopener noreferrer" hidden>Open my filled Google Doc</a>
+      <button type="button" class="btn" id="google-another" hidden>Create another copy</button>
+      <button type="button" class="btn" id="google-close">Back to my form</button>
+    </div>
+  </dialog>
 </main>
 <script src="data/careplan/nanda-index.js?v=202611071500"></script>
 <script src="data/careplan/nanda-guides.js?v=202611071500"></script>
@@ -125,9 +143,11 @@
 <script src="data/careplan/guidance.js?v=202611091437"></script>
 <script src="apa-core.js?v=202611061900"></script>
 <script src="careplan-words.js?v=202611091437"></script>
-<script src="careplan.js?v=202611091437"></script>
+<script src="careplan.js?v=202611091543"></script>
 <script src="careplan-workspace.js?v=202611091437"></script>
-<script src="nav.js?v=202611091437"></script>
+<script src="data/careplan/google-config.js?v=202611091543"></script>
+<script src="careplan-google.js?v=202611091543"></script>
+<script src="nav.js?v=202611091543"></script>
 <script src="say.js?v=202610281219"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 # Care plan syllabus workflow
 
+This records the initial syllabus/wording release. The subsequent request for a **filled native Google Doc created from the website** is documented in [careplan-google-doc.md](careplan-google-doc.md), including the required OAuth activation and current verification limits.
+
 Reviewed November 9, 2026 against the user-supplied **NRS 114 2026 Syllabus_SB_Fall 2026 - WEC(4).pdf**, printed pp. 34-47. The uploaded PDF and patient records are not repository assets.
 
 The helper now explains how to gather and write the information for the syllabus form. It retains the original answer controls and local patient storage. The wording builder is a local sentence-pattern tool, not a free-text AI rewrite service or a clinical grading system. All new examples are fictional and are never inserted into patient answers.

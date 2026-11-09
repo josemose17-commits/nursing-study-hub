@@ -1,6 +1,7 @@
 // Care plan helper: walks through the Clinical Reasoning Plan of Care with nurse-style questions, flags vital signs
 // and labs, finds NANDA-I diagnoses by label or by cues, builds the care plan, and exports a Word file.
-// Answers stay in this browser (localStorage keys cp-*). Export is a user-initiated local download.
+// Answers stay in this browser (localStorage keys cp-*). Google export is an explicit,
+// reviewed action in careplan-google.js; the Word download uses this same document.
 (function () {
   'use strict';
   var FORM = window.CP_FORM, SYS = window.CP_SYSTEMS, ERIK = window.CP_ERIK, LABS = window.CP_LABS, FE = window.CP_FE,
@@ -812,6 +813,43 @@
     return L.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
   }
   function fileBase() { var i = String(get('info.initials') || '').replace(/[^A-Za-z0-9]/g, ''); return 'Care plan' + (i ? ' ' + i : ''); }
+  // Review only entered answers; the generated document still includes the whole
+  // syllabus form. Do not make the student scroll through 47 empty lab rows.
+  function exportReview() {
+    var lines = [], section = '', shownSection = '', question = '';
+    function answered(t) {
+      return String(t || '').split('\n').some(function (line) {
+        return !!line.replace(/^\s*(?:Lab|Value|High\/Low|Normal|Critical|Short Term Goal|Long Term Goal):\s*/i, '').trim();
+      });
+    }
+    outline().forEach(function (o) {
+      if (o.h) { section = o.h; question = ''; }
+      if (o.q) question = o.q;
+      var parts = [];
+      if (o.a && filled(o.a)) parts.push(o.a);
+      if (o.kv) parts = parts.concat(o.kv.filter(function (kv) { return filled(kv[1]); }).map(function (kv) { return kv[0] + ': ' + kv[1]; }));
+      if (o.table) {
+        var t = o.table, lab = t.head[1] === 'Normal Range';
+        t.rows.forEach(function (row) {
+          if (!(lab ? row.slice(1) : row).some(answered)) return;
+          var cells = row.map(function (value, i) { return answered(value) ? t.head[i] + ': ' + value : ''; }).filter(Boolean);
+          if (cells.length) parts.push(cells.join('\n'));
+        });
+      }
+      if (o.refs) { section = 'References'; question = ''; parts = o.refs.map(function (r) { return r.segs.map(function (s) { return s.t.replace(/\*/g, ''); }).join(''); }); }
+      if (!parts.length) return;
+      if (section && section !== shownSection) { lines.push(section.toUpperCase(), ''); shownSection = section; }
+      if (o.cap) lines.push(o.cap);
+      if (question) lines.push(question);
+      lines.push(parts.join('\n\n'), '');
+    });
+    return lines.join('\n').trim();
+  }
+  function exportSnapshot() {
+    loadRefs();
+    var review = exportReview();
+    return { patient: cur, title: 'NRS 114 Clinical Reasoning Plan of Care', bytes: docx(), text: review || 'No answers entered yet. The complete blank form is available as a Word download.', hasAnswers: !!review };
+  }
   function saveFile(data, name, type) { var blob = new Blob([data], { type: type }), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500); }
   function renderDl() {
     loadRefs();
@@ -881,6 +919,6 @@
   });
   function fallbackCopy(t) { var x = document.createElement('textarea'); x.value = t; x.style.position = 'fixed'; x.style.opacity = '0'; document.body.appendChild(x); x.select(); try { document.execCommand('copy'); } catch (e) {} x.remove(); }
   // For tools/check_careplan.js
-  window.CP_HELPER={get:get,set:function(path,value){set(path,value);var el=$('[data-p=\"'+path+'\"]');if(el){el.value=value;grow(el);}after(path,el);},patient:function(){return cur;},showTab:showTab,toast:toast,formMarkup:formMarkup,fields:ITEMS,labs:LABM};
+  window.CP_HELPER={get:get,set:function(path,value){set(path,value);var el=$('[data-p=\"'+path+'\"]');if(el){el.value=value;grow(el);}after(path,el);},patient:function(){return cur;},exportSnapshot:exportSnapshot,showTab:showTab,toast:toast,formMarkup:formMarkup,fields:ITEMS,labs:LABM};
   window.CP_TEST = { formMarkup:formMarkup, reloadReferences:loadRefs, interviewList: interviewList, interviewDocx: interviewDocx, DX: DX, DXL: DXL, outline: outline, docx: docx, plainText: plainText, labFlag: labFlag, vitFlag: vitFlag, buildStmt: buildStmt, set: set, get: get };
 })();

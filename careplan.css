@@ -373,3 +373,21 @@ details.askq > div, details.askq > p { margin: 0 12px 8px; }
 #erik-q .qg { margin: 0 0 4px; }
 .incbar .btns { margin: 0; }
 details.how-ask { margin: -4px 4px 0; }
+/* Reviewed native Google Docs export. Form answers remain device-local until chosen. */
+.google-export{border:1px solid var(--border,rgba(200,210,180,.24));border-radius:16px;padding:18px;margin:18px 0}
+.google-export h3{margin-top:0}
+.google-review{box-sizing:border-box;width:min(980px,94vw);max-height:90dvh;overflow:auto;background:#0c251b;color:#eef2e8;border:1px solid #667a43;border-radius:18px;padding:clamp(16px,3vw,28px)}
+.google-review::backdrop{background:rgba(0,0,0,.72)}
+.google-review pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;line-height:1.55;padding:14px;background:rgba(255,255,255,.04);border-radius:10px;max-height:48dvh;overflow:auto}
+.google-review .btns{gap:10px;flex-wrap:wrap}
+.google-review .btn{white-space:normal;max-width:100%}
+.google-review [hidden]{display:none!important}
+.google-review [role=status]{border-left:3px solid #c9bd55;padding-left:12px;overflow-wrap:anywhere}
+.google-actions{margin-top:18px}
+.google-review [disabled]{opacity:.5;cursor:wait}
+@media(max-width:600px){
+  .tabs [role="tab"]{flex:1 1 0;min-width:0;white-space:normal}
+  .google-review p{font-size:14px}
+  .google-review pre{max-height:28dvh;padding:10px}
+  .google-actions{position:sticky;bottom:-16px;background:#0c251b;padding:10px 0;margin-bottom:-4px}
+}

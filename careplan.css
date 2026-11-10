@@ -399,3 +399,10 @@ details.how-ask { margin: -4px 4px 0; }
 #form .helps:empty { display: none; }
 
 [hidden] { display: none !important; }
+
+.cp-phrase { display: block; margin: .4rem 0 .8rem; }
+.cp-wording { width: min(680px, calc(100vw - 32px)); max-height: 85vh; overflow: auto; padding: 1.25rem; border-radius: 16px; border: 1px solid #607567; background: #0b2117; color: #edf5ee; box-sizing: border-box; }
+.cp-wording::backdrop { background: #000a; }
+.cp-wording .fld { display: grid; gap: .35rem; margin: .85rem 0; }
+.cp-wording textarea, .cp-wording select { width: 100%; box-sizing: border-box; }
+.cpw-original { white-space: pre-wrap; overflow-wrap: anywhere; }

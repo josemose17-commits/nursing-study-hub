@@ -1,0 +1,7 @@
+# Restore optional nursing wording — 2026-11-10
+
+Correction: the user wanted a simpler care plan, not removal of nursing-wording help. Restore one optional Help me phrase this action beside narrative answers while keeping the syllabus-first layout, 69 concise notes, and separate optional examples. The user approved the restoration.
+
+The optional dialog reuses the existing field-specific sentence profiles and CPWords engine. It shows the current answer, accepts actual facts, and produces an editable local draft. Explicit append and confirmed replacement preserve the existing answer until chosen. Stale patient, detached row, or changed-answer checks prevent insertion into the wrong or newly edited answer. Undo refuses to overwrite later edits. Saved drafts retain the original per-patient _coach keys and stay excluded from exports. Confirmed row removal remaps draft indices; cancellation leaves drafts intact. No field browser, checklist ticks or duplicated interview modes return. Numeric measurements and fixed-choice fields retain their structured controls.
+
+All 21 repository checks pass. DOM integration checked all 12 syllabus sections and 69 notes, narrative helper opening, draft creation/editing, original-answer preservation, explicit append/replacement, undo and later-edit refusal, stale draft refusal, persisted draft reopening, row rerender, tab switching, and answer-only export. Browser desktop/mobile visual QA has not yet been completed for this change. Existing Google OAuth client-ID setup limitation is unchanged.

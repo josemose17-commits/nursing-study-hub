@@ -4,7 +4,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const ROOT=path.resolve(__dirname,'..'),W=require(path.join(ROOT,'careplan-words.js'));
 const entries=new Map(),c={window:{},document:{querySelector:()=>null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:k=>entries.get(k)||null,setItem:(k,v)=>entries.set(k,v)},setTimeout:()=>0,clearTimeout(){},TextEncoder,Uint8Array,ArrayBuffer,DataView,Date,console};
 vm.createContext(c);
-for(const f of ['nanda-index','nanda-guides','form','labs','include','questions','coach','guidance'])vm.runInContext(fs.readFileSync(path.join(ROOT,'data/careplan',f+'.js'),'utf8'),c,{filename:f});
+for(const f of ['nanda-index','nanda-guides','form','labs','simple','include','questions','coach','guidance'])vm.runInContext(fs.readFileSync(path.join(ROOT,'data/careplan',f+'.js'),'utf8'),c,{filename:f});
 vm.runInContext(fs.readFileSync(path.join(ROOT,'apa-core.js'),'utf8'),c);c.window.APA=c.APA;
 vm.runInContext(fs.readFileSync(path.join(ROOT,'careplan.js'),'utf8'),c);
 const T=c.window.CP_TEST,D=c.window.CP_COACH,plain=o=>JSON.parse(JSON.stringify(o));
@@ -84,7 +84,7 @@ assert(!/PRIVATE|J\.L\.|Fictional example/.test(doc),'Examples and rough facts n
 assert(!/<w:trHeight[^>]+exact/.test(doc),'No clipped fixed-height answer rows');
 for(const row of labs)assert(doc.includes(row.n.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')),'Missing syllabus lab '+row.n);
 const page=fs.readFileSync(path.join(ROOT,'Care Plan Helper.html'),'utf8');
-assert(page.indexOf('coach.js?')<page.indexOf('guidance.js?')&&page.indexOf('guidance.js?')<page.indexOf('careplan-workspace.js?'));
+assert(page.indexOf('coach.js?')<page.indexOf('guidance.js?')&&page.indexOf('guidance.js?')<page.indexOf('careplan.js?'));
 assert(page.includes('Save as Google Docs')&&page.includes('File upload'));
 const sync=/SYNC\s*=\s*(\/.*\/)/.exec(fs.readFileSync(path.join(ROOT,'nav.js'),'utf8'));assert(!new RegExp(sync[1].slice(1,-1)).test('cp-plans'));
 // Optional local rendering fixture; only this explicit flag writes a document.

@@ -391,3 +391,11 @@ details.how-ask { margin: -4px 4px 0; }
   .google-review pre{max-height:28dvh;padding:10px}
   .google-actions{position:sticky;bottom:-16px;background:#0c251b;padding:10px 0;margin-bottom:-4px}
 }
+
+/* Syllabus-first form: one concise explanation and an optional example. */
+.cp-include { margin: .5rem 0; color: var(--muted, #bdcbbf); max-width: 78ch; line-height: 1.6; }
+.cp-include strong { color: var(--text, #edf5ee); }
+#form textarea { min-height: 6rem; }
+#form .helps:empty { display: none; }
+
+[hidden] { display: none !important; }

@@ -88,10 +88,12 @@
   function ta(path, ph, cls) { return '<textarea data-p="' + path + '" rows="2"' + (ph ? ' placeholder="' + esc(ph) + '"' : '') + (cls ? ' class="' + cls + '"' : '') + '>' + esc(get(path) || '') + '</textarea>'; }
   function qh(t, cls) { return '<div class="q' + (cls ? ' ' + cls : '') + '">' + esc(t) + '</div>'; }
   function askBox(ask, tip, label) {
-    if (!(ask && ask.length) && !tip) return '';
-    return '<details class="help"><summary>' + (label || 'Think it through') + '</summary>' + (ask && ask.length ? '<ul>' + ask.map(li).join('') + '</ul>' : '') + (tip ? '<p class="tip">' + esc(tip) + '</p>' : '') + '</details>';
+    // The form has one explanation and an optional example, rather than interview/wording modes.
+    if (label !== 'Normal ranges') return '';
+    return '<details class="help"><summary>Reference ranges</summary><ul>' + (ask || []).map(li).join('') + '</ul></details>';
   }
-  function exBox(ex) { return ex ? '<details class="help ex"><summary>Example</summary>' + (typeof ex === 'string' ? '<p>' + esc(ex) + '</p>' : ex) + '</details>' : ''; }
+
+  function exBox(ex) { return ex ? '<details class="help ex"><summary>See an example</summary><p class="muted">Fictional example only. Write your own patient’s findings.</p>' + (typeof ex === 'string' ? '<p>' + esc(ex) + '</p>' : ex) + '</details>' : ''; }
   function helps(it, extra) { var h = askBox(Array.isArray(it.ask) ? it.ask : null, it.tip) + (typeof it.ex === 'string' ? exBox(it.ex) : '') + (extra || ''); return h ? '<div class="helps">' + h + '</div>' : ''; }
   function unitAttrs(key, label, target) { return ' data-cp-unit="' + esc(key) + '" data-cp-label="' + esc(label || key) + '"' + (target ? ' data-cp-target="' + esc(target) + '"' : ''); }
   function unit(key, label, html, target) { return '<div class="cp-unit"' + unitAttrs(key, label, target) + '>' + html + '</div>'; }
@@ -109,20 +111,18 @@
   function idOf(k) { return String(k).replace(/[^A-Za-z0-9]/g, '-'); }
   // key: the entry in CP_INC; sk: where the ticks are stored (one per patient, per problem for the care plan)
   function incBox(key, label, sk) {
-    var d = INC[key]; if (!d || !d.items) return '';
-    sk = sk || key; var on = (get('inc') || {})[sk] || {}, n = d.items.filter(function (x, i) { return on[i]; }).length;
-    return '<details class="inc"' + (SHOWINC ? ' open' : '') + '><summary>' + esc(label || 'What goes here') + ' <span class="cnt" id="ic-' + idOf(sk) + '">' + n + '/' + d.items.length + '</span></summary>' +
-      (d.len ? '<p class="len">' + esc(d.len) + '</p>' : '') + '<ul>' + d.items.map(function (t, i) {
-        return '<li><label><input type="checkbox" data-inc="' + esc(sk) + '" data-n="' + d.items.length + '" data-i="' + i + '"' + (on[i] ? ' checked' : '') + '><span>' + esc(t) + '</span></label></li>';
-      }).join('') + '</ul></details>';
+    var text = (window.CP_SIMPLE_INCLUDE || {})[key];
+    if (!text) return '';
+    return '<p class="cp-include"><strong>What to include:</strong> ' + esc(text) + '</p>';
   }
+
   function fh(key) { return typeof INC[key] === 'string' ? '<small class="fh">' + esc(INC[key]) + '</small>' : ''; }
 
   // ---------- "Questions to ask" ----------
   var ASKQ = window.CP_ASKQ || {}, ERIKQ = window.CP_ERIK_Q || [];
   function qList(title, arr) { return arr && arr.length ? '<div class="qg"><div class="qg-h">' + esc(title) + '</div><ul>' + arr.map(li).join('') + '</ul></div>' : ''; }
   function askQBody(d) { return qList('Ask your patient', d.pt) + qList('Ask the nurse, instructor or family', d.rn) + qList('Be ready to answer', d.them) + (d.tip ? '<p class="tip">' + esc(d.tip) + '</p>' : ''); }
-  function askQ(key) { var d = ASKQ[key]; return d ? '<details class="askq"' + (SHOWINC ? ' open' : '') + '><summary>Questions to ask</summary>' + askQBody(d) + '</details>' : ''; }
+  function askQ(key) { return ''; }
   function erikQ() {
     var s = stageOf(num(get('info.age')));
     if (s < 0) return '<p class="tip">Enter the age on the first card to see questions matched to the expected stage.</p>';
@@ -167,7 +167,7 @@
   function expected() { var a = num(get('info.age')), s = stageOf(a); return s < 0 ? '' : ERIK[s][0] + ': ' + ERIK[s][1]; }
   R.erikson = function (it) {
     var opts = '<option value="">Choose the stage you see…</option>' + ERIK.map(function (e, i) { return '<option value="' + i + '"' + (String(get('erik.stage')) === String(i) ? ' selected' : '') + '>' + esc(e[0] + ': ' + e[1]) + '</option>'; }).join('');
-    return wrap(it, qh(it.q) + incBox('erik') + '<details class="askq"' + (SHOWINC ? ' open' : '') + '><summary>Questions to ask</summary><div id="erik-q">' + erikQ() + '</div></details>' + helps(it) +
+    return wrap(it, qh(it.q) + incBox('erik') + '<div id="erik-q" hidden></div>' + helps(it) +
       unit('erik.lvl','Expected Erikson stage','<div class="erik-exp" id="erik-exp"></div>'+inp('erik.lvl','Expected stage for their age'),'erik.lvl') +
       unit('erik.a','Assessed developmental level',qh(it.qa,'sm')+incBox('erik.a')+'<div class="helps">'+exBox(it.exa)+'</div><label class="fld">Stage you observed<select data-p="erik.stage">'+opts+'</select></label>'+ta('erik.a','Achieved or not, and how you can tell'),'erik.a') +
       unit('erik.b','Behaviors supporting the developmental assessment',qh(it.qb,'sm')+incBox('erik.b')+'<div class="helps">'+exBox(it.exb)+'</div>'+ta('erik.b')+'<div class="erik-hint" id="erik-hint"></div>','erik.b'));

@@ -4,7 +4,7 @@ const assert=require('assert/strict'),fs=require('fs'),path=require('path'),vm=r
 const ROOT=path.join(__dirname,'..'),W=require(path.join(ROOT,'careplan-words.js'));
 const store=new Map(),c={window:{},document:{querySelector:()=>null,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)},setTimeout:()=>0,clearTimeout(){},TextEncoder,Uint8Array,ArrayBuffer,DataView,Date,console};
 vm.createContext(c);
-for(const f of ['nanda-index','nanda-guides','form','labs','include','questions','coach','guidance'])vm.runInContext(fs.readFileSync(path.join(ROOT,'data/careplan',f+'.js'),'utf8'),c,{filename:f});
+for(const f of ['nanda-index','nanda-guides','form','labs','simple','include','questions','coach','guidance'])vm.runInContext(fs.readFileSync(path.join(ROOT,'data/careplan',f+'.js'),'utf8'),c,{filename:f});
 vm.runInContext(fs.readFileSync(path.join(ROOT,'apa-core.js'),'utf8'),c);
 c.window.APA=c.APA;
 vm.runInContext(fs.readFileSync(path.join(ROOT,'careplan.js'),'utf8'),c);
@@ -50,10 +50,13 @@ for(const m of markup.matchAll(/<\/?([a-zA-Z][\w-]*)\b([^>]*?)>/g)){
 }
 for(const id of ['q1','q2','q3','q4','q5','q6','q7','rat1','vsrat1','asrat1','sys1.resp','sys2.resp','sbar1.S','sbar2.R','sbar3.R','labs.k','fe.0.cause','plan.0.stg','plan.0.iv.0','plan.0.ev'])assert(units.has(id),'Missing unit '+id);
 for(const key of ['plan.0.iv.0.1','plan.0.iv.0.2','plan.0.iv.0.3','plan.0.ev.s','fe.0.lab','labs.k.r','sbar3.R','sys2.skin'])assert(paths.has(key),'Missing original answer '+key);
+for(const [key,value] of Object.entries(c.window.CP_INC)) if(value.items) assert(c.window.CP_SIMPLE_INCLUDE[key], 'Missing brief syllabus guidance '+key);
+assert(!markup.includes('data-inc='), 'Checklist controls are retired');
+assert(markup.includes('What to include:')&&markup.includes('See an example'), 'Brief help and optional examples remain');
 const before=T.plainText();T.set('_coach',{'q1::q1':{facts:{support:'PRIVATE ROUGH NOTES'},draft:'PRIVATE DRAFT'}});T.set('_workspace',{active:'q1'});
 assert.equal(T.plainText(),before,'Private rough notes and navigation must stay out of the submitted form');
 assert(T.docx().length>1000,'Word export still generates');
 const page=fs.readFileSync(path.join(ROOT,'Care Plan Helper.html'),'utf8');
-for(const f of ['data/careplan/coach.js','careplan-words.js','careplan-workspace.js'])assert(page.includes(f+'?v='),'Page must load '+f);
-assert(page.indexOf('careplan.js?')<page.indexOf('careplan-workspace.js?'),'Core initializes before workspace');
+for(const f of ['data/careplan/coach.js','careplan-words.js','data/careplan/simple.js'])assert(page.includes(f+'?v='),'Page must load '+f);
+assert(!page.includes('src="careplan-workspace.js?'),'Retired field browser must not load');
 console.log(`✓ care plan workspace: ${all.length} guidance profiles; ${units.size} focused fields cover ${fieldCount} original controls; fact-only drafts, safe insertion/undo and private-notes export checks pass`);

@@ -255,4 +255,67 @@ window.MH_TOPICS = [
     ['A 4-year-old thinks the machine will bite him as punishment. Concepts?', '**Animism/magical thinking** and **initiative vs guilt**.']
   ]
 }
+,{
+  id: 'lecture', week: 11, ch: 'Lecture notes', title: 'What the instructor stressed in lecture',
+  short: 'Listen and observe, physical and emotional safety, the suicide assessment, priorities before teaching or discharge, and why each therapy is used.',
+  lead: 'These points come from the two lecture reviews. The thread through all of them: **combine what the patient says with what you see**, put **safety first**, and be able to explain **why** a therapy or action is used, not just name it.',
+  terms: [
+    { t: 'Verbal versus nonverbal cues', see: 'A patient says “I’m fine” while tearful, withdrawn and avoiding eye contact.', why: 'Words may not match behavior. Affect, posture, eye contact, agitation and changes during the conversation are data.', means: 'Assess both and form the assessment from the two together; explore what a behavior is communicating instead of judging it.' },
+    { t: 'Physical safety', see: 'Removing hazards, following the unit’s precautions.', why: 'A patient at risk needs an environment that limits access to means of harm.', means: 'Follow facility safety procedures and escalate immediate concerns.' },
+    { t: 'Emotional safety', see: 'Privacy, a calm tone, no judgment.', why: 'Patients share more when they feel respected and unhurried.', means: 'Use open-ended questions and attentive listening; build rapport before pressing for detail.' },
+    { t: 'Screening versus diagnosis', see: 'A high PHQ-9 score.', why: 'A screening tool flags the need for more evaluation.', means: 'A score alone does **not** establish a diagnosis.' },
+    { t: 'Caregiver burden', see: 'Exhaustion, guilt and strain from caring for a relative.', why: 'People differ in how much stress they can carry at once.', means: 'Assess the person; don’t assume. Connect them with resources.' }
+  ],
+  cards: [
+    { h: 'A fuller suicide assessment', b: ['Ask directly whether hopelessness has led to thoughts of self-harm or of not waking up.', 'If yes, find out: are the thoughts **current**?', 'Is there a **plan**, **intent**, or **access to means**?', 'Has the patient taken any **steps** toward acting on it?', 'What **protective factors** and supports are there?', 'Then follow the facility’s safety procedures and tell the appropriate clinician.'], tag: 'If it worsens' },
+    { h: 'Questions the instructor modeled', b: ['When did this start, and did something change around then?', 'How have you coped with stress like this before?', 'Who is part of your support system?', 'Do you feel safe? Have you had thoughts of hurting yourself?'], why: 'The goal is to gather information and build rapport, not to criticize, rush or assume.' },
+    { h: 'Priorities: ABCs, then needs, then discharge safety', b: ['**Airway, breathing, circulation** first, always.', 'Then physiological needs, then safety, then psychosocial needs.', 'Treat **severe pain before** complex discharge teaching: pain blocks learning.', 'Before discharge, check for **medication access, money, shelter and a safe place to go**. Being clinically stable is not enough.', 'Don’t let a dramatic-sounding distractor pull you from an ABC or basic safety need.'] },
+    { h: 'CBT questions', b: ['CBT was presented as a **central, first-line** approach; know its basics.', 'Pick the answer that helps the client **identify or examine the thought**, not one that dismisses, argues or simply reassures.', 'Supervisor-meeting example (“I’ll be fired and lose my house”): the slides call it **catastrophizing**; the instructor also discussed **overgeneralization** as a close choice. Catastrophizing = a chain of worst-case outcomes. Overgeneralization = one event becomes “always” or “never.”'] },
+    { h: 'Anxiety, panic and trauma', b: ['Anxiety can be “overthinking”: imagining several bad outcomes from one situation.', 'Panic brings intense distress with physical symptoms: muscle tension or pain, feeling trapped, even being unable to move.', 'A past trauma can be a trigger for later panic symptoms.'] },
+    { h: 'Biology points from lecture', b: ['**Dopamine**: motivation and movement; high in schizophrenia, low in Parkinson’s.', '**Serotonin**: mood and sleep; low in depression.', '**Norepinephrine**: fight or flight, vasoconstriction and blood pressure; tied to anxiety, mania and depression.', '**EPS**: medication-related movement effects, such as sudden or uncontrolled movements and Parkinson-like symptoms.', '**ECT** is still used for some patients; temporary confusion or anxiety afterward is expected. It is **not generally first-line**.'] },
+    { h: 'Assignment reminders', b: ['Be able to explain **why** a therapy is used.', 'Presentation: **APA format**, typed (not handwritten).'] }
+  ],
+  recall: [
+    ['A patient’s words and behavior don’t match. What do you do?', 'Assess **both** and explore what the behavior is communicating.'],
+    ['Does a PHQ-9 score diagnose depression?', '**No.** It screens and signals the need for further evaluation.'],
+    ['Five things to clarify after a patient admits suicidal thoughts?', '**Current thoughts, plan, intent, access to means, steps taken**; plus protective factors.'],
+    ['Why treat pain before discharge teaching?', 'Severe pain **blocks learning**; physiological needs come first.'],
+    ['What makes a discharge unsafe even if the patient is stable?', 'No **medication access, money, shelter or safe place to go**.'],
+    ['On a CBT question, which answer wins?', 'The one that helps the client **examine the thought**.']
+  ]
+},
+{
+  id: 'extras', week: 11, ch: 'Chapters 1, 2, 3, 6, 9', title: 'Textbook details to add to your notes',
+  short: 'Points from the assigned chapters that are not covered elsewhere on the site: policy milestones, QSEN, negligence, and communication concepts.',
+  lead: 'Your Exam 4 study guide already covers Chapters 1, 2, 3, 6, 9 and 34. These are the **remaining details** from those chapters, gathered in one place.',
+  terms: [
+    { t: 'Double-bind message', see: 'A mother says, “Go, have fun,” with a sad face, slumping and dropping her cane.', why: 'Two contradictory messages from a person with power; either choice displeases them.', means: 'The receiver is trapped. Notice when words and nonverbal behavior disagree.' },
+    { t: 'Content versus process', see: 'Saying grades matter (content) while skipping class (process).', why: 'Content is the words; process is the nonverbal message.', means: 'When they match the message is **congruent**; when they don’t, reflect and validate what you see.' },
+    { t: 'Complementary relationship', see: 'Nurse and patient; teacher and student.', why: 'One person has more status or control. Between equals the relationship is **symmetrical**.', means: 'The inequality usually lessens as the patient recovers.' },
+    { t: 'Kinesics', see: 'Facial expression, posture, gestures, a slight head tilt.', why: 'Communication by body movement.', means: 'Check your own: uncross arms, lean in slightly, keep gestures small.' },
+    { t: 'Paralanguage (vocal quality)', see: 'Volume, pitch, rate, fluency: “I *will* see you tonight” versus “I will see *you* tonight.”', why: 'How it is said changes the meaning.', means: 'Soft, even tones invite sharing; fast, high-pitched speech spreads anxiety.' },
+    { t: 'Miracle question', see: '“If a miracle happened tonight, how would your life be different in the morning?”', why: 'A goal-setting question that shows what the patient most wants to change.', means: 'Use it to find goals the patient is motivated to pursue.' },
+    { t: 'Projective question', see: '“If you had three wishes, what would they be?”', why: 'A “what if” question that helps people explore thoughts and priorities.', means: 'Useful for seeing a problem differently.' },
+    { t: 'Process recording', see: 'A written record of what nurse and patient said and did, with the technique and the student’s feelings.', why: 'Lets you spot patterns in your communication.', means: 'It relies on memory; simulation with **debriefing** is now more common.' }
+  ],
+  cards: [
+    { h: 'Chapter 1: milestones in mental health policy and science', b: ['**Decade of the Brain** (1990s): raised awareness of brain research.', '**Surgeon General’s report** (1999): mental health is fundamental to health, and treatments work.', '**Human Genome Project** (1990–2003): strengthened genetic explanations.', '**New Freedom Commission** (2003): called the system fragmented; urged recovery, early screening and consumer-driven care. It included no nurses.', '**Mental Health Parity Act** (1996), then the **Wellstone-Domenici Parity Act** (2008) for group plans over 50 employees, then the **Affordable Care Act** (2010): mental health as an essential benefit, coverage on a parent’s plan to age 26.', '**BRAIN Initiative** (2013) and **RDoC**: research on brain function and on causes at the molecular level instead of symptom lists.'] },
+    { h: 'Chapter 1: QSEN’s six areas', b: ['**Patient-centered care**.', '**Teamwork and collaboration**.', '**Evidence-based practice**.', '**Quality improvement**.', '**Safety**.', '**Informatics**.'], why: 'These are the knowledge, skills and attitudes for improving the quality and safety of care.' },
+    { h: 'Chapter 1: phenomena of concern for psychiatric nurses', b: ['Promoting mental and physical health; preventing illness.', 'Co-occurring mental, substance use and physical disorders.', 'Changes in thinking, perceiving and communicating.', 'Distress from trauma or neglect; self-harm and violence.', 'Isolation, changes in self-concept, and low health literacy.'], why: 'Nurses treat the **human responses** to illness (insomnia, hopelessness), not the disorder itself.' },
+    { h: 'Chapter 2: object relations (Mahler)', b: ['How an infant moves from being unable to separate from the mother to a separate toddler.', 'The caregiver gives a secure base and encourages exploration.', '“**Good enough parenting**” is enough for healthy separation-individuation.'] },
+    { h: 'Chapter 3: two newer antidepressants', b: ['**Vortioxetine** (Trintellix): serotonin modulator and stimulator; nausea, constipation, vomiting; may cause less sexual dysfunction.', '**Vilazodone** (Viibryd): serotonin partial agonist and reuptake inhibitor; side effects like an SSRI; **take with food**.'] },
+    { h: 'Chapter 6: the five elements of negligence (malpractice)', b: ['**1. Duty**: you accepted the patient’s care.', '**2. Breach of duty**: care fell below the standard (doing harm, or failing to act).', '**3. Cause in fact**: the injury would not have happened otherwise.', '**4. Proximate cause**: the harm was foreseeable.', '**5. Damages**: actual loss, pain and suffering.'], why: 'All five must be proved. Malpractice is negligence by a professional.' },
+    { h: 'Chapter 9: the transactional model of communication', b: ['Both people are **communicators**, sending and receiving at once.', 'Parts: message, channel, feedback, encoding and decoding, context, and noise.', '**Context**: social, relational and cultural.', '**Noise**: physical (a loud unit), physiological (pain, fatigue), psychological (preoccupation).', 'Peplau’s two principles: **clarity** and **continuity**.'] },
+    { h: 'Chapter 9: setting up the interview', b: ['Let the patient set the **pace**.', 'A private spot that is still **in view of others**.', 'Sit or stand at the **same height**.', '**Don’t put the patient between you and the door**, and don’t make the patient feel trapped.', 'Distance: intimate to 18 inches; **personal 18 inches to 4 feet**; social 4 to 12 feet; public beyond 12 feet. Use personal to social distance; give more room for anxiety or paranoia.'] }
+  ],
+  recall: [
+    ['Name QSEN’s six areas.', '**Patient-centered care, teamwork and collaboration, evidence-based practice, quality improvement, safety, informatics**.'],
+    ['Five elements needed to prove negligence?', '**Duty, breach of duty, cause in fact, proximate cause, damages**.'],
+    ['What is a double-bind message?', 'Contradictory messages from someone with power, so **any choice is wrong**.'],
+    ['Which parity law came in 2008?', 'The **Wellstone-Domenici Parity Act**.'],
+    ['Personal distance is how far?', '**18 inches to 4 feet**.'],
+    ['Where should the patient NOT be seated?', '**Between the nurse and the door**.'],
+    ['Which antidepressant is taken with food to be absorbed?', '**Vilazodone**.']
+  ]
+}
 ];

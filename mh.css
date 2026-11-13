@@ -82,3 +82,48 @@ button { font: inherit; color: inherit; }
 .mh-tag { align-self: flex-start; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--color-divider); color: var(--color-neutral-300); }
 .mh-sata { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--color-accent-2-300); }
 .mh-hist { font-size: 13px; color: var(--color-neutral-400); margin: 0; }
+
+/* pictures to draw from memory (data/*/figures.js) */
+.mh-fig { padding: 0; margin-bottom: 8px; overflow: hidden; }
+.mh-fig > summary { cursor: pointer; list-style: none; padding: 12px 14px; display: grid; gap: 3px; }
+.mh-fig > summary::-webkit-details-marker { display: none; }
+.mh-fig > summary b { font-size: 15.5px; }
+.mh-fig > summary span { font-size: 14px; color: var(--color-neutral-300); }
+.mh-fig > summary em { font-style: normal; font-size: 12.5px; color: var(--color-accent-300); margin-top: 4px; }
+.mh-fig[open] > summary em { display: none; }
+.mh-figbody { padding: 4px 12px 14px; }
+.mh-fignote { margin: 0; padding: 0 14px 12px; font-size: 13.5px; color: var(--color-neutral-300); }
+.mh-figlist { display: flex; flex-wrap: wrap; gap: 6px; }
+.fg-box, .fg-card, .fg-lvl { border: 1px solid var(--color-divider); border-radius: 12px; background: var(--color-neutral-900); padding: 9px 11px; font-size: 13.5px; line-height: 1.35; min-width: 0; }
+.fg-box b, .fg-card b, .fg-lvl b { display: block; font-size: 14px; color: var(--color-neutral-100); }
+.fg-box span, .fg-lvl span { display: block; color: var(--color-neutral-300); margin-top: 2px; }
+.fg-box b b, .fg-box span b, .fg-card li b, .fg-lvl span b, .fg-tbl td b { display: inline; color: var(--color-accent-200); font-size: inherit; }
+.fg-flow { display: flex; flex-direction: column; gap: 4px; }
+.fg-arrow { align-self: center; width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 9px solid var(--color-accent-500); }
+.fg-flow.meet .fg-arrow { border-top-color: var(--color-neutral-500); }
+@media (min-width: 720px) {
+  .fg-flow { flex-direction: row; align-items: stretch; }
+  .fg-flow .fg-box { flex: 1 1 0; }
+  .fg-arrow { border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 9px solid var(--color-accent-500); border-right: 0; }
+  .fg-flow.meet .fg-arrow { border-left-color: var(--color-neutral-500); }
+}
+.fg-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 6px; }
+.fg-cols.three { grid-template-columns: repeat(auto-fit, minmax(min(46%, 150px), 1fr)); }
+.fg-card ul { margin: 4px 0 0; padding-left: 16px; color: var(--color-neutral-300); }
+.fg-card li { margin: 2px 0; }
+.fg-pyr { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.fg-lvl { text-align: center; box-sizing: border-box; }
+.fg-lvl:last-child { border-color: var(--color-accent); background: var(--color-accent-900); }
+.fg-tri { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.fg-tri .fg-box:first-child { grid-column: 1 / -1; justify-self: center; width: min(100%, 260px); text-align: center; }
+.fg-box.gold, .fg-card.gold { border-color: var(--color-accent); background: var(--color-accent-900); }
+.fg-box.warn, .fg-card.warn { border-color: #a0522d; background: rgba(160, 82, 45, .16); }
+.fg-box.cool, .fg-card.cool { border-color: var(--color-accent-2-600); background: rgba(47, 191, 106, .09); }
+.fg-tblw { overflow-x: auto; }
+.fg-tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.fg-tbl th, .fg-tbl td { text-align: left; vertical-align: top; padding: 7px 8px; border: 1px solid var(--color-divider); }
+.fg-tbl tr:first-child th { font-size: 12px; color: var(--color-neutral-400); font-weight: 600; }
+.fg-tbl th[scope="row"] { color: var(--color-neutral-100); font-weight: 600; border-left-width: 4px; }
+.fg-tbl tr.t1 th[scope="row"] { border-left-color: #c58af9; } .fg-tbl tr.t2 th[scope="row"] { border-left-color: #5cc8ff; }
+.fg-tbl tr.t3 th[scope="row"] { border-left-color: #ff9d5c; } .fg-tbl tr.t4 th[scope="row"] { border-left-color: #f5c400; }
+.fg-tbl tr.t5 th[scope="row"] { border-left-color: #2fbf6a; } .fg-tbl tr.t6 th[scope="row"] { border-left-color: #ff7a90; }

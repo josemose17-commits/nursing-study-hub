@@ -120,6 +120,7 @@
   var readT = load('topics', {});
   function topicsHome() {
     return (focused()?'<div class="glass cj-intro"><h2>Exam 4 study guide</h2><p>Work through the assigned chapters and the two Chapter 9 sections. This same focus applies to Learn, practice, tests and missed-question review.</p></div>':'<div class="glass cj-intro"><h2>The syllabus topics</h2><p>' + CFG.topicsIntro + (CFG.noThink ? '' : ' <button class="linkbtn" data-go="think">Think it through</button>.') + '</p></div>') +
+      (Object.keys(FIGS).length ? '<section class="cj-sys"><h2>Draw it from memory</h2><div class="mh-figlist">' + TOPICS.filter(function (t) { return FIGS[t.id]; }).map(function (t) { return FIGS[t.id].map(function (f) { return '<button class="pill" data-go="t-' + t.id + '">' + esc(f.title) + '</button>'; }).join(''); }).join('') + '</div></section>' : '') +
       CFG.weeks.map(function (W) { var w = W[0];
         var list = TOPICS.filter(function (t) { return t.week === w; });
         if (!list.length) return '';
@@ -128,13 +129,21 @@
         }).join('') + '</div></section>';
       }).join('');
   }
+  // Pictures (window.MH_FIGS[topic id]): the prompt shows first so the student draws it from memory, then opens the diagram to check.
+  var FIGS = window.MH_FIGS || {};
+  function figsHtml(list) {
+    if (!list || !list.length) return '';
+    return '<div class="mh-sec"><div class="cj-h">Picture it · draw it from memory, then check</div>' + list.map(function (f) {
+      return '<details class="glass mh-fig"><summary><b>' + esc(f.title) + '</b><span>' + esc(f.ask) + '</span><em>Show the picture</em></summary><div class="mh-figbody">' + f.html + '</div>' + (f.note ? '<p class="mh-fignote">' + md(f.note) + '</p>' : '') + '</details>';
+    }).join('') + '</div>';
+  }
   function topicHtml(t) {
     readT[t.id] = 1; save('topics', readT);
     var i = TOPICS.indexOf(t), prev = TOPICS[i - 1], next = TOPICS[i + 1];
     var qn = QS.filter(function (q) { return q.link === 't-' + t.id; }).length;
     return '<div class="cj-top"><button class="pill" data-go="topics">← All topics</button></div>' +
       '<div class="glass cj-head"><div class="kicker">Week ' + t.week + ' · ' + esc(t.ch) + '</div><h2>' + esc(t.title) + '</h2><p class="mh-lead">' + md(t.lead) + '</p></div>' +
-      videosHtml(vidsFor(t.id)) +
+      videosHtml(vidsFor(t.id)) + figsHtml(FIGS[t.id]) +
       (t.terms && t.terms.length ? '<div class="mh-sec"><div class="cj-h">Key words, explained · tap one</div><div class="cj-terms">' + t.terms.map(termHtml).join('') + '</div></div>' : '') +
       '<div class="mh-sec"><div class="cj-h">Notes · tap a card</div>' + t.cards.map(cardHtml).join('') + '</div>' +
       '<div class="mh-sec">' + flipsHtml(t.recall) + '</div>' +

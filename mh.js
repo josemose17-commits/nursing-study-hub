@@ -119,7 +119,7 @@
   // ---------- Topics ----------
   var readT = load('topics', {});
   function topicsHome() {
-    return (focused()?'<div class="glass cj-intro"><h2>Exam 4 study guide</h2><p>Work through the assigned chapters and the two Chapter 9 sections. This same focus applies to Learn, practice, tests and missed-question review.</p></div>':'<div class="glass cj-intro"><h2>The syllabus topics</h2><p>' + CFG.topicsIntro + ' <button class="linkbtn" data-go="think">Think it through</button>.</p></div>') +
+    return (focused()?'<div class="glass cj-intro"><h2>Exam 4 study guide</h2><p>Work through the assigned chapters and the two Chapter 9 sections. This same focus applies to Learn, practice, tests and missed-question review.</p></div>':'<div class="glass cj-intro"><h2>The syllabus topics</h2><p>' + CFG.topicsIntro + (CFG.noThink ? '' : ' <button class="linkbtn" data-go="think">Think it through</button>.') + '</p></div>') +
       CFG.weeks.map(function (W) { var w = W[0];
         var list = TOPICS.filter(function (t) { return t.week === w; });
         if (!list.length) return '';
@@ -263,8 +263,8 @@
   var VIEW_OF = { c: 'think', t: 'topics', p: 'practice' };
   function route() {
     var h;try{h=decodeURIComponent(location.hash.slice(1));}catch(_){h='';}
-    h=h||(focused()?'topics':'think');var m = /^([ctp])-(.+)$/.exec(h), view = m ? VIEW_OF[m[1]] : h;
-    if (['think', 'topics', 'practice', 'test'].indexOf(view) < 0) view = 'think';
+    h=h||(focused()||CFG.noThink?'topics':'think');var m = /^([ctp])-(.+)$/.exec(h), view = m ? VIEW_OF[m[1]] : h;
+    if (['think', 'topics', 'practice', 'test'].indexOf(view) < 0 || (CFG.noThink && view === 'think')) view = CFG.noThink ? 'topics' : 'think';
     tabs.querySelectorAll('[data-go]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.go === view ? 'true' : 'false'); });
     var html;
     var outside=false,entry;

@@ -143,14 +143,24 @@
     var qn = QS.filter(function (q) { return q.link === 't-' + t.id; }).length;
     return '<div class="cj-top"><button class="pill" data-go="topics">← All topics</button></div>' +
       '<div class="glass cj-head"><div class="kicker">Week ' + t.week + ' · ' + esc(t.ch) + '</div><h2>' + esc(t.title) + '</h2><p class="mh-lead">' + md(t.lead) + '</p></div>' +
-      videosHtml(vidsFor(t.id)) + figsHtml(FIGS[t.id]) +
+      (CFG.doFirst
+        ? figsHtml(FIGS[t.id]) + videosHtml(vidsFor(t.id)) +
+        '<div class="glass cj-bottom"><div class="cj-h">' + (CFG.doFirst ? 'Now do it' : 'Practice') + '</div><div class="cj-links">' +
+        (qn ? '<button class="pill gold" data-test-link="t-' + t.id + '">Test: ' + qn + ' question' + (qn > 1 ? 's' : '') + ' on this →</button>' : '') +
+        DRILLS.filter(function (d) { return d.topic === t.id; }).map(function (d) { return '<button class="pill" data-go="p-' + d.id + '">Drill: ' + esc(d.title) + ' →</button>'; }).join('') +
+      '</div></div>' +
+        '<div class="mh-sec">' + flipsHtml(t.recall) + '</div>' +
+        '<div class="mh-sec"><div class="cj-h">All the notes · read these for anything you missed</div></div>' +
+  (t.terms && t.terms.length ? '<div class="mh-sec"><div class="cj-h">Key words, explained · tap one</div><div class="cj-terms">' + t.terms.map(termHtml).join('') + '</div></div>' : '') +
+        '<div class="mh-sec"><div class="cj-h">Notes · tap a card</div>' + t.cards.map(cardHtml).join('') + '</div>'
+        : videosHtml(vidsFor(t.id)) + figsHtml(FIGS[t.id]) +
       (t.terms && t.terms.length ? '<div class="mh-sec"><div class="cj-h">Key words, explained · tap one</div><div class="cj-terms">' + t.terms.map(termHtml).join('') + '</div></div>' : '') +
       '<div class="mh-sec"><div class="cj-h">Notes · tap a card</div>' + t.cards.map(cardHtml).join('') + '</div>' +
       '<div class="mh-sec">' + flipsHtml(t.recall) + '</div>' +
       '<div class="glass cj-bottom"><div class="cj-h">Practice</div><div class="cj-links">' +
         (qn ? '<button class="pill gold" data-test-link="t-' + t.id + '">Test: ' + qn + ' question' + (qn > 1 ? 's' : '') + ' on this →</button>' : '') +
         DRILLS.filter(function (d) { return d.topic === t.id; }).map(function (d) { return '<button class="pill" data-go="p-' + d.id + '">Drill: ' + esc(d.title) + ' →</button>'; }).join('') +
-      '</div></div>' +
+      '</div></div>') +
       '<div class="cj-pager">' + (prev ? '<button class="pill" data-go="t-' + prev.id + '">← ' + esc(prev.title) + '</button>' : '<span></span>') + (next ? '<button class="pill" data-go="t-' + next.id + '">' + esc(next.title) + ' →</button>' : '') + '</div>';
   }
 

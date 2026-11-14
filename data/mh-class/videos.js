@@ -1,0 +1,28 @@
+// Exam 4 · Class review videos: the same verified videos used on the Exam 4 and 5 maps, tagged to the class topics.
+window.MH_VIDEOS = [
+  {"id": "Nk3uzY4LDpc", "title": "The mental health continuum", "see": "Mental health as a range that people move along, not an on/off switch", "tags": ["screen"]},
+  {"id": "s86DDGAqkS4", "title": "Stress, general adaptation syndrome and anxiety (Level Up RN)", "see": "Alarm, resistance and exhaustion, and the levels of anxiety", "tags": ["screen"]},
+  {"id": "QAeBKRaNri0", "title": "2-Minute Neuroscience: the HPA axis", "see": "Hypothalamus (CRH) → pituitary (ACTH) → adrenal cortex (cortisol), and the feedback loop", "tags": ["screen"]},
+  {"id": "Jh3wd4AFT4c", "title": "12 warning signs of suicide (Child Mind Institute)", "see": "The behavior changes that come before an attempt: giving things away, saying goodbye, sudden calm", "tags": ["screen", "lecture"]},
+  {"id": "tiHddrNpxqA", "title": "Suicide risk assessment (nurselyf)", "see": "Warning signs, screening tools and the nurse’s first actions", "tags": ["lecture", "screen"]},
+  {"id": "uEod4sa-qPc", "title": "Major depressive disorder (Level Up RN)", "see": "The criteria, the safety priorities and how to talk with a withdrawn patient", "tags": ["dsm"]},
+  {"id": "b_n9qegR7C4", "title": "The psychology of PTSD (TED-Ed)", "see": "How a trauma memory stays “live”: intrusions, avoidance, mood changes and hyperarousal", "tags": ["dsm"]},
+  {"id": "UyY3VVumHvM", "title": "Schizophrenia (Level Up RN)", "see": "The symptom groups, the speech terms, and how the nurse responds to hallucinations and delusions", "tags": ["dsm"]},
+  {"id": "AUff0cYX1Ao", "title": "Neuroleptic malignant syndrome explained (Rhesus Medicine)", "see": "Rigidity, fever, altered mental status and autonomic instability; how it is treated", "tags": ["dsm"]},
+  {"id": "30b2J74rssk", "title": "Serotonin syndrome explained (Rhesus Medicine)", "see": "Why too much serotonin causes fever, clonus and agitation, and how it is treated", "tags": ["dsm"]},
+  {"id": "PnmOpGoGZYw", "title": "Medications for schizophrenia (Level Up RN)", "see": "First vs second generation, EPS, NMS, metabolic effects and clozapine monitoring", "tags": ["dsm"]},
+  {"id": "jQvkjEjgib0", "title": "Defense mechanisms (Level Up RN)", "see": "Each defense mechanism with an example of what the patient says", "tags": ["freud"]},
+  {"id": "t_59thyrje8", "title": "Nurse–client relationship and therapeutic communication (Level Up RN)", "see": "The phases of the relationship, boundaries and the techniques", "tags": ["freud", "peplau", "extras"]},
+  {"id": "CwZn-nxAvP4", "title": "Peplau’s interpersonal relations theory", "see": "The phases of the nurse–patient relationship", "tags": ["peplau"]},
+  {"id": "6EAcTjUzhNI", "title": "Milieu, group and behavioral therapy (Level Up RN)", "see": "How the unit itself is used as treatment", "tags": ["behavior"]},
+  {"id": "oHRTdJ_bcjw", "title": "CBT, EMDR and TMS (Level Up RN)", "see": "What each therapy does and who it is for", "tags": ["cognitive"]},
+  {"id": "9c_Bv_FBE-c", "title": "What is CBT? (Mind)", "see": "Thoughts, feelings and behaviors as a loop you can break", "tags": ["cognitive"]},
+  {"id": "lDnvZS5DP68", "title": "What is dialectical behavior therapy? (Psych Hub)", "see": "Mindfulness, distress tolerance, emotion regulation and interpersonal skills", "tags": ["cognitive"]},
+  {"id": "0gZimLvfC2g", "title": "Therapeutic vs nontherapeutic communication (Level Up RN)", "see": "Each technique with an example, and the blocks to avoid", "tags": ["humanistic", "lecture"]},
+  {"id": "eTmQWS6djyc", "title": "Neurotransmitters and teaching for psych meds (Level Up RN)", "see": "Which neurotransmitter each drug class raises or blocks, and the teaching points that follow", "tags": ["bio"]},
+  {"id": "AcmarVpo2xE", "title": "The truth about ECT (TED-Ed)", "see": "How ECT is done today under anesthesia, who it helps, and its memory side effects", "tags": ["bio"]},
+  {"id": "aYCBdZLCDBQ", "title": "Erikson’s 8 stages (Sprouts)", "see": "Each stage’s crisis and what happens when it is or isn’t resolved", "tags": ["bio"]},
+  {"id": "3o9ClIbVXDE", "title": "Extrapyramidal symptoms explained (MEDMAX)", "see": "Acute dystonia, akathisia, parkinsonism and tardive dyskinesia, and when each appears", "tags": ["bio"]},
+  {"id": "ETzFRQ4Drvo", "title": "Torts and restraints (Level Up RN)", "see": "False imprisonment, assault and battery, and the rules for restraint and seclusion", "tags": ["extras"]},
+  {"id": "V2H3qV67wUc", "title": "Informed consent and ethical principles (Level Up RN)", "see": "Autonomy, beneficence, nonmaleficence, justice, fidelity and veracity, with examples", "tags": ["extras"]}
+];

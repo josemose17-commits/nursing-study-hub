@@ -124,7 +124,7 @@
       CFG.weeks.map(function (W) { var w = W[0];
         var list = TOPICS.filter(function (t) { return t.week === w; });
         if (!list.length) return '';
-        return '<section class="cj-sys"><h2>' + (focused()?'Assigned topics':'Week '+w) + '</h2><div class="mh-topics">' + list.map(function (t) {
+        return '<section class="cj-sys"><h2>' + (focused()?'Assigned topics':CFG.namedWeeks?esc(W[1]):'Week '+w) + '</h2><div class="mh-topics">' + list.map(function (t) {
           return '<button class="glass mh-topic" data-go="t-' + t.id + '"><small class="cj-ch">' + esc(t.ch) + '</small><b>' + esc(t.title) + '</b><span>' + esc(t.short) + '</span>' + (readT[t.id] ? '<small class="mh-done">✓ opened</small>' : '') + '</button>';
         }).join('') + '</div></section>';
       }).join('');
@@ -142,7 +142,7 @@
     var i = TOPICS.indexOf(t), prev = TOPICS[i - 1], next = TOPICS[i + 1];
     var qn = QS.filter(function (q) { return q.link === 't-' + t.id; }).length;
     return '<div class="cj-top"><button class="pill" data-go="topics">← All topics</button></div>' +
-      '<div class="glass cj-head"><div class="kicker">Week ' + t.week + ' · ' + esc(t.ch) + '</div><h2>' + esc(t.title) + '</h2><p class="mh-lead">' + md(t.lead) + '</p></div>' +
+      '<div class="glass cj-head"><div class="kicker">' + (CFG.namedWeeks ? '' : 'Week ' + t.week + ' · ') + esc(t.ch) + '</div><h2>' + esc(t.title) + '</h2><p class="mh-lead">' + md(t.lead) + '</p></div>' +
       (CFG.doFirst
         ? figsHtml(FIGS[t.id]) + videosHtml(vidsFor(t.id)) +
         '<div class="glass cj-bottom"><div class="cj-h">' + (CFG.doFirst ? 'Now do it' : 'Practice') + '</div><div class="cj-links">' +

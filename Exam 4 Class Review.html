@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#04160e">
-<title>Exam 4 · Class Review and Chapters</title>
+<title>Exam 4 · Study</title>
 <link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
 <link rel="stylesheet" href="cj-view.css?v=202610311800">
 <link rel="stylesheet" href="mh.css?v=202611132100">
@@ -13,29 +13,60 @@
 <main>
   <div>
     <div class="kicker">NRS 114 · Mental Health · Exam 4</div>
-    <h1>Exam 4: class first, then every assigned chapter.</h1>
+    <h1>Exam 4: everything in one place.</h1>
   </div>
-  <p class="lead">Everything for Exam 4 in one place, in your order: see it, do it, then read it. The class material comes first (the instructor’s PowerPoint, the lecture notes and the questions shown in class). Then every chapter the professor assigned: 1, 2, 3, 6, Peplau and communication from 9, and 34. The Test covers all of it, and you can test class or chapters on their own.</p>
-  <p><a class="btn btn-secondary" href="Exam 4 Map.html#topics">← Exam 4 study guide (textbook chapters)</a></p>
+  <p class="lead">All of Exam 4 on one page: the instructor’s PowerPoint and lecture, every textbook chapter topic (1, 2, 3, 5, 6, 8, 9, 10, 15, 16, 34), and the disorders (depression, bipolar, anxiety, OCD, PTSD, suicide and self-harm). Each topic runs in your order: picture, video, drill and test, then the notes. One test covers it all, and you can test class, chapters or disorders on their own.</p>
+  <p><a class="btn btn-secondary" href="Exam 4 Learn.html">Guided lessons for what you missed →</a></p>
   <nav class="mh-tabs" id="mh-tabs" role="tablist" aria-label="Views">
     <button role="tab" data-go="topics">Topics</button>
+    <button role="tab" data-go="think">Disorders</button>
     <button role="tab" data-go="practice">Practice</button>
     <button role="tab" data-go="test">Test</button>
   </nav>
   <section id="cj" class="mh" aria-live="polite"></section>
 </main>
 <script>
-window.MH_CFG = { prefix: 'e4-class-', noThink: true, doFirst: true, namedWeeks: true, weeks: [[11, 'From class: slides and lecture'], [12, 'Assigned chapters: 1, 2, 3, 6, 9, 34']],
-  topicsIntro: 'Start with the class topics: they show what your professor emphasized. Then work through the assigned chapters. Every topic runs: draw the picture, watch the video, do the drill and test, then the full notes for anything you missed.' };
+window.MH_CFG = { prefix: 'e4-class-', noun: 'disorder', who: 'The patient', doFirst: true, namedWeeks: true, weeks: [[11, 'From class: slides and lecture'], [12, 'Textbook chapters'], [13, 'Disorders']],
+  topicsIntro: 'Class topics first (what your professor emphasized), then every textbook chapter topic, then a quick review of each assigned chapter. The disorders are walked through step by step under' };
 </script>
-<script src="data/mh-class/videos.js?v=202611151200"></script>
-<script src="data/mh-class/figures.js?v=202611151200"></script>
-<script src="data/mh-class/topics.js?v=202611151200"></script>
-<script src="data/mh-class/drills.js?v=202611151200"></script>
-<script src="data/mh-class/questions.js?v=202611151200"></script>
-<script src="data/mh-class/topics2.js?v=202611151200"></script>
+<script src="data/mh/videos.js?v=202610312000"></script>
+<script src="data/mh/cond-mood.js?v=202610312000"></script>
+<script src="data/mh/cond-safety.js?v=202610311800"></script>
+<script src="data/mh/cond-anxiety.js?v=202610312000"></script>
+<script src="data/mh/cond-trauma.js?v=202610311800"></script>
+<script src="data/mh/topics.js?v=202611091345"></script>
+<script src="data/mh/drills.js?v=202611091345"></script>
+<script src="data/mh/questions.js?v=202611091631"></script>
+<script>
+// Exam 4 = the textbook map data (data/mh) plus the class review (data/mh-class), merged into one page.
+// Groups: 11 from class, 12 textbook chapters, 13 disorders.
+window.MH_A = { conds: window.MH_CONDS || [], topics: window.MH_TOPICS || [], drills: window.MH_DRILLS || [], qs: window.MH_Q || [], vids: window.MH_VIDEOS || [] };
+window.MH_CONDS = window.MH_TOPICS = window.MH_DRILLS = window.MH_Q = window.MH_VIDEOS = undefined;
+</script>
+<script src="data/mh-class/videos.js?v=202611151800"></script>
+<script src="data/mh-class/figures.js?v=202611151800"></script>
+<script src="data/mh-class/topics.js?v=202611151800"></script>
+<script src="data/mh-class/drills.js?v=202611151800"></script>
+<script src="data/mh-class/questions.js?v=202611151800"></script>
+<script src="data/mh-class/topics2.js?v=202611151800"></script>
+<script>
+(function (A, W) {
+  A.conds.forEach(function (c) { c.week = 13; });
+  A.topics.forEach(function (t) { t.week = 12; });
+  A.qs.forEach(function (q) { q.wk = /^c-/.test(q.link) ? 13 : 12; });
+  var classTopics = W.MH_TOPICS.filter(function (t) { return t.week === 11; }), quick = W.MH_TOPICS.filter(function (t) { return t.week !== 11; });
+  W.MH_CONDS = A.conds;
+  W.MH_TOPICS = classTopics.concat(A.topics, quick);
+  W.MH_DRILLS = W.MH_DRILLS.concat(A.drills);
+  W.MH_Q = W.MH_Q.concat(A.qs);
+  var seen = {}; W.MH_VIDEOS = W.MH_VIDEOS.concat(A.vids).filter(function (v) {
+    if (seen[v.id]) { v.tags.forEach(function (t) { if (seen[v.id].tags.indexOf(t) < 0) seen[v.id].tags.push(t); }); return false; }
+    seen[v.id] = v; v.tags = v.tags.slice(); return true;
+  });
+})(window.MH_A, window);
+</script>
 <script src="mh.js?v=202611151200"></script>
-<script src="nav.js?v=202611151500"></script>
+<script src="nav.js?v=202611151800"></script>
 <script src="say.js?v=202611081800"></script>
 </body>
 </html>

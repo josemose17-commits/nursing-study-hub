@@ -4,7 +4,7 @@
 (function (W) {
   W.MH_TOPICS.push(
   {
-    id: 'ch1', week: 12, ch: 'Chapter 1', title: 'Mental health and mental illness',
+    id: 'ch1', week: 12, ch: 'Chapter 1', title: 'Chapter 1 quick review',
     short: 'The continuum, causes, recovery, epidemiology, DSM-5 language and the two levels of psychiatric nurse.',
     lead: 'Mental health is well-being: reaching your potential, coping with normal stress, working and contributing. **Mental illness** is a diagnosable disorder that disturbs thinking, emotion or behavior and causes distress or impaired functioning. Everyone sits somewhere on a **continuum** between the two and can move along it.',
     cards: [
@@ -23,7 +23,7 @@
     ]
   },
   {
-    id: 'ch2', week: 12, ch: 'Chapter 2', title: 'Theories in the textbook, beyond the slides',
+    id: 'ch2', week: 12, ch: 'Chapter 2', title: 'Chapter 2 quick review: beyond the slides',
     short: 'Freud’s levels and stages, Sullivan, interpersonal therapy, Ellis, exposure types, and the development theorists.',
     lead: 'The slides covered the main theories. The chapter adds **Freud’s levels of awareness and stages**, **Sullivan**, three short-term therapies, and the **development** theorists: Erikson, Piaget, Kohlberg, Gilligan and Mahler.',
     cards: [
@@ -41,7 +41,7 @@
     ]
   },
   {
-    id: 'ch3', week: 12, ch: 'Chapter 3', title: 'Brain and psych meds: the whole chapter',
+    id: 'ch3', week: 12, ch: 'Chapter 3', title: 'Chapter 3 quick review: every drug class',
     short: 'Brain structures, how drugs act, and the key nursing point for every drug class in the chapter.',
     lead: 'Psych drugs work by changing **neurotransmitters**: blocking receptors (**antagonists**), stimulating them (**agonists**), blocking **reuptake**, or blocking the enzymes that break them down. Know each class’s **main risk** and **teaching point**.',
     cards: [
@@ -62,7 +62,7 @@
     ]
   },
   {
-    id: 'ch6', week: 12, ch: 'Chapter 6', title: 'Legal and ethical care: the whole chapter',
+    id: 'ch6', week: 12, ch: 'Chapter 6', title: 'Chapter 6 quick review: the whole chapter',
     short: 'Six ethical principles, admissions and discharges, patient rights, restraint rules, confidentiality and torts.',
     lead: 'Psychiatric patients can be vulnerable, so the law protects their **rights** and the nurse must know the rules for **admission, consent, restraint and confidentiality**.',
     cards: [
@@ -81,7 +81,7 @@
     ]
   },
   {
-    id: 'ch9', week: 12, ch: 'Chapter 9', title: 'Communication skills for nurses',
+    id: 'ch9', week: 12, ch: 'Chapter 9', title: 'Chapter 9 quick review: communication skills',
     short: 'Therapeutic techniques versus blocks, verbal and nonverbal messages, culture, and setting up the interview.',
     lead: 'Therapeutic communication is **goal-directed** and **patient-centered**. Pick the reply that keeps the patient talking about **their** feelings: reflect, restate, explore, clarify. Avoid replies that judge, advise, reassure falsely or change the subject.',
     cards: [
@@ -97,7 +97,7 @@
     ]
   },
   {
-    id: 'ch34', week: 12, ch: 'Chapter 34', title: 'Therapeutic groups',
+    id: 'ch34', week: 12, ch: 'Chapter 34', title: 'Chapter 34 quick review: groups',
     short: 'Yalom’s curative factors, content versus process, group phases, member roles, leadership styles and hard members.',
     lead: 'A therapeutic group helps several people grow at once. The leader manages both the **content** (what is said) and the **process** (how members interact), and guides the group through its **phases**.',
     cards: [

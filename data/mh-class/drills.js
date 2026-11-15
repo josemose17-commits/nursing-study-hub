@@ -1,7 +1,7 @@
 // Exam 4 · Class review drills (from the instructor's PowerPoint topics; items written for this site).
 window.MH_DRILLS = [
 {
-  id: 'defense', type: 'sort', kind: 'Name it', topic: 'freud', title: 'Name the defense mechanism',
+  id: 'defend', type: 'sort', kind: 'Name it', topic: 'freud', title: 'Name the defense mechanism',
   intro: 'Read what the person does and name the defense mechanism from class.', ask: 'Which defense mechanism is this?',
   choices: ['Denial', 'Displacement', 'Projection', 'Rationalization', 'Regression', 'Sublimation'],
   items: [

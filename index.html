@@ -186,27 +186,19 @@
     <div class="kicker">NRS 114 · Mental Health · Exam 4</div>
     <h1>Exam 4: one place to study.</h1>
   </div>
-  <p class="lead">Exam 4 is on November 18. Everything you need is on one page: the instructor’s PowerPoint and lecture first, then every assigned chapter (1, 2, 3, 6, Peplau and communication from 9, and 34), with pictures, videos, drills and one test.</p>
+  <p class="lead">Exam 4 is on November 18. Everything is on one page: the instructor’s PowerPoint and lecture, every textbook chapter, and the disorders, with pictures, videos, drills and one test.</p>
 
   <div class="glass next e4main">
-    <div><b data-e4="title">Start here</b><span data-e4="body">Draw the pictures and watch the videos, do the drills, then take the test. Read the notes only for what you miss.</span><small data-e4="status"></small></div>
+    <div><b data-e4="title">Start here</b><span data-e4="body">Everything for Exam 4 is on one page. Draw the pictures and watch the videos, do the drills, walk through the disorders, then take the test. Read the notes for what you miss.</span><small data-e4="status"></small></div>
     <a class="btn btn-primary go" data-e4="go" href="Exam 4 Class Review.html">Open Exam 4 study</a>
     <ol class="e4steps">
-      <li><a href="Exam 4 Class Review.html#topics"><span>1</span>See it: pictures and videos</a></li>
+      <li><a href="Exam 4 Class Review.html#topics"><span>1</span>See it: pictures, videos and notes</a></li>
       <li><a href="Exam 4 Class Review.html#practice"><span>2</span>Do it: drills</a></li>
-      <li><a href="Exam 4 Class Review.html#test"><span>3</span>Prove it: the test (117 questions)</a></li>
-      <li><a href="Exam 4 Learn.html"><span>4</span>Fix it: guided lessons on what you missed</a></li>
+      <li><a href="Exam 4 Class Review.html#think"><span>3</span>Think it through: the disorders step by step</a></li>
+      <li><a href="Exam 4 Class Review.html#test"><span>4</span>Prove it: the test (all of Exam 4)</a></li>
+      <li><a href="Exam 4 Learn.html"><span>5</span>Fix it: guided lessons on what you missed</a></li>
     </ol>
   </div>
-
-  <details class="glass e4more">
-    <summary>More Exam 4 material (optional)</summary>
-    <p>Extra practice if you finish the main page. It overlaps with it, so you don’t need it to be ready.</p>
-    <ul>
-      <li><a href="Exam 4 Map.html#test">Textbook question bank</a>: 89 more questions, including the disorders</li>
-      <li><a href="Exam 4 Map.html#think">Disorder walk-throughs</a>: depression, bipolar, anxiety, OCD, PTSD and suicide, step by step</li>
-    </ul>
-  </details>
 
   <div class="tiles">
     <div class="tiles-h">Tools for every exam</div>
@@ -342,7 +334,7 @@
     var T = read('e4-class-test') || {}, t = Object.keys(T), r = t.filter(function (k) { var h = T[k]; return h[h.length - 1] === 1; }).length;
     if (!t.length) return;
     var m = t.length - r;
-    q('status').textContent = r + ' of ' + t.length + ' right on the last try · 117 questions in all';
+    q('status').textContent = r + ' of ' + t.length + ' right on the last try';
     q('title').textContent = m ? m + ' question' + (m > 1 ? 's' : '') + ' to redo' : 'Keep going';
     q('body').textContent = m ? 'Open the test and choose “Missed last time,” then read the notes for those topics.' : 'Try the questions you haven’t done yet, then retest.';
     q('go').textContent = m ? 'Redo my misses' : 'Continue'; q('go').href = 'Exam 4 Class Review.html#test';
@@ -404,7 +396,7 @@
   box.hidden = false;
 })();
 </script>
-<script src="nav.js?v=202611151500"></script>
+<script src="nav.js?v=202611151800"></script>
 <script src="say.js?v=202610271830"></script>
 <script>
 (function () {

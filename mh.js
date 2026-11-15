@@ -87,7 +87,7 @@
       groups.map(function (g) {
         return '<section class="cj-sys"><h2>' + esc(g) + '</h2><div class="cj-conds">' + CONDS.filter(function (c) { return c.group === g; }).map(function (c) {
           var n = vidsFor(c.id).length;
-          return '<button class="glass cj-cond" data-go="c-' + c.id + '"><small class="cj-ch">Week ' + c.week + '</small><b>' + esc(c.name) + '</b><span>' + esc(c.short) + '</span>' + dots(c.id) +
+          return '<button class="glass cj-cond" data-go="c-' + c.id + '"><small class="cj-ch">' + (CFG.namedWeeks ? esc(c.group) : 'Week ' + c.week) + '</small><b>' + esc(c.name) + '</b><span>' + esc(c.short) + '</span>' + dots(c.id) +
             (n ? '<small>▶ ' + n + ' video' + (n > 1 ? 's' : '') + '</small>' : '') + '</button>';
         }).join('') + '</div></section>';
       }).join('');
@@ -96,7 +96,7 @@
     var i = CONDS.indexOf(c), prev = CONDS[i - 1], next = CONDS[i + 1];
     var qn = QS.filter(function (q) { return q.link === 'c-' + c.id; }).length;
     return '<div class="cj-top"><button class="pill" data-go="think">← All ' + (CFG.noun || 'disorder') + 's</button>' + quizBtn() + '</div>' +
-      '<div class="glass cj-head"><div class="kicker">' + esc(c.group) + ' · Week ' + c.week + '</div><h2>' + esc(c.name) + '</h2>' +
+      '<div class="glass cj-head"><div class="kicker">' + esc(c.group) + (CFG.namedWeeks ? '' : ' · Week ' + c.week) + '</div><h2>' + esc(c.name) + '</h2>' +
       '<p class="cj-patient"><span>' + (CFG.who || 'The client') + '</span>' + esc(c.patient) + '</p></div>' +
       videosHtml(vidsFor(c.id), 'Watch first') +
       '<ol class="cj-ladder">' + SK.filter(function (k) { return c.steps[k]; }).map(function (k, si, arr) {

@@ -232,10 +232,10 @@
     return '<div class="glass mh-play"><h2 style="margin:0">Test yourself</h2><p class="mh-lead">NCLEX-style questions: single answer and <b>select all that apply</b>. Each one shows the rationale, and the ones you miss come back under “Missed last time.”</p>' +
       '<p class="mh-hist">' + QS.length + ' questions · tried ' + tried + ' · right on the last try ' + right + '</p>' +
       '<div class="cj-h">Which questions</div><div class="mh-week">' + sets.map(function (s) { var n = qPool(s[0]).length; return '<button class="pill" data-set="' + s[0] + '"' + (n ? '' : ' disabled') + ' aria-pressed="' + (testSet === s[0]) + '">' + s[1] + ' · ' + n + '</button>'; }).join('') + '</div>' +
-      '<div class="cj-h">How many</div><div class="mh-week">' + [10, 20, 0].map(function (n) { return '<button class="pill" data-count="' + n + '" aria-pressed="' + (testCount === n) + '">' + (n || 'All') + '</button>'; }).join('') + '</div>' +
+      '<div class="cj-h">How many</div><div class="mh-week">' + (CFG.counts || [10, 20, 0]).map(function (n) { return '<button class="pill" data-count="' + n + '" aria-pressed="' + (testCount === n) + '">' + (n || 'All') + '</button>'; }).join('') + '</div>' +
       '<div class="mh-row"><button class="mh-btn" data-start>Start</button></div></div>';
   }
-  var testSet = 'all', testCount = 10;
+  var testSet = CFG.defaultSet || 'all', testCount = CFG.defaultCount || 10;
   function startTest(set, count) {
     var pool = shuffle(qPool(set));
     if (count) pool = pool.slice(0, count);

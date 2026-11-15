@@ -13,9 +13,9 @@
 <main>
   <div>
     <div class="kicker">NRS 114 · Mental Health · Exam 4</div>
-    <h1>Exam 4: everything in one place.</h1>
+    <h1>Exam 4: Chapters 3, 6, 9 and 34.</h1>
   </div>
-  <p class="lead">All of Exam 4 on one page: the instructor’s PowerPoint and lecture, every textbook chapter topic (1, 2, 3, 5, 6, 8, 9, 10, 15, 16, 34), and the disorders (depression, bipolar, anxiety, OCD, PTSD, suicide and self-harm). Each topic runs in your order: picture, video, drill and test, then the notes. One test covers it all, and you can test class, chapters or disorders on their own.</p>
+  <p class="lead">Your exam is about <b>40 questions</b> on <b>Chapter 3</b> (brain and psych meds), <b>Chapter 6</b> (legal and ethical), <b>Chapter 9</b> (Peplau’s model and communication skills) and <b>Chapter 34</b> (therapeutic groups). Those topics are first, and the Test opens on a 40-question practice exam from just those chapters. The rest of the class and textbook material is still here, further down, for extra review.</p>
   <p><a class="btn btn-secondary" href="Exam 4 Learn.html">Guided lessons for what you missed →</a></p>
   <nav class="mh-tabs" id="mh-tabs" role="tablist" aria-label="Views">
     <button role="tab" data-go="topics">Topics</button>
@@ -26,8 +26,8 @@
   <section id="cj" class="mh" aria-live="polite"></section>
 </main>
 <script>
-window.MH_CFG = { prefix: 'e4-class-', noun: 'disorder', who: 'The patient', doFirst: true, namedWeeks: true, weeks: [[11, 'From class: slides and lecture'], [12, 'Textbook chapters'], [13, 'Disorders']],
-  topicsIntro: 'Class topics first (what your professor emphasized), then every textbook chapter topic, then a quick review of each assigned chapter. The disorders are walked through step by step under' };
+window.MH_CFG = { prefix: 'e4-class-', noun: 'disorder', who: 'The patient', doFirst: true, namedWeeks: true, weeks: [[10, 'On the exam: Ch 3, 6, 9, 34'], [11, 'Also from class'], [12, 'Other chapters (1, 2, 5, 8, 10, 15, 16)'], [13, 'Disorders']], defaultSet: 'w10', counts: [40, 20, 10, 0], defaultCount: 40,
+  topicsIntro: 'The exam is about 40 questions on Chapter 3, Chapter 6, Chapter 9 (Peplau and communication) and Chapter 34. Those topics come first. Everything else is below for extra review. The disorders are walked through step by step under' };
 </script>
 <script src="data/mh/videos.js?v=202610312000"></script>
 <script src="data/mh/cond-mood.js?v=202610312000"></script>
@@ -54,9 +54,19 @@ window.MH_CONDS = window.MH_TOPICS = window.MH_DRILLS = window.MH_Q = window.MH_
   A.conds.forEach(function (c) { c.week = 13; });
   A.topics.forEach(function (t) { t.week = 12; });
   A.qs.forEach(function (q) { q.wk = /^c-/.test(q.link) ? 13 : 12; });
-  var classTopics = W.MH_TOPICS.filter(function (t) { return t.week === 11; }), quick = W.MH_TOPICS.filter(function (t) { return t.week !== 11; });
+  A.topics.forEach(function (t) { t.week = 12; });
+  // The professor's exam list: Chapter 3, Chapter 6, Chapter 9 (Peplau and communication) and Chapter 34, about 40 questions.
+  var ON = ['peplau', 'ch3', 'ch6', 'ch9', 'ch34', 'neuro', 'legal', 'settings', 'relationship', 'comm', 'groups'];
+  var ONQ = ['cq-dsm-5', 'cq-dsm-8', 'cq-dsm-9', 'cq-dsm-10', 'cq-dsm-11', 'cq-bio-4', 'cq-hum-3', 'cq-ext-1', 'cq-ext-2', 'cq-ext-4', 'cq-ext-5', 'cq-ext-6', 'cq-lec-1', 'cq-freud-3', 'cq-freud-4', 'cq-freud-5'];
+  var all = W.MH_TOPICS.concat(A.topics);
+  all.forEach(function (t) { if (ON.indexOf(t.id) >= 0) t.week = 10; });
+  W.MH_Q.concat(A.qs).forEach(function (q) { if (ON.indexOf(q.link.slice(2)) >= 0 || ONQ.indexOf(q.id) >= 0) q.wk = 10; });
+  var order = ['peplau', 'relationship', 'ch9', 'comm', 'ch3', 'neuro', 'ch6', 'legal', 'settings', 'ch34', 'groups'];
+  var onTopics = order.map(function (id) { return all.filter(function (t) { return t.id === id; })[0]; }).filter(Boolean);
+  var classTopics = W.MH_TOPICS.filter(function (t) { return t.week === 11; }), quick = W.MH_TOPICS.filter(function (t) { return t.week === 12; });
+  A.topics = A.topics.filter(function (t) { return t.week !== 10; });
   W.MH_CONDS = A.conds;
-  W.MH_TOPICS = classTopics.concat(A.topics, quick);
+  W.MH_TOPICS = onTopics.concat(classTopics, A.topics, quick);
   W.MH_DRILLS = W.MH_DRILLS.concat(A.drills);
   W.MH_Q = W.MH_Q.concat(A.qs);
   var seen = {}; W.MH_VIDEOS = W.MH_VIDEOS.concat(A.vids).filter(function (v) {
@@ -65,8 +75,8 @@ window.MH_CONDS = window.MH_TOPICS = window.MH_DRILLS = window.MH_Q = window.MH_
   });
 })(window.MH_A, window);
 </script>
-<script src="mh.js?v=202611151830"></script>
-<script src="nav.js?v=202611151800"></script>
+<script src="mh.js?v=202611152000"></script>
+<script src="nav.js?v=202611152000"></script>
 <script src="say.js?v=202611081800"></script>
 </body>
 </html>

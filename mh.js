@@ -11,7 +11,7 @@
   var CONDS = window.MH_CONDS || [], TOPICS = window.MH_TOPICS || [], DRILLS = window.MH_DRILLS || [], QS = window.MH_Q || [], VIDS = window.MH_VIDEOS || [];
   var root = document.getElementById('cj'), tabs = document.getElementById('mh-tabs');
   if (!root) return;
-  var GUIDE = CFG.prefix === 'e4-' && window.Exam4Guide, guideStore = GUIDE ? GUIDE.createStore({getItem:function(k){return localStorage.getItem(k);},setItem:function(k,v){localStorage.setItem(k,v);}}) : null;
+  var GUIDE = CFG.useGuide !== false && CFG.prefix === 'e4-' && window.Exam4Guide, guideStore = GUIDE ? GUIDE.createStore({getItem:function(k){return localStorage.getItem(k);},setItem:function(k,v){localStorage.setItem(k,v);}}) : null;
   var ALL = {conditions:CONDS,topics:TOPICS,drills:DRILLS,questions:QS}, guideMode = guideStore ? guideStore.mode() : 'all';
   var guideSlot = document.getElementById('e4-study-guide');
   function applyGuide() {
@@ -38,8 +38,9 @@
   // ---------- helpers ----------
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function md(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*([^*\s][^*]*?)\*/g, '$1<i>$2</i>'); }
-  function load(k, d) { try { var v = JSON.parse(localStorage.getItem(CFG.prefix + k)); return v == null ? d : v; } catch (e) { return d; } }
-  function save(k, v) { try { localStorage.setItem(CFG.prefix + k, JSON.stringify(v)); } catch (e) {} }
+  var storageWarning = false;
+  function load(k, d) { try { var v = JSON.parse(localStorage.getItem(CFG.prefix + k)); return v == null ? d : v; } catch (e) { storageWarning = true; return d; } }
+  function save(k, v) { try { localStorage.setItem(CFG.prefix + k, JSON.stringify(v)); return true; } catch (e) { storageWarning = true; return false; } }
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   function vidsFor(tag) { return VIDS.filter(function (v) { return v.tags.indexOf(tag) >= 0&&(!focused()||!Object.prototype.hasOwnProperty.call(GUIDE.videoIds,tag)||GUIDE.videoIds[tag].indexOf(v.id)>=0); }); }
   function videosHtml(list, label) {
@@ -218,50 +219,143 @@
   }
 
   // ---------- Test ----------
-  var hist = load('test', {}), test = null;
+  var hist = load('test', {}), testRuns = load('test-runs', []), savedResult = null;
+  var questionById = {};
+  ALL.questions.forEach(function (q) { questionById[q.id] = q; });
+  if (!Array.isArray(testRuns)) testRuns = [];
+  testRuns = testRuns.filter(function (r) { return r && typeof r.id === 'string' && Array.isArray(r.misses) && Array.isArray(r.questions) &&
+    Number.isInteger(r.score) && Number.isInteger(r.total) && r.total > 0 && Number.isFinite(r.finishedAt); }).slice(0, 10);
+  function migrateTestHistory() {
+    if (!CFG.legacyPrefix || load('legacy-test-migrated', false)) return;
+    try {
+      var old = JSON.parse(localStorage.getItem(CFG.legacyPrefix + 'test') || 'null');
+      if (old && typeof old === 'object') Object.keys(old).forEach(function (id) {
+        if (!Array.isArray(old[id])) return;
+        hist[id] = (hist[id] || []).concat(old[id]).slice(-5);
+      });
+      if (old) save('test', hist);
+      save('legacy-test-migrated', true);
+    } catch (e) { storageWarning = true; }
+  }
+  migrateTestHistory();
+  function restoreTestSession() {
+    var s = load('test-session', null);
+    if (!s || !Array.isArray(s.questions)) return null;
+    var qs = s.questions.map(function (id) { return questionById[id]; });
+    if (!qs.length || qs.some(function (q) { return !q; }) ||
+        !Number.isInteger(s.i) || s.i < 0 || s.i > qs.length ||
+        !Number.isInteger(s.score) || s.score < 0 || s.score > s.i) return null;
+    var misses = Array.isArray(s.misses) ? s.misses.map(function (id) { return questionById[id]; }).filter(Boolean) : [];
+    var q = qs[Math.min(s.i, qs.length - 1)];
+    var order = Array.isArray(s.order) && q && s.order.length === q.opts.length &&
+      new Set(s.order).size === q.opts.length && s.order.every(function (k) { return Number.isInteger(k) && k >= 0 && k < q.opts.length; })
+      ? s.order.slice() : [];
+    var sel = Array.isArray(s.sel) && q ? s.sel.filter(function (k, i, a) { return Number.isInteger(k) && k >= 0 && k < q.opts.length && a.indexOf(k) === i; }) : [];
+    return { qs:qs, i:s.i, score:s.score, misses:misses, sel:sel, order:order, answered:!!s.answered,
+      completed:!!s.completed, set:s.set || 'all', count:Number.isInteger(s.count) ? s.count : 0, startedAt:s.startedAt || Date.now() };
+  }
+  var test = restoreTestSession();
+  function saveTestSession() {
+    if (!test) return save('test-session', null);
+    return save('test-session', { questions:test.qs.map(function (q) { return q.id; }), i:test.i, score:test.score,
+      misses:test.misses.map(function (q) { return q.id; }), sel:test.sel, order:test.order, answered:test.answered,
+      completed:test.completed, set:test.set, count:test.count, startedAt:test.startedAt });
+  }
+  function saveNotice() {
+    return storageWarning ? '<p class="mh-save-warning" role="alert">Browser storage is unavailable. Test progress and results may not survive leaving this page.</p>' : '';
+  }
+  function finishTest() {
+    if (!test || test.completed) return;
+    test.completed = true;
+    var result = { id:Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7), finishedAt:Date.now(),
+      set:test.set, score:test.score, total:test.qs.length, questions:test.qs.map(function (q) { return q.id; }),
+      misses:test.misses.map(function (q) { return q.id; }) };
+    testRuns.unshift(result); testRuns = testRuns.slice(0, 10);
+    save('test-runs', testRuns);
+    saveTestSession();
+  }
+  function optionAnalysis(q, selected) {
+    var answers = multi(q) ? q.a : [q.a];
+    return '<details class="mh-option-analysis" open><summary>Each option</summary>' + q.opts.map(function (opt, k) {
+      var correct = answers.indexOf(k) >= 0, chose = selected.indexOf(k) >= 0;
+      var note = q.optionWhy && q.optionWhy[k] || (correct ? q.why : '');
+      return '<div class="mh-option-analysis-row"><b>' + (correct ? 'Correct answer' : 'Not correct for this item') + (chose ? ' · your choice' : '') + ': ' + md(opt) + '</b>' +
+        (note ? '<p>' + md(note) + '</p>' : '<p>A separate explanation for this distractor is not in the authored question source yet.</p>') + '</div>';
+    }).join('') + '</details>';
+  }
+  function reviewAllowed(q) { return !Number.isInteger(CFG.reviewWeek) || q.wk === CFG.reviewWeek; }
   function qPool(set) {
     if (/^w\d+$/.test(set)) return QS.filter(function (q) { return q.wk === +set.slice(1); });
-    if (set === 'miss') return QS.filter(function (q) { var h = hist[q.id]; return h && h[h.length - 1] === 0; });
-    if (set === 'new') return QS.filter(function (q) { return !hist[q.id]; });
+    if (set === 'miss') return QS.filter(function (q) { var h = hist[q.id]; return reviewAllowed(q) && h && h[h.length - 1] === 0; });
+    if (set === 'new') return QS.filter(function (q) { return reviewAllowed(q) && !hist[q.id]; });
     if (set && set.indexOf('link:') === 0) return QS.filter(function (q) { return q.link === set.slice(5); });
     return QS.slice();
   }
   function testHome() {
-    var tried = QS.filter(function(q){return hist[q.id];}).length, right = QS.filter(function(q){var h=hist[q.id];return h&&h[h.length-1]===1;}).length;
+    var selectedPool = qPool(testSet);
+    var tried = selectedPool.filter(function(q){return hist[q.id];}).length, right = selectedPool.filter(function(q){var h=hist[q.id];return h&&h[h.length-1]===1;}).length;
     var sets = [['all', focused()?'Exam 4 study guide':'Everything']].concat(CFG.weeks.map(function (W) { return ['w' + W[0], W[1]]; }).filter(function(s){return !focused()||qPool(s[0]).length;}), [['new', 'Not tried yet'], ['miss', 'Missed last time']]);
-    return '<div class="glass mh-play"><h2 style="margin:0">Test yourself</h2><p class="mh-lead">NCLEX-style questions: single answer and <b>select all that apply</b>. Each one shows the rationale, and the ones you miss come back under “Missed last time.”</p>' +
-      '<p class="mh-hist">' + QS.length + ' questions · tried ' + tried + ' · right on the last try ' + right + '</p>' +
+    var active = test && !test.completed ? '<p class="mh-row"><button class="mh-btn" data-resume-test>Resume saved test · question ' + (test.i + 1) + ' of ' + test.qs.length + '</button></p>' : '';
+    var results = testRuns.length ? '<details class="mh-test-results"><summary>Recent saved results · ' + testRuns.length + '</summary><ul>' + testRuns.map(function (r) {
+      return '<li><span>' + r.score + ' / ' + r.total + ' · ' + new Date(r.finishedAt).toLocaleString() + '</span><button class="pill" data-review-run="' + esc(r.id) + '">Review missed · ' + r.misses.length + '</button></li>';
+    }).join('') + '</ul></details>' : '';
+    return '<div class="glass mh-play"><h2 style="margin:0">Test yourself</h2><p class="mh-lead">Use the assigned-scope question set for a full practice run, or choose a shorter round. Answers are saved as you go; missed questions and completed scores stay available here.</p>' +
+      saveNotice() + active +
+      '<p class="mh-hist">' + QS.length + ' questions total · ' + selectedPool.length + ' in this set · tried ' + tried + ' · right on the last try ' + right + '</p>' +
       '<div class="cj-h">Which questions</div><div class="mh-week">' + sets.map(function (s) { var n = qPool(s[0]).length; return '<button class="pill" data-set="' + s[0] + '"' + (n ? '' : ' disabled') + ' aria-pressed="' + (testSet === s[0]) + '">' + s[1] + ' · ' + n + '</button>'; }).join('') + '</div>' +
       '<div class="cj-h">How many</div><div class="mh-week">' + (CFG.counts || [10, 20, 0]).map(function (n) { return '<button class="pill" data-count="' + n + '" aria-pressed="' + (testCount === n) + '">' + (n || 'All') + '</button>'; }).join('') + '</div>' +
-      '<div class="mh-row"><button class="mh-btn" data-start>Start</button></div></div>';
+      '<div class="mh-row"><button class="mh-btn" data-start>Start a new test</button></div>' + results + '</div>';
   }
-  var testSet = CFG.defaultSet || 'all', testCount = CFG.defaultCount || 10;
+  var testSet = test ? test.set : CFG.defaultSet || 'all';
+  var testCount = test ? test.count : CFG.defaultCount == null ? 10 : CFG.defaultCount;
   function startTest(set, count) {
     var pool = shuffle(qPool(set));
     if (count) pool = pool.slice(0, count);
     if (!pool.length) return false;
-    test = { qs: pool, i: 0, score: 0, misses: [], sel: [], answered: false };
+    test = { qs: pool, i: 0, score: 0, misses: [], sel: [], order:shuffle(pool[0].opts.map(function (_, k) { return k; })),
+      answered: false, completed:false, set:set, count:count, startedAt:Date.now() };
+    savedResult = null;
+    saveTestSession();
     return true;
   }
   function multi(q) { return Array.isArray(q.a); }
+  function savedResultHtml() {
+    var run = savedResult;
+    if (!run) return '';
+    var misses = (run.misses || []).map(function (id) { return questionById[id]; }).filter(Boolean);
+    return '<div class="glass mh-play"><div class="kicker">Saved test result</div><p class="mh-score">' + run.score + ' / ' + run.total + ' · ' + Math.round(run.score / run.total * 100) + '%</p><p class="mh-lead">' + new Date(run.finishedAt).toLocaleString() + '</p>' +
+      (misses.length ? '<div class="cj-h">Review missed questions</div>' + misses.map(function (q) {
+        var ans = (multi(q) ? q.a : [q.a]);
+        return '<div class="mh-miss"><span>' + md(q.stem) + '</span><b>' + ans.map(function (k) { return md(q.opts[k]); }).join(' · ') + '</b><span>' + md(q.why) + '</span>' + optionAnalysis(q, []) +
+          (q.link ? '<button class="pill" style="align-self:flex-start" data-go="' + q.link + '">Study this →</button>' : '') + '</div>';
+      }).join('') : '<p class="mh-lead">Every question was correct.</p>') +
+      '<div class="mh-row"><button class="pill" data-back-test>Back to test</button></div></div>';
+  }
   function qHtml() {
     var n = test.qs.length;
     if (test.i >= n) {
+      finishTest();
       return '<div class="glass mh-play"><div class="kicker">Test</div><p class="mh-score">' + test.score + ' / ' + n + ' · ' + Math.round(test.score / n * 100) + '%</p>' +
+        saveNotice() +
         (test.misses.length ? '<div class="cj-h">Review what you missed</div>' + test.misses.map(function (q) {
           var ans = (multi(q) ? q.a : [q.a]).map(function (k) { return q.opts[k]; });
-          return '<div class="mh-miss"><span>' + md(q.stem) + '</span><b>' + ans.map(md).join(' · ') + '</b><span>' + md(q.why) + '</span>' + (q.link ? '<button class="pill" style="align-self:flex-start" data-go="' + q.link + '">Study this →</button>' : '') + '</div>';
+          return '<div class="mh-miss"><span>' + md(q.stem) + '</span><b>' + ans.map(md).join(' · ') + '</b><span>' + md(q.why) + '</span>' + optionAnalysis(q, []) + (q.link ? '<button class="pill" style="align-self:flex-start" data-go="' + q.link + '">Study this →</button>' : '') + '</div>';
         }).join('') : '<p class="mh-lead">Every one right.</p>') +
-        '<div class="mh-row"><button class="mh-btn" data-go="test">New test</button></div></div>';
+        '<div class="mh-row"><button class="mh-btn" data-new-test>New test</button><button class="pill" data-test-menu>Saved results</button></div></div>';
     }
     var q = test.qs[test.i];
-    test.order = shuffle(q.opts.map(function (o, k) { return k; }));
-    return '<div class="glass mh-play"><div class="mh-prog"><span>Question ' + (test.i + 1) + ' of ' + n + '</span><span>' + test.score + ' right</span></div>' +
+    if (!test.order || test.order.length !== q.opts.length) test.order = shuffle(q.opts.map(function (o, k) { return k; }));
+    var ans = multi(q) ? q.a : [q.a];
+    var selected = test.sel || [];
+    return '<div class="glass mh-play">' + saveNotice() + '<div class="mh-prog"><span>Question ' + (test.i + 1) + ' of ' + n + '</span><span>' + test.score + ' right</span></div><button class="pill" data-test-menu>Save &amp; exit to test menu</button>' +
       '<div class="mh-bar"><i style="width:' + Math.round(test.i / n * 100) + '%"></i></div>' +
       (multi(q) ? '<span class="mh-sata">Select all that apply</span>' : '') +
       '<p class="mh-say">' + md(q.stem) + '</p><div class="mh-opts">' + test.order.map(function (k) {
-        return '<button class="mh-opt" data-q="' + k + '" aria-pressed="false"><span>' + md(q.opts[k]) + '</span></button>';
-      }).join('') + '</div><div class="mh-row"><button class="mh-btn" data-check disabled>Check</button></div><div id="mh-fb"></div></div>';
+        var chosen = selected.indexOf(k) >= 0, cls = test.answered && ans.indexOf(k) >= 0 ? ' right' : test.answered && chosen ? ' wrong' : chosen ? ' sel' : '';
+        return '<button class="mh-opt' + cls + '" data-q="' + k + '" aria-pressed="' + chosen + '"' + (test.answered ? ' disabled' : '') + '><span>' + md(q.opts[k]) + '</span></button>';
+      }).join('') + '</div>' + (test.answered ?
+        '<div id="mh-fb"><div class="mh-why"><span class="verdict">' + (ans.length === selected.length && ans.every(function (k) { return selected.indexOf(k) >= 0; }) ? '✓ Right' : '✗ Not quite') + '</span>' + md(q.why) + optionAnalysis(q, selected) + '</div><div class="mh-row" style="margin-top:10px"><button class="mh-btn" data-qnext>' + (test.i + 1 < n ? 'Next →' : 'See score') + '</button></div></div>' :
+        '<div class="mh-row"><button class="mh-btn" data-check' + (selected.length ? '' : ' disabled') + '>Check</button></div><div id="mh-fb"></div>') + '</div>';
   }
   function checkQ() {
     var q = test.qs[test.i], ans = multi(q) ? q.a : [q.a];
@@ -269,12 +363,13 @@
     test.answered = true;
     if (ok) test.score++; else test.misses.push(q);
     (hist[q.id] = hist[q.id] || []).push(ok ? 1 : 0); if (hist[q.id].length > 5) hist[q.id].shift(); save('test', hist);
+    saveTestSession();
     root.querySelectorAll('.mh-opt').forEach(function (b) {
       var k = +b.dataset.q; b.disabled = true;
       if (ans.indexOf(k) >= 0) b.classList.add('right'); else if (test.sel.indexOf(k) >= 0) b.classList.add('wrong');
     });
     root.querySelector('[data-check]').remove();
-    root.querySelector('#mh-fb').innerHTML = '<div class="mh-why"><span class="verdict">' + (ok ? '✓ Right' : '✗ Not quite') + '</span>' + md(q.why) + '</div>' +
+    root.querySelector('#mh-fb').innerHTML = '<div class="mh-why"><span class="verdict">' + (ok ? '✓ Right' : '✗ Not quite') + '</span>' + md(q.why) + optionAnalysis(q, test.sel) + '</div>' +
       '<div class="mh-row" style="margin-top:10px"><button class="mh-btn" data-qnext>' + (test.i + 1 < test.qs.length ? 'Next →' : 'See score') + '</button>' + (q.link ? '<button class="pill" data-go="' + q.link + '">Study this →</button>' : '') + '</div>';
   }
 
@@ -290,21 +385,21 @@
     if (m && m[1] === 'c' && (entry=byId(ALL.conditions, m[2]))) {outside=focused()&&!byId(CONDS,m[2]);html=condHtml(entry);}
     else if (m && m[1] === 't' && (entry=byId(TOPICS,m[2])||byId(ALL.topics, m[2]))) {outside=focused()&&!byId(TOPICS,m[2]);html=topicHtml(entry);}
     else if (m && m[1] === 'p' && (entry=byId(DRILLS,m[2])||byId(ALL.drills, m[2]))) {outside=focused()&&!byId(DRILLS,m[2]);if (!run || run.d.id !== m[2]) startDrill(entry); html = drillHtml(); }
-    else if (view === 'test') html = test ? qHtml() : testHome();
+    else if (view === 'test') html = savedResult ? savedResultHtml() : test ? qHtml() : testHome();
     else if (view === 'topics') html = topicsHome();
     else if (view === 'practice') { run = null; html = drillsHome(); }
     else html = thinkHome();
     root.innerHTML = (outside?'<div class="exam-guide-notice">This item is additional review outside your Exam 4 study-guide focus. <button data-go="topics">Return to the guide</button> · <button data-guide-all>Switch to Everything</button></div>':'')+html;
   }
   function go(h) {
-    if (h === 'test') test = null;
+    if (h !== 'test') savedResult = null;
     if (('#' + h) === location.hash || (h === (focused()?'topics':'think') && !location.hash)) { route(); }
     else location.hash = h;
     toTop();
   }
   // Moving inside the page lands on the view switcher, not on the page title above it.
   function toTop() { tabs.scrollIntoView({ block: 'start' }); }
-  window.addEventListener('hashchange', function () { if (!/^#p-/.test(location.hash)) run = null; if (location.hash !== '#test') test = null; route(); toTop(); });
+  window.addEventListener('hashchange', function () { if (!/^#p-/.test(location.hash)) run = null; if (location.hash !== '#test') savedResult = null; route(); toTop(); });
   tabs.addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) go(b.dataset.go); });
   if(guideSlot&&GUIDE)guideSlot.addEventListener('change',function(e){if(e.target.matches('[data-exam-guide]'))setGuide(e.target.value);});
   if(GUIDE)window.addEventListener('storage',function(e){if(e.key===GUIDE.key){guideMode=guideStore.mode();applyGuide();run=null;test=null;testSet='all';route();}});
@@ -342,16 +437,23 @@
     // test
     if ((x = t.closest('[data-set]'))) { testSet = x.dataset.set; route(); return; }
     if ((x = t.closest('[data-count]'))) { testCount = +x.dataset.count; route(); return; }
+    if (t.closest('[data-resume-test]')) { test = restoreTestSession(); savedResult = null; route(); return; }
+    if ((x = t.closest('[data-review-run]'))) { savedResult = testRuns.filter(function (r) { return r.id === x.dataset.reviewRun; })[0] || null; route(); return; }
+    if (t.closest('[data-back-test]')) { savedResult = null; test = test || restoreTestSession(); route(); return; }
+    if (t.closest('[data-test-menu]')) { test = null; savedResult = null; route(); return; }
+    if (t.closest('[data-new-test]')) { test = null; savedResult = null; saveTestSession(); route(); return; }
     if (t.closest('[data-start]')) { if (startTest(testSet, testCount)) route(); return; }
     if ((x = t.closest('[data-q]')) && test && !test.answered) {
       var q = test.qs[test.i], k = +x.dataset.q;
       if (multi(q)) { var p = test.sel.indexOf(k); if (p >= 0) test.sel.splice(p, 1); else test.sel.push(k); }
       else test.sel = [k];
+      saveTestSession();
+      if (storageWarning && !root.querySelector('.mh-save-warning')) root.insertAdjacentHTML('afterbegin', saveNotice());
       root.querySelectorAll('.mh-opt').forEach(function (b) { var on = test.sel.indexOf(+b.dataset.q) >= 0; b.classList.toggle('sel', on); b.setAttribute('aria-pressed', on); });
       root.querySelector('[data-check]').disabled = !test.sel.length; return;
     }
-    if (t.closest('[data-check]')) { checkQ(); return; }
-    if (t.closest('[data-qnext]')) { test.i++; test.sel = []; test.answered = false; root.innerHTML = qHtml(); root.scrollIntoView({ block: 'start' }); return; }
+    if (t.closest('[data-check]')) { checkQ(); if (storageWarning) root.insertAdjacentHTML('afterbegin', saveNotice()); return; }
+    if (t.closest('[data-qnext]')) { test.i++; test.sel = []; test.answered = false; test.order = test.i < test.qs.length ? shuffle(test.qs[test.i].opts.map(function (_, k) { return k; })) : []; saveTestSession(); root.innerHTML = qHtml(); root.scrollIntoView({ block: 'start' }); return; }
   });
   root.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ') return;

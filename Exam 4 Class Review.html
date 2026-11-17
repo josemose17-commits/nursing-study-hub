@@ -7,27 +7,28 @@
 <title>Exam 4 · Study</title>
 <link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
 <link rel="stylesheet" href="cj-view.css?v=202610311800">
-<link rel="stylesheet" href="mh.css?v=202611132100">
+<link rel="stylesheet" href="mh.css?v=202611171305">
 </head>
 <body class="cj-mode">
 <main>
   <div>
     <div class="kicker">NRS 114 · Mental Health · Exam 4</div>
-    <h1>Exam 4: Chapters 3, 6, 9 and 34.</h1>
+    <h1>Exam 4: learn, test, review missed.</h1>
   </div>
-  <p class="lead">Your exam is about <b>40 questions</b> on <b>Chapter 3</b> (brain and psych meds), <b>Chapter 6</b> (legal and ethical), <b>Chapter 9</b> (Peplau’s model and communication skills) and <b>Chapter 34</b> (therapeutic groups). Those topics are first, and the Test opens on a 40-question practice exam from just those chapters. The rest of the class and textbook material is still here, further down, for extra review.</p>
-  <p><a class="btn btn-secondary" href="Exam 4 Learn.html">Guided lessons for what you missed →</a></p>
+  <p class="lead">Start with visual lessons and hands-on practice, take one test covering the authored questions for Chapters <b>3, 6 and 34</b> plus Peplau’s Model of the Nurse-Patient Relationship and Communication Skills for Nurses from <b>Chapter 9</b>, then review missed questions. Your instructor estimates approximately <b>40 questions</b>; this test includes the available authored questions in that scope.</p>
+  <p><a class="btn btn-primary" href="Exam 4 Learn.html">Learn · visual lessons and coached practice →</a> <a class="btn btn-secondary" href="#test">Test · all assigned-scope questions →</a></p>
+  <p><a href="#test">Review missed questions and saved test results →</a> <span>Class review notes and drills remain below.</span></p>
   <nav class="mh-tabs" id="mh-tabs" role="tablist" aria-label="Views">
-    <button role="tab" data-go="topics">Topics</button>
-    <button role="tab" data-go="think">Disorders</button>
-    <button role="tab" data-go="practice">Practice</button>
-    <button role="tab" data-go="test">Test</button>
+    <button role="tab" data-go="topics">Learn</button>
+    <button role="tab" data-go="test">Test · review missed</button>
+    <button role="tab" data-go="practice">Hands-on practice</button>
+    <button role="tab" data-go="think">Extra review</button>
   </nav>
   <section id="cj" class="mh" aria-live="polite"></section>
 </main>
 <script>
-window.MH_CFG = { prefix: 'e4-class-', noun: 'disorder', who: 'The patient', doFirst: true, namedWeeks: true, weeks: [[10, 'On the exam: Ch 3, 6, 9, 34'], [11, 'Also from class'], [12, 'Other chapters (1, 2, 5, 8, 10, 15, 16)'], [13, 'Disorders']], defaultSet: 'w10', counts: [40, 20, 10, 0], defaultCount: 40,
-  topicsIntro: 'The exam is about 40 questions on Chapter 3, Chapter 6, Chapter 9 (Peplau and communication) and Chapter 34. Those topics come first. Everything else is below for extra review. The disorders are walked through step by step under' };
+window.MH_CFG = { prefix: 'e4-', legacyPrefix: 'e4-class-', useGuide: false, noun: 'disorder', who: 'The patient', doFirst: true, namedWeeks: true, weeks: [[10, 'Assigned Exam 4 content'], [11, 'Also from class'], [12, 'Other chapters'], [13, 'Disorders']], defaultSet: 'w10', reviewWeek: 10, counts: [40, 20, 10, 0], defaultCount: 0,
+  topicsIntro: 'The assigned chapters and Chapter 9 sections are first. Everything else is available for extra review. The disorders are walked through step by step under' };
 </script>
 <script src="data/mh/videos.js?v=202610312000"></script>
 <script src="data/mh/cond-mood.js?v=202610312000"></script>
@@ -36,7 +37,8 @@ window.MH_CFG = { prefix: 'e4-class-', noun: 'disorder', who: 'The patient', doF
 <script src="data/mh/cond-trauma.js?v=202610311800"></script>
 <script src="data/mh/topics.js?v=202611091345"></script>
 <script src="data/mh/drills.js?v=202611091345"></script>
-<script src="data/mh/questions.js?v=202611091631"></script>
+<script src="data/mh/questions.js?v=202611171305"></script>
+<script src="data/mh/study-guide.js?v=202611171305"></script>
 <script>
 // Exam 4 = the textbook map data (data/mh) plus the class review (data/mh-class), merged into one page.
 // Groups: 11 from class, 12 textbook chapters, 13 disorders.
@@ -47,20 +49,20 @@ window.MH_CONDS = window.MH_TOPICS = window.MH_DRILLS = window.MH_Q = window.MH_
 <script src="data/mh-class/figures.js?v=202611151800"></script>
 <script src="data/mh-class/topics.js?v=202611151800"></script>
 <script src="data/mh-class/drills.js?v=202611151800"></script>
-<script src="data/mh-class/questions.js?v=202611151800"></script>
-<script src="data/mh-class/topics2.js?v=202611151800"></script>
+<script src="data/mh-class/questions.js?v=202611171305"></script>
+<script src="data/mh-class/topics2.js?v=202611171305"></script>
 <script>
 (function (A, W) {
   A.conds.forEach(function (c) { c.week = 13; });
   A.topics.forEach(function (t) { t.week = 12; });
   A.qs.forEach(function (q) { q.wk = /^c-/.test(q.link) ? 13 : 12; });
   A.topics.forEach(function (t) { t.week = 12; });
-  // The professor's exam list: Chapter 3, Chapter 6, Chapter 9 (Peplau and communication) and Chapter 34, about 40 questions.
+  // Keep existing class-review questions in the instructor's Chapter 3/6/9/34 outline.
   var ON = ['peplau', 'ch3', 'ch6', 'ch9', 'ch34', 'neuro', 'legal', 'settings', 'relationship', 'comm', 'groups'];
   var ONQ = ['cq-dsm-5', 'cq-dsm-8', 'cq-dsm-9', 'cq-dsm-10', 'cq-dsm-11', 'cq-bio-4', 'cq-hum-3', 'cq-ext-1', 'cq-ext-2', 'cq-ext-4', 'cq-ext-5', 'cq-ext-6', 'cq-lec-1', 'cq-freud-3', 'cq-freud-4', 'cq-freud-5'];
   var all = W.MH_TOPICS.concat(A.topics);
   all.forEach(function (t) { if (ON.indexOf(t.id) >= 0) t.week = 10; });
-  W.MH_Q.concat(A.qs).forEach(function (q) { if (ON.indexOf(q.link.slice(2)) >= 0 || ONQ.indexOf(q.id) >= 0) q.wk = 10; });
+  W.MH_Q.concat(A.qs).forEach(function (q) { if (ON.indexOf(q.link.slice(2)) >= 0 || ONQ.indexOf(q.id) >= 0 || W.Exam4Guide && W.Exam4Guide.hasQuestionId(q.id)) q.wk = 10; });
   var order = ['peplau', 'relationship', 'ch9', 'comm', 'ch3', 'neuro', 'ch6', 'legal', 'settings', 'ch34', 'groups'];
   var onTopics = order.map(function (id) { return all.filter(function (t) { return t.id === id; })[0]; }).filter(Boolean);
   var classTopics = W.MH_TOPICS.filter(function (t) { return t.week === 11; }), quick = W.MH_TOPICS.filter(function (t) { return t.week === 12; });
@@ -75,7 +77,7 @@ window.MH_CONDS = window.MH_TOPICS = window.MH_DRILLS = window.MH_Q = window.MH_
   });
 })(window.MH_A, window);
 </script>
-<script src="mh.js?v=202611152000"></script>
+<script src="mh.js?v=202611171305"></script>
 <script src="nav.js?v=202611152000"></script>
 <script src="say.js?v=202611081800"></script>
 </body>

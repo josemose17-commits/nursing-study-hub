@@ -82,6 +82,13 @@ button { font: inherit; color: inherit; }
 .mh-tag { align-self: flex-start; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--color-divider); color: var(--color-neutral-300); }
 .mh-sata { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--color-accent-2-300); }
 .mh-hist { font-size: 13px; color: var(--color-neutral-400); margin: 0; }
+.mh-save-warning { padding: 10px 12px; border-left: 3px solid var(--color-warning, #e9b44c); background: var(--color-neutral-900); border-radius: 0 10px 10px 0; color: var(--color-neutral-100); font-size: 13px; }
+.mh-test-results ul { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 8px; }
+.mh-test-results li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--color-divider); font-size: 13px; color: var(--color-neutral-300); }
+.mh-option-analysis { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--color-divider); }
+.mh-option-analysis summary { cursor: pointer; font-weight: 700; }
+.mh-option-analysis-row { padding: 8px 0; border-top: 1px solid var(--color-divider); }
+.mh-option-analysis-row p { margin: 4px 0 0; }
 
 /* pictures to draw from memory (data/*/figures.js) */
 .mh-fig { padding: 0; margin-bottom: 8px; overflow: hidden; }

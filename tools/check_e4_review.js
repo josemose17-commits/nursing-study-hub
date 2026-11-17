@@ -34,6 +34,12 @@ a=app(ls,'#review');assert(a.el.innerHTML.includes('This round is complete'));as
 const newMiss=report(receptor,'later-miss',Date.now()+100);ls.setItem('e4-report-later-miss',JSON.stringify(newMiss));a=app(ls,'#review');assert(active(state(ls)),'A new Test miss must automatically enter Review');assert(a.el.innerHTML.includes('Match 1 of 3'));assert.equal(C.createStore(ls).reports().length,3);
 const empty=storage();let emptyApp=app(empty,'#review');assert(emptyApp.el.innerHTML.includes('Nothing due'));empty.setItem('e4-report-original',JSON.stringify(report(receptor)));emptyApp=app(empty,'#review');assert(active(state(empty)),'An initially empty queue must pick up later misses automatically');
 
+// Save or a temporary chapter exclusion must not advance a concept's
+// schedule before its remaining case, nor advance it twice in one queue.
+let mid=seed(receptor),midApp=app(mid,'#review');answerCorrect(midApp,mid);midApp.click('save');assert.equal((JSON.parse(mid.getItem('e4-diagnostic-recall')).receptors||{}).round,undefined,'Saving the connection alone must not award a spaced pass');
+midApp.el.events.change({target:{matches:s=>s==='[data-d-chapter]',dataset:{dChapter:'3'},checked:false}});assert.equal((JSON.parse(mid.getItem('e4-diagnostic-recall')).receptors||{}).round,undefined,'Hiding the remaining case must not award a spaced pass');
+midApp.el.events.change({target:{matches:s=>s==='[data-d-chapter]',dataset:{dChapter:'3'},checked:true}});midApp.click('review-next');answerCorrect(midApp,mid);assert.equal(JSON.parse(mid.getItem('e4-diagnostic-recall')).receptors.round,1);midApp.click('save');assert.equal(JSON.parse(mid.getItem('e4-diagnostic-recall')).receptors.round,1);
+
 // Chapter changes project the same queue, without discarding an unfinished
 // matching/ordering activity in a different chapter.
 const phaseQ=bank.find(q=>q.concept==='phases'),phaseReport=report(phaseQ,'phase',1001);ls=seed(receptor,{'e4-report-phase':JSON.stringify(phaseReport)});a=app(ls,'#review');a.click('review-pick','0');const partial=state(ls).work['e4r-receptors'];

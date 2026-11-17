@@ -85,7 +85,7 @@
     function flushReview(){
       if(!review)return true;var r=R.report(review);if(!r)return true;
       persistReview();if(!store.append(r))return false;
-      var ids=[];r.items.forEach(function(it){if(ids.indexOf(it.q.concept)<0)ids.push(it.q.concept);});ids.forEach(function(id){var old=progress[id]||{};if(old.scheduledReportId===r.id)return;var ok=r.items.filter(function(it){return it.q.concept===id;}).every(function(it){return it.ok;});var p=C.due(progress,id,ok?'got':'again',r.finishedAt);p.reviewMode='objective';p.scheduledReportId=r.id;p.lastResult=ok;});store.write('e4-diagnostic-recall',progress);R.acknowledge(review);review.lastOutcomeAt=r.finishedAt;persistReview();cachedReports=cachedStats=null;return true;
+      var ids=[];r.items.forEach(function(it){if(ids.indexOf(it.q.concept)<0)ids.push(it.q.concept);});ids.forEach(function(id){var old=progress[id]||{};if(old.scheduledReviewId===review.id)return;var tasks=review.tasks.filter(function(q){return q.concept===id;});if(tasks.some(function(q){return !R.result(review,q.id);}))return;var ok=tasks.every(function(q){return R.result(review,q.id).ok;});var p=C.due(progress,id,ok?'got':'again',r.finishedAt);p.reviewMode='objective';p.scheduledReviewId=review.id;p.scheduledReportId=r.id;p.lastResult=ok;});store.write('e4-diagnostic-recall',progress);R.acknowledge(review);review.lastOutcomeAt=r.finishedAt;persistReview();cachedReports=cachedStats=null;return true;
     }
     function focusReview(id,exact){
       ensureReview();var q=exact||review.tasks.find(function(q){return q.concept===id&&!R.result(review,q.id);});
@@ -133,7 +133,7 @@
     function click(e){capture();var b=e.target.closest('[data-d]');if(!b)return false;var a=b.dataset.d,id=b.dataset.id;if(conflict&&['backup','report','home','review-home','learn','notes','drills'].indexOf(a)<0){message='Another tab changed this round. Download a backup of this tab and reload before editing.';options.rerender();return true;}
       if(a==='home')nav('learn');else if(a==='review-home')nav('review');else if(a==='notes')nav('topics');else if(a==='drills')nav('practice');
       else if(a==='learn')nav('understand-'+id);else if(a==='recall'){focusReview(id);nav('review');}
-      else if(a==='save'){store.retry();persist();persistReview();flushReview();store.write('e4-diagnostic-recall',progress);preferences();if(!store.status().error)message='Saved on this device.';options.rerender();}
+      else if(a==='save'){store.retry();persist();persistReview();if(review&&review.pendingReport)flushReview();store.write('e4-diagnostic-recall',progress);preferences();if(!store.status().error)message='Saved on this device.';options.rerender();}
       else if(a==='backup')download();
       else if(a==='pause'){if(session){session.paused=true;persist();}nav('test');}
       else if(a==='resume'){if(session){session.paused=false;persist();}nav('test');}

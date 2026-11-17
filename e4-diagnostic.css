@@ -61,7 +61,14 @@ button.ed-card:hover { border-color: #7bdab0; background: #143325; }
 .ed-report-list { max-height: 420px; overflow-y: auto; scrollbar-gutter: stable; }
 .ed-report-list article { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--color-divider); }
 .ed-report-list article > div { min-width: 0; }
-.ed-recall-question { font-size: 20px; color: #d5eddf; }
+.ed-review .ed-question-top { margin-top: 18px; }
+.ed-review .ed-review-focus { color: #b7edcd; font-size: 21px; }
+.ed-review-selected { margin: 12px 0; padding-left: 26px; line-height: 1.6; }
+.ed-review-selected li { padding: 5px 0; }
+.ed-review-nav { position: sticky; bottom: 76px; z-index: 2; display: flex; justify-content: flex-start; padding: 10px; margin: 16px -6px 0; border: 1px solid #42634f; border-radius: 14px; background: #10271ff2; }
+.ed-review-nav .mh-btn { min-width: 130px; }
+.ed-review-options { margin-top: 22px !important; }
+.ed-review .ed-stem { margin-top: 12px; }
 .ed-panel :focus-visible { outline: 2px solid #9ce5bc; outline-offset: 3px; }
 @media(max-width: 600px) {
   .ed-cards, .ed-chain { grid-template-columns: minmax(0, 1fr); }

@@ -93,6 +93,12 @@
           if(!write('e4-diagnostic-paused',paused))throw Error(error);
         }
       }
+      if(!read('e4-diagnostic-review',null)&&file.d['e4-diagnostic-review']){
+        var review=JSON.parse(file.d['e4-diagnostic-review']);
+        if(review&&review.v===1&&Array.isArray(review.tasks)&&review.tasks.every(validQuestion)&&Array.isArray(review.results)&&Array.isArray(review.reported)&&review.work&&typeof review.work==='object'){
+          if(!write('e4-diagnostic-review',review))throw Error(error);
+        }
+      }
       return count;
     }
     return {read:read,write:write,reports:reports,append:append,migrate:migrate,backup:backup,importBackup:importBackup,
@@ -103,7 +109,7 @@
     var out={},known={};bank.forEach(function(q){known[q.id]=q;if(q.concept&&!out[q.concept])out[q.concept]={events:[],missedIds:[],seen:[],status:'untested'};});
     reports.slice().sort(function(a,b){return a.finishedAt-b.finishedAt;}).forEach(function(r){
       (r.items||[]).forEach(function(it){var q=it.q,d=q&&out[q.concept];if(!d)return;
-        d.events.push({id:q.id,facet:q.facet||known[q.id]&&known[q.id].facet||q.concept,ok:!!it.ok,confidence:it.confidence,at:r.finishedAt,kind:r.kind||'diagnostic',legacy:!!r.legacy});
+        d.events.push({id:q.id,facet:q.facet||known[q.id]&&known[q.id].facet||q.concept,ok:!!it.ok,confidence:it.confidence,at:Number.isFinite(it.at)?it.at:r.finishedAt,kind:r.kind||'diagnostic',legacy:!!r.legacy});
         if(d.seen.indexOf(q.id)<0)d.seen.push(q.id);
         if(!it.ok&&d.missedIds.indexOf(q.id)<0)d.missedIds.push(q.id);
       });
@@ -116,6 +122,7 @@
       if(h.indexOf(0)>=0&&d.missedIds.indexOf(q.id)<0)d.missedIds.push(q.id);
     });
     Object.keys(out).forEach(function(k){var d=out[k],last={},independent=[];
+      d.events.sort(function(a,b){return a.at-b.at;});
       d.events.forEach(function(e){last[e.id]=e;});
       var recent=d.events.slice(-3),bad=recent.some(function(e){return !e.ok||e.confidence==='unsure';});
       Object.keys(last).forEach(function(qid){var e=last[qid];if(e.ok&&e.confidence==='sure'&&!e.legacy&&e.kind!=='repair')independent.push(qid);});
@@ -184,7 +191,7 @@
   function due(progress, concept, rating, now) {
     var p=progress[concept]||{round:0};p.round=rating==='again'?0:Math.min(3,(p.round||0)+1);p.due=now+([0,DAY,3*DAY,7*DAY][p.round]);p.rating=rating;p.reviewedAt=now;progress[concept]=p;return p;
   }
-  function pending(events){var bad={};events.forEach(function(e){if(!e.ok||e.confidence==='unsure')bad[e.facet||e.id]=e;});return Object.keys(bad).filter(function(f){return !events.some(function(e){return (e.facet||e.id)===f&&e.kind==='repair'&&e.ok&&e.confidence!=='unsure'&&e.at>=bad[f].at;});});}
+  function pending(events){var bad={};events.forEach(function(e,i){if(!e.ok||e.confidence==='unsure')bad[e.facet||e.id]=i;});return Object.keys(bad).filter(function(f){return !events.some(function(e,i){return i>bad[f]&&(e.facet||e.id)===f&&e.kind==='repair'&&e.ok&&e.confidence!=='unsure';});});}
   function repaired(events){return events.some(function(e){return !e.ok||e.confidence==='unsure';})&&!pending(events).length;}
   return {createStore:createStore,evidence:evidence,plan:plan,start:start,restore:restore,grade:grade,advance:advance,report:report,due:due,repaired:repaired,pending:pending,answer:answer,correct:correct,clone:clone,validQuestion:validQuestion,validReport:validReport};
 });

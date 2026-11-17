@@ -189,13 +189,14 @@
   <p class="lead">Exam 4 is on November 18. Your instructor’s outline lists Chapters <b>3, 6 and 34</b>, plus Peplau’s Model of the Nurse-Patient Relationship and Communication Skills for Nurses from Chapter <b>9</b>, with approximately <b>40 questions</b>.</p>
 
   <div class="glass next e4main">
-    <div><b data-e4="title">Start here</b><span data-e4="body">Learn with visual lessons and coached practice, take the full authored question set, then review what you missed.</span><small data-e4="status"></small></div>
-    <a class="btn btn-primary go" data-e4="go" href="Exam 4 Learn.html">Learn · Exam 4</a>
+    <div><b data-e4="title">Start here</b><span data-e4="body">Understand the connections, diagnose weak areas in a round you choose, then recall and apply missed concepts.</span><small data-e4="status"></small></div>
+    <a class="btn btn-primary go" data-e4="go" href="Exam 4 Class Review.html#learn">Learn · Exam 4</a>
     <ol class="e4steps">
-      <li><a href="Exam 4 Learn.html"><span>1</span>Learn: visual lessons and coached practice</a></li>
-      <li><a href="Exam 4 Class Review.html#test"><span>2</span>Test: all available questions for the assigned scope</a></li>
-      <li><a href="Exam 4 Class Review.html#test"><span>3</span>Review: saved results and missed questions</a></li>
+      <li><a href="Exam 4 Class Review.html#learn"><span>1</span>Learn: understand, explain and apply</a></li>
+      <li><a href="Exam 4 Class Review.html#test"><span>2</span>Test: find weak areas across selected chapters</a></li>
+      <li><a href="Exam 4 Class Review.html#review"><span>3</span>Review: cumulative misses and saved reports</a></li>
     </ol>
+    <details><summary>Guided lesson library</summary><p><a href="Exam 4 Learn.html">Open the existing coached lessons and their saved progress</a></p></details>
   </div>
 
   <div class="tiles">
@@ -330,19 +331,25 @@
   (function () {
     var q = function (n) { return document.querySelector('[data-e4="' + n + '"]'); }; if (!q('title')) return;
     var T = Object.assign({}, read('e4-class-test') || {}, read('e4-test') || {}), t = Object.keys(T), r = t.filter(function (k) { var h = T[k]; return Array.isArray(h) && h[h.length - 1] === 1; }).length;
-    var S = read('e4-test-session');
-    if (S && !S.completed && Array.isArray(S.questions) && S.i < S.questions.length) {
-      q('status').textContent = 'Test in progress · question ' + (S.i + 1) + ' of ' + S.questions.length;
-      q('title').textContent = 'Resume your Exam 4 test';
-      q('body').textContent = 'Your answer choices are saved. Continue where you left off.';
-      q('go').textContent = 'Resume test'; q('go').href = 'Exam 4 Class Review.html#test'; return;
+    var S = read('e4-diagnostic-session');
+    if (S && !S.report && Array.isArray(S.qs) && S.i < S.qs.length) {
+      q('status').textContent = 'Saved diagnostic round · ' + S.items.length + ' answered';
+      q('title').textContent = 'Resume your Exam 4 diagnostic';
+      q('body').textContent = 'Your choices and reasoning are saved. Resume from Test.';
+      q('go').textContent = 'Resume'; q('go').href = 'Exam 4 Class Review.html#test'; return;
+    }
+    var reports = read('e4-report-index');
+    if (Array.isArray(reports) && reports.length) {
+      q('status').textContent = reports.length + ' saved reports';
+      q('title').textContent = 'Recall and apply what needs work';
+      q('body').textContent = 'Review combines misses and guesses across your saved rounds. Reports keep their original answers and explanations.';
+      q('go').textContent = 'Open Review'; q('go').href = 'Exam 4 Class Review.html#review'; return;
     }
     if (!t.length) return;
-    var m = t.length - r;
-    q('status').textContent = r + ' of ' + t.length + ' right on the last try';
-    q('title').textContent = m ? m + ' question' + (m > 1 ? 's' : '') + ' to redo' : 'Keep going';
-    q('body').textContent = m ? 'Open the test and choose “Missed last time,” then read the notes for those topics.' : 'Try the questions you haven’t done yet, then retest.';
-    q('go').textContent = m ? 'Redo my misses' : 'Continue'; q('go').href = 'Exam 4 Class Review.html#test';
+    q('status').textContent = t.length + ' questions in previous history';
+    q('title').textContent = 'Continue your Exam 4 study';
+    q('body').textContent = 'Your available older results and misses are carried into the diagnostic review.';
+    q('go').textContent = 'Review'; q('go').href = 'Exam 4 Class Review.html#review';
   })();
   // Exam 1: same summary from e1-test and e1-steps.
   (function () {
@@ -401,7 +408,7 @@
   box.hidden = false;
 })();
 </script>
-<script src="nav.js?v=202611152000"></script>
+<script src="nav.js?v=202611171955"></script>
 <script src="say.js?v=202610271830"></script>
 <script>
 (function () {

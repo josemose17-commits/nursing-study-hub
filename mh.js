@@ -373,11 +373,20 @@
       '<div class="mh-row" style="margin-top:10px"><button class="mh-btn" data-qnext>' + (test.i + 1 < test.qs.length ? 'Next →' : 'See score') + '</button>' + (q.link ? '<button class="pill" data-go="' + q.link + '">Study this →</button>' : '') + '</div>';
   }
 
+  // The combined Exam 4 page opts into a diagnostic controller. Other exams
+  // retain this engine's established drills, questions and progress keys.
+  var diagnostic = CFG.diagnostic && window.E4Diagnostic ? window.E4Diagnostic.create({root:root,storage:localStorage,questions:ALL.questions,topics:ALL.topics,navigate:go,rerender:route}) : null;
   // ---------- routing ----------
   var VIEW_OF = { c: 'think', t: 'topics', p: 'practice' };
   function route() {
     var h;try{h=decodeURIComponent(location.hash.slice(1));}catch(_){h='';}
-    h=h||(focused()||CFG.noThink?'topics':'think');var m = /^([ctp])-(.+)$/.exec(h), view = m ? VIEW_OF[m[1]] : h;
+    h=h||(diagnostic?'learn':focused()||CFG.noThink?'topics':'think');
+    if(diagnostic&&diagnostic.handles(h)){
+      var selectedView=/^(recall-|report-|review)/.test(h)?'review':h==='test'?'test':'learn';
+      tabs.querySelectorAll('[data-go]').forEach(function(b){b.setAttribute('aria-selected',b.dataset.go===selectedView?'true':'false');});
+      root.innerHTML=diagnostic.render(h);return;
+    }
+    var m = /^([ctp])-(.+)$/.exec(h), view = m ? VIEW_OF[m[1]] : h;
     if (['think', 'topics', 'practice', 'test'].indexOf(view) < 0 || (CFG.noThink && view === 'think')) view = CFG.noThink ? 'topics' : 'think';
     tabs.querySelectorAll('[data-go]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.go === view ? 'true' : 'false'); });
     var html;
@@ -392,9 +401,10 @@
     root.innerHTML = (outside?'<div class="exam-guide-notice">This item is additional review outside your Exam 4 study-guide focus. <button data-go="topics">Return to the guide</button> · <button data-guide-all>Switch to Everything</button></div>':'')+html;
   }
   function go(h) {
+    if(diagnostic)diagnostic.capture();
     if (h !== 'test') savedResult = null;
     if (('#' + h) === location.hash || (h === (focused()?'topics':'think') && !location.hash)) { route(); }
-    else location.hash = h;
+    else { location.hash = h; if(diagnostic)route(); }
     toTop();
   }
   // Moving inside the page lands on the view switcher, not on the page title above it.
@@ -415,6 +425,8 @@
   }
   root.addEventListener('click', function (e) {
     var t = e.target, x;
+    if(diagnostic&&diagnostic.click(e))return;
+    if(diagnostic&&(x=t.closest('[data-test-link]'))){diagnostic.startTopic(x.dataset.testLink);return;}
     if(t.closest('[data-guide-all]')){setGuide('all');return;}
     if ((x = t.closest('[data-go]'))) { go(x.dataset.go); return; }
     if ((x = t.closest('[data-test-link]'))) { test = null; if (startTest('link:' + x.dataset.testLink, 0)) { location.hash = 'test'; if (location.hash === '#test') route(); } toTop(); return; }

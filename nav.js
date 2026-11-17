@@ -25,6 +25,13 @@
     [PAGE.Mastery, 'Mastery', 'M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5'],
     ['Reference Sheet.html', 'Ref', 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5']
   ].filter(function (t) { return !(t[1] in PAGE) || (t[0] && HAS[EXAM].indexOf(t[1]) >= 0); });
+  if(EXAM==='4'){
+    TABS=TABS.filter(function(t){return t[1]!=='Learn'&&t[1]!=='Map';});
+    TABS.splice(1,0,
+      ['Exam 4 Class Review.html#learn','Learn','M4 3h6a2 2 0 0 1 2 2v16a4 4 0 0 0-4-2H4zM20 3h-6a2 2 0 0 0-2 2v16a4 4 0 0 1 4-2h4z'],
+      ['Exam 4 Class Review.html#test','Test','M9 11l2 2 4-4M5 3h14v18H5z'],
+      ['Exam 4 Class Review.html#review','Review','M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5']);
+  }
   window.E2Hub = { exam: EXAM };
   var root = location.pathname.indexOf('/offline/') >= 0 ? '../' : '';
   function build() {
@@ -35,7 +42,7 @@
     TABS.forEach(function (t) {
       var a = document.createElement('a');
       a.href = root + encodeURI(t[0]);
-      if (t[0] === here) a.setAttribute('aria-current', 'page');
+      if (t[0] === here || (t[0].split('#')[0]===here && t[0].split('#')[1]===(location.hash.slice(1)||'learn'))) a.setAttribute('aria-current', 'page');
       a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + t[2] + '"/></svg><span>' + t[1] + '</span>';
       nav.appendChild(a);
     });
@@ -44,6 +51,11 @@
   var nav;
   function attach() { if (!document.body) return; if (!nav) nav = build(); if (!document.body.contains(nav)) document.body.appendChild(nav); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach); else attach();
+  if(EXAM==='4')window.addEventListener('hashchange',function(){
+    if(!nav)return;
+    var h=location.hash.slice(1)||'learn',view=/^(review|recall-|report-)/.test(h)?'Review':h==='test'?'Test':'Learn';
+    nav.querySelectorAll('a').forEach(function(a){if(a.textContent===view)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  });
   // Fetch the other pages in the background once this one is idle, so switching tabs is quick.
   function prefetch() {
     TABS.forEach(function (t) {
@@ -126,7 +138,7 @@
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up — once per page,
   // since each page's HTML (and the data it names) is cached separately.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202611171305';
+  var BUILD = '202611171955';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     // Builds before 202610282230 reloaded only once per session for every page. This page is already current, so clear

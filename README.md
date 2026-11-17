@@ -138,3 +138,8 @@ python3 -m http.server 8000
 Or turn on GitHub Pages (Settings → Pages → deploy from branch). The older pages fetch React from unpkg.com, so they need an internet connection.
 
 Progress is stored in the browser's localStorage, so it stays on the device and browser you studied on.
+
+
+## Exam 4 diagnostic study (November 17, 2026)
+
+`Exam 4 Class Review.html` now provides **Learn → Test → Review** for Chapters 3, 6, 9 (Peplau and communication) and 34. Mechanism-to-action explanations, medication comparisons and closed-book recall connect 46 concepts to the 74 authored source sections. The diagnostic samples 208 question variants across chosen chapters and round length; 11 duplicate legacy IDs are retained only for history/exact retries. It does not recreate a 40-question exam. New immutable reports preserve choices, reasoning and explanations, with autosaved/paused drafts, explicit storage feedback, backup merge and cumulative miss-to-recall-to-application review. Existing coached lessons remain available. See [the coverage and validation audit](audit/exam4-diagnostic.md); run `node tools/check_e4_diagnostic.js`.

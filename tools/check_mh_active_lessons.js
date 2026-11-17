@@ -9,8 +9,9 @@ const fieldChanged=(id,field)=>(changed.get(id)||[]).includes(field);
 let count=0,choices=0,orders=0;
 for(const exam of ['e4','e5']){
  const d=load(read('data/learn/'+exam+'.js'),'LEARN_DATA'),before=load(old('data/learn/'+exam+'.js'),'LEARN_DATA');
- const active=d.lessons.filter(l=>l.active),expected=exam==='e4'?G.lessonIds:before.lessons.map(l=>l.id);
+ const active=d.lessons.filter(l=>l.active),expected=exam==='e4'?Object.keys(require('../data/mh/lessons-src')):before.lessons.map(l=>l.id);
  assert.deepEqual(active.map(l=>l.id).sort(),expected.slice().sort());
+ if(exam==='e4')assert(G.lessonIds.every(id=>active.some(l=>l.id===id)),'The current narrower focus is contained in the retained curated library');
  assert.equal(d.config.key,before.config.key);assert.deepEqual(d.config.chapters,before.config.chapters);
  assert.deepEqual(d.lessons.map(l=>l.id),before.lessons.map(l=>l.id),'Lesson identities and order remain stable');
  S.configure(d.studios);

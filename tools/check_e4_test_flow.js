@@ -12,7 +12,7 @@ assert.deepEqual(guide.chapters, ['3', '6', '9', '34']);
 assert(guide.source.includes('Approximately 40 questions'));
 assert(pageHtml.includes('data/mh/study-guide.js'));
 assert(pageHtml.includes("prefix: 'e4-'"));
-assert(pageHtml.includes("defaultCount: 0"));
+assert(pageHtml.includes("defaultCount: 12"));
 
 function storage(seed = {}) {
   const map = new Map(Object.entries(seed));
@@ -46,6 +46,9 @@ function page(store, hash = '#test') {
     const src = /\bsrc="([^"]+)"/.exec(match[1]);
     if (src) {
       const file = src[1].split('?')[0];
+      // Keep a regression check for the shared pre-diagnostic MH engine.
+      // The opted-in combined page is exercised by check_e4_diagnostic.
+      if(file==='mh.js')win.MH_CFG.diagnostic=false;
       vm.runInContext(read(file), context, { filename:file });
       if (file === 'mh.js') break;
     } else if (match[2].trim()) {

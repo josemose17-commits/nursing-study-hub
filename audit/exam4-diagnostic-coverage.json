@@ -1,0 +1,1260 @@
+{
+  "baseline": "6057351",
+  "scope": {
+    "chapters": [
+      "3",
+      "6",
+      "9",
+      "34"
+    ],
+    "assignedSections": [
+      "Peplau’s Model of the Nurse-Patient Relationship",
+      "Communication Skills for Nurses"
+    ],
+    "purpose": "diagnose weak areas; no fixed 40-question simulation"
+  },
+  "counts": {
+    "concepts": 46,
+    "newQuestions": 118,
+    "allQuestionIds": 219,
+    "defaultPool": 208,
+    "sata": 21
+  },
+  "sections": [
+    {
+      "topic": "peplau",
+      "heading": "The four phases in order",
+      "concepts": [
+        "phases"
+      ]
+    },
+    {
+      "topic": "peplau",
+      "heading": "Orientation: the golden rule",
+      "concepts": [
+        "phases",
+        "roles"
+      ]
+    },
+    {
+      "topic": "peplau",
+      "heading": "Working phase: what happens",
+      "concepts": [
+        "phases",
+        "roles"
+      ]
+    },
+    {
+      "topic": "peplau",
+      "heading": "Termination: what to do and not do",
+      "concepts": [
+        "phases"
+      ]
+    },
+    {
+      "topic": "peplau",
+      "heading": "Spot the phase from the nurse’s words",
+      "concepts": [
+        "phases"
+      ]
+    },
+    {
+      "topic": "ch3",
+      "heading": "Brain and drug basics",
+      "concepts": [
+        "brain",
+        "kinetics",
+        "metabolism"
+      ]
+    },
+    {
+      "topic": "ch3",
+      "heading": "Anxiety and sleep drugs",
+      "concepts": [
+        "benzo",
+        "sleep"
+      ]
+    },
+    {
+      "topic": "ch3",
+      "heading": "Antidepressants",
+      "concepts": [
+        "ssri",
+        "atypical-ad",
+        "maoi"
+      ]
+    },
+    {
+      "topic": "ch3",
+      "heading": "Mood stabilizers",
+      "concepts": [
+        "lithium"
+      ]
+    },
+    {
+      "topic": "ch3",
+      "heading": "Antipsychotics",
+      "concepts": [
+        "dopamine",
+        "clozapine"
+      ]
+    },
+    {
+      "topic": "ch3",
+      "heading": "ADHD and Alzheimer’s drugs",
+      "concepts": [
+        "adhd",
+        "cognition-drugs"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "Neurotransmitters and what they do",
+      "concepts": [
+        "signals"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "Brain areas",
+      "concepts": [
+        "brain"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "The HPA axis and stress",
+      "concepts": [
+        "brain"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "Receptor blockade → side effect (the key)",
+      "concepts": [
+        "receptors"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "Antianxiety and sleep drugs",
+      "concepts": [
+        "benzo",
+        "buspirone"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "Antidepressants by class",
+      "concepts": [
+        "ssri",
+        "snri",
+        "tca",
+        "advanced-ad"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "Mood stabilizers",
+      "concepts": [
+        "lithium",
+        "anticonvulsants"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "Antipsychotics (more on Exam 5)",
+      "concepts": [
+        "dopamine",
+        "antipsychotic-safety"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "ADHD and Alzheimer drugs",
+      "concepts": [
+        "adhd"
+      ]
+    },
+    {
+      "topic": "neuro",
+      "heading": "Herbals and brain imaging",
+      "concepts": [
+        "imaging-herbals"
+      ]
+    },
+    {
+      "topic": "ch6",
+      "heading": "Six ethical principles",
+      "concepts": [
+        "ethics"
+      ]
+    },
+    {
+      "topic": "ch6",
+      "heading": "Admissions and discharges",
+      "concepts": [
+        "admission"
+      ]
+    },
+    {
+      "topic": "ch6",
+      "heading": "Patient rights and consent",
+      "concepts": [
+        "consent"
+      ]
+    },
+    {
+      "topic": "ch6",
+      "heading": "Restraint and seclusion",
+      "concepts": [
+        "restraints"
+      ]
+    },
+    {
+      "topic": "ch6",
+      "heading": "Confidentiality",
+      "concepts": [
+        "privacy"
+      ]
+    },
+    {
+      "topic": "ch6",
+      "heading": "Torts and standards",
+      "concepts": [
+        "torts"
+      ]
+    },
+    {
+      "topic": "legal",
+      "heading": "Types of admission",
+      "concepts": [
+        "admission"
+      ]
+    },
+    {
+      "topic": "legal",
+      "heading": "Discharge types",
+      "concepts": [
+        "discharge"
+      ]
+    },
+    {
+      "topic": "legal",
+      "heading": "Patients’ rights",
+      "concepts": [
+        "consent"
+      ]
+    },
+    {
+      "topic": "legal",
+      "heading": "Restraint and seclusion",
+      "concepts": [
+        "restraints"
+      ]
+    },
+    {
+      "topic": "legal",
+      "heading": "Confidentiality and HIPAA",
+      "concepts": [
+        "privacy"
+      ]
+    },
+    {
+      "topic": "legal",
+      "heading": "Torts and liability",
+      "concepts": [
+        "torts"
+      ]
+    },
+    {
+      "topic": "legal",
+      "heading": "Ethical principles",
+      "concepts": [
+        "ethics"
+      ]
+    },
+    {
+      "topic": "ch9",
+      "heading": "Techniques that help",
+      "concepts": [
+        "communication"
+      ]
+    },
+    {
+      "topic": "ch9",
+      "heading": "Blocks to avoid",
+      "concepts": [
+        "blocks"
+      ]
+    },
+    {
+      "topic": "ch9",
+      "heading": "Verbal and nonverbal",
+      "concepts": [
+        "nonverbal"
+      ]
+    },
+    {
+      "topic": "ch9",
+      "heading": "Culture and technology",
+      "concepts": [
+        "interview"
+      ]
+    },
+    {
+      "topic": "comm",
+      "heading": "Techniques that help",
+      "concepts": [
+        "communication",
+        "safety-talk"
+      ]
+    },
+    {
+      "topic": "comm",
+      "heading": "Blocks to avoid",
+      "concepts": [
+        "blocks"
+      ]
+    },
+    {
+      "topic": "comm",
+      "heading": "Nonverbal communication",
+      "concepts": [
+        "nonverbal"
+      ]
+    },
+    {
+      "topic": "comm",
+      "heading": "The clinical interview",
+      "concepts": [
+        "interview"
+      ]
+    },
+    {
+      "topic": "comm",
+      "heading": "How to pick the right answer on the exam",
+      "concepts": [
+        "interview"
+      ]
+    },
+    {
+      "topic": "ch34",
+      "heading": "Yalom’s curative factors",
+      "concepts": [
+        "factors"
+      ]
+    },
+    {
+      "topic": "ch34",
+      "heading": "Phases",
+      "concepts": [
+        "group-phases"
+      ]
+    },
+    {
+      "topic": "ch34",
+      "heading": "Member roles",
+      "concepts": [
+        "group-roles"
+      ]
+    },
+    {
+      "topic": "ch34",
+      "heading": "Leadership and hard members",
+      "concepts": [
+        "leadership"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Why use a group, and when does it fit?",
+      "concepts": [
+        "factors"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Yalom: belonging, hope and contribution",
+      "concepts": [
+        "factors"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Yalom: trying new relationships and making meaning",
+      "concepts": [
+        "factors"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Read both the topic and the interaction",
+      "concepts": [
+        "design"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Design the group before inviting members",
+      "concepts": [
+        "design"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Hospital groups and community groups need different structure",
+      "concepts": [
+        "design"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Orientation: build safety and a shared purpose",
+      "concepts": [
+        "group-phases"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Working: turn disagreement into useful work",
+      "concepts": [
+        "group-phases"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Termination and follow-up: make the ending useful",
+      "concepts": [
+        "group-phases"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Task roles: keep the work moving",
+      "concepts": [
+        "group-roles"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Maintenance roles: keep participation possible",
+      "concepts": [
+        "group-roles"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Individual roles: describe behavior without labeling the person",
+      "concepts": [
+        "group-roles"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "The framework changes what the leader listens for",
+      "concepts": [
+        "group-types"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Choose the group purpose and the leader’s competence",
+      "concepts": [
+        "group-types"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Support and mutual help extend care",
+      "concepts": [
+        "group-types"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Leadership style follows the group’s needs",
+      "concepts": [
+        "leadership"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Communication that makes a group workable",
+      "concepts": [
+        "leadership"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Supervision, coleadership and inclusion",
+      "concepts": [
+        "leadership"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Consent and privacy: a promise has limits",
+      "concepts": [
+        "group-privacy"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Virtual groups: preserve the frame across the screen",
+      "concepts": [
+        "group-privacy"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "When group work must give way to immediate safety",
+      "concepts": [
+        "group-safety"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "A member takes nearly every turn",
+      "concepts": [
+        "group-safety"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Anger, disruption and rejected help",
+      "concepts": [
+        "group-safety"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Silence needs curiosity, time and an invitation",
+      "concepts": [
+        "group-safety"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Choose and measure outcomes that match the group",
+      "concepts": [
+        "group-outcomes"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Research examples: skills, mood and recovery",
+      "concepts": [
+        "group-outcomes"
+      ]
+    },
+    {
+      "topic": "groups",
+      "heading": "Research examples: family, trauma and longer-term support",
+      "concepts": [
+        "group-outcomes"
+      ]
+    }
+  ],
+  "terms": [
+    {
+      "topic": "peplau",
+      "term": "Orientation phase"
+    },
+    {
+      "topic": "peplau",
+      "term": "Identification phase"
+    },
+    {
+      "topic": "peplau",
+      "term": "Exploitation (working) phase"
+    },
+    {
+      "topic": "peplau",
+      "term": "Termination phase"
+    },
+    {
+      "topic": "peplau",
+      "term": "Stranger"
+    },
+    {
+      "topic": "peplau",
+      "term": "Resource person"
+    },
+    {
+      "topic": "peplau",
+      "term": "Teacher"
+    },
+    {
+      "topic": "peplau",
+      "term": "Leader"
+    },
+    {
+      "topic": "peplau",
+      "term": "Surrogate"
+    },
+    {
+      "topic": "peplau",
+      "term": "Counselor"
+    },
+    {
+      "topic": "neuro",
+      "term": "Agonist vs antagonist"
+    },
+    {
+      "topic": "neuro",
+      "term": "Reuptake"
+    },
+    {
+      "topic": "neuro",
+      "term": "Pharmacokinetics vs pharmacodynamics"
+    },
+    {
+      "topic": "neuro",
+      "term": "Narrow therapeutic index"
+    },
+    {
+      "topic": "neuro",
+      "term": "Pharmacogenetics (CYP450)"
+    },
+    {
+      "topic": "legal",
+      "term": "Least restrictive alternative"
+    },
+    {
+      "topic": "legal",
+      "term": "Competency vs capacity"
+    },
+    {
+      "topic": "legal",
+      "term": "Duty to warn and protect (Tarasoff)"
+    },
+    {
+      "topic": "groups",
+      "term": "Group"
+    },
+    {
+      "topic": "groups",
+      "term": "Therapeutic group"
+    },
+    {
+      "topic": "groups",
+      "term": "Group psychotherapy"
+    },
+    {
+      "topic": "groups",
+      "term": "Group work"
+    },
+    {
+      "topic": "groups",
+      "term": "Therapeutic factors"
+    },
+    {
+      "topic": "groups",
+      "term": "Group content"
+    },
+    {
+      "topic": "groups",
+      "term": "Group process"
+    },
+    {
+      "topic": "groups",
+      "term": "Group norms"
+    },
+    {
+      "topic": "groups",
+      "term": "Group phases"
+    },
+    {
+      "topic": "groups",
+      "term": "Task roles"
+    },
+    {
+      "topic": "groups",
+      "term": "Maintenance roles"
+    },
+    {
+      "topic": "groups",
+      "term": "Individual roles"
+    },
+    {
+      "topic": "groups",
+      "term": "Feedback"
+    },
+    {
+      "topic": "groups",
+      "term": "Group themes and conflict"
+    },
+    {
+      "topic": "groups",
+      "term": "Open and closed membership"
+    },
+    {
+      "topic": "groups",
+      "term": "Homogeneous, heterogeneous and subgroup"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "brain",
+      "chapter": "3",
+      "title": "Brain structures and endocrine clues",
+      "questions": [
+        "e4d-brain-1",
+        "e4d-brain-2",
+        "e4d-brain-3",
+        "e4d-brain-4",
+        "cq-c3-5",
+        "q-neuro-9"
+      ]
+    },
+    {
+      "id": "signals",
+      "chapter": "3",
+      "title": "Transmitters, receptors and signaling",
+      "questions": [
+        "e4d-signals-1",
+        "e4d-signals-2",
+        "cq-bio-4"
+      ]
+    },
+    {
+      "id": "kinetics",
+      "chapter": "3",
+      "title": "ADME and a narrow therapeutic index",
+      "questions": [
+        "e4d-kinetics-1",
+        "e4d-kinetics-2",
+        "cq-c3-15",
+        "q-neuro-12"
+      ]
+    },
+    {
+      "id": "receptors",
+      "chapter": "3",
+      "title": "Predict side effects from receptor blockade",
+      "questions": [
+        "e4d-receptors-1",
+        "e4d-receptors-2",
+        "cq-c3-3",
+        "q-neuro-3",
+        "q-neuro-10"
+      ]
+    },
+    {
+      "id": "metabolism",
+      "chapter": "3",
+      "title": "Smoking, genes and drug interactions",
+      "questions": [
+        "e4d-metabolism-1",
+        "e4d-metabolism-2",
+        "cq-c3-12"
+      ]
+    },
+    {
+      "id": "benzo",
+      "chapter": "3",
+      "title": "Benzodiazepines: fast relief and depressant risk",
+      "questions": [
+        "e4d-benzo-1",
+        "e4d-benzo-2",
+        "e4d-benzo-3",
+        "cq-c3-1",
+        "cq-c3-13",
+        "q-neuro-1"
+      ]
+    },
+    {
+      "id": "buspirone",
+      "chapter": "3",
+      "title": "Buspirone and delayed benefit",
+      "questions": [
+        "e4d-buspirone-1",
+        "e4d-buspirone-2"
+      ]
+    },
+    {
+      "id": "sleep",
+      "chapter": "3",
+      "title": "Sleep medicines and waking safety",
+      "questions": [
+        "e4d-sleep-1",
+        "e4d-sleep-2",
+        "e4d-sleep-3"
+      ]
+    },
+    {
+      "id": "ssri",
+      "chapter": "3",
+      "title": "SSRIs and serotonin toxicity",
+      "questions": [
+        "e4d-ssri-1",
+        "e4d-ssri-2",
+        "e4d-ssri-3",
+        "cq-dsm-5"
+      ]
+    },
+    {
+      "id": "snri",
+      "chapter": "3",
+      "title": "SNRIs: mood, pain and blood pressure",
+      "questions": [
+        "e4d-snri-1",
+        "e4d-snri-2",
+        "cq-c3-11"
+      ]
+    },
+    {
+      "id": "atypical-ad",
+      "chapter": "3",
+      "title": "Bupropion, mirtazapine and trazodone",
+      "questions": [
+        "e4d-atypical-ad-1",
+        "e4d-atypical-ad-2",
+        "e4d-atypical-ad-3",
+        "cq-c3-2",
+        "q-neuro-2"
+      ]
+    },
+    {
+      "id": "tca",
+      "chapter": "3",
+      "title": "TCAs and overdose risk",
+      "questions": [
+        "e4d-tca-1",
+        "e4d-tca-2"
+      ]
+    },
+    {
+      "id": "maoi",
+      "chapter": "3",
+      "title": "MAOIs: food and interaction reasoning",
+      "questions": [
+        "e4d-maoi-1",
+        "e4d-maoi-2",
+        "cq-c3-4"
+      ]
+    },
+    {
+      "id": "advanced-ad",
+      "chapter": "3",
+      "title": "Specialized depression treatment: course and current context",
+      "questions": [
+        "e4d-advanced-ad-1",
+        "e4d-advanced-ad-2",
+        "cq-c3-6",
+        "q-neuro-8"
+      ]
+    },
+    {
+      "id": "lithium",
+      "chapter": "3",
+      "title": "Lithium: clearance, monitoring and toxicity",
+      "questions": [
+        "e4d-lithium-1",
+        "e4d-lithium-2",
+        "e4d-lithium-3",
+        "cq-c3-7",
+        "cq-c3-10",
+        "q-neuro-4",
+        "q-neuro-11"
+      ]
+    },
+    {
+      "id": "anticonvulsants",
+      "chapter": "3",
+      "title": "Valproate, carbamazepine and lamotrigine",
+      "questions": [
+        "e4d-anticonvulsants-1",
+        "e4d-anticonvulsants-2",
+        "e4d-anticonvulsants-3",
+        "e4d-anticonvulsants-4",
+        "e4d-anticonvulsants-5",
+        "cq-c3-8",
+        "q-neuro-5"
+      ]
+    },
+    {
+      "id": "dopamine",
+      "chapter": "3",
+      "title": "Antipsychotic pathways and movement effects",
+      "questions": [
+        "e4d-dopamine-1",
+        "e4d-dopamine-2",
+        "e4d-dopamine-3",
+        "e4d-dopamine-4",
+        "cq-c3-9",
+        "q-neuro-6"
+      ]
+    },
+    {
+      "id": "antipsychotic-safety",
+      "chapter": "3",
+      "title": "NMS, metabolic effects and medication-specific cautions",
+      "questions": [
+        "e4d-antipsychotic-safety-1",
+        "e4d-antipsychotic-safety-2",
+        "e4d-antipsychotic-safety-3",
+        "cq-dsm-11"
+      ]
+    },
+    {
+      "id": "clozapine",
+      "chapter": "3",
+      "title": "Clozapine: ANC and other urgent findings",
+      "questions": [
+        "e4d-clozapine-1",
+        "e4d-clozapine-2",
+        "e4d-clozapine-3",
+        "e4d-clozapine-4",
+        "cq-dsm-10",
+        "q-neuro-7"
+      ]
+    },
+    {
+      "id": "adhd",
+      "chapter": "3",
+      "title": "Stimulants and nonstimulants",
+      "questions": [
+        "e4d-adhd-1",
+        "e4d-adhd-2",
+        "e4d-adhd-3",
+        "cq-c3-14"
+      ]
+    },
+    {
+      "id": "cognition-drugs",
+      "chapter": "3",
+      "title": "Alzheimer medicines: benefit and cholinergic effects",
+      "questions": [
+        "e4d-cognition-drugs-1",
+        "e4d-cognition-drugs-2"
+      ]
+    },
+    {
+      "id": "imaging-herbals",
+      "chapter": "3",
+      "title": "Supplements, imaging and diagnostic limits",
+      "questions": [
+        "e4d-imaging-herbals-1",
+        "e4d-imaging-herbals-2"
+      ]
+    },
+    {
+      "id": "ethics",
+      "chapter": "6",
+      "title": "Ethical principles in a concrete decision",
+      "questions": [
+        "e4d-ethics-1",
+        "e4d-ethics-2",
+        "cq-ext-6",
+        "cq-c6-1",
+        "q-legal-6"
+      ]
+    },
+    {
+      "id": "admission",
+      "chapter": "6",
+      "title": "Admission, liberty and least restriction",
+      "questions": [
+        "e4d-admission-1",
+        "e4d-admission-2",
+        "cq-c6-2",
+        "q-legal-1",
+        "q-legal-3"
+      ]
+    },
+    {
+      "id": "consent",
+      "chapter": "6",
+      "title": "Capacity, consent and advance preferences",
+      "questions": [
+        "e4d-consent-1",
+        "e4d-consent-2",
+        "e4d-consent-3",
+        "cq-c6-9"
+      ]
+    },
+    {
+      "id": "restraints",
+      "chapter": "6",
+      "title": "Restraint: danger, authority, reassessment and release",
+      "questions": [
+        "e4d-restraints-1",
+        "e4d-restraints-2",
+        "e4d-restraints-3",
+        "cq-c6-3",
+        "cq-c6-4",
+        "q-legal-2"
+      ]
+    },
+    {
+      "id": "privacy",
+      "chapter": "6",
+      "title": "Confidentiality, threats and reporting",
+      "questions": [
+        "e4d-privacy-1",
+        "e4d-privacy-2",
+        "cq-c6-6",
+        "cq-c6-7",
+        "q-legal-4"
+      ]
+    },
+    {
+      "id": "torts",
+      "chapter": "6",
+      "title": "Torts, negligence and nursing standards",
+      "questions": [
+        "e4d-torts-1",
+        "e4d-torts-2",
+        "cq-ext-1",
+        "cq-c6-5",
+        "cq-c6-10",
+        "cq-c6-11",
+        "q-legal-5"
+      ]
+    },
+    {
+      "id": "discharge",
+      "chapter": "6",
+      "title": "Discharge types and continuity of care",
+      "questions": [
+        "e4d-discharge-1",
+        "e4d-discharge-2",
+        "cq-c6-8"
+      ]
+    },
+    {
+      "id": "phases",
+      "chapter": "9",
+      "title": "Peplau: why the relationship changes over time",
+      "questions": [
+        "e4d-phases-1",
+        "e4d-phases-2",
+        "cq-pep-1",
+        "cq-pep-2",
+        "cq-pep-3",
+        "cq-pep-5",
+        "q-rel-1",
+        "q-e4-peplau-working"
+      ]
+    },
+    {
+      "id": "roles",
+      "chapter": "9",
+      "title": "Peplau’s nursing roles and self-awareness",
+      "questions": [
+        "e4d-roles-1",
+        "e4d-roles-2",
+        "cq-pep-4",
+        "cq-c2-3"
+      ]
+    },
+    {
+      "id": "boundaries",
+      "chapter": "9",
+      "title": "Transference, countertransference and boundaries",
+      "questions": [
+        "e4d-boundaries-1",
+        "e4d-boundaries-2",
+        "cq-freud-3",
+        "cq-freud-4",
+        "cq-freud-5",
+        "q-rel-2",
+        "q-rel-3"
+      ]
+    },
+    {
+      "id": "communication",
+      "chapter": "9",
+      "title": "Choose a technique for its purpose",
+      "questions": [
+        "e4d-communication-1",
+        "e4d-communication-2",
+        "e4d-communication-3",
+        "cq-hum-3",
+        "cq-ext-5",
+        "cq-c9-1",
+        "cq-c9-5",
+        "cq-c9-8"
+      ]
+    },
+    {
+      "id": "blocks",
+      "chapter": "9",
+      "title": "Communication blocks and repair",
+      "questions": [
+        "e4d-blocks-1",
+        "e4d-blocks-2",
+        "q-comm-2"
+      ]
+    },
+    {
+      "id": "nonverbal",
+      "chapter": "9",
+      "title": "Words, behavior and cultural meaning",
+      "questions": [
+        "e4d-nonverbal-1",
+        "e4d-nonverbal-2",
+        "cq-lec-1",
+        "cq-ext-2",
+        "cq-c9-2",
+        "cq-c9-4",
+        "cq-c9-6"
+      ]
+    },
+    {
+      "id": "interview",
+      "chapter": "9",
+      "title": "Interview, interpreter, handoff and technology",
+      "questions": [
+        "e4d-interview-1",
+        "e4d-interview-2",
+        "e4d-interview-3",
+        "cq-ext-4",
+        "cq-c9-3",
+        "cq-c9-9"
+      ]
+    },
+    {
+      "id": "safety-talk",
+      "chapter": "9",
+      "title": "Direct safety questions and reality-based support",
+      "questions": [
+        "e4d-safety-talk-1",
+        "e4d-safety-talk-2",
+        "cq-dsm-8",
+        "cq-dsm-9",
+        "cq-c9-7",
+        "q-comm-1",
+        "q-comm-3"
+      ]
+    },
+    {
+      "id": "factors",
+      "chapter": "34",
+      "title": "Why groups help: therapeutic factors",
+      "questions": [
+        "e4d-factors-1",
+        "e4d-factors-2",
+        "e4d-factors-3",
+        "e4d-factors-4",
+        "cq-c34-1",
+        "cq-c34-3",
+        "q-g34-01",
+        "q-g34-02"
+      ]
+    },
+    {
+      "id": "design",
+      "chapter": "34",
+      "title": "Content, process and group design",
+      "questions": [
+        "e4d-design-1",
+        "e4d-design-2"
+      ]
+    },
+    {
+      "id": "group-phases",
+      "chapter": "34",
+      "title": "Group development and endings",
+      "questions": [
+        "e4d-group-phases-1",
+        "e4d-group-phases-2",
+        "cq-c34-5",
+        "q-g34-03",
+        "q-g34-04"
+      ]
+    },
+    {
+      "id": "group-roles",
+      "chapter": "34",
+      "title": "Task, maintenance and individual roles",
+      "questions": [
+        "e4d-group-roles-1",
+        "e4d-group-roles-2",
+        "e4d-group-roles-3",
+        "q-g34-05"
+      ]
+    },
+    {
+      "id": "group-types",
+      "chapter": "34",
+      "title": "Frameworks, purposes and appropriate referral",
+      "questions": [
+        "e4d-group-types-1",
+        "e4d-group-types-2",
+        "e4d-group-types-3",
+        "cq-c34-7",
+        "q-g34-06"
+      ]
+    },
+    {
+      "id": "leadership",
+      "chapter": "34",
+      "title": "Leadership, facilitation and supervision",
+      "questions": [
+        "e4d-leadership-1",
+        "e4d-leadership-2",
+        "cq-c34-4",
+        "cq-c34-6",
+        "q-g34-07"
+      ]
+    },
+    {
+      "id": "group-privacy",
+      "chapter": "34",
+      "title": "Consent, confidentiality and virtual groups",
+      "questions": [
+        "e4d-group-privacy-1",
+        "e4d-group-privacy-2",
+        "e4d-group-privacy-3",
+        "q-g34-08"
+      ]
+    },
+    {
+      "id": "group-safety",
+      "chapter": "34",
+      "title": "Difficult participation versus immediate danger",
+      "questions": [
+        "e4d-group-safety-1",
+        "e4d-group-safety-2",
+        "e4d-group-safety-3",
+        "cq-c34-2",
+        "q-g34-09",
+        "q-g34-10",
+        "q-g34-11"
+      ]
+    },
+    {
+      "id": "group-outcomes",
+      "chapter": "34",
+      "title": "Evaluate learning, transfer and evidence",
+      "questions": [
+        "e4d-group-outcomes-1",
+        "e4d-group-outcomes-2",
+        "q-g34-12"
+      ]
+    }
+  ],
+  "aliases": {
+    "cq-c3-1": "q-neuro-1",
+    "cq-c3-2": "q-neuro-2",
+    "cq-c3-3": "q-neuro-3",
+    "cq-c3-5": "q-neuro-9",
+    "cq-c3-6": "q-neuro-8",
+    "cq-c3-7": "q-neuro-4",
+    "cq-c3-8": "q-neuro-5",
+    "cq-c3-9": "q-neuro-6",
+    "cq-c3-15": "q-neuro-12",
+    "cq-c34-1": "q-g34-01",
+    "cq-c34-5": "q-g34-03"
+  },
+  "limitations": [
+    "Coverage describes authored notes/class material, not proof that every raw textbook detail has been assessed.",
+    "Strength so far is provisional evidence, never certification of mastery.",
+    "Earlier reports already evicted by older software cannot be reconstructed from missing data.",
+    "Older reports did not store selected answers or historical question text. Migration preserves scores and IDs, with available question references clearly labeled.",
+    "Browser storage has finite capacity; download backups. No automatic cloud sync."
+  ]
+}

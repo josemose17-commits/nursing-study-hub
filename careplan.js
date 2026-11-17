@@ -227,8 +227,8 @@
   function flagHtml(f) { if (!f) return ''; var crit = f.indexOf('!') > 0, b = f.charAt(0); return '<b class="lf ' + (crit ? 'crit' : b === 'A' ? 'abn' : 'out') + '" title="' + (crit ? 'Possible critical value: notify now' : '') + '">' + (b === 'H' ? 'High' : b === 'L' ? 'Low' : 'Abnormal') + (crit ? ' · critical?' : '') + '</b>'; }
   R.labs = function (it) {
     return wrap(it, qh(it.q) + incBox('labs') + askQ('labs') + helps(it) + '<p class="note">Common adult ranges appear as hints. Enter the range verified in your lab report to include it in your document. Flags use the common range until you enter one. Counts like 15.8 for WBC or 210 for platelets are read as thousands.</p>' + LABS.map(function (pn) {
-      var has = pn.rows.some(function (r) { return filled(get('labs.' + r.k + '.i')) || filled(get('labs.' + r.k + '.c')); });
-      return '<details class="panel" id="lp-' + pn.id + '"' + (has || pn.id === 'cbc' || pn.id === 'bmp' ? ' open' : '') + '><summary><b>' + esc(pn.name) + '</b><span class="pc" id="pc-' + pn.id + '"></span></summary>' +
+      var has = pn.rows.some(function (r) { return filled(get('labs.' + r.k + '.i')) || filled(get('labs.' + r.k + '.c')) || filled(get('labs.' + r.k + '.s')) || filled(get('labs.' + r.k + '.r')); });
+      return '<details class="panel" id="lp-' + pn.id + '"' + (has ? ' open' : '') + '><summary><b>' + esc(pn.name) + '</b><span class="pc" id="pc-' + pn.id + '"></span></summary>' +
         '<div class="lhead" aria-hidden="true"><span>' + esc(pn.name) + '</span><span>Normal range</span><span>Initial value</span><span>Current value</span><span>Clinical significance/trends</span></div>' +
         pn.rows.map(function (r) {
           var b = 'labs.' + r.k;
@@ -250,6 +250,7 @@
   }
   function feBlock(i) {
     var b = 'fe.' + i, key = get(b + '.lab') || '', r = LABM[key], hl = get(b + '.hl') || '', g = FE[key], d = g && (hl === 'High' ? g.hi : hl === 'Low' ? g.lo : null);
+    var showDetails=!!r||['val','hl','norm','crit','rel','cause','tx','nsg'].some(function(k){return filled(get(b+'.'+k));});
     var ab = abnormalLabs(), seen = {}, opts = '<option value="">Choose a lab…</option>';
     function opt(k) { if (seen[k] || !LABM[k] || LABM[k].q) return ''; seen[k] = 1; return '<option value="' + k + '"' + (k === key ? ' selected' : '') + '>' + esc(LABM[k].n === 'Glucose' && LABM[k].panel !== 'Basic Metabolic Panel' ? 'Urine glucose' : LABM[k].n) + (ab.indexOf(k) >= 0 ? ' (abnormal)' : '') + '</option>'; }
     if (ab.length) opts += '<optgroup label="Abnormal for your patient">' + ab.map(opt).join('') + '</optgroup>';
@@ -259,14 +260,16 @@
     return '<div class="fe-h">Lab ' + (i + 1) + (d ? ' · ' + esc(d.name) : '') + '</div>' +
       unit(b+'.values','Lab '+(i+1)+': values and ranges','<div class="fgrid">'+
       '<label class="fld">Lab<select data-p="'+b+'.lab">'+opts+'</select></label>'+
-      '<label class="fld">Value'+inp(b+'.val')+'</label>'+
+      (showDetails?'<label class="fld">Value'+inp(b+'.val')+'</label>'+
       '<label class="fld">High/Low<select data-p="'+b+'.hl"><option value=""></option><option'+(hl==='High'?' selected':'')+'>High</option><option'+(hl==='Low'?' selected':'')+'>Low</option></select></label>'+
       '<label class="fld">Normal value'+inp(b+'.norm',r?defRange(r)+' (verify facility)':'verify your lab report')+'</label>'+
-      '<label class="fld">Critical value'+inp(b+'.crit',g?g.crit+' (verify facility)':'check your facility’s list')+'</label></div>'+fh('fe.lab')+fh('fe.norm'),b+'.val')+
+      '<label class="fld">Critical value'+inp(b+'.crit',g?g.crit+' (verify facility)':'check your facility’s list')+'</label>':'')+'</div>'+fh('fe.lab')+(showDetails?fh('fe.norm'):''),b+'.val')+
+      (showDetails?
       unit(b+'.rel','Lab '+(i+1)+': relevance',qh('Relevance','sm')+fh('fe.rel')+hint(g?g.rel:'')+ta(b+'.rel','Why does this lab matter for this patient?'),b+'.rel')+
       unit(b+'.cause','Lab '+(i+1)+': cause',qh(i?'What caused derangement?':'What caused imbalance?','sm')+fh('fe.cause')+hint(cause)+ta(b+'.cause'),b+'.cause')+
       unit(b+'.tx','Lab '+(i+1)+': treatment',qh('Treatment','sm')+fh('fe.tx')+hint(d&&d.tx)+ta(b+'.tx','What did the provider order?'),b+'.tx')+
-      unit(b+'.nsg','Lab '+(i+1)+': nursing assessment / interventions',qh('Nsg. Assessments/interventions required:','sm')+fh('fe.nsg')+hint(d&&d.nsg)+ta(b+'.nsg')+citeIns(b+'.nsg'),b+'.nsg');
+      unit(b+'.nsg','Lab '+(i+1)+': nursing assessment / interventions',qh('Nsg. Assessments/interventions required:','sm')+fh('fe.nsg')+hint(d&&d.nsg)+ta(b+'.nsg')+citeIns(b+'.nsg'),b+'.nsg'):
+      '<p class="cite-hint">Choose the patient’s actual abnormal lab above to open its values, cause, treatment and nursing questions.</p>');
   }
   R.fe = function (it) { return wrap(it, qh(it.q) + incBox('fe') + askQ('fe') + helps(it) + [0, 1].map(function (i) { return '<div class="fe" id="fe-' + i + '">' + feBlock(i) + '</div>'; }).join('')); };
   function feAuto(i) {
@@ -768,27 +771,59 @@
     'plan.stmt': 'Care plan: the problem', 'plan.stg': 'Care plan: goals', 'plan.iv': 'Care plan: interventions', 'plan.ev': 'Care plan: evaluation' };
   function interviewList() {
     var out = [];
-    function add(key, label, d) { if (d && ((d.pt || []).length || (d.rn || []).length || (d.them || []).length)) out.push({ label: label || QLBL[key] || key, d: d }); }
+    function gap(path,label,question,tip){if(!filled(get(path)))out.push({label:label,target:path,d:{them:[question],tip:tip||''}});}
+    function rowGaps(key,cols,label){
+      var rows=(get(key)||[]).filter(function(r){return r&&r.some(filled);});
+      if(!rows.length){out.push({label:label,target:key,d:{them:[key==='support'?'Who supports the patient, and what is their relationship?':key==='meds'?'Which medications are verified on the current medication record?':'Which provider orders are actually documented for this patient?'],tip:'Use the current record and patient information; enter only actual items.'}});return;}
+      (get(key)||[]).forEach(function(r,i){if(!r||!r.some(filled))return;cols.forEach(function(c,j){gap(key+'.'+i+'.'+j,label+' '+(i+1)+': '+c,'What is the verified '+c.toLowerCase()+' for '+(r[0]||label.toLowerCase()+' '+(i+1))+'?');});});
+    }
     FORM.forEach(function (sec) {
       sec.items.forEach(function (it) {
-        if (it.type === 'grid' && it.fields[0][0] === 'initials') add('client', null, ASKQ.client);
-        else if (it.type === 'erikson') { var s = stageOf(num(get('info.age'))); add('erik', QLBL.erik + (s >= 0 ? ': ' + ERIK[s][0] : ''), { pt: s >= 0 ? ERIKQ[s] : ERIKQ.reduce(function (a, b) { return a.concat(b); }, []) }); }
-        else if (it.type === 'systems' && !it.compare) SYS.forEach(function (sy) { add('sys.' + sy[0], 'Head-to-toe: ' + sy[1], ASKQ['sys.' + sy[0]]); });
-        else if (it.type === 'plan') ['plan.stmt', 'plan.stg', 'plan.iv', 'plan.ev'].forEach(function (k) { add(k, null, ASKQ[k]); });
-        else if (it.k && ASKQ[it.k]) add(it.k, null, ASKQ[it.k]);
+        if(it.type==='grid')it.fields.forEach(function(f){gap(fieldPath(f[0]),f[1],'What belongs in '+f[1]+' on this form?');});
+        else if(it.type==='text'||it.type==='line')gap(it.k,(window.CP_COACH?.names||{})[it.k]||sec.title,it.q||it.label,(window.CP_SIMPLE_INCLUDE||{})[it.k]);
+        else if(it.type==='support')rowGaps('support',['Initials','Relationship'],'Support person');
+        else if(it.type==='meds')rowGaps('meds',MEDCOLS.map(function(c){return c[0];}),'Medication');
+        else if(it.type==='orders')rowGaps('orders',['Order','Rationale','Expected patient outcome'],'Medical order');
+        else if(it.type==='pmhmeds'){
+          var meds=(get('meds')||[]).filter(function(r){return r&&r.some(filled);});
+          if(!meds.length||!meds.every(function(r){return filled(r[0])&&filled(r[3]);}))gap(it.k,QLBL.pmhmeds,it.q);
+        }
+        else if(it.type==='erikson'){
+          var s=stageOf(num(get('info.age')));
+          if(s>=0){if(!filled(get('erik.stage')))gap('erik.lvl','Erikson: expected stage','What developmental task is expected at '+ERIK[s][0]+'?');gap('erik.a','Erikson: assessed development',it.qa);gap('erik.b','Erikson: supporting behavior',it.qb);}
+        }
+        else if(it.type==='sbar')['S','B','A','R'].forEach(function(k){gap(it.k+'.'+k,sec.title+' · '+k,(window.CP_SIMPLE_INCLUDE||{})[it.k+'.'+k]);});
+        else if(it.type==='vitals'){
+          var keys=['time','t','p','r','bp','spo2'].concat(it.pain?['pain']:[]),missing=keys.filter(function(k){return !filled(get(it.k+'.'+k));});
+          if(missing.length)out.push({label:it.q,target:it.k,d:{them:['Which actual '+(it.compare?'reassessment':'initial')+' measurements still need recording?'],tip:'Missing: '+missing.map(function(k){return {time:'assessment time',t:'temperature',p:'pulse',r:'respirations',bp:'blood pressure',spo2:'oxygen saturation with support',pain:'pain'}[k];}).join(', ')+'.'}});
+        }
+        else if(it.type==='systems')SYS.forEach(function(sy){gap(it.k+'.'+sy[0],(it.compare?'Reassessment':'Initial assessment')+' · '+sy[1],'What did you actually assess for '+sy[1].toLowerCase()+' at this time?',(window.CP_SIMPLE_INCLUDE||{})['sys.'+sy[0]]);});
+        else if(it.type==='labs'){
+          var used=[];LABS.forEach(function(pn){pn.rows.forEach(function(r){if(filled(get('labs.'+r.k+'.i'))||filled(get('labs.'+r.k+'.c'))||filled(get('labs.'+r.k+'.s')))used.push(r);});});
+          if(!used.length)out.push({label:'Relevant laboratory results',target:'labs',d:{them:['Which actual laboratory results are relevant to this patient’s problem, treatment or trend?'],tip:'Record only results available from the report. The exported syllabus table keeps all rows.'}});
+          used.forEach(function(r){gap('labs.'+r.k+'.r',r.n+': reference range','What reference range and units does this patient’s laboratory report use?');gap('labs.'+r.k+'.s',r.n+': significance / trend','How do the actual values and trend relate to this patient’s problem or treatment?');});
+        }
+        else if(it.type==='fe')[0,1].forEach(function(i){var b='fe.'+i;if(!LABM[get(b+'.lab')]){gap(b+'.lab','Fluid / electrolyte application '+(i+1),'Which actual relevant abnormal result will this application explain?');return;}for(var key of ['val','hl','norm','crit','rel','cause','tx','nsg'])gap(b+'.'+key,'Lab '+(i+1)+' · '+LABM[get(b+'.lab')].n,({val:'What is the actual value with units?',hl:'Is it high or low against the verified range?',norm:'What is the verified normal range?',crit:'What critical-value threshold does the facility use?',rel:'Why is this result relevant to this patient?',cause:'What patient-specific factor could explain this result?',tx:'What treatment is actually ordered or documented?',nsg:'What nursing assessments and actions are required for this result?'})[key]);});
+        else if(it.type==='plan')planArr().forEach(function(p,i){
+          var b='plan.'+i,d=DX[p.c];if(!d){gap(b+'.c','Care-plan problem '+(i+1),'Which nursing diagnosis is supported by this patient’s assessment?');return;}
+          gap(b+'.stmt',d.l+': problem statement','What patient-specific problem statement will guide this plan?');
+          gap(b+'.stg',d.l+': short-term goal','What measurable patient outcome is expected by the short-term deadline?');gap(b+'.ltg',d.l+': long-term goal','What measurable patient outcome is expected by the longer-term deadline?');
+          if(!(p.iv||[]).length)out.push({label:d.l+': interventions',target:b+'.iv',d:{them:['Which planned nursing actions address this problem, with their rationale and source?']}});
+          (p.iv||[]).forEach(function(iv,j){['Nursing action','Scientific rationale','Source citation'].forEach(function(name,k){gap(b+'.iv.'+j+'.'+(k+1),d.l+': intervention '+(j+1)+' · '+name,'What is the '+name.toLowerCase()+' for this intervention?');});});
+          gap(b+'.ev.s',d.l+': goal status','Was the specific goal met, partly met or not met?');gap(b+'.ev.d',d.l+': evaluation evidence','Which actual reassessment findings support the selected goal status?');gap(b+'.ev.next',d.l+': next plan','What will you continue, revise or escalate based on this evaluation?');
+        });
       });
     });
     return out;
   }
   function interviewDocx() {
     var b = [], KN = '<w:keepNext/>', ini = get('info.initials') || '', box = '<w:ind w:left="360" w:hanging="300"/><w:spacing w:after="40"/>';
-    b.push(wp(wr('Interview questions', { b: true, sz: 32 }), '<w:jc w:val="center"/><w:spacing w:after="120"/>'));
+    b.push(wp(wr('Questions for my care plan', { b: true, sz: 32 }), '<w:jc w:val="center"/><w:spacing w:after="120"/>'));
     b.push(wp(wr('Patient initials: ' + (ini || '________') + '     Room: ' + (get('info.room') || '______') + '     Date: ____________'), '<w:jc w:val="center"/><w:spacing w:after="200"/>'));
-    b.push(wp(wr('How to ask', { b: true, sz: 26 }), KN));
-    (window.CP_INTERVIEW_TIPS || []).forEach(function (t) { b.push(wp(wr('• ' + t), '<w:ind w:left="360" w:hanging="200"/><w:spacing w:after="40"/>')); });
+    b.push(wp(wr('Only unfinished syllabus fields are listed. Verify information with the appropriate patient, record, assessment or reference. This is a writing checklist, not a complete clinical interview.'), '<w:spacing w:after="120"/>'));
     interviewList().forEach(function (o) {
       b.push(wp(wr(o.label, { b: true, sz: 26 }), KN + '<w:spacing w:before="240" w:after="60"/>'));
-      [['Ask your patient', o.d.pt], ['Ask the nurse, instructor or family', o.d.rn], ['Be ready to answer', o.d.them]].forEach(function (g) {
+      [['Ask your patient', o.d.pt], ['Verify with the nurse or record', o.d.rn], ['Complete this care-plan answer', o.d.them]].forEach(function (g) {
         if (!g[1] || !g[1].length) return;
         b.push(wp(wr(g[0], { i: true }), KN + '<w:spacing w:after="20"/>'));
         g[1].forEach(function (q) { b.push(wp(wr('\u2610  ' + q), box)); });
@@ -893,7 +928,7 @@
       var f = (P.info || {}).initials; if (!confirm('Delete the care plan for ' + (f || 'this patient') + ' from this device? This can’t be undone.')) return;
       delete plans[cur]; store('cp-plans', plans); pick(byRecent()[0] || newPlan()); renderAll();
     });
-    $$('.dl-interview').forEach(function (bt) { bt.addEventListener('click', function () { saveFile(interviewDocx(), 'Interview questions' + (get('info.initials') ? ' ' + String(get('info.initials')).replace(/[^A-Za-z0-9]/g, '') : '') + '.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'); }); });
+    $$('.dl-interview').forEach(function (bt) { bt.addEventListener('click', function () { saveFile(interviewDocx(), 'Care plan questions' + (get('info.initials') ? ' ' + String(get('info.initials')).replace(/[^A-Za-z0-9]/g, '') : '') + '.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'); }); });
     $('#dl-docx').addEventListener('click', function () { saveFile(docx(), fileBase() + '.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'); });
     $('#dl-copy').addEventListener('click', function () {
       var t = plainText(), done = function () { toast('Copied. Paste it into your document.'); };

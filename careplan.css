@@ -406,3 +406,8 @@ details.how-ask { margin: -4px 4px 0; }
 .cp-wording .fld { display: grid; gap: .35rem; margin: .85rem 0; }
 .cp-wording textarea, .cp-wording select { width: 100%; box-sizing: border-box; }
 .cpw-original { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Context stays next to the single syllabus answer; inactive prompts are not tab stops. */
+#cpw-facts [hidden] { display: none !important; }
+.cpw-context { padding: 12px; margin: 12px 0; border-left: 3px solid var(--color-accent, #e8c84a); background: #09231a; overflow-wrap: anywhere; }
+.cpw-context ul { padding-left: 20px; margin-bottom: 0; }

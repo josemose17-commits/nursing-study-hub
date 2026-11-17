@@ -1,14 +1,14 @@
 // Optional wording help attached to the syllabus answers. No second form or field browser.
 (function(){
  'use strict';
- const D=window.CP_COACH,W=window.CPWords;
+ const D=window.CP_COACH,W=window.CPWords,F=window.CPFocus;
  const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  let api,dialog,current,started=false;const undo=new Map();
  const $=s=>dialog.querySelector(s);
  const types={problem:'Problem-focused',risk:'Risk',promo:'Health promotion'};
  function labName(key){return api.labs[key]?.n||'the selected lab';}
  const simple=(title,purpose,field,question,from='reason')=>({title,purpose,fields:[{id:'detail',label:field,question,from}],patterns:['{detail}']});
- function profile(u,path){
+ function baseProfile(u,path){
   const id=u.id;let p=D.profiles[id],m;
   if(p)return {...p};
   if((m=/^sys([12])\.(\w+)$/.exec(id)))return D.systemProfile(m[2],m[1]==='2');
@@ -51,43 +51,53 @@
   const hint=/^(?:me|info)\.(\w+)$/.exec(id),help=hint&&(window.CP_INC||{})['f.'+hint[1]];
   return {...simple(u.label,help||'Enter the verified detail in the answer field below.','Verified detail',hint?.[1]==='allergies'?'Which medication, food or latex caused a reaction, and what happened?':'What verified information belongs in '+u.label.toLowerCase()+'?','record'),noWording:true};
  }
+ function profile(u,path){return F.profile(baseProfile(u,path),{id:u.id,path,get:api.get,diagnoses:window.CP_TEST?.DX});}
 
  function record(){return (api.get('_coach')||{})[current.id+'::'+current.path]||{facts:{},draft:''};}
  function saveRecord(r){if(api.patient()!==current.patient)return;const map={...(api.get('_coach')||{})};map[current.id+'::'+current.path]=r;api.set('_coach',map);}
- function valid(){return current&&api.patient()===current.patient&&current.el.isConnected&&current.el.dataset.p===current.path&&String(api.get(current.path)||'')===current.saved&&current.el.value===current.before;}
+ function valid(){return current&&api.patient()===current.patient&&current.el.isConnected&&current.el.dataset.p===current.path&&String(api.get(current.path)||'')===current.saved&&current.el.value===current.before&&F.signature(current.p,api.get)===current.contextSignature;}
  function status(text){$('#cpw-status').textContent=text;}
  function refreshButtons(){const r=record(),has=!!String(r.draft||'').trim();$('#cpw-add').disabled=!has;$('#cpw-replace').disabled=!has;}
+ function refreshFacts(){
+  const visible=new Set(F.visible(current.p,record().facts,api.get).map(f=>f.id));
+  dialog.querySelectorAll('[data-word-row]').forEach(row=>{row.hidden=!visible.has(row.dataset.wordRow);row.querySelectorAll('textarea,select').forEach(input=>input.disabled=row.hidden);});
+ }
  function open(el){
   const unit=el.closest('[data-cp-unit]');if(!unit)return;
   const path=el.dataset.p,p=profile({id:unit.dataset.cpUnit,label:unit.dataset.cpLabel},path);if(p.noWording)return;
-  current={el,path,id:unit.dataset.cpUnit,p,patient:api.patient(),before:el.value,saved:String(api.get(path)||'')};
+  current={el,path,id:unit.dataset.cpUnit,p,patient:api.patient(),before:el.value,saved:String(api.get(path)||''),contextSignature:F.signature(p,api.get)};
   const r=record();$('#cpw-title').textContent='Nursing wording · '+p.title;
   $('#cpw-original').textContent=current.before||'No answer entered yet.';
   $('#cpw-purpose').textContent=p.purpose;
-  $('#cpw-facts').innerHTML=p.fields.map(f=>'<label class="fld"><span>'+esc(f.label)+'</span><small>'+esc(f.question)+'</small>'+(f.options?'<select data-word-fact="'+esc(f.id)+'"><option value="">Choose…</option>'+f.options.map(v=>'<option value="'+esc(v)+'"'+(r.facts?.[f.id]===v?' selected':'')+'>'+esc(types[v]||v)+'</option>').join('')+'</select>':'<textarea rows="2" data-word-fact="'+esc(f.id)+'">'+esc(r.facts?.[f.id]||'')+'</textarea>')+'</label>').join('');
-  $('#cpw-draft').value=r.draft||'';status('');refreshButtons();dialog.showModal();
+  $('#cpw-destination').textContent='Answering: '+unit.dataset.cpLabel;
+  const reused=F.context(p,api.get),entries=Object.entries(reused);
+  $('#cpw-context').hidden=!entries.length;
+  $('#cpw-context').innerHTML=entries.length?'<strong>Already on your form</strong><ul>'+entries.map(([key,value])=>'<li>'+esc(p.fields.find(f=>f.id===key).label)+': '+esc(value)+'</li>').join('')+'</ul>':'';
+  $('#cpw-facts').innerHTML=p.fields.map(f=>'<label class="fld" data-word-row="'+esc(f.id)+'"><span>'+esc(f.label)+'</span><small>'+esc(f.question)+'</small>'+(f.options?'<select data-word-fact="'+esc(f.id)+'"><option value="">Choose…</option>'+f.options.map(v=>'<option value="'+esc(v)+'"'+(r.facts?.[f.id]===v?' selected':'')+'>'+esc(types[v]||v)+'</option>').join('')+'</select>':'<textarea rows="2" data-word-fact="'+esc(f.id)+'">'+esc(r.facts?.[f.id]||'')+'</textarea>')+'</label>').join('');
+  $('#cpw-draft').value=r.draft||'';status('');refreshFacts();refreshButtons();dialog.showModal();$('#cpw-title').focus({preventScroll:true});dialog.scrollTop=0;
  }
  function enhance(){
   document.querySelectorAll('#form [data-p]').forEach(el=>{
    if(el.tagName!=='TEXTAREA'&&!/\.(rfx|aex)$/.test(el.dataset.p))return;
-   if(el.nextElementSibling?.hasAttribute('data-phrase'))return;
    const u=el.closest('[data-cp-unit]');if(!u)return;
-   if(profile({id:u.dataset.cpUnit,label:u.dataset.cpLabel},el.dataset.p).noWording)return;
+   const p=profile({id:u.dataset.cpUnit,label:u.dataset.cpLabel},el.dataset.p);
+   if(el.nextElementSibling?.hasAttribute('data-phrase')){el.nextElementSibling.hidden=!!p.noWording;return;}
+   if(p.noWording)return;
    const b=document.createElement('button');b.type='button';b.className='mini cp-phrase';b.dataset.phrase=el.dataset.p;b.textContent='Help me phrase this';
    b.setAttribute('aria-label','Help me phrase this: '+profile({id:u.dataset.cpUnit,label:u.dataset.cpLabel},el.dataset.p).title);
    b.addEventListener('click',()=>open(el));el.after(b);
   });
  }
  function start(){
-  if(started||!D||!W||!window.CP_HELPER)return;started=true;api=window.CP_HELPER;
+  if(started||!D||!W||!F||!window.CP_HELPER)return;started=true;api=window.CP_HELPER;
   dialog=document.createElement('dialog');dialog.id='cp-wording';dialog.className='cp-wording';dialog.setAttribute('aria-labelledby','cpw-title');
-  dialog.innerHTML='<h2 id="cpw-title">Nursing wording</h2><p id="cpw-purpose"></p><details><summary>My current answer</summary><p id="cpw-original" class="cpw-original"></p></details><p class="muted">Enter only the facts you want included. This local helper puts those facts into sentence patterns; review and edit the draft before using it.</p><div id="cpw-facts"></div><button type="button" class="btn" id="cpw-build">Build nursing wording</button><p id="cpw-status" role="status" aria-live="polite"></p><label class="fld">Editable wording draft<textarea id="cpw-draft" rows="5"></textarea></label><div class="btns"><button type="button" class="btn" id="cpw-add">Add to my answer</button><button type="button" class="mini" id="cpw-replace">Replace my answer with this draft</button><button type="button" class="mini" id="cpw-close">Back to my form</button></div>';
+  dialog.innerHTML='<h2 id="cpw-title" tabindex="-1">Nursing wording</h2><p id="cpw-destination" class="muted"></p><p id="cpw-purpose"></p><details><summary>My current answer</summary><p id="cpw-original" class="cpw-original"></p></details><p class="muted">Answer only the prompts that fit this box. Details already on the form are reused below. Review and edit the wording before adding it.</p><div id="cpw-context" class="cpw-context" hidden></div><div id="cpw-facts"></div><button type="button" class="btn" id="cpw-build">Build nursing wording</button><p id="cpw-status" role="status" aria-live="polite"></p><label class="fld">Editable wording draft<textarea id="cpw-draft" rows="5"></textarea></label><div class="btns"><button type="button" class="btn" id="cpw-add">Add to my answer</button><button type="button" class="mini" id="cpw-replace">Replace my answer with this draft</button><button type="button" class="mini" id="cpw-close">Back to my form</button></div>';
   document.querySelector('main').appendChild(dialog);
-  dialog.addEventListener('input',e=>{if(!current)return;const r=record();if(e.target.dataset.wordFact){r.facts={...r.facts,[e.target.dataset.wordFact]:e.target.value};}if(e.target.id==='cpw-draft')r.draft=e.target.value;saveRecord(r);refreshButtons();});
-  dialog.addEventListener('change',e=>{if(e.target.dataset.wordFact){const r=record();r.facts={...r.facts,[e.target.dataset.wordFact]:e.target.value};saveRecord(r);}});
+  dialog.addEventListener('input',e=>{if(!current)return;const r=record();if(e.target.dataset.wordFact){r.facts={...r.facts,[e.target.dataset.wordFact]:e.target.value};}if(e.target.id==='cpw-draft')r.draft=e.target.value;saveRecord(r);refreshFacts();refreshButtons();});
+  dialog.addEventListener('change',e=>{if(e.target.dataset.wordFact){const r=record();r.facts={...r.facts,[e.target.dataset.wordFact]:e.target.value};saveRecord(r);refreshFacts();}});
   $('#cpw-build').addEventListener('click',()=>{
    if(!valid())return status('This answer or patient changed. Close and reopen wording help for the current answer.');
-   const r=record(),result=W.assemble(current.p,r.facts);r.draft=result.text;saveRecord(r);$('#cpw-draft').value=r.draft;
+   const r=record(),result=W.assemble(current.p,F.facts(current.p,r.facts,api.get));r.draft=result.text;saveRecord(r);$('#cpw-draft').value=r.draft;
    const missing=result.missing.map(id=>current.p.fields.find(f=>f.id===id)?.label||id);
    const unused=result.unused.map(id=>current.p.fields.find(f=>f.id===id)?.label||id);
    status(missing.length?'Add these facts first: '+missing.join(', '):unused.length?'Some facts need more context before they can form a sentence: '+unused.join(', '):result.text?'Review the draft, including times, sources and patient-specific details.':'Add the facts needed to build a sentence.');refreshButtons();
@@ -126,6 +136,7 @@
   document.addEventListener('careplan-render',enhance);
   // Intervention rows can rerender without the whole-form event.
   new MutationObserver(enhance).observe(document.querySelector('#form'),{childList:true,subtree:true});
+  document.querySelector('#form').addEventListener('input',e=>{if(/^labs\./.test(e.target.dataset.p||''))queueMicrotask(enhance);});
   enhance();
  }
  document.addEventListener('DOMContentLoaded',start);

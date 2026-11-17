@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#04160e">
 <title>Care Plan Helper</title>
 <link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
-<link rel="stylesheet" href="careplan.css?v=202611101500">
+<link rel="stylesheet" href="careplan.css?v=202611172335">
 </head>
 <body>
 <main>
@@ -14,7 +14,7 @@
     <div class="kicker">NRS 114 · Clinical</div>
     <h1>Care plan helper</h1>
   </div>
-  <p class="lead">Fill the care plan in your syllabus, one question at a time. Each question explains what to include and offers an example. Write your answers, then review and export the form.</p>
+  <p class="lead">Fill the questions in your syllabus care plan. Each answer has a brief guide and an optional example. Wording help asks only for details that belong in that answer and reuses information you already entered.</p>
 
   <div class="glass pbar">
     <label class="fld">Patient <select id="pt" aria-label="Choose a patient"></select></label>
@@ -91,7 +91,7 @@
         <div class="btns"><button type="button" class="btn btn-primary" id="google-create">Review &amp; create Google Doc</button></div>
         <p id="google-status" class="muted" role="status" aria-live="polite"></p>
       </div>
-      <div class="btns"><button type="button" class="btn" id="dl-docx">Download care plan (.docx)</button><button type="button" class="btn" id="dl-copy">Copy my answers</button><button type="button" class="btn dl-interview">Interview questions (Word)</button></div>
+      <div class="btns"><button type="button" class="btn" id="dl-docx">Download care plan (.docx)</button><button type="button" class="btn" id="dl-copy">Copy my answers</button><button type="button" class="btn dl-interview">Questions for unfinished fields (Word)</button></div>
       <details class="doc-guide"><summary>Word download and manual Google Docs import</summary><ol><li>Download the care plan using the Word button above.</li><li>In your permitted Google Drive account, choose <b>New → File upload</b> and select the downloaded <b>.docx</b> file.</li><li>Open the uploaded file with <b>Google Docs</b>. You can edit the Word file there. To make a native Google Doc, choose <b>File → Save as Google Docs</b>.</li><li>Check table widths, page breaks and your instructor’s requirements before submitting.</li></ol><p>This is an alternative to the Google Doc button. Follow your school and clinical site’s rules for information stored in Google Drive.</p><p><a href="https://support.google.com/docs/answer/9406611?hl=en" target="_blank" rel="noopener">Google’s instructions for Office files</a></p></details>
       <details><summary>Preview the answers going into my document</summary><pre id="dl-preview"></pre></details>
       <h3 class="sub">What’s filled in</h3>
@@ -143,11 +143,12 @@
 <script src="data/careplan/guidance.js?v=202611091437"></script>
 <script src="apa-core.js?v=202611061900"></script>
 <script src="careplan-words.js?v=202611091437"></script>
-<script src="careplan.js?v=202611101200"></script>
-<script src="careplan-inline.js?v=202611101500"></script>
+<script src="careplan-focus.js?v=202611172335"></script>
+<script src="careplan.js?v=202611172335"></script>
+<script src="careplan-inline.js?v=202611172335"></script>
 <script src="data/careplan/google-config.js?v=202611091543"></script>
 <script src="careplan-google.js?v=202611091543"></script>
-<script src="nav.js?v=202611172102"></script>
+<script src="nav.js?v=202611172335"></script>
 <script src="say.js?v=202610281219"></script>
 </body>
 </html>

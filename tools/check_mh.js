@@ -85,6 +85,10 @@ Q.forEach(q => {
   if (!WEEKS.includes(q.wk)) err(`${w}: wk must be one of ${WEEKS}`);
   if (!links.has(q.link)) err(`${w}: link ${q.link} doesn't exist`);
   if (!Array.isArray(q.opts) || q.opts.length < 3) err(`${w}: needs at least 3 options`);
+  if (q.optionWhy != null) {
+    if (!Array.isArray(q.optionWhy) || q.optionWhy.length !== q.opts.length) err(`${w}: optionWhy must match the option count`);
+    else q.optionWhy.forEach((why, i) => str(why, `${w} optionWhy ${i}`));
+  }
   const a = Array.isArray(q.a) ? q.a : [q.a];
   if (Array.isArray(q.a) && q.a.length < 2) err(`${w}: select-all needs 2 or more answers`);
   if (Array.isArray(q.a) && !/select all/i.test(q.stem)) err(`${w}: select-all stem should say "Select all that apply"`);

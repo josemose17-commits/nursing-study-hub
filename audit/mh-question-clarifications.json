@@ -126,6 +126,358 @@
       ],
       "answerUnchanged": true,
       "optionsSameCount": true
+    },
+    {
+      "id": "cq-c3-10",
+      "fields": [
+        "opts[0]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-c3-12",
+      "fields": [
+        "opts[1]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-c3-15",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-c6-1",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-c6-10",
+      "fields": [
+        "opts[2]",
+        "optionWhy"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-c6-11",
+      "fields": [
+        "opts[0]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-c6-7",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[2]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-c9-1",
+      "fields": [
+        "stem",
+        "why",
+        "opts[0]",
+        "opts[1]",
+        "opts[2]",
+        "opts[3]",
+        "optionWhy"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length; reflection distinguished from making an observation"
+    },
+    {
+      "id": "cq-c9-2",
+      "fields": [
+        "opts[0]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-c9-5",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-dsm-10",
+      "fields": [
+        "opts[0]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-dsm-11",
+      "fields": [
+        "opts[0]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-dsm-9",
+      "fields": [
+        "opts[0]",
+        "opts[1]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-ext-1",
+      "fields": [
+        "opts[0]",
+        "opts[3]",
+        "optionWhy"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-freud-3",
+      "fields": [
+        "opts[0]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-hum-3",
+      "fields": [
+        "opts[2]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-pep-1",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-pep-2",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-pep-3",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "cq-pep-4",
+      "fields": [
+        "opts[1]",
+        "optionWhy"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-comm-1",
+      "fields": [
+        "opts[0]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-comm-3",
+      "fields": [
+        "opts[0]",
+        "opts[2]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-g34-04",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[2]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-g34-09",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[2]",
+        "opts[3]",
+        "optionWhy"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-g34-12",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[2]",
+        "opts[3]",
+        "optionWhy"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-legal-1",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-legal-4",
+      "fields": [
+        "opts[0]",
+        "opts[2]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-legal-5",
+      "fields": [
+        "opts[1]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-neuro-10",
+      "fields": [
+        "opts[0]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-neuro-12",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-rel-2",
+      "fields": [
+        "opts[3]",
+        "optionWhy"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-set-1",
+      "fields": [
+        "opts[0]",
+        "opts[1]",
+        "opts[2]",
+        "opts[3]"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Exam 4 Test review, November 18, 2026: plausible distractors and balanced option length"
     }
   ]
 }

@@ -52,9 +52,14 @@ assert.deepEqual(C.restore(learnLS.getItem('e4-learn-v1'),lessons).lessons,C.res
 
 // Existing graded meanings/positions remain stable. Only the new phase item is added.
 const oldQ=vm.createContext({window:{}});vm.runInContext(cp.execFileSync('git',['show','HEAD:data/mh/questions.js'],{cwd:ROOT,encoding:'utf8'}),oldQ);
-for(const q of oldQ.window.MH_Q){const prior=clone(q),next=clone(B.MH_Q.find(n=>n.id===q.id));delete prior.optionWhy;delete next.optionWhy;assert.deepEqual(next,prior);}
+// Wording clarifications listed in the audit ledger may change; ids, answer keys and option counts never do.
+const ledgerFields=new Map(JSON.parse(read('audit/mh-question-clarifications.json')).items.map(x=>[x.id,x.fields]));
+const allowed=(id,f)=>(ledgerFields.get(id)||[]).includes(f);
+function stable(q,id){q=clone(q);delete q.optionWhy;if(allowed(id,'stem'))delete q.stem;if(allowed(id,'why'))delete q.why;if(q.opts)q.opts=q.opts.map((o,j)=>allowed(id,'opts['+j+']')?'*':o);return q;}
+for(const q of oldQ.window.MH_Q){const next=B.MH_Q.find(n=>n.id===q.id);assert.deepEqual(clone(next.a),clone(q.a));assert.equal(next.opts.length,q.opts.length);assert.deepEqual(stable(next,q.id),stable(q,q.id));}
 const oldL=vm.createContext({window:{}});vm.runInContext(cp.execFileSync('git',['show','HEAD:data/learn/e4.js'],{cwd:ROOT,encoding:'utf8'}),oldL);
-for(const l of oldL.window.LEARN_DATA.lessons){const next=lessons.find(x=>x.id===l.id);assert(next);assert.deepEqual(next.questions.slice(0,l.questions.length),clone(l.questions),l.id+' checkpoint positions changed');}
+function stableL(q){q=clone(q);const id=q.sourceId||q.id;if(allowed(id,'stem'))delete q.q;if(q.o)q.o=q.o.map((o,j)=>allowed(id,'opts['+j+']')?'*':o);return q;}
+for(const l of oldL.window.LEARN_DATA.lessons){const next=lessons.find(x=>x.id===l.id);assert(next);assert.deepEqual(next.questions.slice(0,l.questions.length).map(stableL),clone(l.questions).map(stableL),l.id+' checkpoint positions changed');}
 // Exam 5 teaching now has its own approved redesign. Its grading/progress
 // preservation is checked in check_mh_active_lessons, independently of this scope.
 for(const page of ['Exam 4 Map.html','Exam 4 Learn.html','index.html'])assert(read(page).includes('data/mh/study-guide.js?v='));

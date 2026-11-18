@@ -72,7 +72,8 @@ for(const exam of ['e4','e5']){
 const oldQ=load(old('data/mh5/questions.js'),'MH_Q'),newQ=load(read('data/mh5/questions.js'),'MH_Q');
 assert.deepEqual(newQ.map(q=>q.id),oldQ.map(q=>q.id));
 for(const p of oldQ){const q=newQ.find(x=>x.id===p.id);assert.deepEqual(q.a,p.a);assert.equal(q.opts.length,p.opts.length);assert.equal(q.link,p.link);assert.equal(q.wk,p.wk);if(!changed.has(q.id))assert.deepEqual(q,p);}
-assert.equal(new Set(ledger.items.map(x=>x.id)).size,14);
+assert.equal(new Set(ledger.items.map(x=>x.id)).size,ledger.items.length);assert.equal(ledger.items.length,46);
+assert(ledger.items.every(x=>x.answerUnchanged===true&&x.optionsSameCount===true),'Clarifications never rekey a question or change its option count');
 assert.equal(count,39);assert.equal(choices,78);assert.equal(orders,2);
 // Use the actual Learn renderer: a shared MH rationale appears once, followed
 // by this item's format rather than an unrelated coached example.

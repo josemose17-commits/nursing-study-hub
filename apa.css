@@ -61,6 +61,25 @@ section.glass { scroll-margin-top: 12px; }
 .tag { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 99px; border: 1px solid var(--color-accent-700); color: var(--color-accent-200); margin-left: 6px; vertical-align: 1px; }
 .note { font-size: 13px; color: var(--color-neutral-400); margin-top: 8px; }
 
+/* my own outline */
+#outline-edit { margin: 4px 0 12px; }
+.oc-off { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.oc-off small { margin: 0; }
+.oc { padding: 12px 14px; border-radius: 14px; border: 1px solid var(--color-accent-700); background: var(--color-neutral-900); }
+.oc-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 8px; }
+.oc-h small { margin: 0; }
+.oc-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.oc-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 0; padding: 8px 0; border-top: 1px solid var(--color-divider); }
+.oc-row:first-child { border-top: 0; }
+.oc-row input, .oc-row select { font: inherit; font-size: 15px; color: inherit; background: var(--color-neutral-900); border: 1px solid var(--color-divider); border-radius: 10px; padding: 7px 9px; min-width: 0; }
+.oc-t { flex: 1 1 220px; }
+.oc-name { flex: 1 1 220px; font-weight: 500; }
+.oc-w, .oc-lv { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--color-neutral-400); }
+.oc-w input { width: 124px; }
+.oc-btns { display: inline-flex; gap: 4px; }
+.oc-btns button { font: inherit; font-size: 15px; color: inherit; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--color-divider); background: none; cursor: pointer; }
+.oc-btns button:disabled { opacity: .35; cursor: default; }
+
 /* headings as they look in the paper */
 .hd { font-weight: 700; }
 .hd.h1 { text-align: center; }

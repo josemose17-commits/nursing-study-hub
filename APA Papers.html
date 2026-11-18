@@ -14,7 +14,7 @@
     <div class="kicker">NRS 114 · Writing</div>
     <h1>APA papers</h1>
   </div>
-  <p class="lead">Every paper type follows a pattern. Pick yours, enter the page count and topic, and get an outline that tells you what goes in each section, how many paragraphs and words each needs, and where each section falls on the page. Then download a Word file already set up in APA 7 student format. Your instructor’s rubric always wins over these defaults.</p>
+  <p class="lead">Every paper type follows a pattern. Pick yours, enter the page count and topic, and get an outline that tells you what goes in each section, how many paragraphs and words each needs, and where each section falls on the page. Use the outline to draft each section here, then review and export your APA 7 student paper. Your instructor’s rubric always wins over these defaults.</p>
   <nav class="toc glass" aria-label="On this page">
     <a href="#build">Build my paper</a><a href="#patterns">Paper patterns</a><a href="#format">Format</a><a href="#cite">In-text citations</a><a href="#refs">References</a><a href="#write">Writing it</a><a href="#check">Final checklist</a>
   </nav>
@@ -51,7 +51,21 @@
       <p class="muted">Saved on this device only. Leave a field blank and the Word file shows a highlighted placeholder.</p>
     </details>
     <div class="step-h"><span>3</span>Your plan</div>
-    <div id="plan" aria-live="polite"></div>
+    <label class="fld">Assignment prompt<textarea id="assignment"></textarea></label>
+    <div id="plan"></div>
+    <h3>Write your paper</h3><div id="paper-fields"></div><p role="status" id="paper-status"></p>
+    <div class="btns"><button class="btn" id="paper-word">Download my paper (.docx)</button><button class="btn btn-primary" id="google-create">Review &amp; create Google Doc</button></div><p id="google-status"></p>
+    <dialog aria-labelledby="google-review-title" style="max-width:min(42rem,90vw)" id="google-review">
+    <h2 id="google-review-title">Review my Google Doc</h2>
+    <p id="google-review-status" role="status" aria-live="polite"></p>
+    <details open><summary>My paper</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere" id="google-preview"></pre></details>
+    <div class="btns google-actions">
+      <button type="button" class="btn btn-primary" id="google-confirm" disabled>Create my Google Doc</button>
+      <a class="btn btn-primary" id="google-open" target="_blank" rel="noopener noreferrer" hidden>Open my filled Google Doc</a>
+      <button type="button" class="btn" id="google-another" hidden>Create another copy</button>
+      <button type="button" class="btn" id="google-close">Back to writing</button>
+    </div>
+  </dialog>
   </section>
 
   <!-- ===== Patterns ===== -->
@@ -204,9 +218,9 @@
     <button type="button" class="btn" id="check-reset">Uncheck all</button>
   </section>
 </main>
-<script src="apa-core.js?v=202611061900"></script>
-<script src="apa.js?v=202611050100"></script>
+<script src="apa-core.js?v=202611180101"></script>
+<script src="apa.js?v=202611180101"></script>
 <script src="nav.js?v=202611172335"></script>
 <script src="say.js?v=202610281219"></script>
-</body>
+<script src="data/careplan/google-config.js"></script><script src="careplan-google.js?v=202611180101"></script></body>
 </html>

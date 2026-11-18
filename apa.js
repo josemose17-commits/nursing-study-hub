@@ -39,6 +39,60 @@
   ['pages', 'topic'].forEach(function (id) { $(id).addEventListener('input', sync); });
   ['inclusive', 'abstract', 'optional'].forEach(function (id) { $(id).addEventListener('change', sync); });
 
+  var drafts = load('writing', {});
+  function key(s) { return st.type + '/' + (s.intro ? 'intro' : s.t); }
+  function field(k, label, value, multiline) {
+    var attr = ' data-writing="' + esc(k) + '"';
+    return '<label class="fld">' + esc(label) + (multiline ? '<textarea rows="5"' + attr + '>' + esc(value) + '</textarea>' : '<input' + attr + ' value="' + esc(value) + '">') + '</label>';
+  }
+  function writingIdea(s) {
+    var topic = st.topic.trim() || 'your topic';
+    var ideas = {
+      reflection: 'During [specific moment], I reconsidered how I understood ' + topic + ' because …',
+      film: 'The scene in which [observable action] illustrates ' + topic + ' through …',
+      condition: 'For a patient experiencing ' + topic + ', the finding [cue] matters because …',
+      topic: 'One way ' + topic + ' affects nursing practice is …',
+      litreview: 'Two studies of ' + topic + ' reached different conclusions about …',
+      ebp: 'Among [population], how does [intervention] affect [outcome] related to ' + topic + '?',
+      casestudy: 'The assessment finding [cue] shaped the priority for this patient because …',
+      teaching: 'After instruction about ' + topic + ', the learner will demonstrate …',
+      position: 'A policy addressing ' + topic + ' should prioritize [goal] because …'
+    };
+    return ideas[st.type] + (s.paras > 1 ? ' In a second paragraph, develop the example with evidence and explain what it adds.' : ' Finish by connecting this example to the purpose of the paper.');
+  }
+  function editor() {
+    var title = field(st.type + '/title', 'Paper title', drafts[st.type + '/title'] || st.topic, false);
+    $('paper-fields').innerHTML = title + (P.abstract ? field(st.type+'/abstract','Abstract',drafts[st.type+'/abstract'],true) : '') + P.sections.map(function(s) {
+      var k = key(s), name = s.intro ? 'Introduction' : s.t;
+      return '<details class="me"><summary>' + esc(name) + ' · about ' + s.words + ' words</summary>' +
+        (s.intro ? '' : field(k+'/heading','Section title',drafts[k+'/heading'] || name,false)) +
+        (s.intro ? '<p><b>Writing idea</b> · '+esc(writingIdea(s))+'</p>' : '') + '<p>' + md(s.p[0]) + '</p><p>' + (s.paras > 1 ? 'Develop this across about '+s.paras+' paragraphs. Use a specific example, then explain how it supports your point.' : 'Choose one concrete example and explain its connection to your main point.') + '</p>' +
+        (s.s && s.s.length ? '<p>Sentence starter · ' + md(s.s[0]) + '</p>' : '') +
+        field(k+'/plan','My outline for this section',drafts[k+'/plan'],true) + field(k,'My paragraphs',drafts[k],true) + '</details>';
+    }).join('');
+  }
+  $('assignment').value = drafts.assignment || '';
+  function storeWriting(k,v) {
+    drafts[k] = v;
+    try { localStorage.setItem('apa-writing',JSON.stringify(drafts)); $('paper-status').textContent = 'Draft saved on this device.'; }
+    catch (_) { $('paper-status').textContent = 'Device storage unavailable. Download your draft before leaving.'; }
+  }
+  $('assignment').oninput = function() { storeWriting('assignment',this.value); };
+  $('paper-fields').oninput = function(e) { if(e.target.dataset.writing) storeWriting(e.target.dataset.writing,e.target.value); };
+  function snapshot() {
+    var sections = P.sections.map(function(s) { return Object.assign({},s,{t:drafts[key(s)+'/heading'] || s.t,text:(drafts[key(s)] || '').trim()}); }).filter(function(s){return s.text;});
+    var abstractText = P.abstract && drafts[st.type+'/abstract'] || '';
+    var plan = Object.assign({},P,{filled:true,title:drafts[st.type+'/title'] || st.topic || 'Untitled paper',abstract:!!abstractText,abstractText:abstractText,sections:sections,refs:refs.slice().sort(byText).map(function(r){return r.segs;})});
+    var preview = [plan.title,me.name,me.school,me.course,me.instructor,me.due,abstractText].concat(sections.map(function(s){return (s.t && !s.noHead ? s.t+'\n' : '')+s.text;}),plan.refs.map(segText));
+    return {patient:'apa-paper',hasAnswers:!!(sections.length || abstractText),title:plan.title,text:preview.filter(Boolean).join('\n\n'),bytes:A.docx(plan,me)};
+  }
+  window.APA_PAPER = {exportSnapshot:snapshot};
+  $('paper-word').onclick = function() {
+    var paper = snapshot();
+    if (!paper.hasAnswers) { $('paper-status').textContent='Write a paragraph before downloading.'; return; }
+    downloadBytes(paper.bytes,paper.title);
+  };
+
   var P;
   function sync() {
     st.pages = Math.max(1, Math.min(30, parseFloat($('pages').value) || 1));
@@ -70,10 +124,10 @@
           (s.s && s.s.length ? '<div class="starter">Try: ' + s.s.map(function (x) { return '<i>“' + md(x).replace(/<\/?i>/g, '') + '”</i>'; }).join(' · ') + '</div>' : '') + '</li>';
       }).join('') +
       '<li class="sec"><div class="hd h1">References</div><div class="meta">page ' + P.refPage + ' (new page)</div><ul><li>Every source cited in the text, alphabetical, double-spaced, hanging indent. See <a href="#refs">References</a>.</li></ul></li></ol>' +
-      '<div class="btns"><button type="button" class="btn btn-primary" id="dl">Download the Word file (.docx)</button><button type="button" class="btn" id="cp">Copy the outline</button></div>' +
+      '<div class="btns"><button type="button" class="btn btn-primary" id="dl">Download blank outline (.docx)</button><button type="button" class="btn" id="cp">Copy the outline</button></div>' +
       '<p class="note">The Word file opens in Word, Google Docs or Pages. It is already set up in APA format (font, double spacing, margins, page numbers, title page, headings, a references page with a hanging indent). Each highlighted note says what to write there: replace it with your own paragraph. ' +
       (refs.length ? 'Your ' + refs.length + ' saved reference' + (refs.length > 1 ? 's are' : ' is') + ' already on the references page.' : 'Add your sources with the reference builder below and they will be put on the references page for you.') + '</p>';
-    $('plan').innerHTML = h;
+    $('plan').innerHTML = h; editor();
     $('dl').addEventListener('click', download);
     $('cp').addEventListener('click', function (e) { copy(outlineText()).then(function () { flash(e.target, 'Copied'); }); });
   }
@@ -88,9 +142,11 @@
   }
   function download() {
     var plan = Object.assign({}, P, { refs: refs.length ? refs.slice().sort(byText).map(function (r) { return r.segs; }) : A.exampleRefs(P.type.id) });
-    var bytes = A.docx(plan, me);
+    downloadBytes(A.docx(plan, me), P.title);
+  }
+  function downloadBytes(bytes,title) {
     var blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-    var name = (P.title.replace(/[\[\]]/g, '').replace(/[^\w\s-]/g, '').trim().slice(0, 60) || 'APA paper') + '.docx';
+    var name = (title.replace(/[\[\]]/g, '').replace(/[^\w\s-]/g, '').trim().slice(0, 60) || 'APA paper') + '.docx';
     var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
   }

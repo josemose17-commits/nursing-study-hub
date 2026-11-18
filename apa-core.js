@@ -301,28 +301,32 @@
     b.push(para('', CENTER + NOIND), para('', CENTER + NOIND), para('', CENTER + NOIND));
     b.push(para(runs(P.title, { b: true, hl: /\[/.test(P.title) }), CENTER + NOIND), para('', CENTER + NOIND));
     [me.name || '[Your Name]', (me.dept ? me.dept + ', ' : '') + (me.school || '[Department, College or University]'), me.course || '[Course Number: Course Name]', me.instructor || '[Instructor Name]', me.due || '[Due Date, e.g., November 18, 2026]']
-      .forEach(function (t) { b.push(para(/^\[/.test(t) ? hl(t) : runs(t), CENTER + NOIND)); });
+      .filter(function(t) { return !P.filled || !/^\[/.test(t); }).forEach(function (t) { b.push(para(/^\[/.test(t) ? hl(t) : runs(t), CENTER + NOIND)); });
     b.push(BREAK);
     if (P.abstract) {
       b.push(para(runs('Abstract', { b: true }), '<w:pStyle w:val="Heading1"/>'));
-      b.push(para(hl('[150–250 words in one paragraph with no indent: the purpose, the main points and the conclusion. Write it last.]'), NOIND));
+      if (P.filled) b.push(para(runs(P.abstractText), NOIND));
+      else { b.push(para(hl('[150–250 words in one paragraph with no indent: the purpose, the main points and the conclusion. Write it last.]'), NOIND));
       b.push(para(runs('Keywords: ', { i: true }) + hl('[three to five keywords]'), '<w:ind w:firstLine="720"/>'));
+      }
       b.push(BREAK);
     }
     b.push(para(runs(P.title, { b: true, hl: /\[/.test(P.title) }), '<w:pStyle w:val="Heading1"/>'));
     P.sections.forEach(function (s) {
       if (s.t && !s.noHead && !s.intro) b.push(para(runs(s.t, { hl: /\[/.test(s.t) }), '<w:pStyle w:val="Heading' + (s.h || 1) + '"/>'));
+      if (P.filled) { s.text.split(/\n+/).filter(Boolean).forEach(function(line) { b.push(para(runs(line))); }); return; }
       for (var k = 0; k < s.paras; k++) {
         var hint = s.p[Math.min(k, s.p.length - 1)], st = s.s && s.s[Math.min(k, s.s.length - 1)];
         b.push(para(hl('[' + (s.intro ? 'Introduction (no heading; the title above starts the paper)' : s.noHead ? s.t : s.t) + ' · paragraph ' + (k + 1) + ' of ' + s.paras + ', about ' + Math.round(s.words / s.paras / 10) * 10 + ' words. ' + hint + (st ? ' Try: “' + st.replace(/\*/g, '') + '”' : '') + (s.cite ? ' Cite your sources.' : '') + ' Delete this note.]')));
       }
     });
-    b.push(BREAK);
+    if (!P.filled || P.refs.length) { b.push(BREAK);
     b.push(para(runs('References', { b: true }), '<w:pStyle w:val="Heading1"/>'));
     var hang = '<w:ind w:left="720" w:hanging="720"/>';
-    b.push(para(hl('[Delete these examples. List every source cited in the paper, alphabetized by the first author’s last name, double-spaced, with a 0.5-inch hanging indent (already set on this page).]'), hang));
+    if (!P.filled) b.push(para(hl('[Delete these examples. List every source cited in the paper, alphabetized by the first author’s last name, double-spaced, with a 0.5-inch hanging indent (already set on this page).]'), hang));
     (P.refs || []).forEach(function (r) { b.push(para(r.map(function (sg) { return runs(sg.t.replace(/\*/g, ''), { i: sg.i }); }).join(''), hang)); });
 
+    }
     var doc = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>' + b.join('') +
       '<w:sectPr><w:headerReference w:type="default" r:id="rIdH"/><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>';
     var rpr = '<w:rFonts w:ascii="' + F[0] + '" w:hAnsi="' + F[0] + '" w:cs="' + F[0] + '" w:eastAsia="' + F[0] + '"/><w:sz w:val="' + F[1] + '"/><w:szCs w:val="' + F[1] + '"/>';

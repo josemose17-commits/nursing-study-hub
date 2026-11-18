@@ -24,7 +24,7 @@
     return true;
   }
   function multipart(snapshot, requestId, boundary) {
-    var meta = { name: snapshot.title, mimeType: DOC, appProperties: { nrs114Export: requestId, syllabus: 'NRS114-WEC4-pp34-47' } };
+    var meta = { name: snapshot.title, mimeType: DOC, appProperties: { nrs114Export: requestId, syllabus: snapshot.patient === 'apa-paper' ? 'APA7-student' : 'NRS114-WEC4-pp34-47' } };
     return new Blob([
       '--' + boundary + '\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n' + JSON.stringify(meta) + '\r\n',
       '--' + boundary + '\r\nContent-Type: ' + WORD + '\r\n\r\n', snapshot.bytes,
@@ -57,10 +57,10 @@
     }
     async function prepare() {
       if (busy) return state;
-      busy = true; emit('preparing', 'Preparing the current care plan for review…');
+      busy = true; emit('preparing', 'Preparing the current document for review…');
       try {
         ready = null; ready = capture();
-        if (!ready.hasAnswers) { var blankPreview = ready.text; ready = null; busy = false; return emit('empty', 'Enter your care-plan answers first, then return here to create the filled Google Doc.', { preview: blankPreview }); }
+        if (!ready.hasAnswers) { var blankPreview = ready.text; ready = null; busy = false; return emit('empty', 'Add your writing first, then return here to create the filled Google Doc.', { preview: blankPreview }); }
         if (!configured(o.clientId)) { busy = false; return emit('setup', 'Google Docs creation needs a one-time connection setup for this website. No information has been sent to Google.', { preview: ready.text }); }
         ready.fingerprint = await o.digest(ready.bytes);
         if (!same(ready, capture())) { ready = null; throw new Error('Your form changed. Review it again before creating the document.'); }
@@ -141,7 +141,7 @@
   }
   function mount(w) {
     var d = w.document, button = d.getElementById('google-create'), dialog = d.getElementById('google-review');
-    if (!button || !dialog || !w.CP_HELPER) return;
+    if (!button || !dialog || !(w.CP_HELPER || w.APA_PAPER)) return;
     var $ = function (id) { return d.getElementById(id); }, config = w.CP_GOOGLE_CONFIG || {}, library = null, libraryReady = false, authClient;
     function loadLibrary() {
       if (w.google && w.google.accounts && w.google.accounts.oauth2) { libraryReady = true; return Promise.resolve(); }
@@ -181,7 +181,7 @@
       $('google-close').disabled = s.busy; button.disabled = s.busy;
       dialog.setAttribute('aria-busy', String(!!s.busy));
     }
-    var c = controller({ clientId: config.clientId, snapshot: w.CP_HELPER.exportSnapshot, storage: w.localStorage, fetch: w.fetch.bind(w), authorize: authorize,
+    var c = controller({ clientId: config.clientId, snapshot: (w.APA_PAPER || w.CP_HELPER).exportSnapshot, storage: w.localStorage, fetch: w.fetch.bind(w), authorize: authorize,
       digest: async function (bytes) { if (!w.crypto || !w.crypto.subtle) throw new Error('Open the secure HTTPS version of the study site to create a Google Doc. Your Word download is still available.'); var out = await w.crypto.subtle.digest('SHA-256', bytes); return Array.from(new Uint8Array(out)).map(function (n) { return n.toString(16).padStart(2, '0'); }).join(''); },
       randomId: function () { return Array.from(w.crypto.getRandomValues(new Uint8Array(16))).map(function (n) { return n.toString(16).padStart(2, '0'); }).join(''); }, onState: update });
     if (!configured(config.clientId)) $('google-status').textContent = 'Google Docs creation is waiting for the website’s one-time Google connection setup. Your completed form can still be reviewed and downloaded.';

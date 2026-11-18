@@ -17,6 +17,8 @@
 .ed-filters label { display: flex; gap: 8px; align-items: center; padding: 8px 12px; border: 1px solid var(--color-divider); border-radius: 12px; }
 .ed-filters input { accent-color: #72d1a9; width: 18px; height: 18px; }
 .ed-confidence small { font-weight: normal; color: var(--color-neutral-300); }
+.ed-max { margin: 14px 0 6px; font-size: 15px; } .ed-max b { font-size: 22px; color: var(--color-accent-200, #ffe27a); margin-right: 4px; }
+.ed-lengths { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 0; }
 .ed-controls { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0; }
 .ed-controls label { display: grid; gap: 6px; font-size: 14px; }
 .ed-panel select, .ed-panel input[type=number], .ed-panel textarea { font: inherit; color: var(--color-neutral-100, #f1f7f3); background: #0b2018; border: 1px solid #4b6b5a; border-radius: 10px; padding: 10px 12px; max-width: 100%; box-sizing: border-box; min-height: 44px; }

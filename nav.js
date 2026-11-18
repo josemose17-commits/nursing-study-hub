@@ -134,11 +134,35 @@
   // The link may also be opened in a tab that already shows this site (only the part after # changes).
   window.addEventListener('hashchange', importFromHash);
 
+  // Offline: sw.js (written by tools/build_sw.js) saves every page and data file on the device, so the hub works with no
+  // connection. The manifest and icons let a phone add it to the home screen as an app.
+  (function () {
+    var head = document.head; if (!head) return;
+    [['manifest', 'manifest.webmanifest'], ['apple-touch-icon', 'icons/apple-touch-icon.png'], ['icon', 'icons/icon.svg']].forEach(function (l) {
+      if (head.querySelector('link[rel="' + l[0] + '"]')) return;
+      var el = document.createElement('link'); el.rel = l[0]; el.href = root + l[1]; if (l[0] === 'icon') el.type = 'image/svg+xml'; head.appendChild(el);
+    });
+    if (!head.querySelector('meta[name="theme-color"]')) { var m = document.createElement('meta'); m.name = 'theme-color'; m.content = '#03140c'; head.appendChild(m); }
+    if (!head.querySelector('meta[name="apple-mobile-web-app-capable"]')) { var c = document.createElement('meta'); c.name = 'apple-mobile-web-app-capable'; c.content = 'yes'; head.appendChild(c); }
+  })();
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', function () { navigator.serviceWorker.register(root + 'sw.js').catch(function () {}); });
+    // Say once that the site is now saved (and once more only if it had never finished before).
+    navigator.serviceWorker.addEventListener('message', function (e) {
+      if (!e.data || e.data.type !== 'offline-ready') return;
+      try { if (localStorage.getItem('hub-offline-ready')) return; localStorage.setItem('hub-offline-ready', e.data.version || '1'); } catch (_) { return; }
+      var t = document.createElement('div'); t.setAttribute('role', 'status');
+      t.textContent = 'Saved on this device: the study hub now works offline.';
+      t.style.cssText = 'position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:9999;max-width:calc(100% - 32px);padding:10px 16px;border-radius:999px;background:#f5c400;color:#04160e;font:600 14px system-ui,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.4);text-align:center';
+      document.body.appendChild(t); setTimeout(function () { t.remove(); }, 5000);
+    });
+  }
+
   // Browsers keep a page for a few minutes, so a phone can show yesterday's version after an update.
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up — once per page,
   // since each page's HTML (and the data it names) is cached separately.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202611172335';
+  var BUILD = '202611181400';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     // Builds before 202610282230 reloaded only once per session for every page. This page is already current, so clear

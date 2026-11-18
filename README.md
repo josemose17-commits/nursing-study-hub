@@ -123,8 +123,9 @@ On the map, tap **Pick topics** and choose the topics (or **Lists → Study guid
 - `tools/` — scripts that split the Info page into map topics and list the paragraphs that have short versions.
 - `support.js` — the Claude Design page runtime every `.dc.html` page loads.
 - `_ds/nocturne-…/styles.css` — the shared theme (colors at the top; glass layer and tab bar at the bottom).
-- `nav.js` — the floating tab bar on every page. It also checks `version.json` and reloads once when a newer build is published, so phones don't keep showing an old version. **On each release, bump `BUILD` in `nav.js` and the number in `version.json` together** (and the `?v=` on any changed data file).
+- `nav.js` — the floating tab bar on every page. It also checks `version.json` and reloads once when a newer build is published, so phones don't keep showing an old version. **On each release, bump `BUILD` in `nav.js` and the number in `version.json` together** (and the `?v=` on any changed data file), then run `node tools/build_sw.js`.
 - `notes/` — audio notes and the instructor's study guide.
+- `sw.js` (written by `tools/build_sw.js`), `manifest.webmanifest`, `icons/` — offline support. `nav.js` registers the service worker, which saves every page, data file and image (about 18 MB) on the first visit, plus the React and Babel files the older `.dc` pages load from unpkg. Online, pages still come from the network; offline, or when the network is slower than 4 seconds, the saved copy is used. Each file is listed with a content hash, so a release re-downloads only what changed. **Run `node tools/build_sw.js` after every change** (`--check` reports whether it is current). The manifest lets a phone add the hub to its home screen.
 
 ## Running it
 
@@ -135,7 +136,7 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-Or turn on GitHub Pages (Settings → Pages → deploy from branch). The older pages fetch React from unpkg.com, so they need an internet connection.
+Or turn on GitHub Pages (Settings → Pages → deploy from branch). After the first visit online, the whole hub works offline (see `sw.js` below); offline support needs a web address (GitHub Pages or localhost), not a double-clicked file.
 
 Progress is stored in the browser's localStorage, so it stays on the device and browser you studied on.
 

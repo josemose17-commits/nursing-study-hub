@@ -120,32 +120,56 @@
     }).join(' ');
   }
 
-  // plan({ type, pages, inclusive, abstract, topic }) → the outline for that paper.
+  // Guidance for a section the student added to their own outline.
+  var OWN = { w: 2, cite: true, p: ['Your own section: open with a topic sentence, give evidence with citations, explain what it means, and link it back to your thesis.'], s: ['Another important aspect of … is …'] };
+  // A custom section borrows the guidance of the built-in section it came from (or one with the same name).
+  function builtIn(T, c) {
+    var name = String(c.t || '').trim().toLowerCase();
+    for (var i = 0; i < T.secs.length; i++) {
+      var s = T.secs[i];
+      if ((c.base && c.base === s.t) || s.t.toLowerCase() === name) return s;
+    }
+    return name === CONCL.t.toLowerCase() ? CONCL : null;
+  }
+  function fixedWords(v) { v = Math.round(+v || 0); return v > 0 ? Math.min(20000, v) : 0; }
+
+  // plan({ type, pages, inclusive, abstract, topic, custom }) → the outline for that paper.
+  // custom (optional) = { intro: { words }, concl: { words }, secs: [{ id, t, base, h, words }] }: the student's own
+  // section names, order and heading levels; a section with words set keeps that count and the rest share what is left.
   function plan(o) {
     var T = find(o.type), pages = Math.max(1, Math.min(30, +o.pages || 3));
+    var C = o.custom && Array.isArray(o.custom.secs) ? o.custom : null;
     var body = o.inclusive ? Math.max(1, pages - 1 - 1 - (o.abstract ? 1 : 0)) : pages;
     var words = Math.round(body * WPP), short = body < 2;
-    var list = [{ t: null, intro: true, w: 1, p: T.intro, s: T.introS }];
-    T.secs.forEach(function (s) {
+    var list = [{ t: null, intro: true, w: 1, p: T.intro, s: T.introS, fixed: C && fixedWords(C.intro && C.intro.words) }];
+    if (C) C.secs.forEach(function (c, i) {
+      var b = builtIn(T, c) || OWN;
+      list.push({ id: c.id || 'own' + i, t: String(c.t || '').trim() || 'Untitled Section', base: c.base, h: c.h === 2 ? 2 : 1, w: b.w, cite: b.cite, p: b.p, s: b.s, fixed: fixedWords(c.words), custom: true });
+    });
+    else T.secs.forEach(function (s) {
       if (s.opt && !o.optional) return;
       if (s.rep) {
         var n = 2; for (var i = 0; i < s.rep.length; i++) if (body <= s.rep[i][0]) { n = s.rep[i][1]; break; }
-        for (var k = 1; k <= n; k++) list.push({ t: s.t.replace('{n}', k), h: s.h || 1, w: s.w, cite: s.cite, p: s.p, s: s.s, rep: true });
-      } else list.push({ t: s.t, h: s.h || 1, w: s.w, cite: s.cite, p: s.p, s: s.s });
+        for (var k = 1; k <= n; k++) list.push({ t: s.t.replace('{n}', k), base: s.t, h: s.h || 1, w: s.w, cite: s.cite, p: s.p, s: s.s, rep: true });
+      } else list.push({ t: s.t, base: s.t, h: s.h || 1, w: s.w, cite: s.cite, p: s.p, s: s.s });
     });
-    list.push({ t: CONCL.t, h: 1, w: CONCL.w, p: CONCL.p, s: CONCL.s, concl: true });
-    if (short) { // under 2 pages: no headings; intro, a couple of body paragraphs, conclusion
+    list.push({ t: CONCL.t, h: 1, w: CONCL.w, p: CONCL.p, s: CONCL.s, concl: true, fixed: C && fixedWords(C.concl && C.concl.words) });
+    if (short && !C) { // under 2 pages: no headings; intro, a couple of body paragraphs, conclusion
       var mid = list.slice(1, -1), keep = mid.filter(function (s) { return !s.rep; }).slice(0, body < 1.5 ? 1 : 2);
       if (!keep.length) keep = mid.slice(0, 1);
       list = [list[0]].concat(keep.map(function (s) { return Object.assign({}, s, { noHead: true }); }), [list[list.length - 1]]);
     }
     var tw = list.reduce(function (n, s) { return n + s.w; }, 0);
     // The intro and conclusion each get about 10% of the paper (at least one paragraph); the rest is shared by weight.
+    // Sections with a word count the student chose keep it; the others share whatever is left of the target.
     var ic = short ? 0.2 : 0.1, rest = 1 - 2 * ic, mw = tw - list[0].w - list[list.length - 1].w;
+    var shares = list.map(function (s, i) { return (i === 0 || i === list.length - 1) ? ic : mw ? rest * s.w / mw : 0; });
+    var fixedSum = 0, autoShare = 0;
+    list.forEach(function (s, i) { if (s.fixed) fixedSum += s.fixed; else autoShare += shares[i]; });
+    var left = C ? Math.max(0, words - fixedSum) : words, scale = C ? (autoShare ? 1 / autoShare : 0) : 1;
     var start = (o.abstract ? 3 : 2), used = 0;
     list.forEach(function (s, i) {
-      var share = (i === 0 || i === list.length - 1) ? ic : rest * s.w / mw;
-      s.words = Math.max(60, Math.round(words * share / 10) * 10);
+      s.words = s.fixed || Math.max(60, Math.round(left * shares[i] * scale / 10) * 10);
       s.paras = Math.max(1, Math.round(s.words / WPARA));
       s.from = start + Math.floor(used / WPP); used += s.words; s.to = start + Math.max(0, Math.ceil(used / WPP - 0.05) - 1);
       if (s.to < s.from) s.to = s.from;
@@ -154,7 +178,7 @@
     if (T.id === 'reflection' || T.id === 'film' || T.id === 'casestudy' || T.id === 'teaching') src = Math.min(src, T.sources[1]);
     var topic = String(o.topic || '').trim();
     var title = topic ? titleCase(T.id === 'film' ? 'The Portrayal of ' + topic + ' in [Film Title]' : T.id === 'reflection' ? 'Reflection on ' + topic : T.id === 'ebp' ? topic + ': An Evidence-Based Practice Review' : T.id === 'litreview' ? topic + ': A Review of the Literature' : topic) : '[Title of Your Paper in Title Case]';
-    return { type: T, pages: pages, body: body, words: words, short: short, sections: list, sources: src, title: title,
+    return { type: T, pages: pages, body: body, words: words, planned: used, custom: !!C, short: short, sections: list, sources: src, title: title,
       refPage: start + Math.max(0, Math.ceil(used / WPP - 0.05) - 1) + 1, abstract: !!o.abstract };
   }
 

@@ -21,6 +21,24 @@ A.TYPES.forEach(T => {
     if (!(P.sources >= 2)) err(`${T.id}: too few sources`);
   }
 });
+// A student's own outline: names, order and levels as given; fixed word counts kept; the rest shares what is left.
+{
+  const custom = { intro: { words: '100' }, concl: { words: '' }, secs: [
+    { id: 'Summary of the Film', t: 'Plot Overview', base: 'Summary of the Film', h: 1, words: '' },
+    { id: 'Signs and Symptoms', t: 'Signs and Symptoms', h: 1, words: '300' },
+    { id: 'own1', t: 'Stigma and Media', h: 2, words: '' }] };
+  const P = A.plan({ type: 'film', pages: 3, custom });
+  const names = P.sections.map(s => s.intro ? 'intro' : s.t).join('|');
+  if (names !== 'intro|Plot Overview|Signs and Symptoms|Stigma and Media|Conclusion') err(`custom outline: sections ${names}`);
+  if (P.sections[0].words !== 100 || P.sections[2].words !== 300) err('custom outline: fixed word counts not kept');
+  if (P.sections[3].h !== 2 || !P.sections[3].p.length || P.sections[1].p !== A.TYPES[1].secs[0].p) err('custom outline: level or guidance wrong');
+  if (Math.abs(P.planned - P.words) > 60) err(`custom outline: ${P.planned} words planned for ${P.words}`);
+  if (!P.custom || A.plan({ type: 'film', pages: 3 }).custom) err('custom outline: flag wrong');
+  const over = A.plan({ type: 'film', pages: 1, custom: { secs: [{ t: 'A', words: '900' }] } });
+  if (!(over.planned > over.words) || over.sections.some(s => !(s.words > 0) || s.to < s.from)) err('custom outline: over-long outline breaks pages');
+  const z2 = A.docx(A.plan({ type: 'topic', pages: 4, custom: { secs: [] } }), {});
+  if (!z2 || !z2.length) err('custom outline: empty outline has no Word file');
+}
 const R = (k, f) => A.reference(k, f).segs.map(s => s.i ? '_' + s.t + '_' : s.t).join('');
 const expect = [
   [R('journal', { authors: 'Maria R. Lopez\nAnn Chen', year: '2023', title: 'Early mobility after surgery', journal: 'Journal of Nursing', volume: '12', issue: '3', pages: '45-52', doi: '10.1000/xyz' }), 'Lopez, M. R., & Chen, A. (2023). Early mobility after surgery. _Journal of Nursing, 12_(3), 45–52. https://doi.org/10.1000/xyz'],

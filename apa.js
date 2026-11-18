@@ -20,13 +20,14 @@
 
   // ---------- builder ----------
   var st = load('plan', { type: 'reflection', pages: 3, inclusive: false, abstract: false, optional: false, topic: '' });
+  if (!st.custom || typeof st.custom !== 'object') st.custom = {}; // the student's own outline for each paper type
   var me = load('me', {});
   var refs = load('refs', []);
 
   $('types').innerHTML = A.TYPES.map(function (T) {
     return '<button type="button" role="radio" data-type="' + T.id + '"><b>' + esc(T.name) + '</b><small>' + esc(T.eg) + '</small></button>';
   }).join('');
-  $('types').addEventListener('click', function (e) { var b = e.target.closest('[data-type]'); if (b) { st.type = b.dataset.type; sync(); } });
+  $('types').addEventListener('click', function (e) { var b = e.target.closest('[data-type]'); if (b) { st.type = b.dataset.type; sync(); renderCustom(); } });
   $('pages').value = st.pages; $('topic').value = st.topic; $('inclusive').checked = st.inclusive; $('abstract').checked = st.abstract; $('optional').checked = st.optional;
   ['name', 'school', 'course', 'instructor', 'due', 'font'].forEach(function (k) {
     var el = $('me-' + k); if (me[k]) el.value = me[k];
@@ -40,7 +41,7 @@
   ['inclusive', 'abstract', 'optional'].forEach(function (id) { $(id).addEventListener('change', sync); });
 
   var drafts = load('writing', {});
-  function key(s) { return st.type + '/' + (s.intro ? 'intro' : s.t); }
+  function key(s) { return st.type + '/' + (s.intro ? 'intro' : s.id || s.t); }
   function field(k, label, value, multiline) {
     var attr = ' data-writing="' + esc(k) + '"';
     return '<label class="fld">' + esc(label) + (multiline ? '<textarea rows="5"' + attr + '>' + esc(value) + '</textarea>' : '<input' + attr + ' value="' + esc(value) + '">') + '</label>';
@@ -99,10 +100,80 @@
     st.topic = $('topic').value; st.inclusive = $('inclusive').checked; st.abstract = $('abstract').checked; st.optional = $('optional').checked;
     save('plan', st);
     document.querySelectorAll('#types [data-type]').forEach(function (b) { b.setAttribute('aria-checked', b.dataset.type === st.type ? 'true' : 'false'); });
-    $('optwrap').hidden = !A.TYPES.some(function (T) { return T.id === st.type && T.secs.some(function (s) { return s.opt; }); });
-    P = A.plan(st);
-    renderPlan();
+    $('optwrap').hidden = !!st.custom[st.type] || !A.TYPES.some(function (T) { return T.id === st.type && T.secs.some(function (s) { return s.opt; }); });
+    P = A.plan(Object.assign({}, st, { custom: st.custom[st.type] }));
+    renderPlan(); autoHints();
   }
+
+  // ---------- my own outline ----------
+  // Rename, add, remove and reorder sections, choose heading levels, and fix word counts (blank = shared automatically).
+  function own() { return st.custom[st.type]; }
+  function startCustom() {
+    var full = A.plan(Object.assign({}, st, { custom: null, pages: Math.max(2, st.pages), inclusive: false }));
+    st.custom[st.type] = { intro: { words: '' }, concl: { words: '' }, secs: full.sections.slice(1, -1).map(function (s) {
+      return { id: s.t, t: s.t, base: s.base, h: s.h || 1, words: '' };
+    }) };
+  }
+  function wordsBox(path, v, label) {
+    return '<label class="oc-w">Words<input type="number" min="0" max="20000" step="10" inputmode="numeric" data-oc="' + path + '" value="' + esc(v || '') + '" placeholder="auto" aria-label="Words for ' + esc(label) + ' (blank = automatic)"></label>';
+  }
+  function renderCustom() {
+    var C = own(), el = $('outline-edit');
+    if (!C) {
+      el.innerHTML = '<div class="oc-off"><button type="button" class="btn" data-oc-act="start">Make my own outline</button>' +
+        '<small class="muted">Rename, add, remove or reorder sections, and set your own word counts.</small></div>';
+      return;
+    }
+    var n = C.secs.length;
+    el.innerHTML = '<div class="oc"><div class="oc-h"><b>My outline</b><small class="muted">Leave words blank to share the page count automatically.</small></div><ol class="oc-list">' +
+      '<li class="oc-row fixed"><span class="oc-name">Introduction <small class="muted">(no heading)</small></span>' + wordsBox('intro', C.intro && C.intro.words, 'Introduction') + '</li>' +
+      C.secs.map(function (c, i) {
+        return '<li class="oc-row"><input class="oc-t" type="text" data-oc="t:' + i + '" value="' + esc(c.t) + '" placeholder="Section heading" aria-label="Section ' + (i + 1) + ' heading">' +
+          wordsBox('w:' + i, c.words, c.t || 'section ' + (i + 1)) +
+          '<label class="oc-lv">Level<select data-oc="h:' + i + '" aria-label="Heading level for ' + esc(c.t || 'section ' + (i + 1)) + '"><option value="1"' + (c.h !== 2 ? ' selected' : '') + '>1 · centered</option><option value="2"' + (c.h === 2 ? ' selected' : '') + '>2 · subheading</option></select></label>' +
+          '<span class="oc-btns"><button type="button" data-oc-act="up" data-i="' + i + '" aria-label="Move up"' + (i ? '' : ' disabled') + '>↑</button>' +
+          '<button type="button" data-oc-act="down" data-i="' + i + '" aria-label="Move down"' + (i < n - 1 ? '' : ' disabled') + '>↓</button>' +
+          '<button type="button" data-oc-act="del" data-i="' + i + '" aria-label="Remove ' + esc(c.t || 'section') + '">✕</button></span></li>';
+      }).join('') +
+      '<li class="oc-row fixed"><span class="oc-name">Conclusion</span>' + wordsBox('concl', C.concl && C.concl.words, 'Conclusion') + '</li></ol>' +
+      '<div class="btns"><button type="button" class="btn btn-primary" data-oc-act="add">+ Add a section</button>' +
+      '<button type="button" class="btn" data-oc-act="reset">Back to the standard outline</button></div><p class="note" id="oc-total"></p></div>';
+  }
+  function autoHints() { // show the automatic word count in each blank box, and the running total
+    var C = own(); if (!C || !P) return;
+    var map = { intro: P.sections[0], concl: P.sections[P.sections.length - 1] };
+    P.sections.slice(1, -1).forEach(function (s, i) { map['w:' + i] = s; });
+    document.querySelectorAll('#outline-edit [data-oc]').forEach(function (inp) {
+      var s = map[inp.dataset.oc]; if (s && inp.type === 'number') inp.placeholder = 'auto ≈ ' + s.words;
+    });
+    var diff = P.planned - P.words, t = $('oc-total');
+    if (t) t.textContent = 'Your outline adds up to about ' + P.planned.toLocaleString() + ' words; ' + P.body + ' body page' + (P.body === 1 ? '' : 's') + ' hold about ' + P.words.toLocaleString() + '.' +
+      (Math.abs(diff) > Math.max(80, P.words * 0.1) ? (diff > 0 ? ' That is about ' + Math.ceil(diff / A.WPP * 2) / 2 + ' page(s) over: shorten a section or raise the page count.' : ' Leave some sections blank, or raise their word counts, to fill the pages.') : '');
+  }
+  function saveCustom(redraw) { save('plan', st); if (redraw) renderCustom(); sync(); }
+  $('outline-edit').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-oc-act]'); if (!b) return;
+    var act = b.dataset.ocAct, i = +b.dataset.i, C = own();
+    if (act === 'start') startCustom();
+    else if (act === 'reset') { if (!confirm('Go back to the standard outline? Your section names and word counts here will be cleared (your written paragraphs are kept).')) return; delete st.custom[st.type]; }
+    else if (act === 'add') C.secs.push({ id: 'own' + Date.now().toString(36), t: '', h: 1, words: '' });
+    else if (act === 'del') { if (C.secs.length <= 1) { flash(b, '!'); return; } C.secs.splice(i, 1); }
+    else if (act === 'up' && i > 0) C.secs.splice(i - 1, 0, C.secs.splice(i, 1)[0]);
+    else if (act === 'down' && i < C.secs.length - 1) C.secs.splice(i + 1, 0, C.secs.splice(i, 1)[0]);
+    saveCustom(true);
+    if (act === 'add') { var all = document.querySelectorAll('#outline-edit .oc-t'); if (all.length) all[all.length - 1].focus(); }
+  });
+  function ocInput(e) {
+    var k = e.target.dataset.oc, C = own(); if (!k || !C) return;
+    var v = e.target.value, part = k.split(':'), i = +part[1];
+    if (k === 'intro' || k === 'concl') C[k] = { words: v };
+    else if (part[0] === 't') C.secs[i].t = v;
+    else if (part[0] === 'w') C.secs[i].words = v;
+    else if (part[0] === 'h') C.secs[i].h = +v;
+    saveCustom(false);
+  }
+  $('outline-edit').addEventListener('input', ocInput);
+  $('outline-edit').addEventListener('change', function (e) { if (e.target.tagName === 'SELECT') ocInput(e); });
   function pagesTxt(s) { return s.from === s.to ? 'page ' + s.from : 'pages ' + s.from + '–' + s.to; }
   function renderPlan() {
     var T = P.type, paras = P.sections.reduce(function (n, s) { return n + s.paras; }, 0);
@@ -113,8 +184,9 @@
       '<span class="stat"><b>' + (P.abstract ? 'p. 1–2' : 'p. 1') + '</b><small>title page' + (P.abstract ? ' + abstract' : '') + '</small></span>' +
       '<span class="stat"><b>p. ' + (P.abstract ? 3 : 2) + '–' + (P.refPage - 1) + '</b><small>body (' + P.body + ' page' + (P.body === 1 ? '' : 's') + ')</small></span>' +
       '<span class="stat"><b>p. ' + P.refPage + '</b><small>references</small></span></div>' +
+      (P.custom ? '<p class="note" style="margin-top:0">Your own outline. The guidance under each section comes from the standard pattern when the name matches; sections you added get general guidance.</p>' : '') +
       '<p class="why"><b>The pattern:</b> ' + md(T.why) + ' <b>Voice:</b> ' + md(T.person) + ' <b>Sources:</b> ' + md(T.src) + '</p>' +
-      (P.short ? '<p class="note">Under 2 pages, skip headings: an introduction, one or two body paragraphs, and a conclusion.</p>' : '') +
+      (P.short && !P.custom ? '<p class="note">Under 2 pages, skip headings: an introduction, one or two body paragraphs, and a conclusion.</p>' : '') +
       '<ol class="outline">' + P.sections.map(function (s) {
         var head = s.intro ? '<div class="hd intro">' + esc(P.title) + '</div><div class="hd intro" style="font-weight:400;font-size:13px">Introduction (no heading: the title above starts the paper)</div>'
           : s.noHead ? '<div class="hd h2" style="font-weight:600">' + esc(s.t) + ' <span class="tag">no heading</span></div>'
@@ -161,7 +233,7 @@
   }).join('');
   $('pattern-list').addEventListener('click', function (e) {
     var b = e.target.closest('[data-use]'); if (!b) return;
-    st.type = b.dataset.use; sync(); $('build').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    st.type = b.dataset.use; sync(); renderCustom(); $('build').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   // ---------- reference builder ----------
@@ -267,6 +339,6 @@
   $('checks').addEventListener('change', function (e) { var c = e.target.dataset.c; if (!c) return; if (e.target.checked) done[c] = 1; else delete done[c]; save('check', done); renderChecks(); });
   $('check-reset').addEventListener('click', function () { done = {}; save('check', done); renderChecks(); });
 
-  rbFields(); renderRefs(); renderChecks(); sync();
+  rbFields(); renderRefs(); renderChecks(); renderCustom(); sync();
   if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
 })();

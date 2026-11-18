@@ -954,6 +954,6 @@
   });
   function fallbackCopy(t) { var x = document.createElement('textarea'); x.value = t; x.style.position = 'fixed'; x.style.opacity = '0'; document.body.appendChild(x); x.select(); try { document.execCommand('copy'); } catch (e) {} x.remove(); }
   // For tools/check_careplan.js
-  window.CP_HELPER={get:get,set:function(path,value){set(path,value);var el=$('[data-p=\"'+path+'\"]');if(el){el.value=value;grow(el);}after(path,el);},patient:function(){return cur;},exportSnapshot:exportSnapshot,showTab:showTab,toast:toast,formMarkup:formMarkup,fields:ITEMS,labs:LABM};
+  window.CP_HELPER={unfinished:interviewList,saveInterview:set,get:get,set:function(path,value){set(path,value);var el=$('[data-p=\"'+path+'\"]');if(el){el.value=value;grow(el);}after(path,el);},patient:function(){return cur;},exportSnapshot:exportSnapshot,showTab:showTab,toast:toast,formMarkup:formMarkup,fields:ITEMS,labs:LABM};
   window.CP_TEST = { formMarkup:formMarkup, reloadReferences:loadRefs, interviewList: interviewList, interviewDocx: interviewDocx, DX: DX, DXL: DXL, outline: outline, docx: docx, plainText: plainText, labFlag: labFlag, vitFlag: vitFlag, buildStmt: buildStmt, set: set, get: get };
 })();

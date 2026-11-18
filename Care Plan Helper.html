@@ -30,6 +30,11 @@
 
   <!-- ===== Fill my form ===== -->
   <div class="tabpanel" id="tab-fill" role="tabpanel" aria-labelledby="tb-fill">
+    <details class="glass" id="guided-interview"><summary><strong>Guided interview &amp; remaining care-plan questions</strong></summary>
+      <p>Start with the question that matters to this patient. Skip anything already answered. Use initials only. If the patient describes an urgent change, pause the interview and involve your supervising nurse.</p>
+      <div id="guided-questions"></div>
+      <details id="guided-gaps"><summary>What still needs assessment, verification, or completion?</summary><div id="guided-gap-list"></div></details>
+    </details>
     <details class="note"><summary>Instructions and example patient</summary><p>Your form says notes from the medical record <b>may not be copied</b>: write in your own words and cite scholarly sources for rationales. <span id="exintro"></span></p></details>
     <div class="incbar" hidden><p>Each answer box has a <b>What goes here</b> list of everything it needs (tick each part as you write it) and <b>Questions to ask</b>: what to say to your patient, what to ask the nurse, and what you may be asked.</p><div class="btns sm"><button type="button" class="mini dl-interview">Download my interview questions</button><button type="button" class="mini" id="inc-toggle" aria-pressed="true">Hide the lists</button></div></div>
     <details class="help how-ask" hidden><summary>How to interview your patient</summary><ul id="iv-tips"></ul></details>
@@ -144,11 +149,11 @@
 <script src="apa-core.js?v=202611061900"></script>
 <script src="careplan-words.js?v=202611091437"></script>
 <script src="careplan-focus.js?v=202611172335"></script>
-<script src="careplan.js?v=202611172335"></script>
+<script src="careplan.js?v=202611180120"></script>
 <script src="careplan-inline.js?v=202611172335"></script>
 <script src="data/careplan/google-config.js?v=202611091543"></script>
 <script src="careplan-google.js?v=202611091543"></script>
 <script src="nav.js?v=202611172335"></script>
 <script src="say.js?v=202610281219"></script>
-</body>
+<script src="careplan-interview.js?v=202611180120"></script></body>
 </html>

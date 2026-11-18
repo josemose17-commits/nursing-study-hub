@@ -804,7 +804,7 @@
           used.forEach(function(r){gap('labs.'+r.k+'.r',r.n+': reference range','What reference range and units does this patient’s laboratory report use?');gap('labs.'+r.k+'.s',r.n+': significance / trend','How do the actual values and trend relate to this patient’s problem or treatment?');});
         }
         else if(it.type==='fe')[0,1].forEach(function(i){var b='fe.'+i;if(!LABM[get(b+'.lab')]){gap(b+'.lab','Fluid / electrolyte application '+(i+1),'Which actual relevant abnormal result will this application explain?');return;}for(var key of ['val','hl','norm','crit','rel','cause','tx','nsg'])gap(b+'.'+key,'Lab '+(i+1)+' · '+LABM[get(b+'.lab')].n,({val:'What is the actual value with units?',hl:'Is it high or low against the verified range?',norm:'What is the verified normal range?',crit:'What critical-value threshold does the facility use?',rel:'Why is this result relevant to this patient?',cause:'What patient-specific factor could explain this result?',tx:'What treatment is actually ordered or documented?',nsg:'What nursing assessments and actions are required for this result?'})[key]);});
-        else if(it.type==='plan')planArr().forEach(function(p,i){
+        else if(it.type==='plan')(planArr().length ? planArr() : [{}]).forEach(function(p,i){
           var b='plan.'+i,d=DX[p.c];if(!d){gap(b+'.c','Care-plan problem '+(i+1),'Which nursing diagnosis is supported by this patient’s assessment?');return;}
           gap(b+'.stmt',d.l+': problem statement','What patient-specific problem statement will guide this plan?');
           gap(b+'.stg',d.l+': short-term goal','What measurable patient outcome is expected by the short-term deadline?');gap(b+'.ltg',d.l+': long-term goal','What measurable patient outcome is expected by the longer-term deadline?');
@@ -922,8 +922,19 @@
     incLabel();
     $('#inc-toggle').addEventListener('click', function () { SHOWINC = !SHOWINC; try { localStorage.setItem('cp-showinc', SHOWINC ? '1' : '0'); } catch (e) {} $$('details.inc, details.askq').forEach(function (d) { d.open = SHOWINC; }); incLabel(); });
     $('#cue-clear').addEventListener('click', function () { set('cues', {}); $('#autonote').innerHTML = ''; renderFind(); });
-    $('#pt').addEventListener('change', function () { pick(this.value); renderAll(); });
-    $('#pt-new').addEventListener('click', function () { pick(newPlan()); renderAll(); showTab('fill'); window.scrollTo(0, 0); toast('New patient started. Your student details carry over.'); });
+    function switchPatient(id) {
+      // Recreate every editor, dialog and export preview against the selected record.
+      clearTimeout(saveT);
+      if (!store('cp-plans', plans) || !store('cp-me', ME) || !store('cp-cur', id)) {
+        renderPatients();
+        toast('Could not save on this device. Back up your plans before switching patients.');
+        return;
+      }
+      store('cp-tab','fill');
+      window.location.reload();
+    }
+    $('#pt').addEventListener('change', function () { switchPatient(this.value); });
+    $('#pt-new').addEventListener('click', function () { switchPatient(newPlan()); });
     $('#pt-del').addEventListener('click', function () {
       var f = (P.info || {}).initials; if (!confirm('Delete the care plan for ' + (f || 'this patient') + ' from this device? This can’t be undone.')) return;
       delete plans[cur]; store('cp-plans', plans); pick(byRecent()[0] || newPlan()); renderAll();

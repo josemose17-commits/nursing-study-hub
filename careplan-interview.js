@@ -1,13 +1,16 @@
 // Interview drafts use the current patient's existing local record. Only reviewed text enters the form.
 (function () {
   const groups = [
-    ['story','What has been happening that brought you in today?', ['cc'], 'When did you first notice a change?'],
-    ['life','Walk me through a usual day at home. What has changed for you?', ['social','info.housing','erik.b'], 'Who or what helps you do the things that matter to you?'],
+    ['story','What would you like me to understand about how things are going for you today?', ['cc'], 'When did you first notice a change?'],
+    ['life','What is a usual day like for you now, and how does that compare with before?', ['social','info.housing','erik.b'], 'Who or what helps you do the things that matter to you?'],
     ['history','What parts of your health history or treatment would you like us to know about?', ['pmh','psh','info.allergies','cc'], 'What was that experience like for you?'],
     ['priority','What matters most to you as we plan your care today?', ['pcc2','pcc3','social','cc'], 'What would a good day look like for you?']
   ];
   const names = {pcc2:'Patient preferences and values',pcc3:'Partnership and self-care',cc:'Chief complaint / present illness',social:'Personal and social history','info.housing':'Housing',pmh:'Medical history',psh:'Surgical history','info.allergies':'Reported allergies and reactions','erik.b':'Supporting behavior or patient statement'};
   const cues = [
+    [/\b(months|weeks|long stay|long time)\b/i,'Thinking back over that time, what change stands out most to you?'],
+    [/\b(used to|no longer|before I could)\b/i,'What is that like for you now?'],
+    [/\b(discharge|going home|leaving here)\b/i,'What would help you feel prepared for the next setting?'],
     [/\b(fall|fell|falling|unsteady)\b/i,'Tell me about the last time you felt unsure on your feet.'],
     [/\b(afraid|fear|scared|anxious|worried)\b/i,'What feels most concerning about that right now?'],
     [/\b(pain|hurts?|aching)\b/i,'Can you describe what it feels like in your own words?'],
@@ -37,15 +40,20 @@
   function render() {
     const host=$('guided-questions');host.replaceChildren();
     const patient=api.patient();
+    const source=el('select');
+    for(const label of ['Patient','Family or support person','Nurse handoff','Chart review','Patient unable to participate']) source.append(el('option',label));
+    source.value=api.get('_interview.source')||'Patient';
+    labeled(host,'Information source for new notes',source);
+    source.onchange=()=>{api.saveInterview('_interview.source',source.value);render();};
     for(const [id,q,paths,fallback] of groups) {
-      const box=el('details'), note=el('textarea'), follow=el('p'),path='_interview.'+id;
-      box.className='help';box.append(el('summary',q));host.append(box);
+      const box=el('details'), note=el('textarea'), follow=el('p'),path=(source.value==='Patient'?'_interview.':'_interview.bySource.'+source.selectedIndex+'.')+id;
+      box.className='help';box.append(el('summary',source.value==='Patient'?q:({story:'Current concern and changes over the stay',life:'Usual function, current function and support',history:'Relevant history and treatment',priority:'Known preferences and goals'})[id]));host.append(box);
       labeled(box,'Their response / your interview notes',note);note.value=api.get(path)||'';
       function suggest(){
         const match=cues.find(([re])=>re.test(note.value));
-        follow.textContent=note.value.trim()?'Possible follow-up: '+(match?match[1]:fallback):'';
+        follow.textContent=source.value==='Patient' && note.value.trim()?'Possible follow-up: '+(match?match[1]:fallback):'';
       }
-      note.oninput=()=>{if(api.patient()===patient){api.saveInterview(path,note.value);suggest();}};
+      note.oninput=()=>{if(api.patient()===patient){api.saveInterview(path,note.value);api.saveInterview(path+'Source',source.value);suggest();}};
       suggest();box.append(follow);
       const target=el('select'),review=el('textarea'),current=el('p'),status=el('p');
       status.setAttribute('role','status');
@@ -53,9 +61,9 @@
       labeled(box,'Use a detail in this field',target);
       function showCurrent(){current.textContent='Already on form: '+(api.get(target.value)||'No entry yet');review.value=api.get(path+'Draft.'+target.value)||'';}
       target.onchange=showCurrent; box.append(current);
-      labeled(box,'Review the detail to append. Attribute it to the patient in your own words.',review);
+      labeled(box,'Review the detail to append. Identify who supplied it.',review);
       review.oninput=()=>api.saveInterview(path+'Draft.'+target.value,review.value);
-      box.append(button('Use selected response text',()=>{const excerpt=note.value.slice(note.selectionStart,note.selectionEnd)||note.value;if(excerpt.trim()){review.value='Patient reports: '+excerpt.trim();review.oninput();}}));
+      box.append(button('Use selected response text',()=>{const excerpt=note.value.slice(note.selectionStart,note.selectionEnd)||note.value;if(excerpt.trim()){const who=api.get(path+'Source')||'Patient';review.value=(who==='Patient'?'Patient reports':who)+': '+excerpt.trim();review.oninput();}}));
       box.append(button('Append reviewed detail',()=>{
         if(api.patient()!==patient||!review.value.trim())return;
         const prior=api.get(target.value)||'';

@@ -375,7 +375,8 @@
 
   // The combined Exam 4 page opts into a diagnostic controller. Other exams
   // retain this engine's established drills, questions and progress keys.
-  var diagnostic = CFG.diagnostic && window.E4Diagnostic ? window.E4Diagnostic.create({root:root,storage:localStorage,questions:ALL.questions,topics:ALL.topics,navigate:go,rerender:route}) : null;
+  var DIAG = window[CFG.diagnosticGlobal || 'E4Diagnostic'];
+  var diagnostic = CFG.diagnostic && DIAG ? DIAG.create({root:root,storage:localStorage,questions:ALL.questions,topics:ALL.topics,navigate:go,rerender:route}) : null;
   // ---------- routing ----------
   var VIEW_OF = { c: 'think', t: 'topics', p: 'practice' };
   function route() {

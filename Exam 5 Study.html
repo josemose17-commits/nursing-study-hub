@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04160e">
+<title>Exam 5 · Study</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610021900">
+<link rel="stylesheet" href="cj-view.css?v=202610311800">
+<link rel="stylesheet" href="mh.css?v=202611171305">
+<link rel="stylesheet" href="e4-diagnostic.css?v=202611181600">
+</head>
+<body class="cj-mode">
+<main>
+  <div>
+    <div class="kicker">NRS 114 · Mental Health · Exam 5</div>
+    <h1>Exam 5: learn, test, review missed.</h1>
+  </div>
+  <p class="lead">Same steps as Exam 4: understand the connections, find your weak areas, then recall and apply what you missed. Covers the <b>week 12 lecture</b> (bipolar, depression, anxiety and OCD, suicide and self-injury) and the Exam 5 chapters (schizophrenia, somatic and dissociative, children, eating, substance use, personality, neurocognitive).</p>
+  <nav class="mh-tabs" id="mh-tabs" role="tablist" aria-label="Study">
+    <button role="tab" data-go="learn">Learn</button>
+    <button role="tab" data-go="test">Test</button>
+    <button role="tab" data-go="review">Review</button>
+  </nav>
+  <section id="cj" class="mh" aria-live="polite"></section>
+</main>
+<script>
+window.MH_CFG = { prefix: 'e5-', useGuide: false, diagnostic: true, diagnosticGlobal: 'E5Diagnostic', noun: 'disorder', who: 'The patient', doFirst: true,
+  weeks: [[12, 'Week 12: bipolar, depression, anxiety/OCD, suicide'], [13, 'Week 13: psychosis, somatic, dissociative'], [14, 'Week 14: children, eating, substances'], [15, 'Week 15: personality, neurocognitive']],
+  counts: [6, 12, 20], defaultCount: 12,
+  topicsIntro: 'Notes for each syllabus week. The disorders themselves are also walked through step by step under' };
+</script>
+<!-- Week 12 lecture (bipolar, depression, anxiety/OCD, suicide/self-injury): reuse the week-12 condition walkthroughs
+     and their questions from the mental health bank, then add the lecture notes and questions in data/mh5/week12.js. -->
+<script src="data/mh/videos.js?v=202611201200"></script>
+<script src="data/mh/cond-mood.js?v=202611201200"></script>
+<script src="data/mh/cond-safety.js?v=202611201200"></script>
+<script src="data/mh/cond-anxiety.js?v=202611201200"></script>
+<script src="data/mh/questions.js?v=202611201200"></script>
+<script>
+(function (W) {
+  var keep = ['bipolar', 'mdd', 'suicide', 'nssi', 'anxiety', 'ocd'];
+  W.MH_A12 = {
+    qs: (W.MH_Q || []).filter(function (q) { return q.wk === 12 && keep.indexOf(q.link.slice(2)) >= 0; }),
+    vids: (W.MH_VIDEOS || []).filter(function (v) { return v.tags.some(function (t) { return keep.indexOf(t) >= 0; }); })
+  };
+  W.MH_CONDS = (W.MH_CONDS || []).filter(function (c) { return keep.indexOf(c.id) >= 0; });
+  delete W.MH_Q; delete W.MH_VIDEOS;
+})(window);
+</script>
+<script src="data/mh5/videos.js?v=202610312330"></script>
+<script src="data/mh5/cond-psychosis.js?v=202610312200"></script>
+<script src="data/mh5/cond-somatic.js?v=202610312200"></script>
+<script src="data/mh5/cond-child.js?v=202610312200"></script>
+<script src="data/mh5/cond-eating.js?v=202610312200"></script>
+<script src="data/mh5/cond-substance.js?v=202611091732"></script>
+<script src="data/mh5/cond-neuro.js?v=202610312330"></script>
+<script src="data/mh5/cond-personality.js?v=202610312330"></script>
+<script src="data/mh5/topics.js?v=202611091732"></script>
+<script src="data/mh5/drills.js?v=202610312330"></script>
+<script src="data/mh5/questions.js?v=202611201200"></script>
+<script src="data/mh5/week12.js?v=202611201200"></script>
+<script>
+(function (W, A, L) {
+  var lec = { bipolar: 'lec-bipolar', mdd: 'lec-depression', anxiety: 'lec-anxiety', ocd: 'lec-anxiety', suicide: 'lec-suicide', nssi: 'lec-suicide' };
+  A.vids.forEach(function (v) { v.tags = v.tags.concat(v.tags.map(function (t) { return lec[t]; }).filter(Boolean)); });
+  W.MH_TOPICS = L.topics.concat(W.MH_TOPICS || []);
+  W.MH_Q = A.qs.concat(L.qs, W.MH_Q || []);
+  W.MH_VIDEOS = A.vids.concat(W.MH_VIDEOS || []);
+})(window, window.MH_A12, window.MH_WK12);
+</script>
+<script src="data/e5-diagnostic.js?v=202611201500"></script>
+<script src="e5-diagnostic-core.js?v=202611201500"></script>
+<script src="e5-review.js?v=202611201500"></script>
+<script src="e5-diagnostic.js?v=202611201500"></script>
+<script src="mh.js?v=202611201500"></script>
+<script src="nav.js?v=202611201500"></script>
+<script src="say.js?v=202611081800"></script>
+</body>
+</html>

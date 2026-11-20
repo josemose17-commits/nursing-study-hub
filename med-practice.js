@@ -47,7 +47,7 @@
   });
   $('start').addEventListener('click', function () { begin(C.round(pool(), st.n)); });
   $('redo').addEventListener('click', function () {
-    var all = C.questions(bank, ['1', '2', '3', '4', 'F'], 'mixed'), list = C.round(all, 0, st.missed);
+    var all = C.questions(bank, C.EXAMS.map(function (e) { return e[0]; }), 'mixed'), list = C.round(all, 0, st.missed);
     if (!list.length) { st.missed = {}; save(); status(); return; }
     begin(list.slice(0, 40));
   });

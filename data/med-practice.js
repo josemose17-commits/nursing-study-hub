@@ -53,7 +53,8 @@
     ['-poetin', 'Red-cell stimulating agents', 'epoetin, darbepoetin', 'Raise hemoglobin; watch BP and clots.', '1 2'],
     ['-stigmine', 'Cholinesterase inhibitors', 'neostigmine, rivastigmine', 'Raise acetylcholine: slow pulse, GI effects.', '1 4'],
     ['-tinib / -nib', 'Kinase inhibitors (targeted cancer therapy)', 'imatinib, nintedanib', 'Targeted therapy; liver and GI effects.', '1 2'],
-    ['-platin', 'Platinum chemotherapy', 'cisplatin, carboplatin', 'Kidney and hearing toxicity; severe nausea.', '1']
+    ['-platin', 'Platinum chemotherapy', 'cisplatin, carboplatin', 'Kidney and hearing toxicity; severe nausea.', '1'],
+    ['nal-', 'Opioid antagonists', 'naloxone, naltrexone', 'Block opioids: naloxone reverses an overdose; naltrexone helps prevent relapse.', '1 5']
   ];
 
   // Endings that mislead: [drug, looks like, really is]
@@ -117,7 +118,15 @@
     { id: 'e4-stim', exam: '4', name: 'CNS stimulants', use: 'ADHD, narcolepsy.', how: 'Increase dopamine and norepinephrine.', effects: 'Poor appetite, insomnia, raised heart rate and BP, misuse potential.', monitor: 'Height and weight in children, sleep, vital signs; give early in the day.' },
     { id: 'e4-nonstim', exam: '4', name: 'Nonstimulant ADHD medicines', use: 'ADHD when stimulants do not fit.', how: 'Norepinephrine reuptake inhibition or alpha-2 stimulation.', effects: 'Liver injury and suicidal thoughts (atomoxetine); low BP and sedation (alpha-2 agonists).', monitor: 'Liver symptoms, mood, BP; taper alpha-2 agonists.' },
     { id: 'e4-chei', exam: '4', name: 'Cholinesterase inhibitors', use: 'Alzheimer disease symptoms.', how: 'Block the breakdown of acetylcholine.', effects: 'Nausea, diarrhea, slow heart rate, fainting.', monitor: 'Pulse, GI tolerance, function; slows decline but does not cure.' },
-    { id: 'e4-nmda', exam: '4', name: 'NMDA antagonist (dementia)', use: 'Moderate to severe Alzheimer disease.', how: 'Blocks excess glutamate activity at NMDA receptors.', effects: 'Dizziness, confusion, headache.', monitor: 'Function and tolerability; often combined with donepezil.' }
+    { id: 'e4-nmda', exam: '4', name: 'NMDA antagonist (dementia)', use: 'Moderate to severe Alzheimer disease.', how: 'Blocks excess glutamate activity at NMDA receptors.', effects: 'Dizziness, confusion, headache.', monitor: 'Function and tolerability; often combined with donepezil.' },
+
+    // ---------- Exam 5: substance use and eating disorders (psych meds above also apply) ----------
+    { id: 'e5-antag', exam: '5', name: 'Opioid antagonists', use: 'Reverse opioid overdose; prevent relapse in alcohol and opioid use disorder.', how: 'Block mu-opioid receptors.', effects: 'Sudden opioid withdrawal in people who are dependent.', monitor: 'Breathing after reversal (it can wear off first); opioid-free period before naltrexone.' },
+    { id: 'e5-aud', exam: '5', name: 'Alcohol use disorder medicines', use: 'Support abstinence after alcohol withdrawal.', how: 'Deter drinking (disulfiram) or reduce craving (acamprosate).', effects: 'Disulfiram-alcohol reaction; GI upset and diarrhea (acamprosate).', monitor: 'Hidden alcohol sources (disulfiram); kidney function (acamprosate).' },
+    { id: 'e5-oud', exam: '5', name: 'Opioid agonist treatment', use: 'Opioid use disorder: withdrawal and long-term maintenance.', how: 'Full (methadone) or partial (buprenorphine) mu-opioid agonists that prevent withdrawal and craving.', effects: 'Respiratory depression, sedation, constipation; QT prolongation (methadone).', monitor: 'Sedation and breathing, other CNS depressants, adherence to the program.' },
+    { id: 'e5-awd', exam: '5', name: 'Alcohol withdrawal treatment', use: 'Prevent withdrawal seizures, delirium tremens and Wernicke encephalopathy.', how: 'Benzodiazepines calm GABA-depleted overactivity; thiamine replaces vitamin B1.', effects: 'Sedation and respiratory depression (benzodiazepines).', monitor: 'CIWA-Ar score, vital signs, seizure precautions, mental status.' },
+    { id: 'e5-nic', exam: '5', name: 'Smoking cessation medicines', use: 'Quitting tobacco.', how: 'Replace nicotine or partly stimulate nicotinic receptors to ease withdrawal and craving.', effects: 'Nausea, vivid dreams, skin irritation; mood changes (varenicline).', monitor: 'Mood and behavior; no smoking while using nicotine replacement.' },
+    { id: 'e5-bed', exam: '5', name: 'Binge-eating disorder medicine', use: 'Moderate to severe binge-eating disorder in adults.', how: 'CNS stimulant (dopamine and norepinephrine).', effects: 'Insomnia, poor appetite, raised heart rate and BP, misuse potential.', monitor: 'Vital signs, sleep, misuse; not a weight-loss drug.' }
   ];
 
   // Drugs: n, g (group), use, fact (drug-specific), trap (common mistake), anchor (memory hook)
@@ -206,7 +215,20 @@
     { n: 'Donepezil', g: 'e4-chei', use: 'Alzheimer disease (all stages).', fact: 'Given at bedtime; slows heart rate (fainting risk); GI upset; vivid dreams.', trap: 'Expecting it to stop the disease.', anchor: 'Donepezil: Doesn’t cure, slows the pulse.' },
     { n: 'Rivastigmine', g: 'e4-chei', use: 'Alzheimer and Parkinson dementia.', fact: 'Available as a daily patch: remove the old patch and rotate sites.', trap: 'Leaving the old patch on.', anchor: 'Rivastigmine: the patch one.' },
     { n: 'Galantamine', g: 'e4-chei', use: 'Mild to moderate Alzheimer disease.', fact: 'Take with food and fluids to limit nausea; slow heart rate risk.', trap: 'Taking it on an empty stomach.', anchor: 'Galantamine: give with a meal.' },
-    { n: 'Memantine', g: 'e4-nmda', use: 'Moderate to severe Alzheimer disease.', fact: 'NMDA antagonist, often combined with donepezil; dizziness and confusion.', trap: 'Calling it a cholinesterase inhibitor.', anchor: 'Memantine: moderate-to-severe, NMDA.' }
+    { n: 'Memantine', g: 'e4-nmda', use: 'Moderate to severe Alzheimer disease.', fact: 'NMDA antagonist, often combined with donepezil; dizziness and confusion.', trap: 'Calling it a cholinesterase inhibitor.', anchor: 'Memantine: moderate-to-severe, NMDA.' },
+
+    // ---------- Exam 5 ----------
+    { n: 'Naloxone', g: 'e5-antag', use: 'Opioid overdose with slowed breathing (nasal, IM or IV).', fact: 'Often wears off (30–90 minutes) before the opioid: watch for re-sedation and repeat doses; can trigger abrupt withdrawal.', trap: 'Discharging the patient as soon as they wake.', anchor: 'Narcan: fast on, fast off.' },
+    { n: 'Naltrexone', g: 'e5-antag', use: 'Alcohol and opioid use disorder (daily pill or monthly injection).', fact: 'Must be opioid-free 7–10 days first or it causes sudden withdrawal; blocks opioid pain relief; check liver function.', trap: 'Starting it while the patient still uses opioids.', anchor: 'Naltrexone: no high, no relapse, liver check.' },
+    { n: 'Disulfiram', g: 'e5-aud', use: 'Alcohol use disorder (deterrent).', fact: 'Any alcohol, even in mouthwash, cough syrup or sauces, causes flushing, vomiting, fast heart rate and low BP; reaction possible up to 2 weeks after the last dose.', trap: 'Not teaching about hidden alcohol sources.', anchor: 'Disulfiram: drink = disaster.' },
+    { n: 'Acamprosate', g: 'e5-aud', use: 'Maintaining abstinence from alcohol.', fact: 'Reduces craving; no reaction with alcohol; cleared by the kidneys, so check renal function.', trap: 'Expecting it to make the patient sick if they drink.', anchor: 'Acamprosate: calms the craving.' },
+    { n: 'Methadone', g: 'e5-oud', use: 'Opioid use disorder maintenance; severe pain.', fact: 'Long-acting full agonist given daily in a certified program; prolongs QT; builds up slowly, so overdose risk early in treatment.', trap: 'Combining it with benzodiazepines or alcohol without monitoring.', anchor: 'Methadone: daily dose, watch the QT.' },
+    { n: 'Buprenorphine', g: 'e5-oud', use: 'Opioid use disorder (often combined with naloxone, under the tongue).', fact: 'Partial agonist with a ceiling on breathing suppression; start only once mild withdrawal has begun, or it causes sudden withdrawal.', trap: 'Giving the first dose while the patient is still high.', anchor: 'Buprenorphine: partial, with a ceiling.' },
+    { n: 'Chlordiazepoxide', g: 'e5-awd', use: 'Alcohol withdrawal.', fact: 'Long-acting benzodiazepine dosed by CIWA-Ar score to prevent seizures and delirium tremens; avoid in severe liver disease (lorazepam preferred).', trap: 'Using it in a patient with liver failure.', anchor: 'Librium: long-acting, liver-cleared.' },
+    { n: 'Thiamine', g: 'e5-awd', use: 'Prevents Wernicke encephalopathy in alcohol use disorder.', fact: 'Give BEFORE IV glucose: dextrose first can trigger Wernicke encephalopathy (confusion, ataxia, eye-movement problems).', trap: 'Hanging dextrose before the thiamine.', anchor: 'Thiamine before the sugar.' },
+    { n: 'Varenicline', g: 'e5-nic', use: 'Smoking cessation.', fact: 'Start 1 week before the quit date; nausea and vivid dreams; report mood or behavior changes.', trap: 'Starting it on the quit day.', anchor: 'Varenicline: a week ahead.' },
+    { n: 'Nicotine patch', g: 'e5-nic', use: 'Smoking cessation (nicotine replacement).', fact: 'Apply a new patch daily to clean hairless skin, rotate sites; remove at night if dreams are vivid; do not smoke while wearing it.', trap: 'Smoking while wearing the patch.', anchor: 'Patch on, cigarettes off.' },
+    { n: 'Lisdexamfetamine', g: 'e5-bed', use: 'Moderate to severe binge-eating disorder in adults; ADHD.', fact: 'The only FDA-approved medicine for binge-eating disorder; a stimulant with misuse risk; not approved for weight loss.', trap: 'Using it as a weight-loss drug.', anchor: 'Vyvanse: the binge-eating approval.' }
   ];
 
   return { STEMS: STEMS, TRAPS: TRAPS, GROUPS: GROUPS, DRUGS: DRUGS };

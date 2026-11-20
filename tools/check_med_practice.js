@@ -25,7 +25,7 @@ assert.equal(end('Bupropion-naltrexone'), null, 'combination pills are not label
 assert.equal(end('Lithium'), null);
 
 for (const [m] of C.MODES) {
-  const Q = C.questions(B, ['1', '2', '3', '4', 'F'], m, () => 0.42);
+  const Q = C.questions(B, C.EXAMS.map(([e]) => e), m, () => 0.42);
   assert(Q.length > 30, m + ' has questions');
   Q.forEach(q => {
     assert.equal(q.opts.length, 4, q.key); assert(q.a >= 0 && q.a < 4, q.key);
@@ -36,4 +36,4 @@ for (const [m] of C.MODES) {
 for (const [e] of C.EXAMS) assert(C.questions(B, [e], 'group').length >= 10, 'exam ' + e + ' can run a group round');
 const missed = {}; const all = C.questions(B, ['4'], 'facts'); missed[all[0].key] = 1;
 assert.equal(C.round(all, 0, missed).length, 1, 'redo rounds use only saved misses');
-console.log(`✓ Med practice: ${B.drugs.length} drugs in ${B.groups.length} groups across ${C.EXAMS.length} exam sets, ${B.stems.length} endings, ${B.traps.length} traps; ${C.questions(B, ['1', '2', '3', '4', 'F'], 'mixed').length} questions`);
+console.log(`✓ Med practice: ${B.drugs.length} drugs in ${B.groups.length} groups across ${C.EXAMS.length} exam sets, ${B.stems.length} endings, ${B.traps.length} traps; ${C.questions(B, C.EXAMS.map(([e]) => e), 'mixed').length} questions`);

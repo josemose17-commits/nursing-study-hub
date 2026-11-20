@@ -5,7 +5,7 @@
   if (typeof module === 'object' && module.exports) module.exports = api; else root.MedPracticeCore = api;
 })(typeof window !== 'undefined' ? window : globalThis, function () {
   'use strict';
-  var EXAMS = [['1', 'Exam 1'], ['2', 'Exam 2'], ['3', 'Exam 3'], ['4', 'Exam 4'], ['F', 'Final']];
+  var EXAMS = [['1', 'Exam 1'], ['2', 'Exam 2'], ['3', 'Exam 3'], ['4', 'Exam 4'], ['5', 'Exam 5'], ['F', 'Final']];
   var SYS_EXAM = { cardio: '2', heme: '2', resp: '2', gi: '3', endo: '3', fin: 'F' };
   var MODES = [
     ['suffix', 'Suffixes', 'Name ending → group, and the endings that trick you'],

@@ -260,14 +260,14 @@
   <p class="lead" style="font-size:14px;color:var(--color-accent-200)" id="fin-ready">Ready now: the Final map and the Final Mastery test with nine topic chapters — fluid and electrolyte balance (Ch 13), acid–base balance (Ch 14), IV therapy (Ch 15), inflammation and immunity (Ch 16), allergy and immunity conditions such as anaphylaxis, lupus, HIV, Lyme disease and transplant rejection (Ch 17), and the four breathing chapters from Exam 2 (Ch 22–25), with more questions on cystic fibrosis, PAH and IPF, and COVID-19, and respiratory assessment, the upper airway and the lower airway (Ch 22–24) now filled out from the book, every box and table: notes with a Quick version, every word defined, and NGN, NCLEX, recall and myth questions — plus the GI and endocrine chapters and 48–52. Next: the parts of Ch 25 that Exam 2 left out, then the other topic chapters a few at a time.</p>
 
   <div class="glass next e4main">
-    <div><b data-fin="title">Start here</b><span data-fin="body">Learn the topics, take the Final mastery test, then work on your weak areas.</span><small data-fin="status"></small><small data-fin="focus"></small><small data-final="status"></small></div>
-    <a class="btn btn-primary go" data-fin="go" href="Final Learn.html">Learn · Final</a>
+    <div><b data-fin="title">Start here</b><span data-fin="body">Understand the connections, diagnose weak areas in a round you choose, then recall and apply missed concepts.</span><small data-fin="status"></small><small data-fin="focus"></small><small data-final="status"></small></div>
+    <a class="btn btn-primary go" data-fin="go" href="Final Study.html#learn">Learn · Final</a>
     <ol class="e4steps">
-      <li><a href="Final Learn.html"><span>1</span>Learn: lessons by topic</a></li>
-      <li><a href="Final Mastery Loop.dc.html"><span>2</span>Test: the Final mastery test</a></li>
-      <li><a href="Final Map.html#weak"><span>3</span>Review: your weak areas, ranked, with what to study</a></li>
+      <li><a href="Final Study.html#learn"><span>1</span>Learn: understand, explain and apply</a></li>
+      <li><a href="Final Study.html#test"><span>2</span>Test: find weak areas across selected topics</a></li>
+      <li><a href="Final Study.html#review"><span>3</span>Review: cumulative misses and saved reports</a></li>
     </ol>
-    <details><summary>More for this exam</summary><ul class="more"><li><a href="Final Map.html">Final map: every topic and its notes</a></li><li><a href="Exam 3 Drug Cards.dc.html">Drug cards</a></li><li><a href="Exam 5 Study.html#learn">Mental health review (week 12 and Exam 5), if it is on the final</a></li></ul></details>
+    <details><summary>More for this exam</summary><ul class="more"><li><a href="Final Learn.html">Guided lesson library (coached lessons)</a></li><li><a href="Final Map.html">Final map: every topic and its notes</a></li><li><a href="Final Mastery Loop.dc.html">Final mastery test (older adaptive test)</a></li><li><a href="Exam 3 Drug Cards.dc.html">Drug cards</a></li></ul></details>
   </div>
 
   <div class="tiles">
@@ -343,10 +343,13 @@
   document.querySelectorAll('[data-dose="status"]').forEach(function (el) { el.textContent = dl ? 'Last practice exam: ' + dl.pct + '%' : DS && DS.total ? DS.total + ' problems practiced' : ''; });
   // The final: its test, its map focus and what to do next.
   var FM = read('fin-mastery-v1'), fs = document.querySelector('[data-final="status"]'), fq = function (n) { return document.querySelector('[data-fin="' + n + '"]'); };
-  if (fs && FM) fs.textContent = FM.test ? 'Test in progress' : FM.report ? 'Last: ' + FM.report.pct + '%' : '';
-  var ff = read('fin-focus'); if (ff && ff.ids && ff.ids.length) fq('focus').textContent = 'Focus: ' + ff.name + ' · ' + ff.ids.length + ' topics';
-  if (FM && FM.test) { fq('title').textContent = 'Finish your Final test'; fq('body').textContent = 'You stopped at question ' + FM.test.items.length + '.'; fq('go').textContent = 'Resume'; fq('go').href = 'Final Mastery Loop.dc.html'; }
-  else if (FM && FM.report) { var fmiss = (FM.report.recs || []).filter(function (r) { return r.e < 1; }).length; fq('title').textContent = 'Last Final test: ' + FM.report.pct + '%'; fq('body').textContent = fmiss ? fmiss + ' things to work on — your report says what to study first, then retest.' : 'Nothing missed — take another test to confirm it holds.'; fq('go').textContent = 'See your report'; fq('go').href = 'Final Mastery Loop.dc.html'; }
+  if (fs && FM) fs.textContent = FM.report ? 'Older mastery test: ' + FM.report.pct + '%' : '';
+  var ff = read('fin-focus'); if (ff && ff.ids && ff.ids.length) fq('focus').textContent = 'Map focus: ' + ff.name + ' · ' + ff.ids.length + ' topics';
+  (function () {
+    var S = read('ef-diagnostic-session'), page = 'Final Study.html', reports = read('ef-report-index');
+    if (S && !S.report && Array.isArray(S.qs) && S.i < S.qs.length) { fq('status').textContent = 'Saved diagnostic round · ' + S.items.length + ' answered'; fq('title').textContent = 'Resume your Final diagnostic'; fq('body').textContent = 'Your choices and reasoning are saved. Resume from Test.'; fq('go').textContent = 'Resume'; fq('go').href = page + '#test'; }
+    else if (Array.isArray(reports) && reports.length) { fq('status').textContent = reports.length + ' saved report' + (reports.length > 1 ? 's' : ''); fq('title').textContent = 'Recall and apply what needs work'; fq('body').textContent = 'Review combines misses and guesses across your saved rounds.'; fq('go').textContent = 'Open Review'; fq('go').href = page + '#review'; }
+  })();
   // Exam 4: test progress is shared with Learn (e4-*); merge the legacy class-review history for existing users.
   (function () {
     var q = function (n) { return document.querySelector('[data-e4="' + n + '"]'); }; if (!q('title')) return;
@@ -441,7 +444,7 @@
   box.hidden = false;
 })();
 </script>
-<script src="nav.js?v=202611201500"></script>
+<script src="nav.js?v=202611201800"></script>
 <script src="say.js?v=202610271830"></script>
 <script>
 (function () {

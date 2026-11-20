@@ -11,7 +11,7 @@ window.SEMESTER = {
     { id: 'exam2', t: 'Exam 2', d: '2026-10-14', k: 'exam', w: 7, about: 'Respiratory, cardiac and hematology (Ch 22, 24, 25, 27–30, 34)', href: 'Exam 2 Map.html' },
     { id: 'exam3', t: 'Exam 3', d: '2026-10-28', k: 'exam', w: 9, about: 'GI and endocrine (Ch 45, 46, 47, 53, 55, 56)', href: 'Exam 3 Route.html', sure: true },
     { id: 'exam4', t: 'Exam 4 (mental health)', d: '2026-11-18', k: 'exam', w: 12, about: 'Mental health basics, depression, suicide, bipolar, anxiety/OCD' },
-    { id: 'exam5', t: 'Exam 5 (mental health)', d: '2026-12-09', k: 'exam', w: 15, about: 'Schizophrenia, somatic/dissociative, substance use, eating, child/ADHD, personality, neurocognitive' },
+    { id: 'exam5', t: 'Exam 5 (mental health)', d: '2026-12-09', k: 'exam', w: 15, about: 'Likely week 12 too (bipolar, depression, anxiety/OCD, suicide), plus schizophrenia, somatic/dissociative, substance use, eating, child/ADHD, personality, neurocognitive' },
     { id: 'final', t: 'Comprehensive final', d: '2026-12-16', k: 'final', w: 16, about: 'Everything — 15% of the grade' },
     { id: 'clin-mid', t: 'Midterm clinical evaluation', d: '2026-10-14', k: 'eval', w: 7, about: 'Clinical evaluation tool, week 7' },
     { id: 'clin-final', t: 'Final clinical evaluation', d: '2026-12-02', k: 'eval', w: 14, about: 'Clinical evaluation tool, week 14 — a Pass is required' },

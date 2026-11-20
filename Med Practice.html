@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#04160e">
+<title>Med practice · drug groups, endings and key facts</title>
+<link rel="stylesheet" href="_ds/nocturne-35f0a9b3-313f-4c7b-8efd-c00cd545fa18/styles.css?v=202610022000">
+<link rel="stylesheet" href="med-practice.css?v=202611191200">
+</head>
+<body>
+<main>
+  <a href="index.html" class="back">← Home</a>
+  <div class="kicker">All exams · medications</div>
+  <h1>Med practice</h1>
+  <p class="lead">Learn the name endings first, so most drugs sort themselves. Then practice groups, what each group shares, the facts that set one drug apart, and what each drug is used for.</p>
+
+  <section id="setup" class="glass panel">
+    <h2 class="h">1 · Which exams?</h2>
+    <div class="chips" id="exams"></div>
+    <h2 class="h">2 · What to practice</h2>
+    <div class="modes" id="modes"></div>
+    <h2 class="h">3 · How many questions?</h2>
+    <div class="pills" id="lengths" role="group" aria-label="Round length"></div>
+    <p class="muted" id="available" role="status"></p>
+    <div class="row"><button type="button" class="btn btn-primary" id="start">Start practice</button><button type="button" class="btn" id="redo" hidden></button></div>
+    <details class="sheet" id="sheet">
+      <summary>Cheat sheet: endings, traps and drugs to know by name</summary>
+      <div id="sheet-body"></div>
+    </details>
+  </section>
+
+  <section id="quiz" class="glass panel" hidden aria-live="polite"></section>
+  <p class="muted foot">Student-made study aid built from the course drug cards. Check doses and details against a current drug reference. Your misses are saved on this device only.</p>
+</main>
+<script src="data/drugs-cardio.js?v=202611191200"></script>
+<script src="data/drugs-heme.js?v=202611191200"></script>
+<script src="data/drugs-resp.js?v=202611191200"></script>
+<script src="data/e3/drugs-gi.js?v=202611191200"></script>
+<script src="data/e3/drugs-endo.js?v=202611191200"></script>
+<script src="data/e3/drugs-final.js?v=202611191200"></script>
+<script src="data/med-practice.js?v=202611201200"></script>
+<script src="med-practice-core.js?v=202611201200"></script>
+<script src="med-practice.js?v=202611201200"></script>
+<script src="nav.js?v=202611201200"></script>
+</body>
+</html>

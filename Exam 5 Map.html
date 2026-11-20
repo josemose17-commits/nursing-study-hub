@@ -26,8 +26,26 @@
   <section id="cj" class="mh" aria-live="polite"></section>
 </main>
 <script>
-window.MH_CFG = { prefix: 'e5-', weeks: [[13, 'Week 13: psychosis, somatic, dissociative'], [14, 'Week 14: children, eating, substances'], [15, 'Week 15: personality, neurocognitive']],
+window.MH_CFG = { prefix: 'e5-', weeks: [[12, 'Week 12: bipolar, depression, anxiety/OCD, suicide'], [13, 'Week 13: psychosis, somatic, dissociative'], [14, 'Week 14: children, eating, substances'], [15, 'Week 15: personality, neurocognitive']],
   topicsIntro: 'Notes for each syllabus week. The disorders themselves are also walked through step by step under' };
+</script>
+<!-- Week 12 lecture (bipolar, depression, anxiety/OCD, suicide/self-injury): reuse the week-12 condition walkthroughs
+     and their questions from the mental health bank, then add the lecture notes and questions in data/mh5/week12.js. -->
+<script src="data/mh/videos.js?v=202611201200"></script>
+<script src="data/mh/cond-mood.js?v=202611201200"></script>
+<script src="data/mh/cond-safety.js?v=202611201200"></script>
+<script src="data/mh/cond-anxiety.js?v=202611201200"></script>
+<script src="data/mh/questions.js?v=202611201200"></script>
+<script>
+(function (W) {
+  var keep = ['bipolar', 'mdd', 'suicide', 'nssi', 'anxiety', 'ocd'];
+  W.MH_A12 = {
+    qs: (W.MH_Q || []).filter(function (q) { return q.wk === 12 && keep.indexOf(q.link.slice(2)) >= 0; }),
+    vids: (W.MH_VIDEOS || []).filter(function (v) { return v.tags.some(function (t) { return keep.indexOf(t) >= 0; }); })
+  };
+  W.MH_CONDS = (W.MH_CONDS || []).filter(function (c) { return keep.indexOf(c.id) >= 0; });
+  delete W.MH_Q; delete W.MH_VIDEOS;
+})(window);
 </script>
 <script src="data/mh5/videos.js?v=202610312330"></script>
 <script src="data/mh5/cond-psychosis.js?v=202610312200"></script>
@@ -39,9 +57,19 @@ window.MH_CFG = { prefix: 'e5-', weeks: [[13, 'Week 13: psychosis, somatic, diss
 <script src="data/mh5/cond-personality.js?v=202610312330"></script>
 <script src="data/mh5/topics.js?v=202611091732"></script>
 <script src="data/mh5/drills.js?v=202610312330"></script>
-<script src="data/mh5/questions.js?v=202611091732"></script>
+<script src="data/mh5/questions.js?v=202611201200"></script>
+<script src="data/mh5/week12.js?v=202611201200"></script>
+<script>
+(function (W, A, L) {
+  var lec = { bipolar: 'lec-bipolar', mdd: 'lec-depression', anxiety: 'lec-anxiety', ocd: 'lec-anxiety', suicide: 'lec-suicide', nssi: 'lec-suicide' };
+  A.vids.forEach(function (v) { v.tags = v.tags.concat(v.tags.map(function (t) { return lec[t]; }).filter(Boolean)); });
+  W.MH_TOPICS = L.topics.concat(W.MH_TOPICS || []);
+  W.MH_Q = A.qs.concat(L.qs, W.MH_Q || []);
+  W.MH_VIDEOS = A.vids.concat(W.MH_VIDEOS || []);
+})(window, window.MH_A12, window.MH_WK12);
+</script>
 <script src="mh.js?v=202611152000"></script>
-<script src="nav.js?v=202611181600"></script>
+<script src="nav.js?v=202611201200"></script>
 <script src="say.js?v=202611081800"></script>
 </body>
 </html>

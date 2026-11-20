@@ -4,7 +4,7 @@
 // Run: node tools/check_e5_study.js
 const assert = require('node:assert/strict'), fs = require('fs'), path = require('path'), vm = require('vm'), cp = require('child_process');
 const ROOT = path.join(__dirname, '..'), read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
-cp.execFileSync('node', [path.join(__dirname, 'build_e5_study.js'), '--check'], { stdio: 'pipe' });
+cp.execFileSync('node', [path.join(__dirname, 'build_study_engines.js'), '--check'], { stdio: 'pipe' });
 const c = vm.createContext({ window: {} });
 vm.runInContext(read('data/mh/questions.js'), c);
 const w12 = c.window.MH_Q.filter(q => q.wk === 12 && q.link !== 'c-ptsd');

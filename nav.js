@@ -26,9 +26,9 @@
     ['Reference Sheet.html', 'Ref', 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14ZM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5']
   ].filter(function (t) { return !(t[1] in PAGE) || (t[0] && HAS[EXAM].indexOf(t[1]) >= 0); });
   // Exams with one Learn → Test → Review page get those three tabs instead of Learn/Map.
-  var STUDY = { '4': 'Exam 4 Class Review.html', '5': 'Exam 5 Study.html' }[EXAM];
+  var STUDY = { '4': 'Exam 4 Class Review.html', '5': 'Exam 5 Study.html', 'F': 'Final Study.html' }[EXAM];
   if(STUDY){
-    TABS=TABS.filter(function(t){return t[1]!=='Learn'&&t[1]!=='Map';});
+    TABS=TABS.filter(function(t){return t[1]!=='Learn'&&t[1]!=='Map'&&t[1]!=='Mastery';}); // Test replaces the mastery tab
     TABS.splice(1,0,
       [STUDY+'#learn','Learn','M4 3h6a2 2 0 0 1 2 2v16a4 4 0 0 0-4-2H4zM20 3h-6a2 2 0 0 1 2 2v16a4 4 0 0 1 4-2h4z'],
       [STUDY+'#test','Test','M9 11l2 2 4-4M5 3h14v18H5z'],
@@ -164,7 +164,7 @@
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up — once per page,
   // since each page's HTML (and the data it names) is cached separately.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202611201500';
+  var BUILD = '202611201800';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     // Builds before 202610282230 reloaded only once per session for every page. This page is already current, so clear

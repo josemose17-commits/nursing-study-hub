@@ -67,8 +67,10 @@
   }
   function render(focus) {
     const hash = location.hash.slice(1), isPractice = !hash || hash === 'practice' || hash.startsWith('practice-');
-    app.hidden = !isPractice; manual.hidden = isPractice;
-    document.querySelectorAll('.sp-tabs a').forEach(a => { if ((a.dataset.view === 'practice') === isPractice) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    const isDaily = hash === 'daily' || hash.startsWith('daily-'), daily = document.getElementById('lab-daily'), view = isDaily ? 'daily' : isPractice ? 'practice' : 'records';
+    app.hidden = !isPractice; manual.hidden = isPractice || isDaily; if (daily) daily.hidden = !isDaily;
+    document.querySelectorAll('.sp-tabs a').forEach(a => { if (a.dataset.view === view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (window.LabDaily) { if (isDaily) { window.LabDaily.render(); return; } window.LabDaily.stop(); }
     if (!isPractice) { const target = document.getElementById(hash); if (target) target.scrollIntoView(); return; }
     if (performance.route(hash)) {}
     else if (hash === 'practice-test') quiz();

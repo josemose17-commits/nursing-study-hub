@@ -103,3 +103,16 @@
 @keyframes ld-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 .ld-controls { margin-top: 12px; }
 @media (prefers-reduced-motion: reduce) { .ld-step.ld-wrong { animation: none; } }
+
+/* Tap-to-answer procedure practice */
+.lp-choices { display: grid; gap: 8px; margin: 8px 0 12px; }
+.lp-choice { font: inherit; font-size: 15px; color: inherit; text-align: left; padding: 12px 14px; min-height: 48px; border-radius: 12px; border: 1px solid var(--sp-line); background: var(--color-neutral-900, #102219); cursor: pointer; line-height: 1.4; }
+.lp-choice:hover:not(:disabled) { border-color: var(--sp-green); }
+.lp-choice:disabled { cursor: default; }
+.lp-choice.lp-right { border-color: #2fbf6a; background: rgba(47,191,106,.16); }
+.lp-choice.lp-wrong { border-color: #e2685b; background: rgba(226,104,91,.16); }
+.lp-choice.lp-hint { border-color: #2fbf6a; box-shadow: 0 0 0 2px rgba(47,191,106,.35); }
+.lp-verdict { font-weight: 700; margin: 4px 0; }
+.sp-app .lp-list { padding-left: 28px; display: grid; gap: 6px; margin: 8px 0 12px; }
+.lp-placed { color: #bfe9cf; }
+.lp-placed small { display: block; color: var(--color-neutral-300, #bacbc0); font-size: 13px; margin-top: 2px; }

@@ -1,4 +1,4 @@
-/* Recall-first procedural practice. Free recall is self-reviewed, never AI-graded. */
+/* Procedure practice by tapping: pick the next step, or put the whole procedure in order. Scored from the taps; no saying, writing or self-rating. */
 (function (root) {
   'use strict';
   root.LabPerformance = { create };
@@ -21,15 +21,36 @@
     function countsHTML(counts) {
       return '<ul class="lp-counts">' + Object.keys(labels).map(id => '<li><b>' + (counts[id] || 0) + '</b> ' + esc(labels[id]) + '</li>').join('') + '</ul>';
     }
+    // Tap-to-answer helpers: no saying, writing or self-rating. Results are scored from the taps.
+    function hash(t) { let x = 0; for (let i = 0; i < t.length; i++) x = (x * 31 + t.charCodeAt(i)) >>> 0; return x; }
+    function seededOrder(list, seed) { return list.slice().sort((a, b) => hash(seed + a.id) - hash(seed + b.id)); }
+    // Four choices for "what comes next": the step itself plus the steps most easily confused with it.
+    function nextOptions(station, step) {
+      const i = station.steps.findIndex(x => x.id === step.id), pick = [], seen = new Set([step.title]);
+      [i + 1, i + 2, i - 2, i + 3, i - 3, i + 4].forEach(k => { const x = station.steps[k]; if (x && pick.length < 3 && !seen.has(x.title)) { seen.add(x.title); pick.push(x); } });
+      station.steps.forEach(x => { if (pick.length < 3 && !seen.has(x.title)) { seen.add(x.title); pick.push(x); } });
+      return seededOrder([step].concat(pick), step.id);
+    }
+    // Whole procedure as ordering sets of up to 6 consecutive steps; progress lives in the run's saved note.
+    function runChunks(st) { const n = st.steps.length, k = Math.ceil(n / 6), size = Math.ceil(n / k), out = []; for (let a = 0; a < n; a += size) out.push(st.steps.slice(a, a + size)); return out; }
+    function runProgress(r, st) {
+      let p = null; try { p = JSON.parse(r.note); } catch (_) {}
+      const chunks = runChunks(st);
+      if (!p || p.v !== 2 || !Number.isInteger(p.ci) || p.ci < 0 || p.ci >= chunks.length || !Array.isArray(p.placed)) p = { v: 2, ci: 0, placed: [], wrong: {}, streak: 0 };
+      p.chunk = chunks[p.ci]; p.count = chunks.length; p.order = seededOrder(p.chunk, st.id + '|' + p.ci + '|' + (r.at || ''));
+      return p;
+    }
+    function storeProgress(p) { const { chunk, count, order, ...keep } = p; core.runNote(S, JSON.stringify(keep)); }
+    let flashWrong = null;
     function homeHTML() {
       const open = core.stepBank(S,S.selected,false).length, all = core.stepBank(S,S.selected,true).length;
       const flow = S.flow && !S.flow.complete, run = S.run && S.run.stage !== 'complete';
       const prior = (D.legacySteps || []).filter(s => S.rehearsal[s.id] && S.rehearsal[s.id].rating).length;
-      return '<section class="sp-panel lp-main"><h2>Know the whole procedure from memory</h2><p>Every one of the <b>' + D.coverage.numberedRows + ' numbered rows</b> in the required check-offs is represented, plus ' + D.coverage.headerNotes + ' printed header/goal/objective notes. Related rows are combined where they describe the same action; compound tasks are explained fully.</p><p>Choose <b>Next step</b> to build your recall, then <b>Whole procedure</b> to say or demonstrate everything with no step list showing. Compare afterward and mark what you missed.</p><p class="sp-dim">The guides use a practical sequence. Equivalent safe ordering is acceptable in this practice; use “unsafe sequence” only when a necessary safety prerequisite was missed. Faculty sets the evaluation requirements.</p>' +
+      return '<section class="sp-panel lp-main"><h2>Know the whole procedure from memory</h2><p>Every one of the <b>' + D.coverage.numberedRows + ' numbered rows</b> in the required check-offs is represented, plus ' + D.coverage.headerNotes + ' printed header/goal/objective notes. Related rows are combined where they describe the same action; compound tasks are explained fully.</p><p>Choose <b>Next step</b> to pick what comes next from four choices, then <b>Whole procedure</b> to put every step of the skill in order. Just tap: nothing to say, write or rate. Each step is scored from your taps, and the ones you miss go to your weak-step list.</p><p class="sp-dim">The guides use one practical sequence; your instructor may accept another safe order. Faculty sets the evaluation requirements.</p>' +
         (flow || run ? '<div class="sp-row">' + (flow ? link('Resume next-step practice',S.flow.mode === 'weak' ? '#practice-weak' : '#practice-rehearse-' + S.flow.station) : '') + (run ? link('Resume whole procedure: ' + core.stations[S.run.station].title,'#practice-full-' + S.run.station) : '') + '</div>' : '') +
         '<h3>Redo weak procedure steps from every rehearsal</h3><p>' + open + ' open weak steps · ' + (all-open) + ' previously corrected, in selected stations.</p><label class="sp-row"><input type="checkbox" id="lp-include-corrected"' + (includeCorrected ? ' checked' : '') + '> Include previously corrected procedure steps</label><p>' + B('Practice selected weak steps','weak','',!(includeCorrected ? all : open)) + '</p><p class="sp-dim">Prompted, missed, and unsafe-sequence ratings stay in this cumulative bank. Independent recall corrects an item without deleting it. A “not in this scenario” rating does not clear an older miss.</p>' +
         (prior ? '<details><summary>Your earlier summary ratings are preserved (' + prior + ')</summary><p>These belong to the shorter guides and are kept separately. The expanded checkpoints start unrated so an earlier broad rating does not claim you remembered every newly detailed action.</p><ul>' + D.legacySteps.filter(s => S.rehearsal[s.id] && S.rehearsal[s.id].rating).map(s => '<li><b>' + esc(s.title) + ':</b> ' + esc(S.rehearsal[s.id].rating) + (S.rehearsal[s.id].note ? ' · ' + esc(S.rehearsal[s.id].note) : '') + '</li>').join('') + '</ul></details>' : '') +
-        (S.runHistory.length ? '<details><summary>Completed whole-procedure self-reviews (' + S.runHistory.length + ')</summary><ul>' + S.runHistory.slice(-10).reverse().map(h => '<li>' + esc(core.stations[h.station].title) + ': ' + h.counts.independent + '/' + h.total + ' independently recalled; ' + (h.counts.prompted+h.counts.missed+h.counts.sequence) + ' need practice; ' + h.counts['not-applicable'] + ' not in the scenario.</li>').join('') + '</ul><p class="sp-dim">The latest 30 complete self-reviews are kept. These are self-reports, not faculty passes.</p></details>' : '') + '</section>';
+        (S.runHistory.length ? '<details><summary>Completed whole-procedure runs (' + S.runHistory.length + ')</summary><ul>' + S.runHistory.slice(-10).reverse().map(h => '<li>' + esc(core.stations[h.station].title) + ': ' + h.counts.independent + '/' + h.total + ' independently recalled; ' + (h.counts.prompted+h.counts.missed+h.counts.sequence) + ' need practice; ' + h.counts['not-applicable'] + ' not in the scenario.</li>').join('') + '</ul><p class="sp-dim">The latest 30 complete self-reviews are kept. These are self-reports, not faculty passes.</p></details>' : '') + '</section>';
     }
     function guideSteps(st) {
       return '<p class="sp-note"><b>One practical flow, complete content.</b> You may group related checks or use another safe order. The checklist coverage below shows where each numbered row is represented. “Explain when asked” items are printed objectives rather than extra physical actions.</p><ol class="sp-steps">' + st.steps.map((step,i) => '<li id="lp-step-' + step.id + '">' + (i === 0 || st.steps[i-1].phase !== step.phase ? '<p class="lp-phase">' + esc(step.phase) + '</p>' : '') + '<h3>' + esc(step.title) + '</h3>' + (step.safety ? '<span class="sp-pill">Safety checkpoint</span>' : '') + (step.viva ? '<span class="sp-pill">Printed goal / objective</span>' : '') + '<p>' + esc(step.action) + '</p>' + (step.note ? '<p class="sp-note">' + esc(step.note) + '</p>' : '') + '<details><summary>Why, example words and checklist source</summary><p><b>Why:</b> ' + esc(step.why) + '</p>' + (step.say ? '<p><b>Say:</b> “' + esc(step.say) + '”</p>' : '') + '<p class="sp-dim">' + esc(sourceText(step)) + '</p></details></li>').join('') + '</ol>';
@@ -52,11 +73,14 @@
       const item = core.flowCurrent(S), step = core.steps[item.sid], station = core.stations[step.station];
       const previous = f.index ? core.steps[f.items[f.index-1].sid] : null;
       const fullIndex = station.steps.findIndex(s => s.id === step.id), anchor = fullIndex > 0 ? station.steps[fullIndex-1] : null;
-      const weakContext = (anchor ? 'In this station’s practice flow, this checkpoint follows: ' + anchor.title + '.' : 'This is the beginning of this station’s practice flow.') + ' Recall the selected action and its reason. This queue skips other steps; it is not a complete bedside procedure.';
-      wrap('What comes next?','<section class="sp-panel"><p class="sp-dim">' + esc(station.title) + ' · ' + (f.index+1) + '/' + f.items.length + (f.mode === 'weak' ? ' selected weak steps' : ' checkpoints') + '</p><progress value="' + f.index + '" max="' + f.items.length + '" aria-label="Procedure recall position"></progress><p class="lp-phase">' + esc(step.phase) + '</p><p>' + esc(f.mode === 'weak' ? weakContext : previous && previous.station === step.station ? 'Last checkpoint: ' + previous.title + '. Recall the next action and its reason before revealing it.' : 'Start from the beginning. Recall the first action and its reason before revealing it.') + '</p>' +
-        (item.hint && !item.revealed ? '<p class="sp-note"><b>Hint:</b> ' + esc(step.title) + '</p>' : '') +
-        '<label for="lp-flow-note">Say or demonstrate it first; optional recall notes</label><textarea id="lp-flow-note" maxlength="1600" placeholder="What will I do, what must I check first, and why?">' + esc(item.note) + '</textarea><p class="sp-dim">Notes are saved for this attempt. Free recall is self-reviewed; your wording is not automatically graded.</p>' +
-        (!item.revealed ? '<div class="sp-row">' + B('Compare my recall','flow-reveal') + B('Give me a small hint','flow-hint','',item.hint) + '</div>' : '<div class="sp-reveal"><h2>' + esc(step.title) + '</h2>' + explain(step) + '</div><p>Rate what you recalled before comparison. A different safe order is acceptable; mark sequence only for a missed prerequisite or unsafe point.</p>' + marks(step,item.rating,'flow-rate',item.hint) + (item.hint ? '<p class="sp-dim">You used a hint, so this checkpoint can be marked prompted rather than independent.</p>' : '') ) +
+      const weakContext = (anchor ? 'In this station’s practice flow, this checkpoint follows: ' + anchor.title + '.' : 'This is the beginning of this station’s practice flow.') + ' Pick the action that comes next. This queue skips other steps; it is not a complete bedside procedure.';
+      wrap('What comes next?','<section class="sp-panel"><p class="sp-dim">' + esc(station.title) + ' · ' + (f.index+1) + '/' + f.items.length + (f.mode === 'weak' ? ' selected weak steps' : ' checkpoints') + '</p><progress value="' + f.index + '" max="' + f.items.length + '" aria-label="Procedure recall position"></progress><p class="lp-phase">' + esc(step.phase) + '</p><p>' + esc(f.mode === 'weak' ? weakContext : previous && previous.station === step.station ? 'Last checkpoint: ' + previous.title + '. Which action comes next?' : 'Start from the beginning. Which action comes first?') + '</p>' +
+        (item.hint && !item.rating ? '<p class="sp-note"><b>Hint, why this step matters:</b> ' + esc(step.why) + '</p>' : '') +
+        '<p class="sp-dim">' + (item.rating ? '' : 'Tap the action that comes next.') + '</p><div class="lp-choices">' + nextOptions(station, step).map(o => {
+          const picked = item.note.indexOf('pick:') === 0 ? item.note.slice(5) : '', cls = item.rating ? (o.id === step.id ? ' lp-right' : o.id === picked ? ' lp-wrong' : '') : '';
+          return '<button type="button" class="lp-choice' + cls + '" data-performance="flow-pick" data-sid="' + esc(o.id) + '"' + (item.rating ? ' disabled' : '') + '>' + esc(o.title) + '</button>';
+        }).join('') + '</div>' +
+        (!item.rating ? '<div class="sp-row">' + B('Give me a small hint','flow-hint','',item.hint) + '</div>' : '<div class="sp-reveal"><p class="lp-verdict" role="status">' + (item.rating === 'independent' ? 'Correct' : item.rating === 'prompted' ? 'Correct, with a hint' : 'Not quite. The next step is:') + '</p><h2>' + esc(step.title) + '</h2>' + explain(step) + '</div>') +
         '<div class="sp-row lp-bottom">' + B('Previous checkpoint','flow-prev','',f.index===0) + B(f.index===f.items.length-1 ? 'Finish next-step practice' : 'Next checkpoint','flow-next','',!item.rating) + link('Pause / practice home','#practice') + '</div></section>',true);
     }
     function runRoute(st) {
@@ -66,11 +90,20 @@
       if (!S.run || S.run.station !== st.id) { core.startRun(S,st.id); save(); }
       const r = S.run;
       if (r.stage === 'perform') {
-        wrap('Whole procedure: ' + st.title,'<section class="sp-panel"><h2>Perform it without a step list</h2><p>' + esc(st.scene) + '</p><p>' + esc(st.id === 'reaction' ? 'Begin with the immediate reaction response and patient support. Include the clinical communication, access, investigation, treatment, monitoring and documentation.' : 'Say or demonstrate the whole skill from preparation through reassessment and documentation. Include the smaller checks, what you would say to the patient, and the printed goals/objectives you may be asked to explain.') + '</p><p class="sp-note">Use a sensible safe order. You do not need to recite the printed checklist word for word.</p><label for="lp-run-note">Optional recall outline for this attempt</label><textarea id="lp-run-note" maxlength="12000" placeholder="Start from memory. You can demonstrate and speak instead of typing.">' + esc(r.note) + '</textarea><p class="sp-dim">Your outline is saved. No step titles or procedure answers are shown until you choose to compare.</p><div class="sp-row">' + B('I am ready to compare every item','run-review') + link('Pause / practice home','#practice') + link('Use next-step practice','#practice-rehearse-' + st.id) + '</div></section>',true); return;
+        const p = runProgress(r, st), done = p.placed.length === p.chunk.length, atStep = p.placed.length;
+        const placed = p.placed.map(id => p.chunk.find(x => x.id === id)).map(x => '<li class="lp-placed">' + esc(x.title) + (done ? (x.safety ? ' <span class="sp-pill">safety</span>' : '') + '<small>' + esc(x.why) + '</small>' : '') + '</li>').join('');
+        const hint = (p.streak || 0) >= 2 ? p.chunk[atStep] : null;
+        const choices = done ? '' : '<div class="lp-choices">' + p.order.filter(x => !p.placed.includes(x.id)).map(x => '<button type="button" class="lp-choice' + (flashWrong === x.id ? ' lp-wrong' : hint && hint.id === x.id ? ' lp-hint' : '') + '" data-performance="run-pick" data-sid="' + esc(x.id) + '">' + esc(x.title) + '</button>').join('') + '</div>';
+        const startN = st.steps.findIndex(x => x.id === p.chunk[0].id) + 1;
+        flashWrong = null;
+        wrap('Whole procedure: ' + st.title,'<section class="sp-panel"><p class="sp-dim">' + esc(st.scene) + '</p><p class="lp-phase">Set ' + (p.ci + 1) + ' of ' + p.count + ' · ' + esc(p.chunk[0].phase) + ' · steps ' + startN + '–' + (startN + p.chunk.length - 1) + ' of ' + st.steps.length + '</p>' +
+          '<p>' + (done ? 'In order. Read the reasons, then go on.' : 'Tap the step that comes <b>next</b>.' + (hint ? ' The highlighted step is next.' : '')) + '</p>' + (placed ? '<ol class="lp-list" start="' + startN + '">' + placed + '</ol>' : '') + choices +
+          '<div class="sp-row">' + (done ? B(p.ci < p.count - 1 ? 'Next steps →' : 'Finish and see my results','run-next','','') : '') + link('Pause / practice home','#practice') + link('Use next-step practice','#practice-rehearse-' + st.id) + '</div></section>',true); return;
       }
+      if (r.stage === 'review') { core.startRun(S,st.id); save(); runRoute(st); return; } // older self-rating runs restart in tap mode
       const count = core.ratingCounts(Object.values(r.ratings)), reviewed = Object.keys(r.ratings).length;
       if (r.stage === 'complete') {
-        wrap('Whole-procedure self-review complete','<section class="sp-panel"><h2>' + esc(st.title) + '</h2>' + countsHTML(count) + '<p><b>' + st.steps.length + ' checkpoints reviewed.</b> This includes the printed rows and goals/objectives, along with clearly marked additions.</p><p>Redo weak steps, then perform the whole skill again. “Not in this scenario” does not establish independent recall or remove a previous weak-step entry.</p><div class="sp-row">' + B('Redo this station’s weak steps','station-weak','data-station="' + st.id + '"',!core.stepBank(S,[st.id],false).length) + B('Start a fresh whole-procedure rehearsal','run-start','data-station="' + st.id + '"') + link('Practice home','#practice') + '</div></section>',true); return;
+        wrap('Whole procedure complete','<section class="sp-panel"><h2>' + esc(st.title) + '</h2>' + countsHTML(count) + '<p><b>' + st.steps.length + ' checkpoints put in order.</b> Scored from your taps: no wrong tap = remembered, one = needed a prompt, two or more = missed. This includes the printed rows and goals/objectives, along with clearly marked additions.</p><p>Redo weak steps, then perform the whole skill again. “Not in this scenario” does not establish independent recall or remove a previous weak-step entry.</p><div class="sp-row">' + B('Redo this station’s weak steps','station-weak','data-station="' + st.id + '"',!core.stepBank(S,[st.id],false).length) + B('Start a fresh whole-procedure rehearsal','run-start','data-station="' + st.id + '"') + link('Practice home','#practice') + '</div></section>',true); return;
       }
       wrap('Compare every action: ' + st.title,'<section class="sp-panel"><p class="sp-note">Compare with what you actually recalled or demonstrated before opening this list. Rate every item. Mark “unsafe sequence” for a missed safety prerequisite, not for an equivalent safe order. Conditional items can be marked not in this scenario; explain their branch when preparing for faculty questions.</p><p id="lp-run-progress" role="status">' + reviewed + ' of ' + st.steps.length + ' checkpoints self-reviewed.</p><details><summary>Your original recall outline</summary><p class="lp-outline">' + esc(r.note || 'You rehearsed without a typed outline.') + '</p></details></section><ol class="sp-steps lp-review-list">' + st.steps.map((step,i) => '<li id="lp-review-' + step.id + '">' + (i===0 || st.steps[i-1].phase!==step.phase ? '<p class="lp-phase">' + esc(step.phase) + '</p>' : '') + '<h3>' + esc(step.title) + '</h3>' + explain(step) + marks(step,r.ratings[step.id] || '','run-rate',false) + '</li>').join('') + '</ol><section class="sp-panel"><p class="sp-dim">Unrated checkpoints prevent completion of this self-review. These ratings do not create an instructor pass or practice date.</p><div class="sp-row">' + B('Finish whole-procedure self-review','run-finish','id="lp-run-finish"',reviewed!==st.steps.length) + link('Pause / practice home','#practice') + '</div></section>',true);
     }
@@ -99,6 +132,23 @@
           save();const card=b.closest('li');card.querySelectorAll('[data-rating]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.rating===b.dataset.rating)));
           const st=core.stations[S.run.station], n=Object.keys(S.run.ratings).length;app.querySelector('#lp-run-progress').textContent=n+' of '+st.steps.length+' checkpoints self-reviewed.';app.querySelector('#lp-run-finish').disabled=n!==st.steps.length;
         } return;
+      }
+      if (a==='flow-pick') {
+        const item = core.flowCurrent(S); if (!item || item.rating) return;
+        core.flowNote(S,'pick:'+b.dataset.sid); core.flowReveal(S,false); core.flowRate(S,b.dataset.sid===item.sid?'independent':'missed');
+        save(); ctx.render(false); const v=app.querySelector('.lp-verdict'); if(v){v.tabIndex=-1;v.focus({preventScroll:true});} return;
+      }
+      if (a==='run-pick') {
+        const st=core.stations[S.run.station], p=runProgress(S.run,st), want=p.chunk[p.placed.length]; if (!want) return;
+        if (b.dataset.sid===want.id) { p.placed.push(want.id); p.streak=0; }
+        else { p.wrong[want.id]=(p.wrong[want.id]||0)+1; p.streak=(p.streak||0)+1; flashWrong=b.dataset.sid; }
+        storeProgress(p); save(); ctx.render(false); return;
+      }
+      if (a==='run-next') {
+        const st=core.stations[S.run.station], p=runProgress(S.run,st); if (p.placed.length<p.chunk.length) return;
+        if (p.ci<p.count-1) { p.ci++; p.placed=[]; p.streak=0; storeProgress(p); }
+        else if (core.runReview(S)) { st.steps.forEach(x=>{ const w=p.wrong[x.id]||0; core.runRate(S,x.id,w===0?'independent':w===1?'prompted':'missed'); }); core.runFinish(S); }
+        save(); ctx.render(false); window.scrollTo(0,0); const h=app.querySelector('h1'); if(h){h.tabIndex=-1;h.focus({preventScroll:true});} return;
       }
       if (a==='flow-reveal') core.flowReveal(S,false);
       else if (a==='flow-hint') core.flowReveal(S,true);

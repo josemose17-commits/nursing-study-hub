@@ -22,7 +22,7 @@
   function home() {
     const open = core.bank(state, selected(), false).length, all = core.bank(state, selected(), true).length;
     const active = state.session && !state.session.complete;
-    wrap('Practice your check-offs', '<p class="lead">Learn every required checklist item, then say or demonstrate the complete procedure from memory. Five named test-off groups are organized into seven practice stations, including the clearly marked IV supplement.</p>' +
+    wrap('Practice your check-offs', '<p class="lead">Learn every required checklist item, then practise by tapping: pick the next step, or put the whole procedure in order. Five named test-off groups are organized into seven practice stations, including the clearly marked IV supplement.</p>' +
       '<p class="sp-note">Practice scores and self-ratings are separate from your instructor’s test-off record. Safety checkpoints are study priorities; faculty determines the grading rubric.</p>' +
       (active ? '<section class="sp-panel"><h2>Continue your round</h2><p>' + core.score(state).checked + ' of ' + core.score(state).total + ' questions checked. Your answers and position are saved.</p>' + link('Resume round', '#practice-test') + '</section>' : '') +
       '<section class="sp-panel"><h2>Choose your stations</h2><p class="sp-dim">Select skills for a mixed round or for reviewing misses. You can study or rehearse any station.</p><div class="sp-row">' + button('Select all', 'select-all') + button('Clear selection', 'select-none') + '</div><div class="sp-grid" style="margin-top:12px">' + D.stations.map(st => {
@@ -67,8 +67,10 @@
   }
   function render(focus) {
     const hash = location.hash.slice(1), isPractice = !hash || hash === 'practice' || hash.startsWith('practice-');
-    app.hidden = !isPractice; manual.hidden = isPractice;
-    document.querySelectorAll('.sp-tabs a').forEach(a => { if ((a.dataset.view === 'practice') === isPractice) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    const isDaily = hash === 'daily' || hash.startsWith('daily-'), daily = document.getElementById('lab-daily'), view = isDaily ? 'daily' : isPractice ? 'practice' : 'records';
+    app.hidden = !isPractice; manual.hidden = isPractice || isDaily; if (daily) daily.hidden = !isDaily;
+    document.querySelectorAll('.sp-tabs a').forEach(a => { if (a.dataset.view === view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (window.LabDaily) { if (isDaily) { window.LabDaily.render(); return; } window.LabDaily.stop(); }
     if (!isPractice) { const target = document.getElementById(hash); if (target) target.scrollIntoView(); return; }
     if (performance.route(hash)) {}
     else if (hash === 'practice-test') quiz();

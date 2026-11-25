@@ -58,19 +58,23 @@ assert.deepEqual(core.restore(clone(s)).run,s.run);assert.equal(core.restore(clo
 core.startFlow(s,[st.id],false);s.flow.index=st.steps.indexOf(conditional);core.flowReveal(s,false);core.flowRate(s,'missed');
 const weakBefore=s.stepMisses[conditional.id].count;
 core.startRun(s,st.id);core.runReview(s);core.runRate(s,conditional.id,'not-applicable');assert.equal(s.stepMisses[conditional.id].state,'open');assert.equal(s.stepMisses[conditional.id].count,weakBefore);
-// Render the actual UI module in a minimal DOM host: answers absent before reveal/comparison.
+// Render the actual UI module in a minimal DOM host: step details stay hidden until answered.
 const ctx={window:{},location:{hash:'#practice'},document:{},console};vm.runInNewContext(fs.readFileSync(path.join(root,'lab-performance.js'),'utf8'),ctx);
 const uiState=core.fresh();let html='',title='';const esc=x=>String(x||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ui=ctx.window.LabPerformance.create({data:D,core,state:uiState,save(){},esc,app:{addEventListener(){}},wrap(t,h){title=t;html=h;},link:(t,h)=>'<a href="'+h+'">'+esc(t)+'</a>',render(){}});
 for(const station of D.stations){
   core.startRun(uiState,station.id);assert(ui.route('practice-full-'+station.id));
   for(const step of station.steps) assert(!html.includes(esc(step.action)),'Full run exposed '+step.id);
-  core.runReview(uiState);ui.route('practice-full-'+station.id);for(const step of station.steps) assert(html.includes(esc(step.action)),'Review omitted '+step.id);
+  // Whole procedure is tap-to-order: the first set's step names are the choices; an older self-rating run restarts in tap mode.
+  const firstSet=(html.match(/data-performance="run-pick"/g)||[]).length;assert(firstSet>=1&&firstSet<=6,'Ordering set size for '+station.id);
+  core.runReview(uiState);ui.route('practice-full-'+station.id);assert.equal(uiState.run.stage,'perform','Self-rating run restarts in tap mode: '+station.id);
   const sourceHTML=ui.coverageHTML(station);for(const row of station.requirements) assert(sourceHTML.includes(esc(row.label)));
 }
-core.startFlow(uiState,[st.id],false);ui.route('practice-rehearse-'+st.id);const firstStep=st.steps[0];assert(!html.includes(esc(firstStep.title)));assert(!html.includes(esc(firstStep.action)));
-core.flowReveal(uiState,true);ui.route('practice-rehearse-'+st.id);assert(html.includes(esc(firstStep.title)));assert(!html.includes(esc(firstStep.action)));
-core.flowReveal(uiState,false);ui.route('practice-rehearse-'+st.id);assert(html.includes(esc(firstStep.action)));
+// Next step is four tappable choices; the details stay hidden until answered, and the hint gives the reason, not the answer.
+core.startFlow(uiState,[st.id],false);ui.route('practice-rehearse-'+st.id);const firstStep=st.steps[0];
+assert.equal((html.match(/data-performance="flow-pick"/g)||[]).length,4,'four choices');assert(html.includes(esc(firstStep.title)));assert(!html.includes(esc(firstStep.action)));assert(!/textarea/.test(html),'nothing to write');
+core.flowReveal(uiState,true);ui.route('practice-rehearse-'+st.id);assert(html.includes(esc(firstStep.why)));assert(!html.includes(esc(firstStep.action)));
+core.flowReveal(uiState,false);core.flowRate(uiState,'independent');assert.equal(core.flowCurrent(uiState).rating,'prompted','a hinted answer is scored as prompted');ui.route('practice-rehearse-'+st.id);assert(html.includes(esc(firstStep.action)));
 // An unstarted weak route must not silently open a normal flow.
 ui.route('practice-weak');assert.equal(title,'No procedure-step review is active');
 const page=fs.readFileSync(path.join(root,'Lab Check-offs.html'),'utf8');assert(page.indexOf('nrs114-checkoff-details.js')>page.indexOf('data/nrs114-skills.js'));assert(page.indexOf('lab-performance.js')<page.indexOf('src="lab-practice.js'));

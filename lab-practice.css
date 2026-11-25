@@ -75,3 +75,44 @@
   .sp-panel, .sp-steps > li { background: white; color: black; border-color: #aaa; break-inside: avoid; }
   .sp-app .sp-dim, .sp-app h3 { color: black; }
 }
+
+/* Daily skills run */
+.ld-app header { margin-bottom: 12px; }
+.ld-today .sp-button { margin: 4px 6px 4px 0; }
+.sp-app .ld-order { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 6px; counter-reset: ld; }
+.ld-order li { counter-increment: ld; display: flex; align-items: center; gap: 8px; border: 1px solid var(--sp-line); border-radius: 12px; padding: 8px 10px; margin: 0; }
+.ld-order li::before { content: counter(ld); min-width: 22px; color: var(--sp-green); font-weight: 700; text-align: right; }
+.ld-order label { flex: 1; display: flex; gap: 10px; align-items: flex-start; min-width: 0; cursor: pointer; }
+.ld-order label span { display: flex; flex-direction: column; min-width: 0; }
+.ld-order small { color: var(--color-neutral-300, #bacbc0); font-size: 12.5px; }
+.ld-order .ld-off { opacity: .55; }
+.ld-move { display: inline-flex; gap: 4px; }
+.ld-move button { font: inherit; color: inherit; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--sp-line); background: none; cursor: pointer; }
+.ld-move button:disabled { opacity: .3; cursor: default; }
+.ld-hist { padding-left: 18px; font-size: 14px; }
+.ld-bar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 8px 12px; margin: 0 0 10px; border-radius: 12px; background: var(--color-neutral-900, #102219); border: 1px solid var(--sp-line); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--sp-green); }
+.ld-bar .ld-behind { color: #ffb4a8; }
+.ld-list { padding-left: 26px; display: grid; gap: 6px; margin: 8px 0 12px; }
+.ld-placed { color: #bfe9cf; }
+.ld-placed small { display: block; color: var(--color-neutral-300, #bacbc0); font-size: 13px; margin-top: 2px; }
+.ld-choices { display: grid; gap: 8px; }
+.ld-step { font: inherit; font-size: 15px; color: inherit; text-align: left; padding: 12px 14px; min-height: 48px; border-radius: 12px; border: 1px solid var(--sp-line); background: var(--color-neutral-900, #102219); cursor: pointer; line-height: 1.4; }
+.ld-step:hover { border-color: var(--sp-green); }
+.ld-step.ld-wrong { border-color: #e2685b; background: rgba(226,104,91,.16); animation: ld-shake .25s; }
+.ld-step.ld-hint { border-color: #2fbf6a; box-shadow: 0 0 0 2px rgba(47,191,106,.35); }
+@keyframes ld-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.ld-controls { margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) { .ld-step.ld-wrong { animation: none; } }
+
+/* Tap-to-answer procedure practice */
+.lp-choices { display: grid; gap: 8px; margin: 8px 0 12px; }
+.lp-choice { font: inherit; font-size: 15px; color: inherit; text-align: left; padding: 12px 14px; min-height: 48px; border-radius: 12px; border: 1px solid var(--sp-line); background: var(--color-neutral-900, #102219); cursor: pointer; line-height: 1.4; }
+.lp-choice:hover:not(:disabled) { border-color: var(--sp-green); }
+.lp-choice:disabled { cursor: default; }
+.lp-choice.lp-right { border-color: #2fbf6a; background: rgba(47,191,106,.16); }
+.lp-choice.lp-wrong { border-color: #e2685b; background: rgba(226,104,91,.16); }
+.lp-choice.lp-hint { border-color: #2fbf6a; box-shadow: 0 0 0 2px rgba(47,191,106,.35); }
+.lp-verdict { font-weight: 700; margin: 4px 0; }
+.sp-app .lp-list { padding-left: 28px; display: grid; gap: 6px; margin: 8px 0 12px; }
+.lp-placed { color: #bfe9cf; }
+.lp-placed small { display: block; color: var(--color-neutral-300, #bacbc0); font-size: 13px; margin-top: 2px; }

@@ -12,7 +12,7 @@ const stations = c.window.NRS114_SKILLS.stations, pics = c.window.CHECKOFF_IMAGE
 let n = 0, shown = 0;
 for (const [station, list] of Object.entries(pics)) {
   const st = stations.find(s => s.id === station); assert(st, 'Unknown station ' + station);
-  const keys = new Set(st.steps.map(s => s.key)), used = new Set();
+  const keys = new Set(st.steps.map(s => s.key || String(s.id).replace(/^.*:detail-/, ''))), used = new Set();
   assert.deepEqual(list.map(p => p.n), list.map(p => p.n).slice().sort((a, b) => a - b), station + ': pictures in step order');
   for (const p of list) {
     n++;

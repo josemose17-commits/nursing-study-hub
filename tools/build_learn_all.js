@@ -6,7 +6,8 @@ const catalog=require('./learn-catalog'),custom=require('./learn-questions'),lea
 const applyMentalHealthLessons=require('./apply_mh_lessons');
 const namedTerms=[...Object.keys(learnTerms.medications),...learnTerms.stems.flatMap(([, ,ns])=>ns.split(' ')),...Object.keys(learnTerms.splits)];
 const termsIn=value=>{const text=JSON.stringify(value).toLowerCase();return namedTerms.filter(t=>new RegExp('(^|[^a-z])'+t+'([^a-z]|$)').test(text));};
-const plain=s=>String(s||'').replace(/<[^>]*>/g,' ').replace(/\*+/g,'').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
+// Strip real tags only: a bare comparison such as "calcium < 6 or > 13" must survive.
+const plain=s=>String(s||'').replace(/<\/?[a-zA-Z][^<>]*>/g,' ').replace(/\*+/g,'').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
 function load(files){const c=vm.createContext({window:{}});files.forEach(f=>vm.runInContext(read(f),c,{filename:f}));return c.window;}
 const e2=load(['data/info-topics.js','data/concept-nodes.js',...fs.readdirSync(path.join(root,'data/notes-short')).filter(f=>f.endsWith('.js')).sort().map(f=>'data/notes-short/'+f),'data/extra-questions.js',...['22-23','24-25','27-28','29-30','33-34'].map(f=>'data/recall-'+f+'.js'),...['22-25','27-30','33-34'].map(f=>'data/ngn-'+f+'.js')]);
 const fin=load(['data/e3/info-topics.js','data/e3/notes-short.js',...['13','14','15','16','17','45','46','47','48','49','50','51','52','53','55','56'].map(ch=>'data/e3/q/'+ch+'.js'),'data/e3/q/more.js','data/e3/lessons.js','data/e3/studios.js']);
@@ -173,11 +174,31 @@ function safetyEdits(rows){
  return rows.map(qualify);
 }
 
+// Tap-only rehearsal: a 'reflect' step (reveal, then rate yourself) becomes a scored three-choice step.
+// The right option is the step's own worked answer; the others are answers from other lessons in the
+// same exam (same chapter first, similar length, never a near-duplicate), chosen by learn-core.recallChoices.
+const LC=require('../learn-core');
+function tapOnly(rows){
+ const pool=rows.map(r=>r.lesson);
+ for(const {lesson:l,lab}of rows){
+  lab.steps=lab.steps.map(st=>{
+   if(st.kind!=='reflect')return st;
+   const probe={id:st.id,ch:l.ch,title:l.title,checks:[st.task],recallAnswers:[st.answer]};
+   const c=LC.recallChoices(probe,0,pool.filter(x=>x.id!==l.id),st.id);
+   if(!c)throw Error('No tap choices for '+st.id);
+   const snip=t=>{const w=t.split(/\s+/).slice(0,6).join(' ');return w.length<t.length?w+'…':w;};
+   return {id:st.id,kind:'choice',scene:l.patient||('Lesson: '+l.title+'. Pick the point that belongs to this lesson.'),task:LC.tidyPrompt(st.task),
+    hint:'Match the exact point asked to this lesson’s topic. The other choices are true statements from other lessons.',
+    options:c.options.map((o,i)=>({id:'o'+i,text:o.text,correct:o.correct,why:o.correct?'Yes. This is the worked point for '+l.title+'.':(o.from==='another point in this lesson'?'“'+snip(o.text)+'” answers another point in this lesson, not this one.':'“'+snip(o.text)+'” is from '+o.from+', a different lesson.')}))};
+  });
+ }
+ return rows;
+}
 const configs={
  e1:{label:'Exam 1',key:'e1-learn-v1',map:'Exam 1 Map.html',test:'Exam 1 Map.html#test',mhPrefix:'e1-',scope:'Perioperative care, immunity, cancer and infection: every currently authored topic and clinical reasoning condition for Exam 1.',weightNote:'No professor question-count blueprint is encoded here; recommendations balance chapter coverage.'},
  e2:{label:'Exam 2',key:'e2-learn-v1',map:'Exam 2 Map.html',test:'Exam 2 Mastery Loop.dc.html',drugs:'Exam 2 Drug Cards.dc.html',masteryKey:'e2-mastery-v3',scope:'All 17 named study-guide groups, with supporting lessons across chapters 22–25, 27–30 and 33–34. Full authored notes, tables and ADPIE stay linked.',weightNote:'Study-guide question counts: 22: 5; 24: 8; 25: 5; 27: 3; 28: 5; 29: 6; 30: 8; 34: 20. Chapters 23 and 33 are supporting review.',blueprint:{22:5,23:0,24:8,25:5,27:3,28:5,29:6,30:8,33:0,34:20}},
  e4:{label:'Exam 4',key:'e4-learn-v1',map:'Exam 4 Map.html',test:'Exam 4 Map.html#test',mhPrefix:'e4-',scope:'The Exam 4 study guide follows your assigned list: Chapters 1, 2, 3 and 6; Chapter 34; and Peplau’s model and Communication Skills for Nurses from Chapter 9. Everything also retains the additional authored lessons.',weightNote:'No professor question-count blueprint is encoded here; recommendations balance chapter coverage.'},
- e5:{label:'Exam 5',key:'e5-learn-v1',map:'Exam 5 Map.html',test:'Exam 5 Map.html#test',mhPrefix:'e5-',scope:'Weeks 13–15: psychosis, somatic/dissociative disorders, children, eating, substances, neurocognitive and personality disorders. Every currently authored topic and condition is included.',weightNote:'No professor question-count blueprint is encoded here; recommendations balance chapter coverage.'},
+ e5:{label:'Exam 5',key:'e5-learn-v1',map:'Exam 5 Map.html',test:'Exam 5 Map.html#test',mhPrefix:'e5-',scope:'Weeks 13–15: psychosis, somatic/dissociative disorders, children, eating, substances, neurocognitive and personality disorders. Every currently authored topic and condition is included. The week-12 lecture (bipolar, depression, anxiety and OCD, suicide and self-injury) is in Exam 5 Study: Learn, Test and Review.',weightNote:'No professor question-count blueprint is encoded here; recommendations balance chapter coverage.'},
  final:{label:'Final',key:'fin-learn-v1',map:'Final Map.html',test:'Final Mastery Loop.dc.html',drugs:'Exam 3 Drug Cards.dc.html',masteryKey:'fin-mastery-v1',scope:'Provisional final-topic path: authored notes for chapters 13–17, 22–25, 45–53, 55–56. This includes the Exam 3 lessons and respiratory review. The syllabus calls the final comprehensive; no detailed final blueprint has been provided. Use the earlier-exam links for the rest of the cumulative review.',gaps:'The Final Map also lists chapters 1, 2, 4, 7, 8, 10, 11 and 12 as planned foundations. Their full chapter notes are not present, so this path does not claim those chapters are covered.',weightNote:'Equal chapter balancing for this provisional path; these are not professor exam-question weights.'}
 };
 const sets={e1:buildMH('e1','e1'),e2:buildGrouped(catalog.e2,e2,'e2'),e4:buildMH('mh','e4'),e5:buildMH('mh5','e5')};
@@ -193,16 +214,19 @@ for(const topic of fin.INFO_TOPICS){
 }
 fs.mkdirSync(path.join(root,'data/learn'),{recursive:true});
 const manifest={source:'Existing authored notes and question banks; see per-lesson references. No raw-book completeness claim.',exams:{}};
+// Exam 4 is over: its Learn file is frozen against the progress-compatibility baseline
+// (tools/check_mh_active_lessons.js), so it is checked but not rewritten. Pass --e4 to rewrite it.
+const frozen=new Set(process.argv.includes('--e4')?[]:['e4']);
 for(const [exam,rawRows]of Object.entries(sets)){
- const rows=applyMentalHealthLessons(exam,safetyEdits(rawRows)),config=configs[exam],lessons=rows.map(x=>x.lesson),chs=[...new Set(lessons.flatMap(l=>l.chapters||[l.ch]))].sort((a,b)=>+a-+b);
+ const rows=tapOnly(applyMentalHealthLessons(exam,safetyEdits(rawRows))),config=configs[exam],lessons=rows.map(x=>x.lesson),chs=[...new Set(lessons.flatMap(l=>l.chapters||[l.ch]))].sort((a,b)=>+a-+b);
  config.page=config.label+' Learn.html';config.chapters=chs;
  const weights=Object.fromEntries(chs.map(ch=>[ch,Math.max(1,config.blueprint?.[ch]||1)]));
  const outputLessons=lessons.map(({sourceSections,...l})=>l);
  const payload={config,weights,lessons:outputLessons,studios:{version:1,mapPage:config.map,learnPage:config.page,labs:rows.map(x=>x.lab)}};
  if(new Set(lessons.map(l=>l.id)).size!==lessons.length)throw Error('Duplicate lesson ID in '+exam);
  for(const l of lessons)if(l.questions.length<2||l.questions.some(q=>q.r.length!==q.o.length))throw Error('Question coverage '+exam+'/'+l.id);
- fs.writeFileSync(path.join(root,'data/learn/'+exam+'.js'),'// Generated by tools/build_learn_all.js from authored source notes and read-only banks.\nwindow.LEARN_DATA = '+JSON.stringify(payload)+';\nwindow.LEARN_CFG = window.LEARN_DATA.config;\nwindow.LEARN_STUDIOS = window.LEARN_DATA.studios;\n');
+ if(!frozen.has(exam))fs.writeFileSync(path.join(root,'data/learn/'+exam+'.js'),'// Generated by tools/build_learn_all.js from authored source notes and read-only banks.\nwindow.LEARN_DATA = '+JSON.stringify(payload)+';\nwindow.LEARN_CFG = window.LEARN_DATA.config;\nwindow.LEARN_STUDIOS = window.LEARN_DATA.studios;\n');
  manifest.exams[exam]={label:config.label,chapters:chs,lessons:lessons.length,gradedItems:lessons.reduce((n,l)=>n+l.questions.length,0),coachedActivities:rows.reduce((n,x)=>n+x.lab.steps.length,0)+(exam==='final'?6:0),notes:[...new Set(lessons.flatMap(l=>l.notes))].length,coverage:Object.fromEntries(lessons.map(l=>[l.id,{chapters:l.chapters||[l.ch],notes:l.notes,questions:l.questions.map(q=>q.sourceId||q.id)}]))};
- console.log(config.label+': '+lessons.length+' lessons, '+manifest.exams[exam].gradedItems+' rotating graded checkpoints, '+manifest.exams[exam].coachedActivities+' coached activities');
+ console.log(config.label+(frozen.has(exam)?' (frozen, not rewritten)':'')+': '+lessons.length+' lessons, '+manifest.exams[exam].gradedItems+' rotating graded checkpoints, '+manifest.exams[exam].coachedActivities+' coached activities');
 }
 fs.writeFileSync(path.join(root,'data/learn/coverage.json'),JSON.stringify(manifest,null,2)+'\n');

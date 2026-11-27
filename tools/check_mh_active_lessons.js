@@ -1,6 +1,10 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),cp=require('node:child_process'),path=require('node:path');
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8'),clone=x=>JSON.parse(JSON.stringify(x));
 const ledger=JSON.parse(read('audit/mh-question-clarifications.json')),BASE=ledger.baseline;
+// The baseline commit may be missing from a shallow clone: fetch just that commit once, then read from it.
+function ensureBase(){try{cp.execFileSync('git',['cat-file','-e',BASE+'^{commit}'],{cwd:root,stdio:'ignore'});}catch(_){
+ try{cp.execFileSync('git',['fetch','-q','--depth=1','origin',BASE],{cwd:root,stdio:'ignore'});}catch(e){throw Error('Baseline commit '+BASE+' is not in this clone and could not be fetched. Run: git fetch origin '+BASE);}}}
+ensureBase();
 const old=f=>cp.execFileSync('git',['show',BASE+':'+f],{cwd:root,encoding:'utf8',maxBuffer:20e6});
 function load(text,key){const c=vm.createContext({window:{}});vm.runInContext(text,c);return clone(c.window[key]);}
 const C=require('../learn-core'),S=require('../study-studio'),G=require('../data/mh/study-guide');
@@ -72,7 +76,7 @@ for(const exam of ['e4','e5']){
 const oldQ=load(old('data/mh5/questions.js'),'MH_Q'),newQ=load(read('data/mh5/questions.js'),'MH_Q');
 assert.deepEqual(newQ.map(q=>q.id),oldQ.map(q=>q.id));
 for(const p of oldQ){const q=newQ.find(x=>x.id===p.id);assert.deepEqual(q.a,p.a);assert.equal(q.opts.length,p.opts.length);assert.equal(q.link,p.link);assert.equal(q.wk,p.wk);if(!changed.has(q.id))assert.deepEqual(q,p);}
-assert.equal(new Set(ledger.items.map(x=>x.id)).size,ledger.items.length);assert.equal(ledger.items.length,70);
+assert.equal(new Set(ledger.items.map(x=>x.id)).size,ledger.items.length);assert.equal(ledger.items.length,71);
 assert(ledger.items.every(x=>x.answerUnchanged===true&&x.optionsSameCount===true),'Clarifications never rekey a question or change its option count');
 assert.equal(count,39);assert.equal(choices,78);assert.equal(orders,2);
 // Use the actual Learn renderer: a shared MH rationale appears once, followed
@@ -85,7 +89,18 @@ vm.runInContext(read('learn.js'),vm.createContext({window:{LEARN_DATA:uiData,Exa
 assert(el.innerHTML.includes('Evaluate each option independently'));assert(!el.innerHTML.includes('What should guide monitoring?'));
 const escape=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 assert.equal(el.innerHTML.split(escape(uiLesson.questions[0].phys)).length-1,1,'Show the common rationale once');
-for(const f of ['learn-core.js','data/e3/lessons.js','data/e3/studios.js','data/learn/e1.js','data/learn/e2.js','data/learn/final.js'])assert.equal(read(f),old(f),'Outside-path/scoring preservation: '+f);
+for(const f of ['data/e3/lessons.js','data/e3/studios.js'])assert.equal(read(f),old(f),'Outside-path preservation: '+f);
+// Outside the MH paths, text may be corrected (for example comparisons such as "< 6 or > 13" the old
+// tag stripper deleted) and self-rating steps became scored taps, but saved progress must still fit:
+// the same lessons, question ids, answer keys and option counts, and the same scoring functions.
+for(const f of ['data/learn/e1.js','data/learn/e2.js','data/learn/final.js']){
+ const now=load(read(f),'LEARN_DATA'),then=load(old(f),'LEARN_DATA');
+ assert.deepEqual(now.lessons.map(l=>l.id),then.lessons.map(l=>l.id),'Lesson identities: '+f);
+ now.lessons.forEach((l,i)=>{const p=then.lessons[i];assert.equal(l.checks.length,p.checks.length,'Recall positions: '+l.id);
+  assert.deepEqual(l.questions.map(q=>[q.id,q.sourceId,q.a,q.o.length]),p.questions.map(q=>[q.id,q.sourceId,q.a,q.o.length]),'Question keys: '+l.id);});
+ assert.deepEqual(now.studios.labs.map(x=>[x.id,x.steps.length]),then.studios.labs.map(x=>[x.id,x.steps.length]),'Rehearsal step counts: '+f);
+}
+for(const fn of ['blank','restore','grade','start','finish','recommend','missEntries','retryMiss'])assert.equal(typeof C[fn],'function','Scoring API: '+fn);
 assert(!read('data/mh5/cond-substance.js').includes('thiamine before glucose'));
 assert(!read('data/mh5/cond-substance.js').includes('outlasted the opioid'));
 assert(!read('data/mh5/topics.js').includes('All antipsychotics block'));

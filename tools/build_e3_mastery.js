@@ -54,6 +54,7 @@ s = s.slice(0, first) + scripts.join('\n') + '\n' + s.slice(focus);
 swap('Exam 2 Map.html', FINAL ? 'Final Map.html' : 'Exam 3 Map.html');
 swap('Exam 2 Drug Cards.dc.html', 'Exam 3 Drug Cards.dc.html');
 swap('Exam 2 · Mastery test', T.name + ' · Mastery test', 1);
+swap('<title>Exam 2 · Mastery Loop</title>', '<title>' + T.name + ' · Mastery Loop</title>', 1);
 swap('Exam 2 Mastery Loop.dc.html#redo', T.out + '#redo', 1);
 swap("' Exam 2 study-guide items, in the exam’s chapter mix.'", T.mix, 1);
 // The final has no study guide yet: its report counts topics. Its weak areas open on the Final map (#weak there).

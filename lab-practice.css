@@ -116,3 +116,6 @@
 .sp-app .lp-list { padding-left: 28px; display: grid; gap: 6px; margin: 8px 0 12px; }
 .lp-placed { color: #bfe9cf; }
 .lp-placed small { display: block; color: var(--color-neutral-300, #bacbc0); font-size: 13px; margin-top: 2px; }
+
+.ld-fb { min-height: 1.4em; margin: 8px 0 0; font-weight: 600; }
+.ld-fb:empty { margin: 0; min-height: 0; }

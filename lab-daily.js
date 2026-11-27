@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var C = window.LabDailyCore, B = C.build(window.LAB_SKILLS || []), el = document.getElementById('lab-daily');
-  var KEY = 'clin-lab-daily-v1', groups = {}, flash = null, timer = null;
+  var KEY = 'clin-lab-daily-v1', groups = {}, flash = null, said = '', timer = null;
   (window.LAB_GROUPS || []).forEach(function (g) { groups[g[0]] = g[1]; });
   var S; try { S = C.restore(JSON.parse(localStorage.getItem(KEY)), B); } catch (e) { S = C.fresh(B); }
   var M = {}; B.forEach(function (x) { M[x.id] = x; });
@@ -49,18 +49,18 @@
     var placed = r.placed.map(function (i) { var st = ch.steps[i]; return '<li class="ld-placed">' + esc(st.text) + (done && st.critical ? ' <span class="sp-pill">safety</span>' : '') + (done && st.why ? '<small>' + esc(st.why) + '</small>' : '') + '</li>'; }).join('');
     var choices = done ? '' : '<div class="ld-choices">' + r.shuffle.filter(function (i) { return r.placed.indexOf(i) < 0; }).map(function (i) {
       var cls = flash === i ? ' ld-wrong' : r.hint && i === r.placed.length ? ' ld-hint' : '';
-      return '<button type="button" class="ld-step' + cls + '" data-daily="pick" data-i="' + i + '">' + esc(ch.steps[i].text) + '</button>';
+      return '<button type="button" class="ld-step' + cls + '" data-daily="pick" data-i="' + i + '">' + (flash === i ? '<b aria-hidden="true">✕ </b>' : r.hint && i === r.placed.length ? '<b aria-hidden="true">→ </b>' : '') + esc(ch.steps[i].text) + '</button>';
     }).join('') + '</div>';
     var nextLabel = r.ci < sk.chunks.length - 1 ? 'Next steps →' : r.si < r.list.length - 1 ? 'Next skill: ' + M[r.list[r.si + 1]].title + ' →' : 'Finish today’s run';
     el.innerHTML = '<div class="ld-bar"><span>Skill ' + (r.si + 1) + ' of ' + r.list.length + '</span><span data-ld="skill-time"></span><span data-ld="total-time"></span><span data-ld="pace"></span></div>' +
       '<header><div class="kicker">' + esc(groups[sk.group] || '') + '</div><h1 tabindex="-1">' + esc(sk.title) + '</h1>' +
       '<p class="sp-dim">' + esc(ch.part) + (ch.of > ch.to - ch.from + 1 ? ' · steps ' + ch.from + '–' + ch.to + ' of ' + ch.of : '') + ' · part ' + (r.ci + 1) + ' of ' + sk.chunks.length + '</p></header>' +
       '<section class="sp-panel"><p class="sp-dim">' + (done ? 'In order. Read the reasons, then go on.' : 'Tap the step that comes <b>next</b>.' + (r.hint ? ' The highlighted step is next.' : '')) + '</p>' +
-      (placed ? '<ol class="ld-list" start="' + ch.from + '">' + placed + '</ol>' : '') + choices +
+      (placed ? '<ol class="ld-list" start="' + ch.from + '">' + placed + '</ol>' : '') + '<p class="ld-fb" role="status">' + esc(said) + '</p>' + choices +
       (done ? '<div class="sp-row">' + btn(nextLabel, 'advance', '', 'sp-primary') + '</div>' : '') + '</section>' +
       '<div class="sp-row ld-controls">' + btn('Pause · back to plan', 'pause') + btn('Skip the rest of this skill', 'skip') + '</div>' +
       '<p class="sp-dim">Budget for this skill: about ' + mins(b[sk.id] || 0) + '. Mistakes so far: ' + (r.errors[sk.id] || 0) + '.</p>';
-    flash = null; tickView(); startTimer();
+    flash = null; said = ''; tickView(); startTimer();
   }
   function tickView() {
     var r = S.run; if (!r) return; var b = C.budgets(S, B), id = r.list[r.si], cur = (r.skillMs[id] || 0) + (r.finished ? 0 : Math.min(Date.now() - r.last, 120000));
@@ -105,6 +105,7 @@
     else if (a === 'pick') {
       var res = C.pick(S, B, +b.dataset.i); if (!res) return; save();
       if (!res.ok) flash = +b.dataset.i;
+      said = res.ok ? (res.chunkDone ? '✓ All in order.' : '✓ Placed. Next step?') : '✕ Not next' + (res.hint ? '. The step marked → comes next.' : '. Try another step.');
       run(); if (res.ok && res.chunkDone) { var n = el.querySelector('[data-daily="advance"]'); if (n) n.focus({ preventScroll: true }); }
     }
     else if (a === 'advance') { var step = C.advance(S, B); save(); if (step === 'done') location.hash = '#daily-done'; else { run(); window.scrollTo(0, 0); } }

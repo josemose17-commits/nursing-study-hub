@@ -732,6 +732,16 @@
       "answerUnchanged": true,
       "optionsSameCount": true,
       "reason": "Exam 5 and week-12 review, November 20, 2026: plausible distractors and balanced option length"
+    },
+    {
+      "id": "q-neuro-8",
+      "fields": [
+        "stem",
+        "why"
+      ],
+      "answerUnchanged": true,
+      "optionsSameCount": true,
+      "reason": "Site audit, November 27, 2026: brexanolone's US approval was withdrawn in April 2025; zuranolone is current. Stem says what the chapter taught."
     }
   ]
 }

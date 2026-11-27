@@ -47,7 +47,7 @@
   }
   function guide(st) {
     wrap(st.title, '<section class="sp-panel"><p class="sp-pill">Week ' + st.week + ' · Manual PDF pp. ' + esc(st.pages) + '</p><p>' + esc(st.goal) + '</p><p class="sp-note">' + esc(st.status) + '</p><div class="sp-row sp-no-print">' + link('Practice the next step', '#practice-rehearse-' + st.id) + link('Whole procedure without hints', '#practice-full-' + st.id) + button('Quiz this station', 'quiz-station', 'data-id="' + st.id + '"') + link('Practice dates / original record', '#' + st.manualId) + '</div><h3>Gather your supplies</h3>' + list(st.supplies) + '<h3>Stop and assess / get help for</h3>' + list(st.stops) + '</section>' +
-      '<section class="sp-panel"><h2>Complete procedure and reasoning</h2>' + performance.guideSteps(st) + '</section>' + performance.coverageHTML(st) +
+      (performance.pictureGuide ? performance.pictureGuide(st) : '') + '<section class="sp-panel"><h2>Complete procedure and reasoning</h2>' + performance.guideSteps(st) + '</section>' + performance.coverageHTML(st) +
       '<section class="sp-panel"><h2>Document and explain</h2><p>' + esc(st.chart) + '</p><h3>Terms used in this skill</h3><dl>' + st.terms.map(t => '<dt><b>' + esc(t[0]) + '</b></dt><dd>' + esc(t[1]) + '</dd>').join('') + '</dl><details><summary>References and checklist location</summary><p>Syllabus PDF p. ' + st.syllabusPage + '; manual PDF pp. ' + esc(st.pages) + '.</p>' + sources(st.refs) + '</details></section>', true);
   }
   function feedback(q, item) {

@@ -21,6 +21,18 @@ const MAP = {
     9: ['Deliver the medication left in the line', ['connect-flush', 'clear-dose'], 'A second saline flush clears the medication left in the tubing at the same slow rate.'],
     10: ['Reassess and document', ['dispose', 'record'], 'Sharps disposed and hands cleaned, the nurse checks on the patient and documents.'],
   },
+  ivpb: {
+    1: ['Verify the medication', ['order'], 'The nurse compares the small medication bag’s label with the MAR on the computer.'],
+    2: ['Check the whole fluid path', ['compatibility'], 'Holding the medication bag beside the running primary bag, the nurse checks a compatibility chart.'],
+    3: ['Identify and explain', ['identify'], 'The nurse scans the wristband and explains the medication while the IV site is visible.'],
+    4: ['Choose the correct setup', ['setup'], 'The nurse traces the primary tubing from the bag through the pump and points to the port above the pump.'],
+    5: ['Prime without introducing air', ['prime'], 'Gloved, the nurse spikes the secondary bag and fills the drip chamber and tubing without air.'],
+    6: ['Disinfect and connect', ['connect'], 'A gloved hand scrubs the upper port with an alcohol pad, timed, before the secondary line is connected.'],
+    7: ['Arrange bags and clamps for this device', ['height'], 'The secondary bag hangs higher than the primary bag, which is lowered on the extension hook, and the clamps are set.'],
+    8: ['Program and verify', ['program'], 'The nurse programs the pump while a second nurse double-checks.'],
+    9: ['Confirm actual delivery', ['observe'], 'With the infusion started, the nurse checks the IV site and the patient.'],
+    10: ['Complete the dose and reassess', ['complete'], 'The secondary bag is empty, the primary infusion is running again, and the nurse documents.'],
+  },
 };
 
 const dir = path.join(ROOT, 'img/checkoffs'), out = {};

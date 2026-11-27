@@ -8,6 +8,18 @@
     let includeCorrected = false;
     const labels = { independent: 'Remembered / demonstrated', prompted: 'Needed a prompt', missed: 'Missed', sequence: 'Unsafe sequence / prerequisite missed', 'not-applicable': 'Not in this scenario' };
     const B = (text, action, attrs = '', disabled = false) => '<button type="button" class="sp-button" data-performance="' + action + '" ' + attrs + (disabled ? ' disabled' : '') + '>' + esc(text) + '</button>';
+    // Step pictures (data/checkoff-images.js). One picture can illustrate several detailed checkpoints.
+    const PICS = root.CHECKOFF_IMAGES || {};
+    function picFor(step) {
+      const list = PICS[step.station || String(step.id).split(':')[0]] || [], key = step.key || String(step.id).replace(/^.*:detail-/, '');
+      return list.find(p => p.keys.includes(key)) || null;
+    }
+    function picHTML(p, cls) { return p ? '<figure class="' + cls + '"><img src="' + esc(p.src) + '" alt="' + esc(p.alt) + '" loading="lazy" width="720" height="720"><figcaption>Step ' + p.n + ' · ' + esc(p.title) + '</figcaption></figure>' : ''; }
+    function pictureGuide(st) {
+      const list = PICS[st.id] || []; if (!list.length) return '';
+      return '<section class="sp-panel"><h2>Picture guide</h2><p class="sp-dim">' + list.length + ' step picture' + (list.length === 1 ? '' : 's') + '. Tap one to see it larger. They are memory aids; the step text is the checklist.</p><div class="lp-pics">' +
+        list.map(p => '<a href="' + esc(p.src) + '" target="_blank" rel="noopener">' + picHTML(p, 'lp-pic') + '</a>').join('') + '</div></section>';
+    }
     function navigate(hash) { if (location.hash === hash) ctx.render(true); else location.hash = hash; }
     function sourceText(step) {
       return step.covers.length ? step.covers.map(id => { const r = rows[id]; return 'p. ' + r.page + ' · ' + r.location; }).join('; ') : 'Added to make the procedure safe/complete; not a separate printed checklist row';
@@ -80,7 +92,7 @@
           const picked = item.note.indexOf('pick:') === 0 ? item.note.slice(5) : '', cls = item.rating ? (o.id === step.id ? ' lp-right' : o.id === picked ? ' lp-wrong' : '') : '';
           return '<button type="button" class="lp-choice' + cls + '" data-performance="flow-pick" data-sid="' + esc(o.id) + '"' + (item.rating ? ' disabled' : '') + '>' + esc(o.title) + '</button>';
         }).join('') + '</div>' +
-        (!item.rating ? '<div class="sp-row">' + B('Give me a small hint','flow-hint','',item.hint) + '</div>' : '<div class="sp-reveal"><p class="lp-verdict" role="status">' + (item.rating === 'independent' ? 'Correct' : item.rating === 'prompted' ? 'Correct, with a hint' : 'Not quite. The next step is:') + '</p><h2>' + esc(step.title) + '</h2>' + explain(step) + '</div>') +
+        (!item.rating ? '<div class="sp-row">' + B('Give me a small hint','flow-hint','',item.hint) + '</div>' : '<div class="sp-reveal"><p class="lp-verdict" role="status">' + (item.rating === 'independent' ? 'Correct' : item.rating === 'prompted' ? 'Correct, with a hint' : 'Not quite. The next step is:') + '</p><h2>' + esc(step.title) + '</h2>' + picHTML(picFor(step), 'lp-pic lp-pic-answer') + explain(step) + '</div>') +
         '<div class="sp-row lp-bottom">' + B('Previous checkpoint','flow-prev','',f.index===0) + B(f.index===f.items.length-1 ? 'Finish next-step practice' : 'Next checkpoint','flow-next','',!item.rating) + link('Pause / practice home','#practice') + '</div></section>',true);
     }
     function runRoute(st) {
@@ -91,7 +103,7 @@
       const r = S.run;
       if (r.stage === 'perform') {
         const p = runProgress(r, st), done = p.placed.length === p.chunk.length, atStep = p.placed.length;
-        const placed = p.placed.map(id => p.chunk.find(x => x.id === id)).map(x => '<li class="lp-placed">' + esc(x.title) + (done ? (x.safety ? ' <span class="sp-pill">safety</span>' : '') + '<small>' + esc(x.why) + '</small>' : '') + '</li>').join('');
+        const placed = p.placed.map(id => p.chunk.find(x => x.id === id)).map(x => '<li class="lp-placed">' + (done && picFor(x) ? '<img class="lp-thumb" src="' + esc(picFor(x).src) + '" alt="" loading="lazy" width="72" height="72">' : '') + esc(x.title) + (done ? (x.safety ? ' <span class="sp-pill">safety</span>' : '') + '<small>' + esc(x.why) + '</small>' : '') + '</li>').join('');
         const hint = (p.streak || 0) >= 2 ? p.chunk[atStep] : null;
         const choices = done ? '' : '<div class="lp-choices">' + p.order.filter(x => !p.placed.includes(x.id)).map(x => '<button type="button" class="lp-choice' + (flashWrong === x.id ? ' lp-wrong' : hint && hint.id === x.id ? ' lp-hint' : '') + '" data-performance="run-pick" data-sid="' + esc(x.id) + '">' + esc(x.title) + '</button>').join('') + '</div>';
         const startN = st.steps.findIndex(x => x.id === p.chunk[0].id) + 1;
@@ -162,6 +174,6 @@
       const focus = a==='flow-reveal' ? app.querySelector('.sp-reveal h2') : a==='flow-rate' ? app.querySelector('[data-rating="'+core.flowCurrent(S).rating+'"]') : app.querySelector('h1');
       if(focus){focus.tabIndex=-1;focus.focus({preventScroll:a==='flow-rate'});}
     });
-    return { homeHTML, guideSteps, coverageHTML, route };
+    return { homeHTML, guideSteps, coverageHTML, route, pictureGuide };
   }
 })(window);

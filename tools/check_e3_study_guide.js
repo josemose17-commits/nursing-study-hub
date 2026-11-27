@@ -2,7 +2,6 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const { execFileSync } = require('node:child_process');
 const path = require('node:path');
 const root = path.join(__dirname, '..');
 const guide = require('../data/e3/study-guide.js');
@@ -33,17 +32,18 @@ for (const check of guide.checks) {
 }
 
 // Saved ids are chapter|list|index. Existing positions must survive content corrections.
-function questionSnapshot(previous) {
+// The baseline (each position's question type) is stored in audit/e3-question-positions.json, so this
+// check also works in a fresh or shallow clone without the old commit.
+function questionSnapshot() {
   const ctx = vm.createContext({window: {}});
-  for (const ch of cfg.CHS) {
-    const file = 'data/e3/q/' + ch + '.js';
-    vm.runInContext(previous ? execFileSync('git', ['show', '43aecc691e3da290398dd3ef9e26d30f694fff82:' + file], {cwd:root, encoding:'utf8'}) : read(file), ctx);
-  }
-  const extra = 'data/e3/q/more.js';
-  vm.runInContext(previous ? execFileSync('git', ['show', '43aecc691e3da290398dd3ef9e26d30f694fff82:' + extra], {cwd:root, encoding:'utf8'}) : read(extra), ctx);
+  for (const ch of cfg.CHS) vm.runInContext(read('data/e3/q/' + ch + '.js'), ctx);
+  vm.runInContext(read('data/e3/q/more.js'), ctx);
   return ctx.window;
 }
-const before = questionSnapshot(true), after = questionSnapshot(false);
+const baseline = JSON.parse(read('audit/e3-question-positions.json')).chapters;
+const before = {NGN_EXTRA: {}, RECALL_EXTRA: {}};
+for (const ch of cfg.CHS) { before.NGN_EXTRA[ch] = baseline[ch].ngn.map(t => ({t})); before.RECALL_EXTRA[ch] = {nclex: baseline[ch].nclex.map(t => ({t}))}; }
+const after = questionSnapshot();
 let stable = 0;
 for (const ch of cfg.CHS) {
   for (const [oldList, newList] of [[before.NGN_EXTRA[ch],after.NGN_EXTRA[ch]], [before.RECALL_EXTRA[ch].nclex,after.RECALL_EXTRA[ch].nclex]]) {

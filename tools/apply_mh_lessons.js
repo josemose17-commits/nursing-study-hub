@@ -5,8 +5,11 @@ const {refs}=require('./mh-lesson-tools');
 const content={e4:require('../data/mh/lessons-src'),e5:require('../data/mh5/lessons-src')};
 module.exports=function apply(exam,rows){
  const authored=content[exam];if(!authored)return rows;
- const expected=exam==='e4'?require('../data/mh/study-guide').lessonIds:rows.map(r=>r.lesson.id);
- assert.deepEqual(Object.keys(authored).sort(),expected.slice().sort(),exam+' curated scope');
+ // Exam 4: every study-guide lesson is curated (extra curated lessons outside the guide are allowed).
+ // Exam 5: every lesson is curated. Either way, a curated entry must match a generated lesson.
+ const ids=rows.map(r=>r.lesson.id),required=exam==='e4'?require('../data/mh/study-guide').lessonIds:ids;
+ assert.deepEqual(required.filter(id=>!authored[id]),[],exam+' curated scope: lessons without curated teaching');
+ assert.deepEqual(Object.keys(authored).filter(id=>!ids.includes(id)),[],exam+' curated scope: curated teaching without a lesson');
  for(const {lesson:l,lab}of rows){
   const a=authored[l.id];if(!a)continue;
   assert(a.why.length===3&&a.why.every(Boolean));assert(a.visual.cards.length>=3&&a.visual.cards.length<=4);

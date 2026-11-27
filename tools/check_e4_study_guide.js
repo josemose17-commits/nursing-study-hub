@@ -58,7 +58,7 @@ const allowed=(id,f)=>(ledgerFields.get(id)||[]).includes(f);
 function stable(q,id){q=clone(q);delete q.optionWhy;if(allowed(id,'stem'))delete q.stem;if(allowed(id,'why'))delete q.why;if(q.opts)q.opts=q.opts.map((o,j)=>allowed(id,'opts['+j+']')?'*':o);return q;}
 for(const q of oldQ.window.MH_Q){const next=B.MH_Q.find(n=>n.id===q.id);assert.deepEqual(clone(next.a),clone(q.a));assert.equal(next.opts.length,q.opts.length);assert.deepEqual(stable(next,q.id),stable(q,q.id));}
 const oldL=vm.createContext({window:{}});vm.runInContext(cp.execFileSync('git',['show','HEAD:data/learn/e4.js'],{cwd:ROOT,encoding:'utf8'}),oldL);
-function stableL(q){q=clone(q);const id=q.sourceId||q.id;if(allowed(id,'stem'))delete q.q;if(q.o)q.o=q.o.map((o,j)=>allowed(id,'opts['+j+']')?'*':o);return q;}
+function stableL(q){q=clone(q);const id=q.sourceId||q.id;if(allowed(id,'stem'))delete q.q;if(allowed(id,'why')){delete q.r;delete q.phys;}if(q.o)q.o=q.o.map((o,j)=>allowed(id,'opts['+j+']')?'*':o);return q;}
 for(const l of oldL.window.LEARN_DATA.lessons){const next=lessons.find(x=>x.id===l.id);assert(next);assert.deepEqual(next.questions.slice(0,l.questions.length).map(stableL),clone(l.questions).map(stableL),l.id+' checkpoint positions changed');}
 // Exam 5 teaching now has its own approved redesign. Its grading/progress
 // preservation is checked in check_mh_active_lessons, independently of this scope.

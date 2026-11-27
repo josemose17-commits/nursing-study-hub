@@ -38,7 +38,11 @@
   var root = location.pathname.indexOf('/offline/') >= 0 ? '../' : '';
   function build() {
     // Keep labels readable; the bar scrolls horizontally on narrow screens.
-    var st = document.createElement('style'); st.textContent = '.hub-tabs { overflow-x:auto; } .hub-tabs a { flex: 1 0 auto; }'; document.head.appendChild(st);
+    var st = document.createElement('style'); st.textContent = '.hub-tabs { overflow-x:auto; } .hub-tabs a { flex: 1 0 auto; }' +
+      // Room to scroll the last line, button or table row above the tab bar and the Words button (and the iPhone home indicator).
+      ' body { padding-bottom: calc(140px + env(safe-area-inset-bottom)) !important; scroll-padding-bottom: calc(140px + env(safe-area-inset-bottom)); }' +
+      // Pages that pin html/body to the screen height let content spill past that padding; let them grow instead.
+      ' html.hub-grow, html.hub-grow body { height: auto !important; min-height: 100%; }'; document.head.appendChild(st);
     var nav = document.createElement('nav');
     nav.className = 'hub-tabs'; nav.setAttribute('aria-label', 'Study pages');
     TABS.forEach(function (t) {
@@ -52,6 +56,9 @@
   }
   var nav;
   function attach() { if (!document.body) return; if (!nav) nav = build(); if (!document.body.contains(nav)) document.body.appendChild(nav); }
+  // If content overflows a screen-height body, the bottom padding never scrolls into view: switch that page to a growing body.
+  function grow() { var b = document.body; if (b && !document.documentElement.classList.contains('hub-grow') && document.documentElement.scrollHeight > b.getBoundingClientRect().height + 40 && b.getBoundingClientRect().height <= innerHeight + 2) document.documentElement.classList.add('hub-grow'); }
+  window.addEventListener('load', function () { grow(); setTimeout(grow, 1500); setTimeout(grow, 4000); });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach); else attach();
   if(STUDY)window.addEventListener('hashchange',function(){
     if(!nav)return;
@@ -164,7 +171,7 @@
   // version.json is never cached: if it names a newer build than this script, reload once to pick it up — once per page,
   // since each page's HTML (and the data it names) is cached separately.
   // Bump BUILD here and in version.json together on every release.
-  var BUILD = '202611251500';
+  var BUILD = '202611271600';
   window.addEventListener('load', function () {
     if (!window.fetch || location.protocol === 'file:') return;
     // Builds before 202610282230 reloaded only once per session for every page. This page is already current, so clear

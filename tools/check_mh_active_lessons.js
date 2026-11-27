@@ -89,7 +89,11 @@ vm.runInContext(read('learn.js'),vm.createContext({window:{LEARN_DATA:uiData,Exa
 assert(el.innerHTML.includes('Evaluate each option independently'));assert(!el.innerHTML.includes('What should guide monitoring?'));
 const escape=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 assert.equal(el.innerHTML.split(escape(uiLesson.questions[0].phys)).length-1,1,'Show the common rationale once');
-for(const f of ['data/e3/lessons.js','data/e3/studios.js'])assert.equal(read(f),old(f),'Outside-path preservation: '+f);
+assert.equal(read('data/e3/studios.js'),old('data/e3/studios.js'),'Outside-path preservation: data/e3/studios.js');
+{ // Exam 3 lessons: option wording may be balanced; ids, stems, answer keys and option counts may not move.
+ const shape=w=>w.EXAM3_LESSONS.lessons.map(l=>[l.id,l.checks.length,(l.questions||[]).map(q=>[q.id,q.q,q.a,q.o.length,q.r.length])]);
+ assert.deepEqual(shape(load(read('data/e3/lessons.js'),'EXAM3_LESSONS')&&{EXAM3_LESSONS:load(read('data/e3/lessons.js'),'EXAM3_LESSONS')}),shape({EXAM3_LESSONS:load(old('data/e3/lessons.js'),'EXAM3_LESSONS')}),'Outside-path preservation: data/e3/lessons.js');
+}
 // Outside the MH paths, text may be corrected (for example comparisons such as "< 6 or > 13" the old
 // tag stripper deleted) and self-rating steps became scored taps, but saved progress must still fit:
 // the same lessons, question ids, answer keys and option counts, and the same scoring functions.

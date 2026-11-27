@@ -17,7 +17,7 @@ window.NGN_EXTRA['22'] = [
       { h: 'Vital signs', table: [['Time', 'RR', 'SpO₂', 'HR', 'O₂'], ['0000', '16', '97%', '84', '2 L NC'], ['0200', '12', '96%', '78', '2 L NC'], ['0400', '7', '94%', '70', '2 L NC']] },
       { h: 'ABG 0415', lines: ['pH 7.28 · PaCO₂ 60 mm Hg · HCO₃⁻ 25 mEq/L · PaO₂ 78 mm Hg'] }
     ],
-    o: ['Increase oxygen to 6 L/min', 'Stop the PCA, stimulate the client, support ventilation and give naloxone per protocol', 'Recheck the ABG in 1 hour', 'Document that SpO₂ is acceptable'],
+    o: ['Increase oxygen to 6 L/min and recheck the oxygen saturation in 15 minutes', 'Stop the PCA, stimulate the client, support ventilation and give naloxone per protocol', 'Recheck the ABG in 1 hour to see whether the CO₂ level continues to rise', 'Document that the SpO₂ is acceptable on oxygen and continue the PCA as currently ordered'],
     a: [1],
     r: ['More oxygen raises SpO₂ but does nothing for hypoventilation; CO₂ keeps rising.', 'Correct. Opioid-induced respiratory depression with acute respiratory acidosis — remove the cause, stimulate, ventilate, reverse.', 'Delay in a worsening client is unsafe.', 'SpO₂ is falsely reassuring on supplemental oxygen.'],
     key: 'RR trend 16 → 12 → 7, worsening sedation, and PaCO₂ 60 with pH 7.28. SpO₂ 94% on oxygen is the distractor.',
@@ -80,7 +80,7 @@ window.NGN_EXTRA['23'] = [
       { h: 'ED nursing note', lines: ['Client struck face in motor vehicle crash. Periorbital bruising bilaterally.', 'Clear fluid dripping from right nostril; drop on gauze shows yellow ring around blood.', 'Dipstick of fluid: glucose positive. GCS 15. Airway patent.'] },
       { h: 'Orders', lines: ['Insert NG tube for decompression.', 'CT head and face.'] }
     ],
-    o: ['Epistaxis requiring anterior packing', 'Cerebrospinal fluid leak — question the NG order and avoid nasal instrumentation', 'Allergic rhinitis', 'Sinus infection'],
+    o: ['Ongoing epistaxis that is likely to need anterior nasal packing and an ENT consult', 'Cerebrospinal fluid leak — question the NG order; avoid nasal instrumentation', 'Allergic rhinitis triggered by the dust and debris from the accident', 'Sinus infection'],
     a: [1],
     r: ['Drainage is clear with a halo, not frank blood.', 'Correct. Halo sign and glucose-positive drainage indicate a basilar skull fracture; a nasal tube could enter the cranial vault.', 'Not consistent with trauma and halo sign.', 'Not an acute trauma finding.'],
     key: 'Clear drainage + halo sign + glucose positive, with an order for a nasal NG tube.',
@@ -205,7 +205,7 @@ window.NGN_EXTRA['25'] = [
       { h: 'Vital signs', table: [['Time', 'T', 'HR', 'BP', 'RR', 'SpO₂'], ['0800', '38.4', '98', '118/72', '22', '93% 2 L'], ['1200', '38.9', '116', '96/60', '28', '90% 2 L'], ['1400', '37.2', '124', '84/50', '32', '88% 4 L']] },
       { h: 'Notes', lines: ['1400: newly confused, urine 20 mL past hour. Blood cultures ×2 pending; first antibiotic dose due 1500.'] }
     ],
-    o: ['Wait for the scheduled antibiotic at 1500', 'Activate rapid response/sepsis protocol and anticipate fluids, lactate and immediate antibiotics', 'Give acetaminophen because the fever is breaking', 'Encourage oral fluids'],
+    o: ['Wait for the scheduled antibiotic dose at 1500 so the dosing interval stays exactly on time', 'Activate the rapid response/sepsis protocol; expect fluids, lactate and prompt antibiotics', 'Give acetaminophen and recheck, because the fever is already breaking on its own', 'Encourage oral fluids'],
     a: [1],
     r: ['Delaying antibiotics in sepsis increases mortality.', 'Correct. Hypotension, confusion, oliguria and rising oxygen needs meet sepsis criteria.', 'Temperature falling with worsening perfusion is not improvement.', 'Inadequate for hypotension and confusion.'],
     key: 'BP 118 → 84, HR up, RR up, SpO₂ down on more oxygen, confusion, urine 20 mL/hr. The falling temperature is the distractor.',

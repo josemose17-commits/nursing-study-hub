@@ -45,7 +45,10 @@ assert(!S.matching(['50-unassigned-topic']).length);assert(!S.matching(['53-agin
 for(const kind of ['single','sata','selectn','matrix','mmatrix','hl','cloze','bow','group','order','calc','recall'])assert(S.formatHtml(kind).length>200);
 // Read the committed prior lesson bank: visual rollout must preserve all 58 graded items exactly.
 const prior=cp.execFileSync('git',['show','HEAD:data/e3/lessons.js'],{cwd:root,encoding:'utf8'}),old=vm.createContext({window:{}});vm.runInContext(prior,old);
-const before=JSON.parse(JSON.stringify(old.window.EXAM3_LESSONS.lessons));for(const l of lessons)assert.deepEqual(l.questions,before.find(x=>x.id===l.id).questions,'Graded bank changed: '+l.id);
+// Saved progress depends on each item's id, answer key and option count; option wording may be clarified
+// (for example to balance option lengths) without moving anything.
+const shape=q=>({id:q.id,a:q.a,options:q.o.length,rationales:q.r.length,selectCount:q.selectCount||0,stem:q.q});
+const before=JSON.parse(JSON.stringify(old.window.EXAM3_LESSONS.lessons));for(const l of lessons)assert.deepEqual(l.questions.map(shape),before.find(x=>x.id===l.id).questions.map(shape),'Graded bank changed: '+l.id);
 assert(read('learn.js').includes("t.stage = 'understand'; t.eligible = false"));
 assert(!/speechSynthesis|autoplay/.test(read('study-studio.js')));
 for(const page of ['Exam 2 Mastery Loop.dc.html','Exam 3 Mastery Loop.dc.html','Final Mastery Loop.dc.html']){const x=read(page);assert(x.includes('data-study-review'));assert(x.includes('study-review-reason'));assert(x.includes('studyReason: (T.studyReview'));}

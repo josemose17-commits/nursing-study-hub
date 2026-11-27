@@ -291,7 +291,7 @@
       rule: '24-hour urine: discard the first void, keep everything after including the final void at the end time, keep it cold, restart if a void is lost.' },
     { f: 'mcq', t: 'Instructing the AP on the collection', cj: 'ta', cn: 'mgmt', st: ['deleg'],
       q: 'The nurse delegates the 24-hour urine collection to the assistive personnel (AP). Which instruction is correct?',
-      o: ['“Save every void in the container on ice until 0800 tomorrow, including the 0800 void, and tell me if any urine is thrown away.”', '“Save the urine only when the client remembers to use the hat.”', '“Throw away tomorrow’s 0800 void — that one is extra.”', '“If one void is missed, just add extra water so the total looks right.”'], a: [0],
+      o: ['“Save every void on ice until 0800 tomorrow, including the 0800 void; tell me if any is thrown out.”', '“Save the urine only when the client remembers to use the hat in the toilet.”', '“Throw away tomorrow’s 0800 void — that one is extra, because the collection started at 0800 today.”', '“If one void is missed, just add some extra water so the total volume looks right.”'], a: [0],
       r: ['Correct. Clear, specific, with what to report — a missed void means the test must restart.', 'Incorrect. Every void must be saved.', 'Incorrect. The final void is kept; it is the first one that is discarded.', 'Incorrect. That falsifies the result.'],
       ask: 'What makes an instruction to the AP complete?',
       cues: ['Specific task, specific end point, what to report'],
@@ -433,7 +433,7 @@
       rule: 'Diabetic feet: look daily, wash and dry well, shoes always, nails straight across, no heat, no soaking, report any break in the skin.' },
     { f: 'mcq', t: 'Delegating diabetes care', cj: 'ta', cn: 'mgmt', st: ['deleg'],
       q: 'Which task can the RN delegate to the assistive personnel (AP) for a stable client with type 2 diabetes?',
-      o: ['Check a fingerstick glucose before lunch and report the result', 'Teach the client to give an insulin injection', 'Assess the feet for loss of sensation', 'Give the prescribed subcutaneous insulin'], a: [0],
+      o: ['Check a fingerstick glucose before lunch and report the result', 'Teach the client how to give an insulin injection before discharge', 'Assess the feet for loss of sensation', 'Give the prescribed subcutaneous insulin'], a: [0],
       r: ['Correct. A point-of-care glucose check on a stable client is a routine, trained task; the RN acts on the result.', 'Incorrect. Teaching is the RN’s.', 'Incorrect. Assessment is the RN’s.', 'Incorrect. APs don’t give medications; an LPN or RN does.'],
       ask: 'Which one is a routine measurement rather than teaching, assessing or giving a drug?',
       cues: ['Stable client', 'Measure and report = AP'],
@@ -485,8 +485,8 @@
     "q": "An adult with DKA has K⁺ 3.2 mmol/L. Isotonic IV fluids have started. Under the current adult hyperglycemic-crisis consensus, which action is appropriate before insulin?",
     "o": [
       "Replace potassium as prescribed and delay insulin until K⁺ is above 3.5 mmol/L",
-      "Start insulin because the glucose is above 400 mg/dL",
-      "Give insulin first to correct the potassium deficit",
+      "Start insulin now because the glucose is above 400 mg/dL and still rising",
+      "Give insulin first, since moving potassium into cells will correct the deficit",
       "Ignore potassium unless there is an ECG change"
     ],
     "a": [
@@ -585,10 +585,10 @@
     "t": "CGM: device-specific calibration",
     "q": "A client switches from an older CGM to a new real-time system whose instructions state user calibration is not required. Which teaching is appropriate?",
     "o": [
-      "Follow the new device instructions and keep a BGM meter available for suspected discordance or device interruption",
-      "Calibrate every system twice a day because all CGMs require it",
-      "Discard the BGM meter because CGM can never be inaccurate",
-      "Use A1C instead of checking a suspected immediate low"
+      "Follow the new device’s instructions and keep a BGM meter for suspected discordance or outages",
+      "Calibrate every system twice a day with a fingerstick, because all CGMs require it",
+      "Discard the BGM meter now, because a real-time CGM system can never give an inaccurate reading",
+      "Use the A1C result instead of a fingerstick whenever a low glucose is suspected"
     ],
     "a": [
       0
@@ -651,10 +651,10 @@
     "t": "Diabetes teaching: the plan must be attainable",
     "q": "A client can correctly explain insulin use but says, “I cannot afford the insulin and strips until next month.” Which response best supports safe discharge?",
     "o": [
-      "Explore the immediate supply gap and coordinate an affordable plan with the diabetes team and pharmacy",
+      "Explore the supply gap and coordinate an affordable plan with the diabetes team and pharmacy",
       "Repeat the same handout until the client memorizes it",
-      "Document nonadherence and discharge without further discussion",
-      "Tell the client to skip basal insulin whenever supplies run low"
+      "Document nonadherence in the chart and discharge without any further discussion of the cost",
+      "Tell the client to skip basal insulin whenever supplies run low and save it for meals"
     ],
     "a": [
       0

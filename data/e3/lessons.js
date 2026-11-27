@@ -41,8 +41,8 @@ window.EXAM3_LESSONS = {
           "q": "An adult with DKA has K⁺ 3.2 mmol/L. Isotonic IV fluids have started. Under the current adult hyperglycemic-crisis consensus, which action is appropriate before insulin?",
           "o": [
             "Replace potassium as prescribed and delay insulin until K⁺ is above 3.5 mmol/L",
-            "Start insulin because the glucose is above 400 mg/dL",
-            "Give insulin first to correct the potassium deficit",
+            "Start insulin now because the glucose is above 400 mg/dL and still rising",
+            "Give insulin first, since moving potassium into cells will correct the deficit",
             "Ignore potassium unless there is an ECG change"
           ],
           "a": [
@@ -106,7 +106,7 @@ window.EXAM3_LESSONS = {
           "id": "45|trad|11",
           "q": "A 79-year-old client starts a drug that is metabolized by the liver. Which age-related GI change makes the nurse monitor closely for drug toxicity?",
           "o": [
-            "Fewer, smaller liver cells with lower enzyme activity",
+            "Fewer liver cells with lower enzyme activity",
             "More hydrochloric acid, which speeds drug absorption",
             "Faster peristalsis, which shortens drug transit time",
             "More pancreatic lipase, which boosts absorption of fat-soluble drugs"
@@ -262,8 +262,8 @@ window.EXAM3_LESSONS = {
           "id": "mouth-b",
           "q": "A client’s mouth and throat are still numb after a prescribed oral anesthetic, and the client requests hot soup. What should the nurse do?",
           "o": [
-            "Help the client drink it while pain is controlled",
-            "Follow the medication’s eating precautions and assess safe swallowing before oral intake",
+            "Help the client drink it slowly while the pain is well controlled by the anesthetic",
+            "Follow the medication’s eating precautions and assess swallowing before any intake",
             "Give a straw to bypass all aspiration risk",
             "Encourage extra doses to prolong the numbness"
           ],
@@ -450,10 +450,10 @@ window.EXAM3_LESSONS = {
           "id": "47|trad|7",
           "q": "Which statement by a client recovering from acute gastritis shows understanding of prevention?",
           "o": [
-            "“I’ll use acetaminophen instead of ibuprofen for my back pain, as my provider suggested.”",
+            "“I’ll use acetaminophen instead of ibuprofen for my back pain, as advised.”",
             "“Switching to decaf coffee means I can drink as much as I want.”",
             "“A glass of wine with dinner helps digestion.”",
-            "“Calcium carbonate antacids are best because they are strongest.”"
+            "“Calcium carbonate antacids are best because they are the strongest and act fastest.”"
           ],
           "a": [
             0
@@ -539,10 +539,10 @@ window.EXAM3_LESSONS = {
           "id": "47|trad|2",
           "q": "A client takes sucralfate and an aluminum-magnesium antacid. Which schedule is correct?",
           "o": [
-            "Sucralfate 1 hour before meals; the antacid at least 30 minutes apart from it",
+            "Sucralfate 1 hour before meals; antacid at least 30 minutes apart",
             "Both together with meals",
-            "Sucralfate right after the antacid",
-            "Sucralfate with food to prevent nausea"
+            "Sucralfate right after the antacid so both coat the stomach together",
+            "Sucralfate with food to prevent nausea and help it stay in the stomach"
           ],
           "a": [
             0
@@ -607,8 +607,8 @@ window.EXAM3_LESSONS = {
           "id": "47|trad|16",
           "q": "A client was treated for upper GI bleeding from a duodenal ulcer with IV fluids, 2 units of packed RBCs and endoscopic therapy. Which finding the next day best shows that treatment has been effective?",
           "o": [
-            "BP 118/74 and HR 84 with no change on standing; hemoglobin stable on two checks",
-            "NG drainage has changed from bright red to coffee-ground",
+            "BP 118/74, HR 84, no change on standing; hemoglobin stable on two checks",
+            "NG drainage has changed from bright red to coffee-ground in color overnight",
             "Urine output 20 mL/hr for the past 3 hours",
             "BUN has risen from 28 to 36 mg/dL"
           ],
@@ -746,7 +746,7 @@ window.EXAM3_LESSONS = {
           "id": "glands-b",
           "q": "A client has high free T₄ from an overactive thyroid gland. With intact pituitary feedback, which TSH pattern is expected?",
           "o": [
-            "High, because T₄ stimulates TSH release",
+            "High, because rising T₄ directly stimulates TSH release",
             "Low, because T₄ suppresses pituitary TSH release",
             "Always normal regardless of T₄",
             "TSH and T₄ measure the same hormone"
@@ -789,9 +789,9 @@ window.EXAM3_LESSONS = {
           "q": "Why does the nurse teach assistive personnel to offer an 84-year-old client fluids at least every 2 hours while awake?",
           "o": [
             "Less ADH means the kidneys can’t concentrate urine well, so dehydration comes fast",
-            "Older adults retain too much water",
+            "Older adults retain too much water, so frequent small drinks keep the kidneys working",
             "It prevents hypoglycemia",
-            "Aging increases thirst"
+            "Aging increases thirst, so offering fluids prevents the client from drinking too much at once"
           ],
           "a": [
             0
@@ -810,7 +810,7 @@ window.EXAM3_LESSONS = {
           "q": "Which finding in an older adult should prompt the nurse to suggest diabetes testing?",
           "o": [
             "A foot wound that has not healed in 2 weeks",
-            "Hair thinning on the scalp",
+            "Gradual hair thinning on the scalp and eyebrows",
             "A heart rate of 64",
             "Dry skin in winter"
           ],
@@ -853,10 +853,10 @@ window.EXAM3_LESSONS = {
           "id": "53|trad|15",
           "q": "The nurse delegates the 24-hour urine collection to the assistive personnel (AP). Which instruction is correct?",
           "o": [
-            "“Save every void in the container on ice until 0800 tomorrow, including the 0800 void, and tell me if any urine is thrown away.”",
-            "“Save the urine only when the client remembers to use the hat.”",
-            "“Throw away tomorrow’s 0800 void — that one is extra.”",
-            "“If one void is missed, just add extra water so the total looks right.”"
+            "“Save every void on ice until 0800 tomorrow, including the 0800 void; tell me if any is thrown out.”",
+            "“Save the urine only when the client remembers to use the hat in the toilet.”",
+            "“Throw away tomorrow’s 0800 void — that one is extra, because the collection started at 0800 today.”",
+            "“If one void is missed, just add some extra water so the total volume looks right.”"
           ],
           "a": [
             0
@@ -874,9 +874,9 @@ window.EXAM3_LESSONS = {
           "id": "urine-b",
           "q": "During a 24-hour urine collection, a client accidentally voids into the toilet. What should the nurse do?",
           "o": [
-            "Estimate the amount and continue without reporting it",
-            "Notify the team/lab and follow instructions about restarting the collection",
-            "Collect for an extra hour without asking",
+            "Estimate the amount and continue the collection without reporting it",
+            "Notify the team/lab and follow their instructions about restarting",
+            "Collect for an extra hour without asking to make up the missed void",
             "Send the incomplete sample labeled as complete"
           ],
           "a": [
@@ -922,7 +922,7 @@ window.EXAM3_LESSONS = {
             "Report chest pain or shortness of breath right away",
             "Expect a high dose at first to correct the problem quickly",
             "Take it with your calcium supplement",
-            "Stop it if you feel your heart beating faster"
+            "Stop it if you feel your heart beating faster than usual"
           ],
           "a": [
             0
@@ -996,7 +996,7 @@ window.EXAM3_LESSONS = {
             "Arrange an outpatient TSH check",
             "Activate emergency help and support airway and ventilation",
             "Give a sedative for restlessness",
-            "Encourage an unassisted walk to warm up"
+            "Encourage an unassisted walk in the hall to warm up and raise the heart rate"
           ],
           "a": [
             1
@@ -1013,9 +1013,9 @@ window.EXAM3_LESSONS = {
           "q": "A client recovering from myxedema crisis becomes more difficult to arouse after an opioid. What should the nurse assess immediately?",
           "o": [
             "Respiratory rate, ventilation and oxygenation",
-            "Only the timing of the next thyroid lab",
+            "Only the timing of the next scheduled thyroid lab draw",
             "Whether constipation has resolved",
-            "Whether the client wants another opioid"
+            "Whether the client wants another opioid dose now"
           ],
           "a": [
             0
@@ -1079,8 +1079,8 @@ window.EXAM3_LESSONS = {
           "id": "55|trad|3",
           "q": "A client with Graves disease asks why propranolol was added. Which response is accurate?",
           "o": [
-            "It relieves the racing heart, sweating and anxiety while other treatment takes effect",
-            "It stops the thyroid from making hormone",
+            "It eases the racing heart, sweating and anxiety until other treatment works",
+            "It stops the thyroid gland from making and releasing any more thyroid hormone",
             "It cures Graves disease",
             "It replaces thyroid hormone"
           ],
@@ -1234,8 +1234,8 @@ window.EXAM3_LESSONS = {
           "id": "storm-b",
           "q": "Which trend best supports improvement during treatment for thyroid storm?",
           "o": [
-            "Heart rate and temperature falling toward target, clearer mentation and stable perfusion",
-            "Temperature falls but new hypotension and confusion develop",
+            "Falling heart rate and temperature, clearer mentation and stable perfusion",
+            "Temperature falls, but new hypotension and confusion develop over the next hour",
             "TSH is still suppressed, so all clinical improvement is irrelevant",
             "The client is harder to awaken after a sedative"
           ],
@@ -1279,10 +1279,10 @@ window.EXAM3_LESSONS = {
           "id": "55|trad|15",
           "q": "Two weeks after a cold, a client has a painful, hard, enlarged thyroid, palpitations and heat intolerance. Which statement by the nurse about this subacute thyroiditis is accurate?",
           "o": [
-            "“The overactive phase usually passes; the gland may then be underactive for a while before it returns to normal.”",
+            "“The overactive phase usually passes; the gland may be underactive for a while, then recover.”",
             "“You will need thyroid hormone replacement for the rest of your life.”",
-            "“This is a bacterial infection, so the gland will need to be drained surgically.”",
-            "“A painful thyroid like this is the usual first sign of thyroid cancer.”"
+            "“This is a bacterial infection, so the gland will need to be drained surgically right away.”",
+            "“A painful thyroid like this is the usual first sign of thyroid cancer, so you’ll need a biopsy.”"
           ],
           "a": [
             0
@@ -1355,9 +1355,9 @@ window.EXAM3_LESSONS = {
           "q": "Why is a client at risk for hypocalcemic crisis after removal of a parathyroid adenoma?",
           "o": [
             "The remaining glands were suppressed and take days to weeks to recover",
-            "Surgery causes vitamin D toxicity",
-            "The kidneys stop excreting calcium",
-            "Calcium is lost through the drain"
+            "Surgery causes vitamin D toxicity that pulls calcium into the bones",
+            "The kidneys stop excreting calcium for several days after surgery",
+            "Calcium is lost through the wound drain during the first 24 hours after surgery"
           ],
           "a": [
             0
@@ -1375,9 +1375,9 @@ window.EXAM3_LESSONS = {
           "id": "55|trad|10",
           "q": "Which statement shows a client understands long-term treatment of hypoparathyroidism?",
           "o": [
-            "“I’ll take my calcium and calcitriol every day for life and wear a medical alert bracelet.”",
-            "“I can stop the calcium once the tingling goes away.”",
-            "“I should keep my calcium as high as possible.”",
+            "“I’ll take calcium and calcitriol daily for life and wear a medical alert ID.”",
+            "“I can stop the calcium once the tingling around my mouth and fingers goes away.”",
+            "“I should keep my calcium level as high as possible to prevent any more spasms.”",
             "“I need to avoid all dairy products.”"
           ],
           "a": [
@@ -1422,7 +1422,7 @@ window.EXAM3_LESSONS = {
           "q": "Which feature is typical of type 1 diabetes?",
           "o": [
             "Abrupt onset with weight loss and ketosis, needing insulin",
-            "Gradual onset with obesity and no symptoms",
+            "Gradual onset with obesity and few or no symptoms for years",
             "Usually managed with diet and pills",
             "Caused by insulin resistance"
           ],
@@ -1509,10 +1509,10 @@ window.EXAM3_LESSONS = {
           "id": "56|trad|33",
           "q": "A client switches from an older CGM to a new real-time system whose instructions state user calibration is not required. Which teaching is appropriate?",
           "o": [
-            "Follow the new device instructions and keep a BGM meter available for suspected discordance or device interruption",
-            "Calibrate every system twice a day because all CGMs require it",
-            "Discard the BGM meter because CGM can never be inaccurate",
-            "Use A1C instead of checking a suspected immediate low"
+            "Follow the new device’s instructions and keep a BGM meter for suspected discordance or outages",
+            "Calibrate every system twice a day with a fingerstick, because all CGMs require it",
+            "Discard the BGM meter now, because a real-time CGM system can never give an inaccurate reading",
+            "Use the A1C result instead of a fingerstick whenever a low glucose is suspected"
           ],
           "a": [
             0
@@ -1558,7 +1558,7 @@ window.EXAM3_LESSONS = {
           "o": [
             "Basal insulin is still needed; the team adjusts doses and monitoring for fasting",
             "All insulin is only for food, so none is needed",
-            "Double the usual meal dose without checking orders",
+            "Double the usual meal dose without checking the orders so glucose stays controlled",
             "Switch to an unprescribed oral drug for the day"
           ],
           "a": [
@@ -1576,8 +1576,8 @@ window.EXAM3_LESSONS = {
           "q": "A client’s pump reports an occlusion and glucose is rising. Which response is appropriate?",
           "o": [
             "Wait until the next routine appointment",
-            "Assess delivery, check glucose/ketones as directed, and use the prescribed backup/contact plan promptly",
-            "Assume a pump can never cause interrupted insulin delivery",
+            "Assess delivery, check glucose and ketones as directed, and use the backup plan promptly",
+            "Assume the pump can never cause interrupted delivery and look for another cause of the high",
             "Stop monitoring until the pump resets itself"
           ],
           "a": [
@@ -1624,7 +1624,7 @@ window.EXAM3_LESSONS = {
             "Know the signs of low blood sugar, and take it with or just before a meal",
             "It never causes low blood sugar",
             "Take it at bedtime without food",
-            "It works even if your pancreas makes no insulin"
+            "It works even if your pancreas makes no insulin, so it can replace injections"
           ],
           "a": [
             0
@@ -1691,7 +1691,7 @@ window.EXAM3_LESSONS = {
           "o": [
             "Give 15 g fast-acting carbohydrate and recheck glucose in 15 minutes",
             "Give insulin for the shaking",
-            "Offer only a high-fat meal and recheck tomorrow",
+            "Offer only a high-fat meal, such as peanut butter, and recheck glucose tomorrow",
             "Wait until unconsciousness to treat"
           ],
           "a": [
@@ -1709,7 +1709,7 @@ window.EXAM3_LESSONS = {
           "q": "A family member finds a client with diabetes unresponsive and sweating; a meter reads 38. What should the family member do first?",
           "o": [
             "Give glucagon, then turn the client on the side",
-            "Pour juice into the mouth",
+            "Pour juice into the mouth to raise the glucose quickly",
             "Give the next insulin dose",
             "Wait 15 minutes and recheck"
           ],
@@ -1777,7 +1777,7 @@ window.EXAM3_LESSONS = {
             "Improving mentation and perfusion",
             "New seizure or worsening level of consciousness",
             "A documented fluid-balance record",
-            "A scheduled repeat electrolyte panel"
+            "A scheduled repeat electrolyte panel due in two hours"
           ],
           "a": [
             1
@@ -1843,7 +1843,7 @@ window.EXAM3_LESSONS = {
             "The kidneys clear insulin more slowly, so each dose lasts longer",
             "The diabetes is being cured",
             "The client is eating more",
-            "Insulin stops working in kidney disease"
+            "Insulin stops working in kidney disease, so the glucose readings are unreliable"
           ],
           "a": [
             0
@@ -1909,10 +1909,10 @@ window.EXAM3_LESSONS = {
           "id": "56|trad|35",
           "q": "A client can correctly explain insulin use but says, “I cannot afford the insulin and strips until next month.” Which response best supports safe discharge?",
           "o": [
-            "Explore the immediate supply gap and coordinate an affordable plan with the diabetes team and pharmacy",
+            "Explore the supply gap and coordinate an affordable plan with the diabetes team and pharmacy",
             "Repeat the same handout until the client memorizes it",
-            "Document nonadherence and discharge without further discussion",
-            "Tell the client to skip basal insulin whenever supplies run low"
+            "Document nonadherence in the chart and discharge without any further discussion of the cost",
+            "Tell the client to skip basal insulin whenever supplies run low and save it for meals"
           ],
           "a": [
             0
@@ -1977,7 +1977,7 @@ window.EXAM3_LESSONS = {
           "q": "Which task can the RN delegate to the assistive personnel (AP) for a stable client with type 2 diabetes?",
           "o": [
             "Check a fingerstick glucose before lunch and report the result",
-            "Teach the client to give an insulin injection",
+            "Teach the client how to give an insulin injection before discharge",
             "Assess the feet for loss of sensation",
             "Give the prescribed subcutaneous insulin"
           ],

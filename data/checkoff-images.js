@@ -59,6 +59,57 @@ window.CHECKOFF_IMAGES = {
  ],
  "ivpush": [
   {
+   "n": 1,
+   "title": "Verify the order",
+   "keys": [
+    "order",
+    "assess-drug"
+   ],
+   "alt": "The nurse compares the printed order with the MAR on the computer.",
+   "src": "img/checkoffs/ivpush-01.webp"
+  },
+  {
+   "n": 2,
+   "title": "Find the administration instructions",
+   "keys": [
+    "reference",
+    "explain-timing"
+   ],
+   "alt": "The nurse reads the drug reference, with a clock nearby for the push rate.",
+   "src": "img/checkoffs/ivpush-02.webp"
+  },
+  {
+   "n": 3,
+   "title": "Prepare and label",
+   "keys": [
+    "calculate",
+    "label"
+   ],
+   "alt": "In the medication room the nurse draws up the dose; a labeled syringe and saline flushes lie ready.",
+   "src": "img/checkoffs/ivpush-03.webp"
+  },
+  {
+   "n": 4,
+   "title": "Identify and explain",
+   "keys": [
+    "identify",
+    "allergy",
+    "report"
+   ],
+   "alt": "At the bedside the nurse scans the wristband and talks with the patient.",
+   "src": "img/checkoffs/ivpush-04.webp"
+  },
+  {
+   "n": 5,
+   "title": "Trace and assess the access",
+   "keys": [
+    "hands",
+    "trace"
+   ],
+   "alt": "Gloved, the nurse traces the extension tubing to the forearm site under a clear dressing.",
+   "src": "img/checkoffs/ivpush-05.webp"
+  },
+  {
    "n": 6,
    "title": "Disinfect and let dry",
    "keys": [

@@ -30,6 +30,15 @@ window.CHECKOFF_IMAGES = {
    "src": "img/checkoffs/ivpb-04.webp"
   },
   {
+   "n": 7,
+   "title": "Arrange bags and clamps for this device",
+   "keys": [
+    "height"
+   ],
+   "alt": "The secondary bag hangs higher than the primary bag, which is lowered on the extension hook, and the clamps are set.",
+   "src": "img/checkoffs/ivpb-07.webp"
+  },
+  {
    "n": 9,
    "title": "Confirm actual delivery",
    "keys": [

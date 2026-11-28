@@ -68,6 +68,16 @@ window.CHECKOFF_IMAGES = {
    "src": "img/checkoffs/ivpush-06.webp"
   },
   {
+   "n": 7,
+   "title": "Check patency gently",
+   "keys": [
+    "flush-ready",
+    "patency"
+   ],
+   "alt": "A saline flush on the connector is pushed gently while the nurse watches the site.",
+   "src": "img/checkoffs/ivpush-07.webp"
+  },
+  {
    "n": 8,
    "title": "Administer at the verified rate",
    "keys": [

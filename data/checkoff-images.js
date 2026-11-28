@@ -3,6 +3,15 @@
 window.CHECKOFF_IMAGES = {
  "ivpb": [
   {
+   "n": 1,
+   "title": "Verify the medication",
+   "keys": [
+    "order"
+   ],
+   "alt": "The nurse compares the small medication bag’s label with the MAR on the computer.",
+   "src": "img/checkoffs/ivpb-01.webp"
+  },
+  {
    "n": 2,
    "title": "Check the whole fluid path",
    "keys": [
@@ -30,6 +39,24 @@ window.CHECKOFF_IMAGES = {
    "src": "img/checkoffs/ivpb-04.webp"
   },
   {
+   "n": 5,
+   "title": "Prime without introducing air",
+   "keys": [
+    "prime"
+   ],
+   "alt": "Gloved, the nurse spikes the secondary bag and fills the drip chamber and tubing without air.",
+   "src": "img/checkoffs/ivpb-05.webp"
+  },
+  {
+   "n": 6,
+   "title": "Disinfect and connect",
+   "keys": [
+    "connect"
+   ],
+   "alt": "A gloved hand scrubs the upper port with an alcohol pad, timed, before the secondary line is connected.",
+   "src": "img/checkoffs/ivpb-06.webp"
+  },
+  {
    "n": 7,
    "title": "Arrange bags and clamps for this device",
    "keys": [
@@ -37,6 +64,15 @@ window.CHECKOFF_IMAGES = {
    ],
    "alt": "The secondary bag hangs higher than the primary bag, which is lowered on the extension hook, and the clamps are set.",
    "src": "img/checkoffs/ivpb-07.webp"
+  },
+  {
+   "n": 8,
+   "title": "Program and verify",
+   "keys": [
+    "program"
+   ],
+   "alt": "The nurse programs the pump while a second nurse double-checks.",
+   "src": "img/checkoffs/ivpb-08.webp"
   },
   {
    "n": 9,
